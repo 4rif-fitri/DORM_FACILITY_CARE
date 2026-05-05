@@ -1,5 +1,6 @@
 <?php
 
+define('BASE_URL', '/DORM_FACILITY_CARE');
 define('BASE_PATH', __DIR__);
 
 define("DB_HOST", "localhost");
