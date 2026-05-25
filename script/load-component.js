@@ -14,7 +14,7 @@ $(document).ready(() => {
 		$(".workspace").prepend(header);
 	}
 
-	let loadSidebarUser = async () => {
+	let loadComponentUser = async () => {
 		let responseSidebar = await fetch("../../components/user/sidebar.html");
 		let htmlSidebar = await responseSidebar.text();
 		
@@ -24,7 +24,7 @@ $(document).ready(() => {
 		render(htmlSidebar, htmlheader)
 	}	
 	
-	let loadSidebarCollegeAdmin = async () => {
+	let loadComponentCollegeAdmin = async () => {
 		let response = await fetch("../../components/college-admin/sidebar.html");
 		let html = await response.text();
 
@@ -34,7 +34,7 @@ $(document).ready(() => {
 		render(html, htmlheader)
 	}
 	
-	let loadSidebarSystemAdmin = async () => {
+	let loadComponentSystemAdmin = async () => {
 		let response = await fetch("../../components/system-admin/sidebar.html");
 		let htmlSidebar = await response.text();
 
@@ -44,7 +44,7 @@ $(document).ready(() => {
 		render(htmlSidebar, htmlheader)
 	}
 
-	let loadSidebarContractor = async () => {
+	let loadComponentContractor = async () => {
 		let response = await fetch("../../components/contractor/sidebar.html");
 		let htmlSidebar = await response.text();
 
@@ -54,8 +54,8 @@ $(document).ready(() => {
 		render(htmlSidebar, htmlheader)
 	}
 
-	if (role == "USER") loadSidebarUser()
-	else if (role == "CAD") loadSidebarCollegeAdmin()
-	else if (role == "SAD") loadSidebarSystemAdmin()
-	else if (role == "CTR") loadSidebarContractor()
+	if (role == "USER") loadComponentUser()
+	else if (role == "CAD") loadComponentCollegeAdmin()
+	else if (role == "SAD") loadComponentSystemAdmin()
+	else if (role == "CTR") loadComponentContractor()
 })
