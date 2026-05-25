@@ -1,31 +1,55 @@
 $(document).ready(() => {
 	let role = $("#role").val()
+	let title = $("#title").val()
 	console.log(role);
 	
 	if (role == "") return
 
+	let render = (htmlSidebar, htmlheader) => {
+		let header = $(htmlheader);
+		header.find(".title").text(title);
+		$("body").prepend(htmlSidebar);
+		$(".workspace").prepend(header);
+	}
+
 	let loadSidebarUser = async () => {
-		let response = await fetch("../../components/user/sidebar.html");
-		let html = await response.text();
-		$("body").prepend(html);
+		let responseSidebar = await fetch("../../components/user/sidebar.html");
+		let htmlSidebar = await responseSidebar.text();
+		
+		let responseheader = await fetch("../../components/user/header.html");
+		let htmlheader = await responseheader.text();
+
+		render(htmlSidebar, htmlheader)
 	}	
 	
 	let loadSidebarCollegeAdmin = async () => {
 		let response = await fetch("../../components/college-admin/sidebar.html");
 		let html = await response.text();
-		$("body").prepend(html);
+
+		let responseheader = await fetch("../../components/college-admin/header.html");
+		let htmlheader = await responseheader.text();
+
+		render(htmlSidebar, htmlheader)
 	}
 	
 	let loadSidebarSystemAdmin = async () => {
 		let response = await fetch("../../components/system-admin/sidebar.html");
 		let html = await response.text();
-		$("body").prepend(html);
+
+		let responseheader = await fetch("../../components/system-admin/header.html");
+		let htmlheader = await responseheader.text();
+
+		render(htmlSidebar, htmlheader)
 	}
 
 	let loadSidebarContractor = async () => {
 		let response = await fetch("../../components/contractor/sidebar.html");
 		let html = await response.text();
-		$("body").prepend(html);
+
+		let responseheader = await fetch("../../components/contractor/header.html");
+		let htmlheader = await responseheader.text();
+
+		render(htmlSidebar, htmlheader)
 	}
 
 	if (role == "USER") loadSidebarUser()
