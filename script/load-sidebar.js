@@ -11,19 +11,19 @@ $(document).ready(() => {
 	}	
 	
 	let loadSidebarCollegeAdmin = async () => {
-		let response = await fetch("../../components/user/sidebar.html");
+		let response = await fetch("../../components/college-admin/sidebar.html");
 		let html = await response.text();
 		$("body").prepend(html);
 	}
 	
 	let loadSidebarSystemAdmin = async () => {
-		let response = await fetch("../../components/user/sidebar.html");
+		let response = await fetch("../../components/system-admin/sidebar.html");
 		let html = await response.text();
 		$("body").prepend(html);
 	}
 
 	let loadSidebarContractor = async () => {
-		let response = await fetch("../../components/user/sidebar.html");
+		let response = await fetch("../../components/contractor/sidebar.html");
 		let html = await response.text();
 		$("body").prepend(html);
 	}
