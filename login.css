@@ -1,0 +1,110 @@
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+body {
+	width: 100%;
+	height: 100vh;
+	display: flex;
+	overflow: hidden;
+}
+
+.sidebar {
+	width: 30rem;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	border-left: 2px solid black;
+}
+
+.sidebar-mobile{
+	position: absolute;
+	background-color: #ddd;
+	width: 100%;
+	height: 100%;
+	z-index: 20;
+	left: 100%;
+	transition: 0.2s all ease;
+}
+
+body:has(#mobile-sideBar:checked) .sidebar-mobile{
+	left: 0%;
+}
+
+
+/* sebeleah sidebar */
+.workspace {
+	flex-grow: 1;
+	height: 100%;
+
+	display: grid;
+	grid-template-rows: 4rem auto;
+}
+
+/* sebeleah sidebar */
+
+/* navbar atas content */
+.navbar {
+	height: 4rem;
+	display: flex;
+	align-items: center;
+	padding: 0 1rem;
+	border-bottom: 2px solid black;
+	justify-content: space-between;
+}
+
+.navbar>article {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+}
+
+.btn-login {
+	all: unset;
+	background-color: #000;
+	color: #fff;
+	border-radius: 7px;
+	padding: 0.5rem 1rem;
+}
+
+/* navbar atas content */
+
+/* CONTENT */
+.content-area {
+	flex-grow: 1;
+	display: flex;
+	justify-content: center;
+	overflow-y: auto;
+	align-items: center;
+	background-color: lightblue;
+	height: 100%;
+}
+
+/* CONTENT */
+
+/* show n hide */
+.mobile {
+	display: block;
+}
+
+.dekstop {
+	display: none;
+}
+
+/* show n hide */
+
+@media screen and (min-width:1000px) {
+
+	.mobile {
+		display: none;
+	}
+	
+	.dekstop {
+		display: block;
+	}
+	body{
+		background-color: lightblue;
+	}
+}
