@@ -1,22 +1,12 @@
-* {
-	margin: 0;
-	padding: 0;
-	box-sizing: border-box;
-}
-
-body {
-	width: 100%;
-	height: 100vh;
-	display: flex;
-	overflow: hidden;
-}
+@import url("global.css");
 
 .sidebar {
-	width: 30rem;
+	width: 40rem;
 	height: 100%;
 	display: flex;
 	flex-direction: column;
 	border-left: 2px solid black;
+	background-color: #ddd;
 }
 
 .sidebar-mobile{
@@ -53,6 +43,7 @@ body:has(#mobile-sideBar:checked) .sidebar-mobile{
 	padding: 0 1rem;
 	border-bottom: 2px solid black;
 	justify-content: space-between;
+	background-color: #eee;
 }
 
 .navbar>article {
@@ -78,7 +69,6 @@ body:has(#mobile-sideBar:checked) .sidebar-mobile{
 	justify-content: center;
 	overflow-y: auto;
 	align-items: center;
-	background-color: lightblue;
 	height: 100%;
 }
 
@@ -103,8 +93,5 @@ body:has(#mobile-sideBar:checked) .sidebar-mobile{
 	
 	.dekstop {
 		display: block;
-	}
-	body{
-		background-color: lightblue;
 	}
 }
