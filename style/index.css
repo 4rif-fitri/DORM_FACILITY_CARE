@@ -85,6 +85,8 @@ body:has(#_mobile-sideBar:checked) ._sidebar-_mobile {
 
 /* show n hide */
 
+
+
 @media screen and (min-width:1000px) {
 
 	._mobile {

@@ -2,16 +2,22 @@ $(document).ready(() => {
 	let role = $("#role").val()
 	let title = $("#title").val()
 	console.log(title);
+	let loading = `<div class="_loading-container"><h1>Loading...</h1></div>`
+	$("body").prepend(loading);
 
 	if (role == "") return
 
-	let render = (htmlSidebar, htmlheader) => {
+	let delay = time => new Promise(resolve => setTimeout(resolve,time))
+
+	let render = async (htmlSidebar, htmlheader) => {
 		let header = $(htmlheader);
 		console.log(header);
 
 		header.find(".title").text(title);
 		$("body").prepend(htmlSidebar);
 		$("._workspace").prepend(header);
+		await delay(1000)
+		$("._loading-container").remove()
 	}
 
 	let loadComponentUser = async () => {
