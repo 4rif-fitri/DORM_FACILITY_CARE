@@ -16,6 +16,17 @@ $(document).ready(() => {
 		header.find(".title").text(title);
 		$("body").prepend(htmlSidebar);
 		$("._workspace").prepend(header);
+		
+		let currentTitle = $("#title").val().trim();
+		let linkText 
+
+		$("._links a").each(function () {
+			if ($(this).data("page") === currentTitle) {
+				$(this).addClass("active");
+			}
+		});
+		
+
 		await delay(1000)
 		$("._loading-container").remove()
 	}
