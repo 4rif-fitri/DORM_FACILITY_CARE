@@ -1,6 +1,6 @@
 @import url("global.css");
 
-.sidebar {
+._sidebar {
 	width: 40rem;
 	height: 100%;
 	display: flex;
@@ -9,7 +9,7 @@
 	background-color: #ddd;
 }
 
-.sidebar-mobile{
+._sidebar-_mobile {
 	position: absolute;
 	background-color: #ddd;
 	width: 100%;
@@ -19,13 +19,13 @@
 	transition: 0.2s all ease;
 }
 
-body:has(#mobile-sideBar:checked) .sidebar-mobile{
+body:has(#_mobile-sideBar:checked) ._sidebar-_mobile {
 	left: 0%;
 }
 
 
-/* sebeleah sidebar */
-.workspace {
+/* sebeleah _sidebar */
+._workspace {
 	flex-grow: 1;
 	height: 100%;
 
@@ -33,10 +33,10 @@ body:has(#mobile-sideBar:checked) .sidebar-mobile{
 	grid-template-rows: 4rem auto;
 }
 
-/* sebeleah sidebar */
+/* sebeleah _sidebar */
 
-/* navbar atas content */
-.navbar {
+/* _navbar atas content */
+._navbar {
 	height: 4rem;
 	display: flex;
 	align-items: center;
@@ -46,13 +46,13 @@ body:has(#mobile-sideBar:checked) .sidebar-mobile{
 	background-color: #eee;
 }
 
-.navbar>article {
+._navbar>article {
 	display: flex;
 	align-items: center;
 	gap: 0.5rem;
 }
 
-.btn-login {
+._btn-login {
 	all: unset;
 	background-color: #000;
 	color: #fff;
@@ -60,10 +60,10 @@ body:has(#mobile-sideBar:checked) .sidebar-mobile{
 	padding: 0.5rem 1rem;
 }
 
-/* navbar atas content */
+/* _navbar atas content */
 
 /* CONTENT */
-.content-area {
+._content-area {
 	flex-grow: 1;
 	display: flex;
 	justify-content: center;
@@ -75,11 +75,11 @@ body:has(#mobile-sideBar:checked) .sidebar-mobile{
 /* CONTENT */
 
 /* show n hide */
-.mobile {
+._mobile {
 	display: block;
 }
 
-.dekstop {
+._dekstop {
 	display: none;
 }
 
@@ -87,11 +87,11 @@ body:has(#mobile-sideBar:checked) .sidebar-mobile{
 
 @media screen and (min-width:1000px) {
 
-	.mobile {
+	._mobile {
 		display: none;
 	}
-	
-	.dekstop {
+
+	._dekstop {
 		display: block;
 	}
 }
