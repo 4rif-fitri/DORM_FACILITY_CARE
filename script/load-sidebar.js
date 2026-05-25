@@ -1,12 +1,14 @@
 $(document).ready(() => {
 	let role = $("#role").val()
 	let title = $("#title").val()
-	console.log(role);
+	console.log(title);
 	
 	if (role == "") return
 
 	let render = (htmlSidebar, htmlheader) => {
 		let header = $(htmlheader);
+		console.log(header);
+		
 		header.find(".title").text(title);
 		$("body").prepend(htmlSidebar);
 		$(".workspace").prepend(header);
@@ -29,12 +31,12 @@ $(document).ready(() => {
 		let responseheader = await fetch("../../components/college-admin/header.html");
 		let htmlheader = await responseheader.text();
 
-		render(htmlSidebar, htmlheader)
+		render(html, htmlheader)
 	}
 	
 	let loadSidebarSystemAdmin = async () => {
 		let response = await fetch("../../components/system-admin/sidebar.html");
-		let html = await response.text();
+		let htmlSidebar = await response.text();
 
 		let responseheader = await fetch("../../components/system-admin/header.html");
 		let htmlheader = await responseheader.text();
@@ -44,7 +46,7 @@ $(document).ready(() => {
 
 	let loadSidebarContractor = async () => {
 		let response = await fetch("../../components/contractor/sidebar.html");
-		let html = await response.text();
+		let htmlSidebar = await response.text();
 
 		let responseheader = await fetch("../../components/contractor/header.html");
 		let htmlheader = await responseheader.text();
