@@ -9,6 +9,14 @@ $(document).ready(() => {
 	
 	$(document).on("change", "#_dekstop-sideBar", function () {
 		localStorage.setItem("sidebar-desktop", this.checked);
+
+		if (this.checked) {
+			$("._avatar-besar > i").removeClass("hidden");
+			$("._avatar-besar > img").addClass("hidden");
+		} else {
+			$("._avatar-besar > i").addClass("hidden");
+			$("._avatar-besar > img").removeClass("hidden");
+		}
 	});
 
 	let savedState = localStorage.getItem("sidebar-desktop");
@@ -17,26 +25,32 @@ $(document).ready(() => {
 	let delay = time => new Promise(resolve => setTimeout(resolve,time))
 
 	let render = async (htmlSidebar, htmlheader) => {
-		let header = $(htmlheader);
-		console.log(header);
+		let header = $(htmlheader)
+		let side = $(htmlSidebar)
 
 		header.find(".title").text(title);
-		$("body").prepend(htmlSidebar);
+
+		$("body").prepend(side); // guna side
 		$("._workspace").prepend(header);
 
 		let savedState = localStorage.getItem("sidebar-desktop");
 		$("#_dekstop-sideBar").prop("checked", savedState === "true");
-		let currentPage = $("#title").val().trim();
-		
-		let currentTitle = $("#title").val().trim();
-		let linkText 
 
-		$("._links a").each(function () {
+		if (savedState == "true") {
+			side.find("._avatar-besar > i").removeClass("hidden")
+			side.find("._avatar-besar > img").addClass("hidden")
+		} else {
+			side.find("._avatar-besar > img").removeClass("hidden")
+			side.find("._avatar-besar > i").addClass("hidden")
+		}
+
+		let currentTitle = $("#title").val().trim();
+
+		side.find("._links a").each(function () {
 			if ($(this).data("page") === currentTitle) {
 				$(this).addClass("active");
 			}
 		});
-		
 
 		await delay(1000)
 		$("._loading-container").remove()
