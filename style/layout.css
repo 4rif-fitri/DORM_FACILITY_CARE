@@ -89,6 +89,9 @@ _.menu-atas {
 	left: -100%;
 	transition: all 0.2s ease;
 }
+._sidebar-moblie ._avatar-besar{
+	height: 7rem;
+}
 
 ._sidebar-moblie a {
 	margin: 0.5rem auto;
@@ -103,7 +106,7 @@ _.menu-atas {
 	height: 100%;
 
 	display: grid;
-	grid-template-rows: 4rem auto;
+	grid-template-rows: 7rem auto;
 }
 
 /* sebeleah _sidebar */
@@ -115,7 +118,6 @@ _.menu-atas {
 	align-items: center;
 	padding: 0 1rem;
 	border-bottom: 2px solid black;
-
 }
 
 /* _navbar atas content */
@@ -156,7 +158,16 @@ body:has(#_mobile-sideBar:checked) ._sidebar-moblie {
 }
 
 /*  */
+
 @media screen and (min-width:1000px) {
+
+._sidebar-moblie ._avatar-besar {
+		height: 3rem;
+	}
+
+	._workspace{
+		grid-template-rows: 4rem auto;
+	}
 
 	/* show n hide */
 	._mobile,

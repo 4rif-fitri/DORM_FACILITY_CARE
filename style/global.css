@@ -48,3 +48,6 @@ body {
 .hidden{
 	display: none !important;
 }
+img{
+	user-select: none;
+}
