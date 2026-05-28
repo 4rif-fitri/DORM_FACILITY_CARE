@@ -1,0 +1,80 @@
+/* Banner strip at top */
+.profile-banner {
+  height: 100px;
+  background-color: #ffffff;
+  width: 100%;
+}
+
+/* Card sits below/overlapping the banner */
+.profile-card {
+  background-color: #d9d9d9;
+  margin: 0 20px 20px 20px;
+  padding: 20px 24px 30px 24px;
+  border-radius: 6px;
+  position: relative;
+}
+
+/* Purple circular avatar */
+.profile-avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background-color: #d8d0f0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: -40px; /* overlaps the banner */
+  left: 24px;
+}
+
+.profile-avatar i {
+  font-size: 36px;
+  color: #7c5cbf;
+}
+
+/* Name + button row */
+.profile-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 50px; /* space below avatar */
+  margin-bottom: 20px;
+}
+
+.profile-name {
+  font-size: 18px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.btn-edit-profile {
+  background-color: #333;
+  color: #fff;
+  border: none;
+  padding: 6px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.btn-edit-profile:hover {
+  background-color: #555;
+}
+
+/* Info text lines */
+.profile-info {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.info-line {
+  color: #444;
+  font-size: 14px;
+  border-bottom: 1px solid #bbb;
+  padding-bottom: 4px;
+  margin: 0;
+  width: fit-content;
+  min-width: 200px;
+}
