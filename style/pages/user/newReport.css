@@ -1,0 +1,18 @@
+._content-area{
+    flex-direction: column;
+    padding: 31px 30px;
+}
+form{
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+/* h2{} */
+label{
+    display: block;
+}
+select{
+	height: fit-content;
+    width: fit-content;
+    padding: 6px;
+}
