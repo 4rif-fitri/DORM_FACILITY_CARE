@@ -26,15 +26,27 @@
 			<section class="analisis-conainer">
 				<section class="pieChart">
 					<h2>Reports by Category</h2>
-
+					
+					<div class="filter-control">
+						<input type="text" name="" id="">
+						<input type="text" name="" id="">
+						<button>Reset</button>
+						<button>Export cvs</button>
+					</div>
 					<canvas id="canvas_pieChart">
 
 					</canvas>
-
+					
 				</section>
 				<section class="barGraphBlock">
 					<h2>Reports by Block</h2>
+					<div class="filter-control">
+						<input type="text" name="" id="">
+						<input type="text" name="" id="">
+						<button>Reset</button>
+						<button>Export cvs</button>
 
+					</div>
 					<canvas id="canvas_barGraphBlock">
 
 					</canvas>
@@ -42,7 +54,11 @@
 				</section>
 				<section class="barGraphTrand">
 					<h2>Monthly Report Trend</h2>
-
+					<div class="filter-control">
+						<input type="text" name="" id="">
+						<input type="text" name="" id="">
+						<button>Reset</button>
+					</div>
 					<canvas id="canvas_barGraphTrand">
 
 					</canvas>
@@ -50,7 +66,13 @@
 				</section>
 				<section class="donutBar">
 					<h2>Report Status</h2>
+					<div class="filter-control">
+						<input type="text" name="" id="">
+						<input type="text" name="" id="">
+						<button>Reset</button>
+						<button>Export cvs</button>
 
+					</div>
 					<canvas id="canvas_donutBar">
 
 					</canvas>
@@ -59,6 +81,13 @@
 				<section class="table">
 					<h2>Top 5 Problem Locations</h2>
 
+					<div class="filter-control">
+						<input type="text" name="" id="">
+						<input type="text" name="" id="">
+						<button>Reset</button>
+						<button>Export cvs</button>
+
+					</div>
 
 					<table>
 						<thead>
@@ -273,11 +302,11 @@
 			resizeTimer = setTimeout(() => {
 
 				drawPieChart(canvas_catagory);
-				drawBarChart(canvas_Block);
+				drawPieChart(canvas_Block);
 				drawLineGraph(canvas_Trand);
-				drawPieChart(canvas_Status);
+				drawBarChart(canvas_Status);
 
-			}, 100);
+			}, 1000);
 
 		});
 
