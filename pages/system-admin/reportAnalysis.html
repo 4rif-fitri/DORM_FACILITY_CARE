@@ -46,33 +46,33 @@
 			<section class="analisis-conainer">
 				<section class="pieChart">
 					<h2>Reports by Category</h2>
-					
+
 					<canvas id="canvas_pieChart">
 
 					</canvas>
-				
+
 				</section>
 				<section class="barGraphBlock">
 					<h2>Reports by Block</h2>
 
-					<canvas id="canvas_pieChart">
-					
+					<canvas id="canvas_barGraphBlock">
+
 					</canvas>
 
 				</section>
 				<section class="barGraphTrand">
 					<h2>Monthly Report Trend</h2>
 
-					<canvas id="canvas_pieChart">
-					
+					<canvas id="canvas_barGraphTrand">
+
 					</canvas>
 
 				</section>
 				<section class="donutBar">
 					<h2>Report Status</h2>
 
-					<canvas id="canvas_pieChart">
-					
+					<canvas id="canvas_donutBar">
+
 					</canvas>
 
 				</section>
@@ -93,6 +93,91 @@
 
 	<!-- your script -->
 	<script>
+
+			const canvas = document.getElementById("canvas_pieChart");
+			const ctx = canvas.getContext("2d");
+
+			const rect = canvas.getBoundingClientRect();
+
+			canvas.width = rect.width;
+			canvas.height = rect.height;
+
+			canvas.style.width = rect.width + "px";
+			canvas.style.height = rect.height + "px";
+
+
+			const width = rect.width;
+			const height = rect.height;
+
+			const centerX = width / 2;
+			const centerY = height / 2;
+
+			const datas = [10, 20, 30, 40, 50, 60];
+
+			const colors = [
+				"red",
+				"lightcoral",
+				"blue",
+				"navy",
+				"lightblue",
+				"skyblue"
+			];
+
+			const total = datas.reduce((a, b) => a + b, 0);
+
+			const radius = Math.min(width, height) * 0.35;
+
+			let startAngle = 0;
+
+			datas.forEach((data, index) => {
+
+				const sliceAngle = (data / total) * Math.PI * 2;
+
+				ctx.beginPath();
+				ctx.moveTo(centerX, centerY);
+
+				ctx.fillStyle = colors[index];
+
+				ctx.arc(
+					centerX,
+					centerY,
+					radius,
+					startAngle,
+					startAngle + sliceAngle
+				);
+
+				ctx.closePath();
+				ctx.fill();
+
+				ctx.strokeStyle = "#000";
+				ctx.lineWidth = 1;
+				ctx.stroke();
+
+				// Percentage label
+				const midAngle = startAngle + sliceAngle / 2;
+
+				const labelX =
+					centerX + Math.cos(midAngle) * radius * 0.65;
+
+				const labelY =
+					centerY + Math.sin(midAngle) * radius * 0.65;
+
+				const percentage =
+					((data / total) * 100).toFixed(1) + "%";
+
+				ctx.font = "bold 16px Arial";
+				ctx.textAlign = "center";
+				ctx.textBaseline = "middle";
+
+				ctx.strokeStyle = "#000";
+				ctx.lineWidth = 3;
+				ctx.strokeText(percentage, labelX, labelY);
+
+				ctx.fillStyle = "#fff";
+				ctx.fillText(percentage, labelX, labelY);
+
+				startAngle += sliceAngle;
+			});
 
 	</script>
 

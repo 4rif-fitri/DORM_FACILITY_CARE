@@ -65,14 +65,15 @@
 	;
 	padding: 1rem;
 }
-
+.analisis-conainer>* {
+	border: 1px solid black;
+}
 .analisis-conainer>*>h2 {
 	text-align: center;
 }
-.analisis-conainer>*>canvas{
+.analisis-conainer>*>canvas {
 	width: 100%;
-	border: 1px solid black;
-	height: 90%;
+	height: 400px;
 }
 
 .pieChart {
