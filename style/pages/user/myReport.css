@@ -48,11 +48,16 @@
     padding: 10px;
 }
 
+a{
+    text-decoration: none;
+}
+
 .filterBtn{
     background-color: var(--primary);
     color: var(--white);
     padding: 2px 16px;
     border-radius: 15px;
+    
 }
 
 .filterBtn:hover{
@@ -93,5 +98,5 @@
 }
 
 #myReportTbl tr:not(:first-child):hover td{
-    background-color: lightgray;
+    background-color: #f0e9ff;
 }
