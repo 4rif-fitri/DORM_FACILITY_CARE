@@ -36,21 +36,6 @@
 	--fs-xxl: 1.75rem;
 }
 
-.cards {
-	width: 100%;
-	height: auto;
-	display: grid;
-	padding: 1rem;
-	gap: 1rem;
-		grid-template-columns: repeat(2, 1fr);
-	
-}
-
-.cards .card {
-	box-shadow: var(--shadow);
-	padding: 1rem;
-}
-
 .analisis-conainer {
 	width: 100%;
 	height: auto;

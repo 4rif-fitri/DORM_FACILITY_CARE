@@ -23,26 +23,6 @@
 		<!-- CONTENT HERE -->
 		<main class="_content-area">
 
-			<div class="cards">
-				<article class="card">
-					<h1>10</h1>
-					<h4>Report</h4>
-				</article>
-				<article class="card">
-					<h1>10</h1>
-					<h4>Report</h4>
-				</article>
-				<article class="card">
-					<h1>10</h1>
-					<h4>Report</h4>
-				</article>
-				<article class="card">
-					<h1>10</h1>
-					<h4>Report</h4>
-				</article>
-			</div>
-
-
 			<section class="analisis-conainer">
 				<section class="pieChart">
 					<h2>Reports by Category</h2>
@@ -94,30 +74,30 @@
 	<!-- your script -->
 	<script>
 
-		const canvas_catagory = document.getElementById("canvas_pieChart");
-		const canvas_Block = document.getElementById("canvas_barGraphBlock");
-		const canvas_Trand = document.getElementById("canvas_barGraphTrand");
-		const canvas_Status = document.getElementById("canvas_donutBar");
+		let canvas_catagory = document.getElementById("canvas_pieChart");
+		let canvas_Block = document.getElementById("canvas_barGraphBlock");
+		let canvas_Trand = document.getElementById("canvas_barGraphTrand");
+		let canvas_Status = document.getElementById("canvas_donutBar");
 		let resizeTimer;
+		let rect = canvas_catagory.getBoundingClientRect();
 
 
-		let drow = canvas => {
+		let drawPieChart = canvas => {
 			let ctx = canvas.getContext("2d")
 
-			const rect = canvas.getBoundingClientRect();
 
 			canvas.width = rect.width;
 			canvas.height = rect.height;
 
-			const width = rect.width;
-			const height = rect.height;
+			let width = rect.width;
+			let height = rect.height;
 
-			const centerX = width / 2;
-			const centerY = height / 2;
+			let centerX = width / 2;
+			let centerY = height / 2;
 
-			const datas = [10, 20, 30, 40, 50, 60];
+			let datas = [10, 20, 30, 40, 50, 60];
 
-			const colors = [
+			let colors = [
 				"red",
 				"lightcoral",
 				"blue",
@@ -126,15 +106,15 @@
 				"skyblue"
 			];
 
-			const total = datas.reduce((a, b) => a + b, 0);
+			let total = datas.reduce((a, b) => a + b, 0);
 
-			const radius = Math.min(width, height) * 0.35;
+			let radius = Math.min(width, height) * 0.35;
 
 			let startAngle = 0;
 
 			datas.forEach((data, index) => {
 
-				const sliceAngle = (data / total) * Math.PI * 2;
+				let sliceAngle = (data / total) * Math.PI * 2;
 
 				ctx.beginPath();
 				ctx.moveTo(centerX, centerY);
@@ -157,15 +137,15 @@
 				ctx.stroke();
 
 				// Percentage label
-				const midAngle = startAngle + sliceAngle / 2;
+				let midAngle = startAngle + sliceAngle / 2;
 
-				const labelX =
+				let labelX =
 					centerX + Math.cos(midAngle) * radius * 0.65;
 
-				const labelY =
+				let labelY =
 					centerY + Math.sin(midAngle) * radius * 0.65;
 
-				const percentage =
+				let percentage =
 					((data / total) * 100).toFixed(1) + "%";
 
 				ctx.font = "bold 16px Arial";
@@ -183,10 +163,89 @@
 			});
 		}
 
-					drow(canvas_catagory);
-					drow(canvas_Block);
-					drow(canvas_Trand);
-					drow(canvas_Status);
+		let drawBarChart = canvas => {
+			let ctx = canvas.getContext("2d")
+			canvas.width = 700
+			canvas.height = 300
+
+			let datas = [10, 50, 90, 70, 30, 50]
+			let labels = ["Student 1", "Student 2", "Student 3", "Student 4", "Student 5", "Student 6",]
+			let colors = [
+				"navy",
+				"blue",
+				"lightblue",
+				"skyblue",
+				"lightcoral",
+				"red",
+			]
+
+			let startX = 50
+			let startY = 250
+			let max = Math.max(...datas)
+			let gap = 30
+			let barWidth = 70
+
+			ctx.beginPath()
+			ctx.moveTo(startX, startY)
+			ctx.lineTo(startX + 600, startY)
+			ctx.lineTo(startX, startY)
+			ctx.lineTo(startX, startY - 200)
+
+			datas.forEach((value, index) => {
+				let barHeight = (value / max) * 200
+				let x = startX + gap + index * (barWidth + gap)
+				let y = startY - barHeight
+				ctx.fillStyle = colors[index]
+				ctx.fillRect(x, y, barWidth, barHeight)
+				ctx.font = "bold 0.75rem arial"
+
+				ctx.fillText(`${datas[index]} Mark`, x, y - 10)
+				ctx.fillText(`${labels[index]} Mark`, x, startY + 15)
+			})
+
+			ctx.fillStyle = "#000"
+			ctx.lineWidth = 3
+			ctx.stroke()
+		}
+
+		let drawLineGraph = canvas => {
+			let datas = [200, 150, 170, 100, 80, 50, 350, 200, 200, 230]
+
+			let ctx = canvas.getContext("2d")
+			canvas.width = rect.width;
+			canvas.height = rect.height;
+
+			ctx.strokeStyle = "#fff"
+			ctx.lineWidth = 2
+
+			let start_value = datas[0]
+			let distense = canvas.width / datas.length
+			let start_point = 0
+
+			ctx.beginPath()
+
+			ctx.lineWidth = 5
+			ctx.strokeStyle = "red"
+
+			ctx.moveTo(start_point, start_value)
+			datas.forEach((velue, index) => {
+				let new_distence = start_point + (distense * (index + 1))
+				ctx.lineTo(new_distence, velue)
+			});
+
+			ctx.lineTo(canvas.width, canvas.height)
+			ctx.lineTo(start_point, canvas.height)
+			ctx.lineTo(start_point, start_value)
+
+			ctx.fillStyle = "grey"
+			ctx.fill()
+			ctx.stroke()
+		}
+
+		drawPieChart(canvas_catagory);
+		drawBarChart(canvas_Block);
+		drawLineGraph(canvas_Trand);
+		drawPieChart(canvas_Status);
 
 		window.addEventListener("resize", () => {
 
@@ -194,10 +253,10 @@
 
 			resizeTimer = setTimeout(() => {
 
-				drow(canvas_catagory);
-				drow(canvas_Block); 
-				drow(canvas_Trand);
-				drow(canvas_Status);
+				drawPieChart(canvas_catagory);
+				drawBarChart(canvas_Block);
+				drawLineGraph(canvas_Trand);
+				drawPieChart(canvas_Status);
 
 			}, 100);
 
