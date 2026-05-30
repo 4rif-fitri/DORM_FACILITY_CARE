@@ -84,8 +84,20 @@ body:has(#_mobile-sideBar:checked) ._sidebar-_mobile {
 	justify-content: space-between;
 	background-color: var(--primary-light);
 	box-shadow: var(--shadow);
+	background-color: var(--white);
+	
 }
-
+._navbar article{
+	display: flex;
+	justify-content: center;
+	height: 100%;
+	font-size: var(--fs-xxl);
+}
+._navbar article h2{
+	display: flex;
+	align-items: center;
+	margin-bottom: 0;
+}
 ._navbar>article {
 	display: flex;
 	align-items: center;
