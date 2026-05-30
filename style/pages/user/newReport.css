@@ -104,6 +104,10 @@ form>section {
 	border: 3px dashed var(--text-main);
 	position: relative;
 }
+.input-control .image-area article i{
+	display: flex;
+	justify-content: center;
+}
 .btn-close{
 	width: 2rem;
 	height: 2rem;
