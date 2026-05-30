@@ -147,9 +147,9 @@
 						alert('Please Insert a Photo');
 						break;
 					}
-				
-				}else {
-				
+
+				} else {
+
 					if (input.value.trim() === "") {
 						isValid = false;
 						input.focus()
@@ -163,7 +163,7 @@
 
 			} else {
 				console.log("OK");
-				
+
 			}
 
 		});
@@ -228,7 +228,7 @@
 			});
 		});
 
-		["dragleave", "drop"].forEach(event => {
+		["dragleave"].forEach(event => {
 			imageArea.addEventListener(event, e => {
 				e.preventDefault();
 
@@ -240,20 +240,16 @@
 		imageArea.addEventListener("drop", e => {
 			e.preventDefault();
 
+			imageArea.classList.remove("hover");
+			imageAreaIcon.classList.remove("icon-hover");
+
 			const file = e.dataTransfer.files[0];
-
-			if (!file) return;
-
-			if (!file.type.startsWith("image/")) {
-				alert("Please upload an image file.");
-				return;
-			}
 
 			const dt = new DataTransfer();
 			dt.items.add(file);
-
 			inputImg.files = dt.files;
 
+			addPhoto(file);
 		});
 	</script>
 
