@@ -86,12 +86,12 @@
 						<input hidden type="file" accept="image/*" name="image" id="image">
 						<label for="image" class="image-area">
 							<button type="button" class="btn btn-close hidden"></button>
-							
+
 							<article>
 								<i class="fa-solid fa-file-arrow-up"></i>
-								<h5>Click or Drop Image Here!</h5>
+								<h5 class="text-drop">Click or Drop Image Here!</h5>
 							</article>
-						
+
 						</label>
 						<p class="hidden name-file">asd.png</p>
 					</div>
@@ -114,6 +114,7 @@
 		let btnClose = document.querySelector(".btn-close");
 		let nameFile = document.querySelector(".name-file");
 		let imageAreaIcon = document.querySelector(".image-area i");
+		let textDrop = document.querySelector(".text-drop")
 
 		let inpCategories = document.querySelector("#categories")
 		let inpDescription = document.querySelector("#description")
@@ -186,7 +187,7 @@
 			imageArea.style.backgroundPosition = "center";
 
 			nameFile.textContent = file.name;
-
+			textDrop.classList.add("hidden");
 			imageAreaIcon.classList.add("hidden");
 			nameFile.classList.remove("hidden");
 			btnClose.classList.remove("hidden");
@@ -200,6 +201,7 @@
 
 			imageArea.style.backgroundImage = "";
 
+			textDrop.classList.remove("hidden");
 			imageAreaIcon.classList.remove("hidden");
 			nameFile.classList.add("hidden");
 			btnClose.classList.add("hidden");
@@ -248,9 +250,16 @@
 			imageArea.classList.remove("hover");
 			imageAreaIcon.classList.remove("icon-hover");
 
-			const file = e.dataTransfer.files[0];
+			let file = e.dataTransfer.files[0];
 
-			const dt = new DataTransfer();
+			if (!file) return;
+
+			if (!file.type.startsWith("image/")) {
+				alert("Please upload image files only.");
+				return;
+			}
+
+			let dt = new DataTransfer();
 			dt.items.add(file);
 			inputImg.files = dt.files;
 
