@@ -105,101 +105,156 @@
 
 	<script>
 		let inputImg = document.getElementById("image");
-			let imageArea = document.querySelector(".image-area");
-			let btnClose = document.querySelector(".btn-close");
-			let nameFile = document.querySelector(".name-file");
-			let imageAreaIcon = document.querySelector(".image-area i");
+		let imageArea = document.querySelector(".image-area");
+		let btnClose = document.querySelector(".btn-close");
+		let nameFile = document.querySelector(".name-file");
+		let imageAreaIcon = document.querySelector(".image-area i");
 
-			let currentUrl = null;
+		let inpCategories = document.querySelector("#categories")
+		let inpDescription = document.querySelector("#description")
+		let inpLocation = document.querySelector("#location")
+		let inpBlock = document.querySelector("#block")
+		let inpLevel = document.querySelector("#level")
+		let inpRoomNo = document.querySelector("#room_no")
+		let inpImage = document.querySelector("#image")
 
-			function addPhoto(file) {
-				if (!file) return;
+		let currentUrl = null;
 
-				if (currentUrl) {
-					URL.revokeObjectURL(currentUrl);
+
+		let form = document.querySelector("form")
+
+		form.addEventListener("submit", e => {
+			e.preventDefault();
+
+			const inputs = [
+				inpCategories,
+				inpDescription,
+				inpLocation,
+				inpBlock,
+				inpLevel,
+				inpRoomNo,
+				inpImage
+			];
+
+			let isValid = true;
+
+			for (const input of inputs) {
+
+				// type file
+				if (input.type === "file") {
+					if (input.files.length === 0) {
+						isValid = false;
+						alert('Please Insert a Photo');
+						break;
+					}
+				
+				}else {
+				
+					if (input.value.trim() === "") {
+						isValid = false;
+						input.focus()
+						break;
+					}
 				}
-
-				currentUrl = URL.createObjectURL(file);
-
-				imageArea.style.backgroundImage = `url(${currentUrl})`;
-				imageArea.style.backgroundSize = "cover";
-				imageArea.style.backgroundPosition = "center";
-
-				nameFile.textContent = file.name;
-
-				imageAreaIcon.classList.add("hidden");
-				nameFile.classList.remove("hidden");
-				btnClose.classList.remove("hidden");
 			}
 
-			function removePhoto() {
-				if (currentUrl) {
-					URL.revokeObjectURL(currentUrl);
-					currentUrl = null;
-				}
+			if (!isValid) {
+				console.log("!OK");
 
-				imageArea.style.backgroundImage = "";
-
-				imageAreaIcon.classList.remove("hidden");
-				nameFile.classList.add("hidden");
-				btnClose.classList.add("hidden");
-
-				nameFile.textContent = "";
-
-				inputImg.value = "";
+			} else {
+				console.log("OK");
+				
 			}
 
-			inputImg.addEventListener("change", e => {
-				const file = e.target.files[0];
+		});
+		function addPhoto(file) {
+			if (!file) return;
 
-				if (!file) return;
+			if (currentUrl) {
+				URL.revokeObjectURL(currentUrl);
+			}
 
-				addPhoto(file);
-			});
+			currentUrl = URL.createObjectURL(file);
 
-			btnClose.addEventListener("click", e => {
+			imageArea.style.backgroundImage = `url(${currentUrl})`;
+			imageArea.style.backgroundSize = "cover";
+			imageArea.style.backgroundPosition = "center";
+
+			nameFile.textContent = file.name;
+
+			imageAreaIcon.classList.add("hidden");
+			nameFile.classList.remove("hidden");
+			btnClose.classList.remove("hidden");
+		}
+
+		function removePhoto() {
+			if (currentUrl) {
+				URL.revokeObjectURL(currentUrl);
+				currentUrl = null;
+			}
+
+			imageArea.style.backgroundImage = "";
+
+			imageAreaIcon.classList.remove("hidden");
+			nameFile.classList.add("hidden");
+			btnClose.classList.add("hidden");
+
+			nameFile.textContent = "";
+
+			inputImg.value = "";
+		}
+
+		inputImg.addEventListener("change", e => {
+			const file = e.target.files[0];
+
+			if (!file) return;
+
+			addPhoto(file);
+		});
+
+		btnClose.addEventListener("click", e => {
+			e.preventDefault();
+			e.stopPropagation();
+
+			removePhoto();
+		});
+
+		["dragenter", "dragover"].forEach(event => {
+			imageArea.addEventListener(event, e => {
 				e.preventDefault();
-				e.stopPropagation();
 
-				removePhoto();
+				imageArea.classList.add("hover");
+				imageAreaIcon.classList.add("icon-hover");
 			});
+		});
 
-			["dragenter", "dragover"].forEach(event => {
-				imageArea.addEventListener(event, e => {
-					e.preventDefault();
-
-					imageArea.classList.add("hover");
-					imageAreaIcon.classList.add("icon-hover");
-				});
-			});
-
-			["dragleave", "drop"].forEach(event => {
-				imageArea.addEventListener(event, e => {
-					e.preventDefault();
-
-					imageArea.classList.remove("hover");
-					imageAreaIcon.classList.remove("icon-hover");
-				});
-			});
-
-			imageArea.addEventListener("drop", e => {
+		["dragleave", "drop"].forEach(event => {
+			imageArea.addEventListener(event, e => {
 				e.preventDefault();
 
-				const file = e.dataTransfer.files[0];
-
-				if (!file) return;
-
-				if (!file.type.startsWith("image/")) {
-					alert("Please upload an image file.");
-					return;
-				}
-
-				const dt = new DataTransfer();
-				dt.items.add(file);
-
-				inputImg.files = dt.files;
-
+				imageArea.classList.remove("hover");
+				imageAreaIcon.classList.remove("icon-hover");
 			});
+		});
+
+		imageArea.addEventListener("drop", e => {
+			e.preventDefault();
+
+			const file = e.dataTransfer.files[0];
+
+			if (!file) return;
+
+			if (!file.type.startsWith("image/")) {
+				alert("Please upload an image file.");
+				return;
+			}
+
+			const dt = new DataTransfer();
+			dt.items.add(file);
+
+			inputImg.files = dt.files;
+
+		});
 	</script>
 
 	<input type="checkbox" hidden style="position: absolute; z-index: 10;" name="_dekstop-sideBar"

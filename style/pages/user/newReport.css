@@ -131,7 +131,8 @@ form>section {
 
 .form-photo {
 	display: grid;
-	grid-template-rows: max-content 2rem
+	grid-template-rows: max-content 2rem;
+	padding-bottom: 3rem;
 }
 
 .btn-group {
