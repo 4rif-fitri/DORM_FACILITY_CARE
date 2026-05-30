@@ -52,6 +52,7 @@
 	padding: 1rem;
 }
 .analisis-conainer>* {
+	padding: 0.5rem;
 	border: 1px solid black;
 }
 .analisis-conainer>*>h2 {
@@ -81,15 +82,61 @@
 .table {
 	grid-area: table;
 }
+section+.table{
+	margin-top: 1rem;
+}
 section+.table table{
-	width: 100%;
+	border-collapse: collapse;
+	border-radius: 7px;
+	margin-top: 1rem;
+		width: 100%;
 	border-collapse: collapse;
 }
+section+.table table th{
+	color: var(--white);
+	background-color: var(--text-main) !important;
+}
+
 section+.table table th,
 section+.table table td{
 	padding: 0.5rem;
 }
 
+.filter-control{
+	padding: 0.5rem;
+	width: 100%;
+	display: grid;
+	gap: 0.5rem;
+	grid-template-columns: 2fr 2fr 1fr 1fr;
+	background-color: var(--primary-light);
+	box-shadow: var(--shadow);
+}
+.filter-control select{
+	padding: 0.5rem;
+	border-radius: 4px;
+}
+.filter-control button {
+	all: unset;
+	cursor: pointer;
+	padding: 0.5rem;
+	text-align: center;
+	border-radius: 5px;
+	border: 2px solid black;
+}
+.btn-reset{
+	color: var(--white) !important;
+	background-color: var(--danger) !important;
+}
+.btn-reset:hover{
+	background-color: var(--danger-hover) !important;
+}
+.btn-export{
+	background-color: var(--success) !important;
+	color: var(--white) !important;
+}
+.btn-export:hover{
+	background-color: var(--success-hover) !important;
+}
 @media screen and (min-width:1000px) {
 	
 }
