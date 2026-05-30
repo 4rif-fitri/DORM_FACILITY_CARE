@@ -41,6 +41,7 @@
 	height: auto;
 	background-color: #fff;
 	display: grid;
+	gap: 1rem;
 	grid-template-areas:
 		'pieChart' 		
 		'barGraphBlock'
@@ -79,6 +80,14 @@
 
 .table {
 	grid-area: table;
+}
+section+.table table{
+	width: 100%;
+	border-collapse: collapse;
+}
+section+.table table th,
+section+.table table td{
+	padding: 0.5rem;
 }
 
 @media screen and (min-width:1000px) {
