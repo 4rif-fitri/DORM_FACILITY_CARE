@@ -94,17 +94,20 @@
 	<!-- your script -->
 	<script>
 
-			const canvas = document.getElementById("canvas_pieChart");
-			const ctx = canvas.getContext("2d");
+		const canvas_catagory = document.getElementById("canvas_pieChart");
+		const canvas_Block = document.getElementById("canvas_barGraphBlock");
+		const canvas_Trand = document.getElementById("canvas_barGraphTrand");
+		const canvas_Status = document.getElementById("canvas_donutBar");
+		let resizeTimer;
+
+
+		let drow = canvas => {
+			let ctx = canvas.getContext("2d")
 
 			const rect = canvas.getBoundingClientRect();
 
 			canvas.width = rect.width;
 			canvas.height = rect.height;
-
-			canvas.style.width = rect.width + "px";
-			canvas.style.height = rect.height + "px";
-
 
 			const width = rect.width;
 			const height = rect.height;
@@ -178,6 +181,27 @@
 
 				startAngle += sliceAngle;
 			});
+		}
+
+					drow(canvas_catagory);
+					drow(canvas_Block);
+					drow(canvas_Trand);
+					drow(canvas_Status);
+
+		window.addEventListener("resize", () => {
+
+			clearTimeout(resizeTimer);
+
+			resizeTimer = setTimeout(() => {
+
+				drow(canvas_catagory);
+				drow(canvas_Block); 
+				drow(canvas_Trand);
+				drow(canvas_Status);
+
+			}, 100);
+
+		});
 
 	</script>
 
