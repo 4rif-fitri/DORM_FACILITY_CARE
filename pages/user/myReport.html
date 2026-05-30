@@ -20,23 +20,57 @@
 
 	<section class="_workspace">
 
+		<!-- CONTENT HERE -->
 		<main class="_content-area">
+			<nav id="filter-box">
+				<a href="" class="filterBtn">all</a>
+				<a href="" class="filterBtn">pending</a>
+				<a href="" class="filterBtn">assigned</a>
+				<a href="" class="filterBtn">in progress</a>
+				<a href="" class="filterBtn">completed</a>
+			</nav>
 
-			<!-- CONTENT HERE -->
-			<main class="_content-area">
+			<section id="table-container">
+				<table id="myReportTbl">
+					<tr>
+						<th>Id</th>
+						<th>Category</th>
+						<th>Description</th>
+						<th>Date</th>
+						<th>Status</th>
+					</tr>
+					
+					
+					<tr>
+						<a href="">
+							<td>067</td>
+							<td>No wifi</td>
+							<td>Aku Nak IFI</td>
+							<td>28/5/2026</td>
+							<td>Pending</td>
+						</a>
+					</tr>
 
-
-
-			</main>
-			<!-- CONTENT HERE -->
+					<tr>
+						<td>067</td>
+						<td>No wifi</td>
+						<td>Aku Nak IFI</td>
+						<td>28/5/2026</td>
+						<td>Pending</td>
+					</tr>
+				</table>
+			</section>
 
 		</main>
-
 	</section>
 
 	<!-- your script -->
 	<script>
-
+		document.querySelectorAll("tr").forEach(tr => {
+			tr.addEventListener("click", e => {
+				console.log(tr)
+			})
+		})
 	</script>
 	
 
@@ -45,6 +79,7 @@
 	<input type="checkbox" hidden style="position: absolute;" name="_mobile-sideBar" id="_mobile-sideBar">
 	<input type="text" name="role" id="role" hidden value="USER">
 	<input type="text" name="title" id="title" hidden value="My Report">
+	
 </body>
 
 </html>

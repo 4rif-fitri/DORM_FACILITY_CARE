@@ -28,7 +28,6 @@ body:has(#_mobile-sideBar:checked) ._sidebar-_mobile {
 ._workspace {
 	flex-grow: 1;
 	height: 100%;
-
 	display: grid;
 	grid-template-rows: 4rem auto;
 }
