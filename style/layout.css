@@ -63,6 +63,7 @@
 {
 	margin-bottom: 0;
 	font-size: var(--fs-base);
+	white-space: nowrap;
 }
 ._menu-bawah>a h4,
 ._menu-bawah>a i
