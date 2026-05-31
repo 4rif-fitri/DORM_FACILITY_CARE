@@ -31,14 +31,18 @@
 					</canvas>
 
 					<div class="filter-control">
-						<select name="" id="">
-							<option value="">Select</option>
-							<option value="">Select</option>
+						<input type="month" name="month" id="month">
+
+						<select name="college" id="college">
+							<option value="">Satria Jebat</option>
+							<option value="">Satria Tuah</option>
+							<option value="">Satria Kasturi</option>
+							<option value="">Satria Lekir</option>
+							<option value="">Satria Lekiu</option>
+							<option value="">Lestari</option>
+							<option value="">Al Jazari</option>
 						</select>
-						<select name="" id="">
-							<option value="">Select</option>
-							<option value="">Select</option>
-						</select>
+
 						<button class="btn-reset">Reset</button>
 						<button class="btn-export">Export cvs</button>
 					</div>
@@ -50,13 +54,15 @@
 					</canvas>
 
 					<div class="filter-control">
-						<select name="" id="">
-							<option value="">Select</option>
-							<option value="">Select</option>
-						</select>
-						<select name="" id="">
-							<option value="">Select</option>
-							<option value="">Select</option>
+						<input type="month" name="month" id="month">
+
+						<select name="catagory" id="catagory">
+							<option value="">All Catagory</option>
+							<option>Electrical</option>
+							<option>Plumbing</option>
+							<option>Furniture</option>
+							<option>Internet</option>
+							<option>Others</option>
 						</select>
 						<button class="btn-reset">Reset</button>
 						<button class="btn-export">Export cvs</button>
@@ -70,13 +76,14 @@
 					</canvas>
 
 					<div class="filter-control">
-						<select name="" id="">
-							<option value="">Select</option>
-							<option value="">Select</option>
-						</select>
-						<select name="" id="">
-							<option value="">Select</option>
-							<option value="">Select</option>
+						<input type="month" name="month" id="month">
+						<select name="catagory" id="catagory">
+							<option value="">All Catagory</option>
+							<option>Electrical</option>
+							<option>Plumbing</option>
+							<option>Furniture</option>
+							<option>Internet</option>
+							<option>Others</option>
 						</select>
 						<button class="btn-reset">Reset</button>
 						<button class="btn-export">Export cvs</button>
@@ -89,13 +96,15 @@
 					</canvas>
 
 					<div class="filter-control">
-						<select name="" id="">
-							<option value="">Select</option>
-							<option value="">Select</option>
-						</select>
-						<select name="" id="">
-							<option value="">Select</option>
-							<option value="">Select</option>
+						<input type="month" name="month" id="month">
+						<select name="college" id="college">
+							<option value="">Satria Jebat</option>
+							<option value="">Satria Tuah</option>
+							<option value="">Satria Kasturi</option>
+							<option value="">Satria Lekir</option>
+							<option value="">Satria Lekiu</option>
+							<option value="">Lestari</option>
+							<option value="">Al Jazari</option>
 						</select>
 						<button class="btn-reset">Reset</button>
 						<button class="btn-export">Export cvs</button>
@@ -105,42 +114,42 @@
 				<section class="table">
 					<h2>Top 5 Problem Locations</h2>
 
-					<div class="filter-control">
-						<select name="" id="">
-							<option value="">Select</option>
-							<option value="">Select</option>
-						</select>
-						<select name="" id="">
-							<option value="">Select</option>
-							<option value="">Select</option>
-						</select>
-						<button class="btn-reset">Reset</button>
-						<button class="btn-export">Export cvs</button>
-					
-					</div>
-
 					<table>
 						<thead>
 							<tr>
-								<th>Lorem</th>
-								<th>Lorem</th>
-								<th>Lorem</th>
-								<th>Lorem</th>
-								<th>Lorem</th>
-								<th>Lorem</th>
+								<th>Rank</th>
+								<th>Collage</th>
+								<th>Total Report</th>
 							</tr>
 						</thead>
 						<tbody>
 							<tr>
-								<td>lorem</td>
-								<td>lorem</td>
-								<td>lorem</td>
-								<td>lorem</td>
-								<td>lorem</td>
-								<td>lorem</td>
+								<td>1</td>
+								<td>Satria Jebat</td>
+								<td>100</td>
+							</tr>
+							<tr>
+								<td>2</td>
+								<td>Al Jazari</td>
+								<td>20</td>
 							</tr>
 						</tbody>
 					</table>
+
+					<div class="filter-control">
+						<input type="month" name="month" id="month">
+						<select name="catagory" id="catagory">
+							<option value="">All Catagory</option>
+							<option>Electrical</option>
+							<option>Plumbing</option>
+							<option>Furniture</option>
+							<option>Internet</option>
+							<option>Others</option>
+						</select>
+						<button class="btn-reset">Reset</button>
+						<button class="btn-export">Export cvs</button>
+
+					</div>
 				</section>
 			</section>
 
@@ -173,15 +182,14 @@
 			let centerX = width / 2;
 			let centerY = height / 2;
 
-			let datas = [10, 20, 30, 40, 50, 60];
+			let datas = [10, 20, 30, 40, 50];
 
 			let colors = [
-				"red",
-				"lightcoral",
-				"blue",
-				"navy",
-				"lightblue",
-				"skyblue"
+				"#1E90FF",
+				"#FF5A79",
+				"#FF9F43",
+				"#FFE066",
+				"#2ECC71",
 			];
 
 			let total = datas.reduce((a, b) => a + b, 0);
@@ -246,15 +254,14 @@
 			canvas.width = 700
 			canvas.height = 300
 
-			let datas = [10, 50, 90, 70, 30, 50]
-			let labels = ["Student 1", "Student 2", "Student 3", "Student 4", "Student 5", "Student 6",]
+			let datas = [10, 50, 90, 70, 30]
+			let labels = ["Student 1", "Student 2", "Student 3", "Student 4", "Student 5"]
 			let colors = [
-				"navy",
-				"blue",
-				"lightblue",
-				"skyblue",
-				"lightcoral",
-				"red",
+				"#1E90FF",
+				"#FF5A79",
+				"#FF9F43",
+				"#FFE066",
+				"#2ECC71",
 			]
 
 			let startX = 50
@@ -286,38 +293,169 @@
 			ctx.stroke()
 		}
 
-		let drawLineGraph = canvas => {
-			let datas = [200, 150, 170, 100, 80, 50, 350, 200, 200, 230]
+		function drawLineGraph(canvas) {
 
-			let ctx = canvas.getContext("2d")
+			const ctx = canvas.getContext("2d");
+
+			const rect = canvas.getBoundingClientRect();
+
 			canvas.width = rect.width;
 			canvas.height = rect.height;
 
-			ctx.strokeStyle = "#fff"
-			ctx.lineWidth = 2
+			const width = canvas.width;
+			const height = canvas.height;
 
-			let start_value = datas[0]
-			let distense = canvas.width / datas.length
-			let start_point = 0
+			const data = [200, 150, 170, 100, 80, 50, 350, 200, 200, 230];
 
-			ctx.beginPath()
+			const labels = [
+				"Jan", "Feb", "Mar", "Apr", "May",
+				"Jun", "Jul", "Aug", "Sep", "Oct"
+			];
 
-			ctx.lineWidth = 5
-			ctx.strokeStyle = "red"
+			const padding = 50;
 
-			ctx.moveTo(start_point, start_value)
-			datas.forEach((velue, index) => {
-				let new_distence = start_point + (distense * (index + 1))
-				ctx.lineTo(new_distence, velue)
+			const graphWidth = width - padding * 2;
+			const graphHeight = height - padding * 2;
+
+			const maxValue = Math.max(...data);
+
+			// =========================
+			// GRID
+			// =========================
+
+			ctx.strokeStyle = "#fff";
+			ctx.lineWidth = 0;
+
+			for (let i = 0; i <= 5; i++) {
+
+				let y = padding + (graphHeight / 5) * i;
+
+				ctx.beginPath();
+				ctx.moveTo(padding, y);
+				ctx.lineTo(width - padding, y);
+				ctx.stroke();
+			}
+
+			// =========================
+			// AXIS
+			// =========================
+
+			ctx.strokeStyle = "#000";
+			ctx.lineWidth = 2;
+
+			ctx.beginPath();
+
+			ctx.moveTo(padding, padding);
+			ctx.lineTo(padding, height - padding);
+
+			ctx.lineTo(width - padding, height - padding);
+
+			ctx.stroke();
+
+			// =========================
+			// POINTS
+			// =========================
+
+			const points = [];
+
+			data.forEach((value, index) => {
+
+				const x =
+					padding +
+					(graphWidth / (data.length - 1)) * index;
+
+				const y =
+					height -
+					padding -
+					(value / maxValue) * graphHeight;
+
+				points.push({ x, y });
 			});
 
-			ctx.lineTo(canvas.width, canvas.height)
-			ctx.lineTo(start_point, canvas.height)
-			ctx.lineTo(start_point, start_value)
+			// =========================
+			// AREA
+			// =========================
 
-			ctx.fillStyle = "grey"
-			ctx.fill()
-			ctx.stroke()
+			ctx.beginPath();
+
+			ctx.moveTo(points[0].x, height - padding);
+			ctx.lineTo(points[0].x, points[0].y);
+
+			points.forEach(point => {
+				ctx.lineTo(point.x, point.y);
+			});
+
+			ctx.lineTo(
+				points[points.length - 1].x,
+				height - padding
+			);
+
+			ctx.closePath();
+
+			ctx.fillStyle = "rgba(124,58,237,0.15)";
+			ctx.fill();
+
+			// =========================
+			// LINE
+			// =========================
+
+			ctx.beginPath();
+
+			ctx.strokeStyle = "#7c3aed";
+			ctx.lineWidth = 3;
+
+			ctx.moveTo(points[0].x, points[0].y);
+
+			for (let i = 1; i < points.length; i++) {
+				ctx.lineTo(points[i].x, points[i].y);
+			}
+
+			ctx.stroke();
+
+			// =========================
+			// POINT CIRCLE
+			// =========================
+
+			points.forEach((point, index) => {
+
+				ctx.beginPath();
+
+				ctx.arc(
+					point.x,
+					point.y,
+					5,
+					0,
+					Math.PI * 2
+				);
+
+				ctx.fillStyle = "#7c3aed";
+				ctx.fill();
+
+				ctx.strokeStyle = "#fff";
+				ctx.lineWidth = 2;
+				ctx.stroke();
+
+				// Value
+				ctx.fillStyle = "#000";
+				ctx.font = "bold 12px Arial";
+				ctx.textAlign = "center";
+
+				ctx.fillText(
+					data[index],
+					point.x,
+					point.y - 15
+				);
+
+				// Month Label
+				ctx.fillStyle = "#666";
+
+				ctx.fillText(
+					labels[index],
+					point.x,
+					height - 20
+				);
+			});
+
 		}
 
 		drawPieChart(canvas_catagory);
