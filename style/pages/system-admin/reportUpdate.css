@@ -1,0 +1,110 @@
+:root {
+	--primary: #7c3aed;
+	--primary-hover: rgba(124, 58, 237, 0.2);
+	--primary-dark: #6d28d9;
+	--primary-light: #f5f3ff;
+	--bg-main: #f8fafc;
+	--white: #ffffff;
+	--text-main: #1e293b;
+	--text-muted: #64748b;
+	--border-color: #e2e8f0;
+
+
+	--radius: 12px;
+	--shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+	--success: #16a34a;
+	--success-hover: #15803d;
+	--success-light: #f0fdf4;
+
+	--warning: #d97706;
+	--warning-hover: #b45309;
+	--warning-light: #fffbeb;
+
+	--danger: #dc2626;
+	--danger-hover: #b91c1c;
+	--danger-light: #fef2f2;
+	--border: 1px solid #e2e8f0;
+
+	--border-radius: 10px;
+
+	--fs-xs: 0.75rem;
+	--fs-sm: 0.875rem;
+	--fs-base: 1rem;
+	--fs-md: 1.125rem;
+	--fs-lg: 1.25rem;
+	--fs-xl: 1.5rem;
+	--fs-xxl: 1.75rem;
+}
+
+._content-area {
+	width: 100%;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+}
+
+.progress-container,
+.report-detail-container {
+	display: block;
+	height: auto;
+	width: 100%;
+	padding: 0.5rem;
+	display: flex;
+	flex-direction: column;
+	gap: 0.5rem;
+}
+
+.progress-container h4,
+.report-detail-container h4 {
+	margin-bottom: 1rem;
+	width: max-content;
+	color: var(--white);
+	border-radius: 7px;
+	font-weight: bolder;
+	padding: 1rem 1.5rem;
+	background-color: var(--primary);
+	font-size: var(--fs-base);
+}
+
+.progress-container>section,
+.report-detail-container>section {
+	background-color: var(--bg-main);
+	padding: 1rem;
+	border-radius: 14px;
+	border: 2px solid var(--primary);
+}
+
+.progress-container article {
+	display: flex;
+	justify-content: space-between;
+}
+
+.report-detail-container article{
+	display: flex;
+	justify-content: end;
+}
+
+.input-control{
+	width: 100%;
+	margin: 0.5rem;
+}
+.input-control label{
+	font-size: var(--fs-base);
+}
+.input-control input,
+.input-control textarea{
+	width: 100%;
+	padding: 0.5rem;
+	border-radius: 5px;
+	outline: none;
+	border: 1px solid black;
+	box-shadow: var(--shadow);
+}
+@media screen and (min-width:1000px) {
+
+	.progress-container,
+	.report-detail-container {
+		width: 750px;
+		margin: 0 auto;
+	}
+}
