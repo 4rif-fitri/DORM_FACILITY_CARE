@@ -63,7 +63,7 @@ body {
 }
 
 .title {
-	font-size: var(--fs-xl);
+	font-size: 2rem;
 }
 
 ._links a.active {

@@ -40,8 +40,9 @@
 	padding: 2rem;
 }
 
-p {
+p{
 	margin-bottom: 0;
+	font-size: 1rem;
 }
 
 form {
@@ -71,7 +72,7 @@ form>section {
 .input-control select,
 .input-control textarea {
 	width: 100%;
-	padding: 0.5rem;
+	padding: 1rem;
 	border-radius: 10px;
 	box-shadow: var(--shadow);
 }
@@ -86,7 +87,9 @@ form>section {
 	text-align: end;
 	color: var(--text-muted);
 }
-
+.required{
+	font-size: 2rem;
+}
 .required::before {
 	content: "*";
 	color: var(--danger);
@@ -104,11 +107,13 @@ form>section {
 	border: 3px dashed var(--text-main);
 	position: relative;
 }
-.input-control .image-area article i{
+
+.input-control .image-area article i {
 	display: flex;
 	justify-content: center;
 }
-.btn-close{
+
+.btn-close {
 	width: 2rem;
 	height: 2rem;
 	top: 0;
@@ -116,9 +121,11 @@ form>section {
 	position: absolute;
 	background-color: var(--danger);
 }
+
 .btn-close:hover {
 	background-color: var(--danger-hover);
 }
+
 .hover {
 	background-color: var(--primary) !important;
 }
@@ -157,7 +164,9 @@ textarea:focus,
 select:focus {
 	outline: 2px solid var(--primary);
 }
-
+.btn-group{
+	height: 4rem !important;
+}
 @media screen and (min-width:1000px) {
 	form {
 		grid-template-rows: unset;
@@ -170,4 +179,19 @@ select:focus {
 		grid-template-rows: unset;
 		gap: 0.5rem;
 	}
+
+	.input-control input,
+	.input-control select,
+	.input-control textarea {
+		width: 100%;
+		padding: 0.5rem;
+		border-radius: 10px;
+		box-shadow: var(--shadow);
+	}
+	.required {
+		font-size: 1rem;
+	}
+.btn-group {
+	height: 3rem !important;
+}
 }
