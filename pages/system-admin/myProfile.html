@@ -3,7 +3,7 @@
 
 <head>
 	<meta charset="UTF-8">
-	<title>Dorm Faclity Care</title>
+	<title>Dorm Facility Care</title>
 	<link rel="stylesheet" href="../../lib/bootstrap.css">
 	<script src="../../lib/bootstrap.js"></script>
 	<link rel="stylesheet" href="../../style/layout.css">
@@ -13,7 +13,7 @@
 	<script src="../../script/load-component.js"></script>
 
 	<!-- your styling -->
-	<link rel="stylesheet" href="../../style/pages/system-admin/myProfile.css">
+	<link rel="stylesheet" href="../../style/pages/user/myProfile.css">
 </head>
 
 <body>
@@ -22,8 +22,23 @@
 
 		<!-- CONTENT HERE -->
 		<main class="_content-area">
+			<!-- banner HERE -->
+			<div class="profile-banner"></div>
 
-
+			<div class="profile-card">
+				<div class ="profile-avatar">
+					<i class="fa-solid fa-user"></i>
+				</div>
+				<div class="profile-header">
+					<h2 class="profile-name">Name</h2>
+					<button class="btn btn-primary">Edit Profile</button>
+				</div>
+				<div class="profile-info">
+					<p class ="info-line">email@example.com</p>
+					<p class ="info-line">123-456-7890</p>
+					<p class ="info-line">USER</p>
+				</div>
+			</div>
 
 		</main>
 		<!-- CONTENT HERE -->
@@ -35,11 +50,9 @@
 
 	</script>
 
-
-	<input type="checkbox" hidden style="position: absolute; z-index: 10;" name="_dekstop-sideBar"
-		id="_dekstop-sideBar">
+	<input type="checkbox" hidden style="position: absolute; z-index: 10;" name="_dekstop-sideBar" id="_dekstop-sideBar">
 	<input type="checkbox" hidden style="position: absolute;" name="_mobile-sideBar" id="_mobile-sideBar">
-	<input type="text" name="role" id="role" hidden value="SAD">
+	<input type="text" name="role" id="role" hidden value="USER">
 	<input type="text" name="title" id="title" hidden value="My Profile">
 </body>
 
