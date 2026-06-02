@@ -51,44 +51,6 @@
 	--fs-xxl: 1.75rem;
 	/* Extra Extra Large: Untuk tajuk utama paling besar dlm halaman */
 }
-:root {
-	--primary: #7c3aed;
-	--primary-hover: rgba(124, 58, 237, 0.2);
-	--primary-dark: #6d28d9;
-	--primary-light: #f5f3ff;
-	--bg-main: #f8fafc;
-	--white: #ffffff;
-	--text-main: #1e293b;
-	--text-muted: #64748b;
-	--border-color: #e2e8f0;
-
-
-	--radius: 12px;
-	--shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
-	--success: #16a34a;
-	--success-hover: #15803d;
-	--success-light: #f0fdf4;
-
-	--warning: #d97706;
-	--warning-hover: #b45309;
-	--warning-light: #fffbeb;
-
-	--danger: #dc2626;
-	--danger-hover: #b91c1c;
-	--danger-light: #fef2f2;
-	--border: 1px solid #e2e8f0;
-
-	--border-radius: 10px;
-
-	--fs-xs: 0.75rem;
-	--fs-sm: 0.875rem;
-	--fs-base: 1rem;
-	--fs-md: 1.125rem;
-	--fs-lg: 1.25rem;
-	--fs-xl: 1.5rem;
-	--fs-xxl: 1.75rem;
-}
-
 ._content-area {
 	padding: 2rem;
 }
