@@ -135,6 +135,7 @@ _.menu-atas {
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
+	z-index: 10;
 }
 
 ._sidebar-moblie ._avatar-besar {
@@ -222,7 +223,12 @@ body:has(#_mobile-sideBar:checked) ._sidebar-moblie {
 }
 
 /*  */
-
+._sidebar-moblie a i,
+._sidebar-moblie a h4
+{
+	padding: 1rem;
+	font-size: 2rem;
+}
 @media screen and (min-width:1000px) {
 
 	._sidebar-moblie ._avatar-besar {
