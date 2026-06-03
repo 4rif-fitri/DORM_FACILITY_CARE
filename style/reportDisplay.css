@@ -87,34 +87,60 @@ a{
     padding: 20px;
 }
 
+/* ------------------TABLE START------------------------ */
+
 .myReportTbl{
     width: 100%;
     border-collapse: separate;
-    border-spacing: 0px 5px;
+    border-spacing: 0px 10px;
 }
 
-.myReportTbl tr th{
-    text-align: center;
-    border-bottom: 2px solid var(--primary);
-    padding: 5px;
-    
+.myReportTbl thead tr th{
+    /* text-align: center; */
+    padding: 0 20px 5px;
+	letter-spacing: 0.03em;
 }
 
-.myReportTbl tr td{
-    /* border-left: 2px solid var(--primary); */
-    padding: 10px;
-    background-color: #ede3fe;
-    border-left: 2px solid #dac8f8;
-    margin: 10px 0px;
+.myReportTbl tbody tr td{
+    padding: 16px 20px;
+    background-color: #F5F2F2;
 }
 
-.trackingReportTbl tr:not(:first-child){
+.myReportTbl tbody td:first-child {
+	border-radius: 12px 0 0 12px;
+	border-left: 1px solid #e8e6f5;
+	border-top: 1px solid #e8e6f5;
+	border-bottom: 1px solid #e8e6f5;
+	/* color: #888;
+	font-size: 14px; */
+	width: 60px;
+}
+
+.myReportTbl tbody td:last-child {
+	border-radius: 0 12px 12px 0;
+	border-right: 1px solid #e8e6f5;
+	border-top: 1px solid #e8e6f5;
+	border-bottom: 1px solid #e8e6f5;
+}
+
+.myReportTbl tbody td:not(:first-child):not(:last-child) {
+	border-top: 1px solid #e8e6f5;
+	border-bottom: 1px solid #e8e6f5;
+}
+
+
+
+
+.trackingReportTbl tbody tr{
     cursor: pointer;
 }
 
-.trackingReportTbl tr:not(:first-child):hover td{
-    background-color: #f0e9ff;
+.trackingReportTbl tbody tr:hover td{
+    background-color: #e6e4e4;
 }
+
+/* ------------------TABLE END ------------------------ */
+
 
 .updateBtn{
     background-color: var(--primary);
