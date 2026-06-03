@@ -1,0 +1,160 @@
+._content-area {
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 0;
+}
+
+.profile-banner {
+  height: 120px;
+  background-color: #ffffff;
+  width: 100%;
+  border-bottom: 1px solid #e0e0e0;
+  flex-shrink: 0;
+}
+
+.profile-card {
+  background-color: #d9d9d9;
+  width: calc(100% - 40px);
+  max-width: 700px;
+  margin: 0 20px 20px 20px;
+  padding: 20px 24px 30px 24px;
+  border-radius: 10px;
+  position: relative;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.profile-avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background-color: #d8d0f0;
+  border: 3px solid #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: -40px;
+  left: 24px;
+  box-shadow: 0 2px 6px rgba(124, 92, 191, 0.2);
+}
+
+.profile-avatar i {
+  font-size: 36px;
+  color: #7c5cbf;
+}
+
+.profile-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 50px;
+  margin-bottom: 20px;
+}
+
+.profile-name {
+  font-size: 18px;
+  font-weight: 600;
+  margin: 0;
+  color: #1a1a1a;
+}
+
+.btn-edit-profile {
+  background-color: #333;
+  color: #fff;
+  border: none;
+  padding: 6px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+
+.btn-edit-profile:active {
+  transform: translateY(0);
+}
+
+/* Info text lines */
+.profile-info {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.info-line {
+  color: #444;
+  font-size: 14px;
+  border-bottom: 1px solid #bbb;
+  padding-bottom: 4px;
+  margin: 0;
+  width: fit-content;
+  min-width: 200px;
+}
+
+
+
+/* Responsive */
+@media screen and (max-width: 999px) {
+  .profile-banner {
+    height: 100px;
+  }
+
+  .profile-card {
+    width: calc(100% - 24px);
+    margin: 0 12px 12px 12px;
+    padding: 16px 16px 24px 16px;
+  }
+}
+:root {
+	/* color */
+	--primary-dark: #6d28d9;
+	--primary: #7c3aed;
+	--primary-hover: rgba(124, 58, 237, 0.2);
+	--primary-light: #f5f3ff;
+
+	/* bg color */
+	--bg-main: #f8fafc;
+	--white: #ffffff;
+
+	/* text color */
+	--text-main: #1e293b;
+	--text-muted: #64748b;
+
+	--border-color: #e2e8f0;
+
+	--radius: 12px;
+	--shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+
+	/* success color */
+	--success: #16a34a;
+	--success-hover: #15803d;
+	--success-light: #f0fdf4;
+
+	/* warning color */
+	--warning: #d97706;
+	--warning-hover: #b45309;
+	--warning-light: #fffbeb;
+
+	/* danger color */
+	--danger: #dc2626;
+	--danger-hover: #b91c1c;
+	--danger-light: #fef2f2;
+	--border: 1px solid #e2e8f0;
+
+	--border-radius: 10px;
+
+	--fs-xs: 0.75rem;
+	/* Extra Small: Untuk teks paling kecil (error or note) */
+	--fs-sm: 0.875rem;
+	/* Small: Untuk teks kecil (contoh: tulisan hint 'e.g: A-1-2-B(2)') */
+	--fs-base: 1rem;
+	/* Base: Saiz default untuk teks biasa (label, input) */
+	--fs-md: 1.125rem;
+	/* Medium: Besar sikit dari biasa (button) */
+	--fs-lg: 1.25rem;
+	/* Large: Untuk tajuk kecil or sub-heading */
+	--fs-xl: 1.5rem;
+	/* Extra Large: Untuk tajuk sederhana besar (untuk tajuk) */
+	--fs-xxl: 1.75rem;
+	/* Extra Extra Large: Untuk tajuk utama paling besar dlm halaman */
+}
