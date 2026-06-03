@@ -168,6 +168,10 @@ _.menu-atas {
 	font-size: 3rem;
 	color: var(--primary);
 }
+._sidebar hr{
+	background-color: var(--bg-main);
+	height: 3px;
+}
 /* _navbar atas content */
 
 /* CONTENT */
