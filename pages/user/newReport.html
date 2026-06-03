@@ -39,7 +39,7 @@
 
 					<div class="input-control">
 						<label for="description" class="required">Description</label>
-						<textarea name="description" id="description" rows="10"></textarea>
+						<textarea rows="10" name="description" id="description" rows="10"></textarea>
 					</div>
 
 					<div class="input-control col-3">
@@ -115,7 +115,7 @@
 		let nameFile = document.querySelector(".name-file");
 		let imageAreaIcon = document.querySelector(".image-area i");
 		let textDrop = document.querySelector(".text-drop")
-
+	
 		let inpCategories = document.querySelector("#categories")
 		let inpDescription = document.querySelector("#description")
 		let inpLocation = document.querySelector("#location")
@@ -126,6 +126,9 @@
 
 		let currentUrl = null;
 
+		let btnClear = document.querySelector(".clear")
+
+		btnClear.addEventListener("click", () => removePhoto())
 
 		let form = document.querySelector("form")
 
