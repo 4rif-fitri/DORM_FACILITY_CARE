@@ -1,0 +1,133 @@
+:root {
+	/* color */
+	--primary-dark: #6d28d9;
+	--primary: #7c3aed;
+	--primary-hover: rgba(124, 58, 237, 0.2);
+	--primary-light: #f5f3ff;
+
+	/* bg color */
+	--bg-main: #f8fafc;
+	--white: #ffffff;
+
+	/* text color */
+	--text-main: #1e293b;
+	--text-muted: #64748b;
+
+	--border-color: #e2e8f0;
+
+	--radius: 12px;
+	--shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+
+	/* success color */
+	--success: #16a34a;
+	--success-hover: #15803d;
+	--success-light: #f0fdf4;
+
+	/* warning color */
+	--warning: #d97706;
+	--warning-hover: #b45309;
+	--warning-light: #fffbeb;
+
+	/* danger color */
+	--danger: #dc2626;
+	--danger-hover: #b91c1c;
+	--danger-light: #fef2f2;
+	--border: 1px solid #e2e8f0;
+
+	--border-radius: 10px;
+
+	--fs-xs: 0.75rem;
+	/* Extra Small: Untuk teks paling kecil (error or note) */
+	--fs-sm: 0.875rem;
+	/* Small: Untuk teks kecil (contoh: tulisan hint 'e.g: A-1-2-B(2)') */
+	--fs-base: 1rem;
+	/* Base: Saiz default untuk teks biasa (label, input) */
+	--fs-md: 1.125rem;
+	/* Medium: Besar sikit dari biasa (button) */
+	--fs-lg: 1.25rem;
+	/* Large: Untuk tajuk kecil or sub-heading */
+	--fs-xl: 1.5rem;
+	/* Extra Large: Untuk tajuk sederhana besar (untuk tajuk) */
+	--fs-xxl: 1.75rem;
+	/* Extra Extra Large: Untuk tajuk utama paling besar dlm halaman */
+}
+._content-area{
+    display: flex;
+    flex-direction: column;
+}
+
+.filter-box{
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    padding: 10px;
+}
+
+.add-box{
+    text-align: right;
+    padding: 20px 20px 0px 20px;
+}
+
+.addBtn{
+    
+}
+
+a{
+    text-decoration: none;
+}
+
+.filterBtn{
+    background-color: var(--primary);
+    color: var(--white);
+    padding: 2px 16px;
+    border-radius: 15px;
+    
+}
+
+.filterBtn:hover{
+    background-color: var(--primary-hover);
+}
+
+.filterBtn:active{
+    background-color: var(--primary-dark);
+}
+
+.table-container{
+    padding: 20px;
+}
+
+.myReportTbl{
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0px 5px;
+}
+
+.myReportTbl tr th{
+    text-align: center;
+    border-bottom: 2px solid var(--primary);
+    padding: 5px;
+    
+}
+
+.myReportTbl tr td{
+    /* border-left: 2px solid var(--primary); */
+    padding: 10px;
+    background-color: #ede3fe;
+    border-left: 2px solid #dac8f8;
+    margin: 10px 0px;
+}
+
+.trackingReportTbl tr:not(:first-child){
+    cursor: pointer;
+}
+
+.trackingReportTbl tr:not(:first-child):hover td{
+    background-color: #f0e9ff;
+}
+
+.updateBtn{
+    background-color: var(--primary);
+    color: var(--white);
+    padding: 5px 16px;
+    text-decoration: none;
+}

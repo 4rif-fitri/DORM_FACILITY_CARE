@@ -56,7 +56,7 @@
     flex-direction: column;
 }
 
-#filter-box{
+.filter-box{
     display: flex;
     flex-direction: row;
     gap: 10px;
@@ -71,7 +71,7 @@ a{
     background-color: var(--primary);
     color: var(--white);
     padding: 2px 16px;
-    border-radius: 15px;
+    border-radius: 5px;
     
 }
 
@@ -83,24 +83,24 @@ a{
     background-color: var(--primary-dark);
 }
 
-#table-container{
-    padding: 20px
+.table-container{
+    padding: 20px;
 }
 
-#myReportTbl{
+.myReportTbl{
     width: 100%;
     border-collapse: separate;
     border-spacing: 0px 5px;
 }
 
-#myReportTbl tr th{
+.myReportTbl tr th{
     text-align: center;
     border-bottom: 2px solid var(--primary);
     padding: 5px;
     
 }
 
-#myReportTbl tr td{
+.myReportTbl tr td{
     /* border-left: 2px solid var(--primary); */
     padding: 10px;
     background-color: #ede3fe;
@@ -108,10 +108,16 @@ a{
     margin: 10px 0px;
 }
 
-#myReportTbl tr:not(:first-child){
+.trackingReportTbl tr:not(:first-child){
     cursor: pointer;
 }
 
-#myReportTbl tr:not(:first-child):hover td{
+.trackingReportTbl tr:not(:first-child):hover td{
     background-color: #f0e9ff;
+}
+
+.updateBtn{
+    background-color: var(--primary);
+    color: var(--white);
+    padding: 5px 16px;
 }
