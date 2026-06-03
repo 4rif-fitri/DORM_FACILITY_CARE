@@ -3,16 +3,14 @@
 
 <head>
 	<meta charset="UTF-8">
-	<title>Dorm Faclity Care</title>
+	<title>Dorm Facility Care</title>
 	<link rel="stylesheet" href="../../lib/bootstrap.css">
 	<script src="../../lib/bootstrap.js"></script>
 	<link rel="stylesheet" href="../../style/layout.css">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 	<script src="../../lib/jquery.js"></script>
-
 	<script src="../../script/load-component.js"></script>
 
-	<!-- your styling -->
 	<link rel="stylesheet" href="../../style/pages/user/newReport.css">
 </head>
 
@@ -20,69 +18,257 @@
 
 	<section class="_workspace">
 
-		<!-- CONTENT HERE -->
 		<main class="_content-area">
-			<h2>Details</h2>
-			<form action="">
-				<div class="form-group">
-					<div class="form-element">
-						<label for="category">Category</label>
-						<select id="category" name="category">
-							<option>Furniture</option>
-							<option>Electrical</option>
-							<option>Plumbing</option>
-							<option>Wi-Fi</option>
+
+			<article>
+				<h3>Details</h3>
+				<p class="required">All fields must be filled.</p>
+			</article>
+			<form action="" method="post">
+
+				<section class="form-detail">
+
+					<div class="input-control">
+						<label for="categories" class="required">Categories</label>
+						<select name="categories" id="categories">
+							<option selected disabled value="">Select Categories</option>
+							<option value="category_1">Category 1</option>
+							<option value="category_2">Category 2</option>
 						</select>
 					</div>
-					<div class="form-element">
-						<label for="desc">Description</label>
-						<textarea id="desc" name="desc"></textarea>
-					</div>
-					<div class="form-group-inner">
-						<div class="form-element">
-							<label for="location">Location</label>
-							<select id="location" name="location">
-								<option>Al-Jazari</option>
-								<option>Satria</option>
-							</select>
-						</div>
-						<div class="form-element">
-							<label for="block">Block</label>
-							<select id="block" name="block">
-								<option>A</option>
-								<option>B</option>
-								<option>C</option>
-								<option>Tuah</option>
-								<option>Jebat</option>
-							</select>
-						</div>
-						<div class="form-element">
-							<label for="floor">Floor</label>
-							<input type="number" id="floor" name="floor">
-						</div>
-					</div>
-					<div class="form-element">
-						<label for="room">Room no.</label>
-						<input type="text" id="room" name="room">
-					</div>
-				</div>
-				<div class="form-group">
-					<h3>Upload image</h3>
-					<img src="../../images/logo.png">
-				</div>
-			</form>
-		</main>
-		<!-- CONTENT HERE -->
 
+					<div class="input-control">
+						<label for="description" class="required">Description</label>
+						<textarea name="description" id="description" rows="10"></textarea>
+					</div>
+
+					<div class="input-control col-3">
+						<article>
+							<label for="location" class="required">Location</label>
+							<select name="location" id="location">
+								<option selected disabled value="">Select Location</option>
+								<option value="location_1">Location 1</option>
+								<option value="location_2">Location 2</option>
+							</select>
+						</article>
+
+						<article>
+							<label for="block" class="required">Block</label>
+							<select name="block" id="block">
+								<option selected disabled value="">Select Block</option>
+								<option value="block_1">Block 1</option>
+								<option value="block_2">Block 2</option>
+							</select>
+						</article>
+
+						<article>
+							<label for="level" class="required">Level</label>
+							<select name="level" id="level">
+								<option selected disabled value="">Select Level</option>
+								<option value="level_1">Level 1</option>
+								<option value="level_2">Level 2</option>
+							</select>
+						</article>
+					</div>
+
+					<div class="input-control">
+						<label for="room_no" class="required">Room no.</label>
+						<p class="text-danger hidden" style="margin-bottom: 0;">Errors</p>
+						<input type="text" name="room_no" id="room_no" placeholder="A-1-2-B(2)">
+						<p class="hint">e.g: A-1-2-B(2)</p>
+					</div>
+				</section>
+
+				<section class="form-photo">
+
+					<div class="input-control">
+						<label for="image" class="required">Upload Image</label>
+						<input hidden type="file" accept="image/*" name="image" id="image">
+						<label for="image" class="image-area">
+							<button type="button" class="btn btn-close hidden"></button>
+
+							<article>
+								<i class="fa-solid fa-file-arrow-up"></i>
+								<h5 class="text-drop">Click or Drop Image Here!</h5>
+							</article>
+
+						</label>
+						<p class="hidden name-file">asd.png</p>
+					</div>
+
+					<div class="btn-group">
+						<button type="reset" class="btn btn-dark clear">Clear</button>
+						<button type="submit" class="btn btn-primary submit">Submit</button>
+					</div>
+
+				</section>
+
+			</form>
+
+		</main>
 	</section>
 
-	<!-- your script -->
 	<script>
+		let inputImg = document.getElementById("image");
+		let imageArea = document.querySelector(".image-area");
+		let btnClose = document.querySelector(".btn-close");
+		let nameFile = document.querySelector(".name-file");
+		let imageAreaIcon = document.querySelector(".image-area i");
+		let textDrop = document.querySelector(".text-drop")
 
+		let inpCategories = document.querySelector("#categories")
+		let inpDescription = document.querySelector("#description")
+		let inpLocation = document.querySelector("#location")
+		let inpBlock = document.querySelector("#block")
+		let inpLevel = document.querySelector("#level")
+		let inpRoomNo = document.querySelector("#room_no")
+		let inpImage = document.querySelector("#image")
+
+		let currentUrl = null;
+
+
+		let form = document.querySelector("form")
+
+		form.addEventListener("submit", e => {
+			e.preventDefault();
+
+			const inputs = [
+				inpCategories,
+				inpDescription,
+				inpLocation,
+				inpBlock,
+				inpLevel,
+				inpRoomNo,
+				inpImage
+			];
+
+			let isValid = true;
+
+			for (const input of inputs) {
+
+				// type file
+				if (input.type === "file") {
+					if (input.files.length === 0) {
+						isValid = false;
+						alert('Please Insert a Photo');
+						break;
+					}
+
+				} else {
+
+					if (input.value.trim() === "") {
+						isValid = false;
+						input.focus()
+						break;
+					}
+				}
+			}
+
+			if (!isValid) {
+				console.log("!OK");
+
+			} else {
+				console.log("OK");
+
+			}
+
+		});
+		function addPhoto(file) {
+			if (!file) return;
+
+			if (currentUrl) {
+				URL.revokeObjectURL(currentUrl);
+			}
+
+			currentUrl = URL.createObjectURL(file);
+
+			imageArea.style.backgroundImage = `url(${currentUrl})`;
+			imageArea.style.backgroundSize = "cover";
+			imageArea.style.backgroundPosition = "center";
+
+			nameFile.textContent = file.name;
+			textDrop.classList.add("hidden");
+			imageAreaIcon.classList.add("hidden");
+			nameFile.classList.remove("hidden");
+			btnClose.classList.remove("hidden");
+		}
+
+		function removePhoto() {
+			if (currentUrl) {
+				URL.revokeObjectURL(currentUrl);
+				currentUrl = null;
+			}
+
+			imageArea.style.backgroundImage = "";
+
+			textDrop.classList.remove("hidden");
+			imageAreaIcon.classList.remove("hidden");
+			nameFile.classList.add("hidden");
+			btnClose.classList.add("hidden");
+
+			nameFile.textContent = "";
+
+			inputImg.value = "";
+		}
+
+		inputImg.addEventListener("change", e => {
+			const file = e.target.files[0];
+
+			if (!file) return;
+
+			addPhoto(file);
+		});
+
+		btnClose.addEventListener("click", e => {
+			e.preventDefault();
+			e.stopPropagation();
+
+			removePhoto();
+		});
+
+		["dragenter", "dragover"].forEach(event => {
+			imageArea.addEventListener(event, e => {
+				e.preventDefault();
+
+				imageArea.classList.add("hover");
+				imageAreaIcon.classList.add("icon-hover");
+			});
+		});
+
+		["dragleave"].forEach(event => {
+			imageArea.addEventListener(event, e => {
+				e.preventDefault();
+
+				imageArea.classList.remove("hover");
+				imageAreaIcon.classList.remove("icon-hover");
+			});
+		});
+
+		imageArea.addEventListener("drop", e => {
+			e.preventDefault();
+
+			imageArea.classList.remove("hover");
+			imageAreaIcon.classList.remove("icon-hover");
+
+			let file = e.dataTransfer.files[0];
+
+			if (!file) return;
+
+			if (!file.type.startsWith("image/")) {
+				alert("Please upload image files only.");
+				return;
+			}
+
+			let dt = new DataTransfer();
+			dt.items.add(file);
+			inputImg.files = dt.files;
+
+			addPhoto(file);
+		});
 	</script>
 
-
-	<input type="checkbox" hidden style="position: absolute; z-index: 10;" name="_dekstop-sideBar"id="_dekstop-sideBar">
+	<input type="checkbox" hidden style="position: absolute; z-index: 10;" name="_dekstop-sideBar"
+		id="_dekstop-sideBar">
 	<input type="checkbox" hidden style="position: absolute;" name="_mobile-sideBar" id="_mobile-sideBar">
 	<input type="text" name="role" id="role" hidden value="USER">
 	<input type="text" name="title" id="title" hidden value="New Report">

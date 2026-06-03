@@ -1,0 +1,110 @@
+.dashboard-area{
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+    margin: 0 auto;
+    gap: 20px;
+    max-width: 800px;
+	align-items: start;
+}
+
+.dashboard-box-one{
+	background: white;
+	border-radius: 24px;
+	padding: 20px;
+	height: 230px;
+    width: 350px;
+	box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+	display: flex;
+	flex-direction: column;
+    margin-top: 20px;
+}
+
+.dashboard-box-two{
+	background: white;
+	border-radius: 24px;
+	padding: 20px;
+	height: 230px;
+    width: 350px;
+	box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+	display: flex;
+	flex-direction: column;
+    margin-bottom: 20px;
+}
+
+
+/* TITLE */
+.dashboard-box-one h2{
+	font-size: 24px;
+	font-weight: 600;
+}
+
+.dashboard-box-two h2{
+	font-size: 24px;
+	font-weight: 600;
+}
+
+/* NUMBER */
+.dashboard-box-one p{
+	font-size: 70px;
+	font-weight: 700;
+	text-align: right;
+}
+
+.dashboard-box-two p{
+	font-size: 70px;
+	font-weight: 700;
+	text-align: right;
+}
+:root {
+	/* color */
+	--primary-dark: #6d28d9;
+	--primary: #7c3aed;
+	--primary-hover: rgba(124, 58, 237, 0.2);
+	--primary-light: #f5f3ff;
+
+	/* bg color */
+	--bg-main: #f8fafc;
+	--white: #ffffff;
+
+	/* text color */
+	--text-main: #1e293b;
+	--text-muted: #64748b;
+
+	--border-color: #e2e8f0;
+
+	--radius: 12px;
+	--shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+
+	/* success color */
+	--success: #16a34a;
+	--success-hover: #15803d;
+	--success-light: #f0fdf4;
+
+	/* warning color */
+	--warning: #d97706;
+	--warning-hover: #b45309;
+	--warning-light: #fffbeb;
+
+	/* danger color */
+	--danger: #dc2626;
+	--danger-hover: #b91c1c;
+	--danger-light: #fef2f2;
+	--border: 1px solid #e2e8f0;
+
+	--border-radius: 10px;
+
+	--fs-xs: 0.75rem;
+	/* Extra Small: Untuk teks paling kecil (error or note) */
+	--fs-sm: 0.875rem;
+	/* Small: Untuk teks kecil (contoh: tulisan hint 'e.g: A-1-2-B(2)') */
+	--fs-base: 1rem;
+	/* Base: Saiz default untuk teks biasa (label, input) */
+	--fs-md: 1.125rem;
+	/* Medium: Besar sikit dari biasa (button) */
+	--fs-lg: 1.25rem;
+	/* Large: Untuk tajuk kecil or sub-heading */
+	--fs-xl: 1.5rem;
+	/* Extra Large: Untuk tajuk sederhana besar (untuk tajuk) */
+	--fs-xxl: 1.75rem;
+	/* Extra Extra Large: Untuk tajuk utama paling besar dlm halaman */
+}

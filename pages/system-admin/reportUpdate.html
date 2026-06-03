@@ -3,14 +3,14 @@
 
 <head>
 	<meta charset="UTF-8">
-	<title>Dorm Faclity Care</title>
+	<title>Dorm Facility Care</title>
 	<link rel="stylesheet" href="../../lib/bootstrap.css">
 	<script src="../../lib/bootstrap.js"></script>
-	<link rel="stylesheet" href="../../../style/index.css">
+	<link rel="stylesheet" href="../../style/layout.css">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 	<script src="../../lib/jquery.js"></script>
 
-	<script src="../../script/load-sidebar2.js"></script>
+	<script src="../../script/load-component.js"></script>
 
 	<!-- your styling -->
 	<link rel="stylesheet" href="../../style/pages/system-admin/reportUpdate.css">
@@ -23,7 +23,134 @@
 		<!-- CONTENT HERE -->
 		<main class="_content-area">
 
+			<div class="progress-container">
+				<section>
+					<h4>Progress</h4>
+					<div class="track-progress">
+						<div>
 
+							<article>
+								<div class="dot active"></div>
+								<div class="desh"></div>
+								<div class="dot active"></div>
+								<div class="desh"></div>
+								<div class="dot "></div>
+								<div class="desh"></div>
+								<div class="dot"></div>
+							</article>
+							<article>
+								<p class="text-active">Pending</p>
+								<p></p>
+								<p class="text-active">Review</p>
+								<p></p>
+								<p>Repair</p>
+								<p></p>
+								<p>Done</p>
+							</article>
+
+						</div>
+					</div>
+
+					<article>
+						<button class="btn btn-secondary">Reject</button>
+						<button class="btn btn-success">Proceed</button>
+					</article>
+				</section>
+
+			</div>
+
+			<div class="report-detail-container">
+
+				<section>
+					<h4>Report Detail</h4>
+					<div class="report-detail">
+
+						<div class="input-control">
+							<label for="catagory">Catagory</label>
+							<input readonly type="text" name="catagory" id="catagory">
+						</div>
+
+						<div class="input-control">
+							<label for="description">Description</label>
+							<textarea readonly type="text" name="description" id="description"></textarea>
+						</div>
+
+						<div class="input-control">
+							<label for="college">College</label>
+							<input readonly type="text" name="college" id="college">
+						</div>
+
+						<div class="input-control">
+							<label for="room">Room</label>
+							<input readonly type="text" name="room" id="room">
+						</div>
+					</div>
+
+				</section>
+
+			</div>
+
+			<div class="comment-container">
+				<section>
+					<h4>Comment</h4>
+					<div class="chat">
+						<div class="other">
+							<p>USer</p>
+							Mana Wifi
+						</div>
+						<div class="me">
+							<p>Me</p>
+							Sabo
+						</div>
+					</div>
+
+					<div class="comment">
+						<div class="input-control">
+							<label for="description">Comment</label>
+							<textarea type="text" name="description" id="description"></textarea>
+						</div>
+					</div>
+
+					<article>
+						<button class="btn btn-success">Submit</button>
+					</article>
+				</section>
+			</div>
+
+			<div class="contractor-container">
+				<section>
+					<h4>Contractor</h4>
+
+					<div class="comment">
+						<div class="input-control">
+							<label for="contractor">Select contractor</label>
+							<select name="contractor" id="contractor">
+								<option disabled selected value="">Select contractor</option>
+								<option value="contractor1">contractor 1</option>
+								<option value="contractor2">contractor 2</option>
+							</select>
+							<p>lorem@gamail.com</p>
+							<p>0197231577</p>
+							<p>IT technician</p>
+						</div>
+					</div>
+
+					<article>
+						<button class="btn btn-success">Assign</button>
+
+					</article>
+				</section>
+			</div>
+
+			<div class="image-container">
+				<section>
+					<h4>Report Image</h4>
+
+					<div class="image">
+						<img src="../../images/LogoUTeM-5b80a51b.png" alt="">
+					</div>
+				</section>
+			</div>
 
 		</main>
 		<!-- CONTENT HERE -->
