@@ -67,22 +67,23 @@
 
 						<div class="input-control">
 							<label for="catagory">Catagory</label>
-							<input readonly type="text" name="catagory" id="catagory">
+							<input readonly type="text" name="catagory" id="catagory" value="Wifi">
 						</div>
 
 						<div class="input-control">
 							<label for="description">Description</label>
-							<textarea readonly type="text" name="description" id="description"></textarea>
+							<textarea readonly type="text" name="description" id="description">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quaerat eveniet, cupiditate quis odit ipsum eum quae enim sequi veritatis non ratione? Quia veniam nulla nisi illum accusantium voluptates ducimus laboriosam.
+							</textarea>
 						</div>
 
 						<div class="input-control">
 							<label for="college">College</label>
-							<input readonly type="text" name="college" id="college">
+							<input readonly type="text" name="college" id="college" value="Al Jazari">
 						</div>
 
 						<div class="input-control">
 							<label for="room">Room</label>
-							<input readonly type="text" name="room" id="room">
+							<input readonly type="text" name="room" id="room" value="B-4-5-B(2)">
 						</div>
 					</div>
 
@@ -123,21 +124,22 @@
 
 					<div class="comment">
 						<div class="input-control">
-							<label for="contractor">Select contractor</label>
-							<select name="contractor" id="contractor">
+							<label for="selectContractor">Select contractor</label>
+							<select name="selectContractor" id="selectContractor">
 								<option disabled selected value="">Select contractor</option>
-								<option value="contractor1">contractor 1</option>
-								<option value="contractor2">contractor 2</option>
+								<option value="0">En lorem</option>
+								<option value="1">En Ipsum</option>
+								<option value="2">En Dolor</option>
+								<option value="3">En Sit</option>
 							</select>
-							<p>lorem@gamail.com</p>
-							<p>0197231577</p>
-							<p>IT technician</p>
+							<p class="hidden my-2" id="emailContractor">lorem@gamail.com</p>
+							<p class="hidden mb-2" id="phoneContractor">0197231577</p>
+							<p class="hidden mb-2" id="cTypeContractor">IT technician</p>
 						</div>
 					</div>
 
 					<article>
 						<button class="btn btn-success">Assign</button>
-
 					</article>
 				</section>
 			</div>
@@ -157,8 +159,55 @@
 
 	</section>
 
+	<div class="modal fade" id="model">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+				<img class="modal-image" src="" alt="">
+			</div>
+		</div>
+	</div>
+
 	<!-- your script -->
 	<script>
+		let selectContractor = document.querySelector("#selectContractor")
+		let textEmailContractor = document.getElementById("emailContractor")
+		let textphoneContractor = document.getElementById("phoneContractor")
+		let textcTypeContractor = document.getElementById("cTypeContractor")
+		
+		let model = document.getElementById("model")
+		let myModal = new bootstrap.Modal(model)
+
+		let images = document.querySelectorAll(".image")
+
+		let prew = url => {
+			// console.log(url);
+			document.querySelector(".modal-image").src = url 
+			myModal.show()
+		}
+
+		images.forEach(image => image.addEventListener("click", e => prew(e.target.src)))
+
+		let dataContractor = [
+			{ id: 0, name: "En Lorem", email: "dopymonster@gmail.com", no: "0197231577", cType: "IT Tech" },
+			{ id: 1, name: "En Ipsum", email: "dopymonster@gmail.com", no: "0197231577", cType: "Mekanik" },
+			{ id: 2, name: "En Dolor", email: "dopymonster@gmail.com", no: "0197231577", cType: "Jamban" },
+			{ id: 3, name: "En Sit", email: "dopymonster@gmail.com", no: "0197231577", cType: "Kipas" },
+		]
+
+		selectContractor.addEventListener("change", e => {
+			let id = Number(e.target.value)
+			console.log(id);
+
+			let orang = dataContractor.find(data => data.id == id)
+
+			textEmailContractor.classList.remove("hidden")
+			textphoneContractor.classList.remove("hidden")
+			textcTypeContractor.classList.remove("hidden")
+
+			textEmailContractor.textContent = orang.email
+			textphoneContractor.textContent = orang.no
+			textcTypeContractor.textContent = orang.cType
+		})
 
 	</script>
 

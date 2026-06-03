@@ -55,7 +55,7 @@
 	padding: 2rem;
 }
 
-p{
+p {
 	margin-bottom: 0;
 	font-size: 1rem;
 }
@@ -102,9 +102,11 @@ form>section {
 	text-align: end;
 	color: var(--text-muted);
 }
-.required{
+
+.required {
 	font-size: 2rem;
 }
+
 .required::before {
 	content: "*";
 	color: var(--danger);
@@ -179,9 +181,11 @@ textarea:focus,
 select:focus {
 	outline: 2px solid var(--primary);
 }
-.btn-group{
+
+.btn-group {
 	height: 4rem !important;
 }
+
 @media screen and (min-width:1000px) {
 	form {
 		grid-template-rows: unset;
@@ -203,10 +207,12 @@ select:focus {
 		border-radius: 10px;
 		box-shadow: var(--shadow);
 	}
+
 	.required {
 		font-size: 1rem;
 	}
-.btn-group {
-	height: 3rem !important;
-}
+
+	.btn-group {
+		height: 3rem !important;
+	}
 }
