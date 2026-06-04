@@ -1,50 +1,97 @@
 @import url("global.css");
 
+:root {
+	--primary: #49135C;
+	--primary-md: #8C44A6;
+	--primary-light: #D8B4FE;
+	--bg-main: #F0F0F0;
+	--text-main: #1e293b;
+
+	--radius: 12px;
+	--shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+
+	--border-radius: 10px;
+
+	--fs-xs: 0.75rem;
+	--fs-sm: 0.875rem;
+	--fs-base: 1rem;
+	--fs-md: 1.125rem;
+	--fs-lg: 1.25rem;
+	--fs-xl: 1.5rem;
+	--fs-xxl: 1.75rem;
+}
 
 ._avatar-besar {
 	display: flex;
-	justify-content: center;
+	justify-content: space-around;
 	align-items: center;
 	padding: 0.5rem;
 	height: 4rem;
-	border-bottom: 2px solid black;
+	box-shadow: var(--shadow);
 }
 
 ._avatar-besar img {
-	filter: brightness(0);
+	color: var(--bg-main);
 }
 
 ._links {
 	display: flex;
 	flex-direction: column;
+	gap: 0.5rem;
+	padding: 0.5rem;
+}
+
+._links>a h4,
+._menu-bawah>a h4 {
+	margin-bottom: 0;
+	font-size: var(--fs-base);
+	color: var(--bg-main);
+	white-space: nowrap;
+	cursor: pointer;
+	border-radius: 14px;
+	transition: all 0.2s ease;
 }
 
 ._links>a,
 ._menu-bawah>a {
 	font-size: 18px;
-	padding: 1rem 1rem;
+	padding: 1rem 1rem !important;
 	text-decoration: none;
-	color: #000;
+	color: var(--text-main);
+	border-radius: var(--border-radius);
 	width: 100%;
 	gap: 0.5rem;
-	display: flex !important;
+	display: flex;
+	align-items: center;
+	font-weight: bold;
+	padding: 0.5rem 1.5rem;
+
 }
 
-._links>a:hover,
-._menu-bawah>a:hover {
-	background-color: #ddd;
+._links>a:not(.active):hover h4,
+._menu-bawah>a:hover h4 {
+	background-color: var(--primary-md);
 }
 
 ._links>a>i,
-._menu-bawah>a>i {
-	font-size: 1.5rem;
+._menu-bawah>a>i,
+.hamburger-icon {
+	font-size: var(--fs-md);
+	display: grid;
+	place-items: center;
+	cursor: pointer;
 }
 
 ._avatar-kecil {
 	height: 80%;
 	border-radius: 50%;
-	aspect-ratio: 1 / 1;
-	background-color: #000;
+	border: 2px solid var(--primary);
+	background-color: var(--primary);
+}
+
+._avatar-kecil img {
+	width: 100%;
+	height: 100%;
 }
 
 ._sidebar {
@@ -52,7 +99,8 @@
 	height: 100%;
 	display: flex;
 	flex-direction: column;
-	border-right: 2px solid black;
+	border-right: var(--border);
+	background-color: #49135C;
 	transition: 0.2s all ease;
 }
 
@@ -63,17 +111,18 @@ _.menu-atas {
 
 ._menu-bawah {
 	margin-top: auto !important;
-	background-color: #fff;
 }
 
 ._sidebar-moblie {
 	position: absolute;
 	width: 100%;
-	height: 100%;
-	background-color: #8c8c8c;
+	height: calc(100% - 7rem);
+	bottom: 0;
+	background-color: #49135C !important;
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
+	z-index: 10;
 }
 
 ._sidebar-moblie ._avatar-besar {
@@ -89,7 +138,8 @@ _.menu-atas {
 	left: -100%;
 	transition: all 0.2s ease;
 }
-._sidebar-moblie ._avatar-besar{
+
+._sidebar-moblie ._avatar-besar {
 	height: 7rem;
 }
 
@@ -116,8 +166,19 @@ _.menu-atas {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	padding: 0 1rem;
-	border-bottom: 2px solid black;
+	padding: 0 2rem;
+	background-color: var(--bg-main);
+}
+
+._navbar .title {
+	font-weight: bolder;
+	font-size: 3rem;
+	color: #49135C;
+}
+
+hr {
+	background-color: #F0F0F0;
+	height: 3px;
 }
 
 /* _navbar atas content */
@@ -131,7 +192,11 @@ _.menu-atas {
 	gap: 1rem;
 	overflow-y: auto;
 	/* align-items: center; */
-	background-color: #ffffff;
+	background-color: var(--bg-main);
+}
+
+._sidebar label {
+	cursor: pointer;
 }
 
 /* CONTENT */
@@ -158,14 +223,19 @@ body:has(#_mobile-sideBar:checked) ._sidebar-moblie {
 }
 
 /*  */
+._sidebar-moblie a i,
+._sidebar-moblie a h4 {
+	padding: 1rem;
+	font-size: 2rem;
+}
 
 @media screen and (min-width:1000px) {
 
-._sidebar-moblie ._avatar-besar {
+	._sidebar-moblie ._avatar-besar {
 		height: 3rem;
 	}
 
-	._workspace{
+	._workspace {
 		grid-template-rows: 4rem auto;
 	}
 
@@ -204,6 +274,11 @@ body:has(#_dekstop-sideBar:checked) ._sidebar-_dekstop ._menu-bawah a h4 {
 
 body:has(#_dekstop-sideBar:checked) ._sidebar-_dekstop ._links a,
 body:has(#_dekstop-sideBar:checked) ._sidebar-_dekstop ._menu-bawah a {
-	display: none;
 	justify-content: center;
+}
+
+._menu-bawah a h4 {
+	padding: 0.5rem 1.5rem;
+	border-radius: 14px;
+	transition: all 0.2s ease;
 }

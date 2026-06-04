@@ -1,0 +1,260 @@
+:root {
+	--primary: #49135C;
+	--primary-md: rgba(140, 68, 166, 0.5);
+	--primary-light: #D8B4FE;
+
+	--bg-main: #F0F0F0;
+	--text-main: #1e293b;
+
+	--orange-light: #FFF3E0;
+	--orange: #F57C00;
+
+	--blue-light: #E3F2FD;
+	--blue: #1976d2;
+
+	--choco-light: #FEF1E5;
+	--choco: #704116;
+
+	--green-light: #e8f5e9;
+	--green: #388e3c;
+
+	--radius: 12px;
+	--shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+
+	--border-radius: 10px;
+
+	--fs-xs: 0.75rem;
+	--fs-sm: 0.875rem;
+	--fs-base: 1rem;
+	--fs-md: 1.125rem;
+	--fs-lg: 1.25rem;
+	--fs-xl: 1.5rem;
+	--fs-xxl: 1.75rem;
+}
+._content-area {
+	width: 100%;
+	overflow-y: auto;
+}
+
+._content-area>section {
+	margin: 0 auto;
+	width: 95% !important;
+}
+
+.track-progress {
+	height: 50px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.track-progress article {
+	display: grid;
+	grid-template-columns: 0.5fr 1fr 0.5fr 1fr 0.5fr 1fr 0.5fr 1fr;
+	place-items: center;
+	gap: 0.5rem;
+}
+
+.track-progress article .dot {
+	width: 1rem;
+	height: 1rem;
+	background-color: var(--primary-light);
+	border-radius: 50%;
+	border: 2px solid black;
+}
+
+.track-progress article .desh {
+	width: 5rem;
+	height: 0.2rem;
+	background-color: var(--text-main);
+}
+
+.active {
+	background-color: var(--primary) !important;
+}
+
+.text-active {
+	font-weight: bolder;
+}
+
+.progress-container,
+.report-detail-container,
+.comment-container,
+.image-container,
+.contractor-container,
+.insert-image-container {
+	display: block;
+	height: auto;
+	width: 100%;
+	padding: 0.5rem;
+	display: flex;
+	flex-direction: column;
+	gap: 0.5rem;
+}
+
+.progress-container h4,
+.report-detail-container h4,
+.comment-container h4,
+.image-container h4,
+.contractor-container h4,
+.insert-image-container h4 {
+	margin-bottom: 1rem;
+	width: max-content;
+	color: var(--white);
+	border-radius: 7px;
+	font-weight: bolder;
+	padding: 1rem 1.5rem;
+	background-color: var(--primary);
+	font-size: var(--fs-base);
+}
+
+.progress-container>section,
+.report-detail-container>section,
+.comment-container>section,
+.image-container>section,
+.contractor-container>section,
+.insert-image-container {
+	background-color: var(--bg-main);
+	padding: 1rem;
+	border-radius: 14px;
+	border: 2px solid var(--primary);
+}
+
+.progress-container article {
+	display: flex;
+	justify-content: space-between;
+}
+
+.report-detail-container article,
+.comment-container article,
+.contractor-container article {
+	display: flex;
+	justify-content: end;
+}
+
+.input-control {
+	width: 100%;
+	margin: 0.5rem;
+}
+
+.input-control label {
+	font-size: var(--fs-base);
+}
+
+.input-control input,
+.input-control textarea,
+.input-control select {
+	width: 100%;
+	padding: 0.5rem;
+	border-radius: 5px;
+	outline: none;
+	border: 1px solid black;
+	box-shadow: var(--shadow);
+}
+
+.chat {
+	width: 100%;
+	height: auto;
+	display: flex;
+	flex-direction: column;
+	gap: 0.5rem;
+	margin: 2rem 0;
+}
+
+.me {
+	border-top-left-radius: 15px;
+	border-top-right-radius: 15px;
+	border-bottom-left-radius: 15px;
+	border: 2px solid var(--primary);
+	padding: 0.5rem;
+	box-shadow: var(--shadow);
+	text-align: end;
+}
+
+.other {
+	border-top-left-radius: 15px;
+	border-top-right-radius: 15px;
+	border-bottom-right-radius: 15px;
+	border: 2px solid var(--text-muted);
+	padding: 0.5rem;
+	box-shadow: var(--shadow);
+}
+
+.image {
+	height: auto;
+	width: 100%;
+	box-shadow: var(--shadow);
+	border: 1px solid var(--text-muted);
+}
+
+.image>img {
+	height: 100%;
+}
+
+.input-control {
+	margin: 1rem 0;
+	width: 100%;
+	height: auto;
+	display: flex;
+	flex-direction: column;
+	gap: 0.5rem;
+}
+
+.input-control input {
+	width: 100%;
+	padding: 0.5rem;
+	border-radius: 10px;
+	box-shadow: var(--shadow);
+}
+
+.input-control .image-area {
+	width: 100%;
+	height: 25rem;
+	background-color: var(--primary-light);
+	border-radius: 10px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border: 3px dashed var(--text-main);
+	position: relative;
+}
+
+.input-control .image-area article i {
+	display: flex;
+	justify-content: center;
+}
+
+.image-area i {
+	font-size: 5rem;
+}
+
+.hover {
+	background-color: var(--primary) !important;
+}
+
+.icon-hover {
+	color: var(--white) !important;
+}
+
+.btn-close {
+	width: 2rem;
+	height: 2rem;
+	top: 0;
+	right: 0;
+	position: absolute;
+	z-index: 50;
+	background-color: var(--danger);
+}
+
+@media screen and (min-width:1000px) {
+
+	.progress-container,
+	.report-detail-container,
+	.comment-container,
+	.image-container,
+	.contractor-container,
+	.insert-image-container {
+		width: 1000px;
+		margin: 0 auto;
+	}
+}
