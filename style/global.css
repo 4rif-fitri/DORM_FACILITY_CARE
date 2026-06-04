@@ -18,8 +18,21 @@ body {
 	--primary: #49135C;
 	--primary-md: rgba(140, 68, 166, 0.5);
 	--primary-light: #D8B4FE;
+
 	--bg-main: #F0F0F0;
 	--text-main: #1e293b;
+
+	--orange-light: #FFF3E0;
+	--orange: #F57C00;
+
+	--blue-light: #E3F2FD;
+	--blue: #1976d2;
+
+	--choco-light: #FEF1E5;
+	--choco: #704116;
+
+	--green-light: #e8f5e9;
+	--green: #388e3c;
 
 	--radius: 12px;
 	--shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
@@ -34,6 +47,7 @@ body {
 	--fs-xl: 1.5rem;
 	--fs-xxl: 1.75rem;
 }
+
 ._loading-container {
 	position: absolute;
 	z-index: 1000;
@@ -50,13 +64,14 @@ body {
 .title {
 	font-size: 2rem;
 }
+
 ._links a i,
 ._links a h4 {
 	color: var(--bg-main);
 	padding: 0.75rem 1.5rem;
 	border-radius: 14px;
 }
-._links a.active i,
+
 ._links a.active h4 {
 	background-color: var(--primary-md);
 }
@@ -69,6 +84,12 @@ img {
 	user-select: none;
 }
 
-h1,h2,h3,h4,h5,h6,p{
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
 	margin-bottom: 0;
 }

@@ -30,16 +30,7 @@
 
 			<div class="index-container">
 
-				<section class="left ">
-
-					<div class="headline">
-
-					</div>
-
-				</section>
-
 				<section class="right _dekstop">
-
 					<div>
 						<form action="" method="post">
 							<article>
@@ -67,6 +58,14 @@
 								<a href="./pages/college-admin/dashboard.html">college admin</a>
 							</div>
 						</form>
+					</div>
+
+				</section>
+
+				<section class="left ">
+
+					<div class="headline">
+
 					</div>
 
 				</section>
@@ -103,7 +102,7 @@
 					</div>
 
 					<div class="input-control">
-						<button type="submit" class="btn">Log in</button>
+						<button type="submit" class="btn btn-submit">Log in</button>
 					</div>
 					<div class="input-control">
 						<a href="./pages/user/dashboard.html">user</a>
@@ -137,15 +136,15 @@
 
 			let inputs = from.querySelectorAll("input")
 
-			for(let input of inputs){
-				if(input.value.trim() == ""){
+			for (let input of inputs) {
+				if (input.value.trim() == "") {
 					input.focus()
 					return
 				}
 			}
 
 
-			
+
 		})
 
 	</script>

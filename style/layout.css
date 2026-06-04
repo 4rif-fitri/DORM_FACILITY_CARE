@@ -13,19 +13,12 @@
 	--border-radius: 10px;
 
 	--fs-xs: 0.75rem;
-	/* Extra Small: Untuk teks paling kecil (error or note) */
 	--fs-sm: 0.875rem;
-	/* Small: Untuk teks kecil (contoh: tulisan hint 'e.g: A-1-2-B(2)') */
 	--fs-base: 1rem;
-	/* Base: Saiz default untuk teks biasa (label, input) */
 	--fs-md: 1.125rem;
-	/* Medium: Besar sikit dari biasa (button) */
 	--fs-lg: 1.25rem;
-	/* Large: Untuk tajuk kecil or sub-heading */
 	--fs-xl: 1.5rem;
-	/* Extra Large: Untuk tajuk sederhana besar (untuk tajuk) */
 	--fs-xxl: 1.75rem;
-	/* Extra Extra Large: Untuk tajuk utama paling besar dlm halaman */
 }
 
 ._avatar-besar {
@@ -55,6 +48,8 @@
 	color: var(--bg-main);
 	white-space: nowrap;
 	cursor: pointer;
+				border-radius: 14px;
+					transition: all 0.2s ease;
 }
 
 ._links>a,
@@ -69,6 +64,8 @@
 	display: flex;
 	align-items: center;
 	font-weight: bold;
+		padding: 0.5rem 1.5rem;
+
 }
 
 ._links>a:not(.active):hover h4,
@@ -119,7 +116,7 @@ _.menu-atas {
 	width: 100%;
 	height: calc(100% - 7rem);
 	bottom: 0;
-	background-color: #8c8c8c;
+	background-color: var(--primary) !important;
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
@@ -271,4 +268,9 @@ body:has(#_dekstop-sideBar:checked) ._sidebar-_dekstop ._menu-bawah a h4 {
 body:has(#_dekstop-sideBar:checked) ._sidebar-_dekstop ._links a,
 body:has(#_dekstop-sideBar:checked) ._sidebar-_dekstop ._menu-bawah a {
 	justify-content: center;
+}
+._menu-bawah a h4 {
+	padding: 0.5rem 1.5rem;
+	border-radius: 14px;
+	transition: all 0.2s ease;
 }
