@@ -94,23 +94,23 @@
 .contractor-container h4 {
 	margin-bottom: 1rem;
 	width: max-content;
-	color: var(--white);
+	color: var(--primary);
 	border-radius: 7px;
 	font-weight: bolder;
-	padding: 1rem 1.5rem;
-	background-color: var(--primary);
 	font-size: var(--fs-base);
+	font-weight: bolder;
+	font-size: var(--fs-xl);
 }
 
 .progress-container>section,
 .report-detail-container>section,
 .comment-container>section,
 .image-container>section,
-.contractor-container > section {
-	background-color: var(--bg-main);
+.contractor-container>section {
 	padding: 1rem;
 	border-radius: 14px;
-	border: 2px solid var(--primary);
+	background-color: white;
+	box-shadow: var(--shadow);
 }
 
 .progress-container article {
@@ -136,8 +136,7 @@
 
 .input-control input,
 .input-control textarea,
-.input-control select
-{
+.input-control select {
 	width: 100%;
 	padding: 0.5rem;
 	border-radius: 5px;

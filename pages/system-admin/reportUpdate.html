@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+	<link rel="shortcut icon" href="../../images/image.png" type="image/x-icon">
 	<meta charset="UTF-8">
 	<title>Dorm Facility Care</title>
 	<link rel="stylesheet" href="../../lib/bootstrap.css">
@@ -13,7 +14,8 @@
 	<script src="../../script/load-component.js"></script>
 
 	<!-- your styling -->
-	<link rel="stylesheet" href="../../style/pages/system-admin/reportUpdate.css">
+	<link rel="stylesheet" href="../../style/form.css">
+
 </head>
 
 <body>
@@ -25,7 +27,10 @@
 
 			<div class="progress-container">
 				<section>
-					<h4>Progress</h4>
+					<h4>
+						<img src="../../images/progres.svg" alt="">
+						Progress
+					</h4>
 					<div class="track-progress">
 						<div>
 
@@ -62,7 +67,10 @@
 			<div class="report-detail-container">
 
 				<section>
-					<h4>Report Detail</h4>
+					<h4>
+						<img src="../../images/report.svg" alt="">
+						Report Detail
+					</h4>
 					<div class="report-detail">
 
 						<div class="input-control">
@@ -93,7 +101,10 @@
 
 			<div class="comment-container">
 				<section>
-					<h4>Comment</h4>
+					<h4>
+						<img src="../../images/report.svg" alt="">
+						Comment
+					</h4>
 					<div class="chat">
 						<div class="other">
 							<p>USer</p>
@@ -120,7 +131,10 @@
 
 			<div class="contractor-container">
 				<section>
-					<h4>Contractor</h4>
+					<h4>
+						<img src="../../images/report.svg" alt="">
+						Contractor
+					</h4>
 
 					<div class="comment">
 						<div class="input-control">
@@ -146,7 +160,11 @@
 
 			<div class="image-container">
 				<section>
-					<h4>Report Image</h4>
+					<h4>
+						<img src="../../images/report.svg" alt="">
+						Report Image
+					</h4>
+
 
 					<div class="image">
 						<img src="../../images/LogoUTeM-5b80a51b.png" alt="">
@@ -173,7 +191,7 @@
 		let textEmailContractor = document.getElementById("emailContractor")
 		let textphoneContractor = document.getElementById("phoneContractor")
 		let textcTypeContractor = document.getElementById("cTypeContractor")
-		
+
 		let model = document.getElementById("model")
 		let myModal = new bootstrap.Modal(model)
 
@@ -181,7 +199,7 @@
 
 		let prew = url => {
 			// console.log(url);
-			document.querySelector(".modal-image").src = url 
+			document.querySelector(".modal-image").src = url
 			myModal.show()
 		}
 

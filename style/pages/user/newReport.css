@@ -34,7 +34,11 @@
 ._content-area {
 	padding: 2rem;
 }
-
+._content-area article h3{
+	font-weight: bolder;
+	color: var(--primary);
+	font-size: var(--fs-xxl);
+}
 p {
 	margin-bottom: 0;
 	font-size: 1rem;
@@ -68,9 +72,12 @@ form>section {
 .input-control textarea {
 	width: 100%;
 	padding: 1rem;
-	border-radius: 10px;
+	border-radius: 4px;
 	box-shadow: var(--shadow);
+	outline: none;
+	border: 1px solid var(--primary-md);
 }
+
 
 .col-3 {
 	display: grid;
