@@ -159,9 +159,16 @@ article {
 .input-control .btn {
 	padding: .7rem;
 	margin-top: 1rem;
-	color: var(--white);
+	color: white;
 	background-color: var(--primary);
 	border-radius: 14px;
+	outline: none;
+	border: none;
+	transition: all 0.3s ease;
+}
+
+.input-control .btn:hover{
+	background-color: var(--primary-md);
 }
 
 .input-control input:focus {
@@ -182,6 +189,15 @@ article {
 
 ._btn-login{
 	background-color: var(--bg-main);
+}
+._btn-login._mobile{
+	transition: all 0.3s ease;
+	border: 2px solid var(--primary);
+}
+._btn-login._mobile:hover{
+	background-color: var(--primary);
+	border: 2px solid white;
+	color: #fff;
 }
 
 ._mobile {
