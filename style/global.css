@@ -62,7 +62,13 @@ body {
 }
 
 .title {
-	font-size: 2rem;
+	font-size: 2rem !important;
+}
+
+@media screen and (min-width:1000px) {
+	.title {
+		font-size: 3rem !important;
+	}
 }
 
 ._links a i,
