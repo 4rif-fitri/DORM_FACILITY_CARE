@@ -2,6 +2,8 @@
 <html lang="en">
 
 <head>
+	<link rel="shortcut icon" href="../../images/image.png" type="image/x-icon">
+
 	<meta charset="UTF-8">
 	<title>Dorm Facility Care</title>
 	<link rel="stylesheet" href="../../lib/bootstrap.css">
@@ -13,7 +15,7 @@
 	<script src="../../script/load-component.js"></script>
 
 	<!-- your styling -->
-	<link rel="stylesheet" href="../../style/pages/contractor/updateTasks.css">
+	<link rel="stylesheet" href="../../style/form.css">
 </head>
 
 <body>
@@ -27,7 +29,10 @@
 
 				<div class="progress-container">
 					<section>
-						<h4>Progress</h4>
+						<h4>
+							<img src="../../images/progres.svg" alt="">
+							Progress
+						</h4>
 						<div class="track-progress">
 							<div>
 
@@ -36,7 +41,7 @@
 									<div class="desh"></div>
 									<div class="dot active"></div>
 									<div class="desh"></div>
-									<div class="dot "></div>
+									<div class="dot active"></div>
 									<div class="desh"></div>
 									<div class="dot"></div>
 								</article>
@@ -45,7 +50,7 @@
 									<p></p>
 									<p class="text-active">Review</p>
 									<p></p>
-									<p>Repair</p>
+									<p class="text-active">Repair</p>
 									<p></p>
 									<p>Done</p>
 								</article>
@@ -54,8 +59,9 @@
 						</div>
 
 						<article>
-							<button class="btn btn-secondary">Back</button>
-							<button class="btn btn-success">Done</button>
+							<span></span>
+							<button data-bs-target="#model-mark" data-bs-toggle="modal"
+								class="btn btn-success">Done</button>
 						</article>
 					</section>
 
@@ -64,27 +70,31 @@
 				<div class="report-detail-container">
 
 					<section>
-						<h4>Report Detail</h4>
+						<h4>
+							<img src="../../images/report.svg" alt="">
+							Report Detail
+						</h4>
 						<div class="report-detail">
 
 							<div class="input-control">
 								<label for="catagory">Catagory</label>
-								<input readonly type="text" name="catagory" id="catagory">
+								<input readonly type="text" name="catagory" id="catagory" value="Wifi">
 							</div>
 
 							<div class="input-control">
 								<label for="description">Description</label>
-								<textarea readonly type="text" name="description" id="description"></textarea>
+								<textarea rows="10" readonly type="text" name="description" id="description">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quaerat eveniet, cupiditate quis odit ipsum eum quae enim sequi veritatis non ratione? Quia veniam nulla nisi illum accusantium voluptates ducimus laboriosam.
+										</textarea>
 							</div>
 
 							<div class="input-control">
 								<label for="college">College</label>
-								<input readonly type="text" name="college" id="college">
+								<input readonly type="text" name="college" id="college" value="Al Jazari">
 							</div>
 
 							<div class="input-control">
 								<label for="room">Room</label>
-								<input readonly type="text" name="room" id="room">
+								<input readonly type="text" name="room" id="room" value="B-4-5-B(2)">
 							</div>
 						</div>
 
@@ -94,7 +104,10 @@
 
 				<div class="comment-container">
 					<section>
-						<h4>Comment</h4>
+						<h4>
+							<img src="../../images/report.svg" alt="">
+							Comment
+						</h4>
 						<div class="chat">
 							<div class="other">
 								<p>USer</p>
@@ -119,28 +132,12 @@
 					</section>
 				</div>
 
-				<div class="insert-image-container">
-					<div class="input-control">						
-						<label for="image" class="required"><h4>Upload Image</h4></label>
-						<input hidden type="file" accept="image/*" name="image" id="image">
-						<label for="image" class="image-area">
-							<button type="button" class="btn btn-close hidden"></button>
-	
-							<article>
-								<i class="fa-solid fa-file-arrow-up"></i>
-								<h5 class="text-drop">Click or Drop Image Here!</h5>
-							</article>
-	
-						</label>
-						<p class="hidden name-file">asd.png</p>
-	
-					</div>
-				</div>
-
-
 				<div class="image-container">
 					<section>
-						<h4>Report Image</h4>
+						<h4>
+							<img src="../../images/report.svg" alt="">
+							Report Image
+						</h4>
 
 						<div class="image">
 							<img src="../../images/LogoUTeM-5b80a51b.png" alt="">
@@ -152,12 +149,180 @@
 
 		</main>
 		<!-- CONTENT HERE -->
-
 	</section>
+
+	<div class="modal fade" id="model-mark">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+				<form action="">
+					<div class="modal-header">
+						<h4>
+							<img src="../../images/report.svg" alt="">
+							Close Report
+						</h4>
+					</div>
+					<div class="modal-body">
+						<div class="input-control">
+							<label for="message">
+								<h4>Message</h4>
+							</label>
+							<input placeholder="Short Message Before Report End" type="text" name="message"
+								id="message">
+						</div>
+						<div class="input-control">
+							<label for="image" class="required">
+								<h4>
+									Upload Image
+								</h4>
+							</label>
+							<input hidden type="file" accept="image/*" name="image" id="image">
+							<label for="image" class="image-area">
+								<button type="button" class="btn btn-close hidden"></button>
+
+								<article>
+									<i class="fa-solid fa-file-arrow-up"></i>
+									<h5 class="text-drop">Click or Drop Image Here!</h5>
+								</article>
+
+							</label>
+							<p class="hidden name-file">asd.png</p>
+
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" data-bs-dismiss="modal" class="btn btn-danger">
+							Clear
+						</button>
+
+						<button type="submit" class="btn btn-success">
+							Add
+						</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade" id="model">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+				<img class="modal-image" src="" alt="">
+			</div>
+		</div>
+	</div>
 
 	<!-- your script -->
 	<script>
+		let inputImg = document.getElementById("image");
+		let imageArea = document.querySelector(".image-area");
+		let btnClose = document.querySelector(".btn-close");
+		let nameFile = document.querySelector(".name-file");
+		let imageAreaIcon = document.querySelector(".image-area i");
+		let textDrop = document.querySelector(".text-drop")
+		let currentUrl = null;
 
+		let model = document.getElementById("model")
+		let myModal = new bootstrap.Modal(model)
+		let images = document.querySelectorAll(".image img")
+
+		let prew = url => {
+			// console.log(url);
+			document.querySelector(".modal-image").src = url
+			myModal.show()
+		}
+
+		images.forEach(image => image.addEventListener("click", e => prew(e.target.src)));
+
+		function addPhoto(file) {
+			if (!file) return;
+			console.log(file);
+
+			if (currentUrl) {
+				URL.revokeObjectURL(currentUrl);
+			}
+
+			currentUrl = URL.createObjectURL(file);
+
+			imageArea.style.backgroundImage = `url(${currentUrl})`;
+			imageArea.style.backgroundSize = "cover";
+			imageArea.style.backgroundPosition = "center";
+
+			nameFile.textContent = file.name;
+			textDrop.classList.add("hidden");
+			imageAreaIcon.classList.add("hidden");
+			nameFile.classList.remove("hidden");
+			btnClose.classList.remove("hidden");
+		}
+
+		function removePhoto() {
+			if (currentUrl) {
+				URL.revokeObjectURL(currentUrl);
+				currentUrl = null;
+			}
+
+			imageArea.style.backgroundImage = "";
+
+			textDrop.classList.remove("hidden");
+			imageAreaIcon.classList.remove("hidden");
+			nameFile.classList.add("hidden");
+			btnClose.classList.add("hidden");
+
+			nameFile.textContent = "";
+
+			inputImg.value = "";
+		}
+
+		btnClose.addEventListener("click", e => {
+			e.preventDefault();
+			e.stopPropagation();
+
+			removePhoto();
+		});
+
+		inputImg.addEventListener("change", e => {
+			const file = e.target.files[0];
+
+			if (!file) return;
+
+			addPhoto(file);
+		});
+		["dragover", "dragenter"].forEach(event => {
+			imageArea.addEventListener(event, e => {
+				e.preventDefault();
+
+				imageArea.classList.add("hover");
+				imageAreaIcon.classList.add("icon-hover");
+			})
+		});
+		["dragleave"].forEach(event => {
+			imageArea.addEventListener(event, e => {
+				e.preventDefault();
+
+				imageArea.classList.remove("hover");
+				imageAreaIcon.classList.remove("icon-hover");
+			});
+		});
+		imageArea.addEventListener("drop", e => {
+			e.preventDefault();
+
+			imageArea.classList.remove("hover");
+			imageAreaIcon.classList.remove("icon-hover");
+
+			let file = e.dataTransfer.files[0];
+
+			if (!file) return;
+
+			if (!file.type.startsWith("image/")) {
+				alert("Please upload image files only.");
+				return;
+			}
+
+			let dt = new DataTransfer();
+			dt.items.add(file);
+			inputImg.files = dt.files;
+
+			addPhoto(file);
+		});
 	</script>
 
 

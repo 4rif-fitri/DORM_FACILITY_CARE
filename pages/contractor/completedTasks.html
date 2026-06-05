@@ -2,6 +2,8 @@
 <html lang="en">
 
 <head>
+	<link rel="shortcut icon" href="../../images/image.png" type="image/x-icon">
+
 	<meta charset="UTF-8">
 	<title>Dorm Facility Care</title>
 	<link rel="stylesheet" href="../../lib/bootstrap.css">
@@ -13,7 +15,7 @@
 	<script src="../../script/load-component.js"></script>
 
 	<!-- your styling -->
-	<link rel="stylesheet" href="../../style/pages/contractor/completedTasks.css">
+	<link rel="stylesheet" href="../../style/reportDisplay.css">
 </head>
 
 <body>
@@ -22,44 +24,46 @@
 
 		<!-- CONTENT HERE -->
 		<main class="_content-area">
-			<nav id="filter-box">
-				<a href="" class="filterBtn">all</a>
+			<nav class="filter-box">
+				<!-- <a href="" class="filterBtn">all</a>
 				<a href="" class="filterBtn">canceled</a>
 				<a href="" class="filterBtn">pending</a>
 				<a href="" class="filterBtn">assigned</a>
 				<a href="" class="filterBtn">in progress</a>
-				<a href="" class="filterBtn">completed</a>
+				<a href="" class="filterBtn">completed</a> -->
 			</nav>
 
-			<section id="table-container">
-				<table id="myReportTbl">
-					<tr>
-						<th>Id</th>
-						<th>Category</th>
-						<th>Location</th>
-						<th>Date</th>
-						<th>Status</th>
-						<th>Edit</th>
-					</tr>
-					
-					
-					<tr>
-						<td>067</td>
-						<td>No wifi</td>
-						<td>Al-Jazari A-5-4-B-(2)</td>
-						<td>28/5/2026</td>
-						<td>Completed</td>
-						<td><a href="" class="updateBtn">Update</a></td>
-					</tr>
+			<section class="table-container">
+				<table class="myReportTbl">
+					<thead>
+						<tr>
+							<th>Id</th>
+							<th>Category</th>
+							<th>Location</th>
+							<th>Date</th>
+							<th>Status</th>
+						</tr>
+					</thead>
 
-					<tr>
-						<td>067</td>
-						<td>No wifi</td>
-						<td>Al-Jazari A-5-4-B-(1)</td>
-						<td>28/5/2026</td>
-						<td>Completed</td>
-						<td><a href="" class="updateBtn">Update</a></td>
-					</tr>
+					<tbody>
+						<tr>
+							<td>067</td>
+							<td>No wifi</td>
+							<td>Al-Jazari A-5-4-B-(2)</td>
+							<td>28/5/2026</td>
+							<td>Completed</td>
+						</tr>
+
+						<tr>
+							<td>067</td>
+							<td>No wifi</td>
+							<td>Al-Jazari A-5-4-B-(1)</td>
+							<td>28/5/2026</td>
+							<td>Completed</td>
+						</tr>
+					</tbody>
+
+
 				</table>
 			</section>
 

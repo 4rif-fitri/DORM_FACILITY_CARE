@@ -1,62 +1,29 @@
 @import url("global.css");
 
 :root {
-	/* color */
-	--primary-dark: #6d28d9;
-	--primary: #7c3aed;
-	--primary-hover: rgba(124, 58, 237, 0.2);
-	--primary-light: #f5f3ff;
-
-	/* bg color */
-	--bg-main: #f8fafc;
-	--white: #ffffff;
-
-	/* text color */
+	--primary: #49135C;
+	--primary-md: #8C44A6;
+	--primary-light: #D8B4FE;
+	--bg-main: #F0F0F0;
 	--text-main: #1e293b;
-	--text-muted: #64748b;
-
-	--border-color: #e2e8f0;
 
 	--radius: 12px;
-	--shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
-
-	/* success color */
-	--success: #16a34a;
-	--success-hover: #15803d;
-	--success-light: #f0fdf4;
-
-	/* warning color */
-	--warning: #d97706;
-	--warning-hover: #b45309;
-	--warning-light: #fffbeb;
-
-	/* danger color */
-	--danger: #dc2626;
-	--danger-hover: #b91c1c;
-	--danger-light: #fef2f2;
-	--border: 1px solid #e2e8f0;
+	--shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
 
 	--border-radius: 10px;
 
 	--fs-xs: 0.75rem;
-	/* Extra Small: Untuk teks paling kecil (error or note) */
 	--fs-sm: 0.875rem;
-	/* Small: Untuk teks kecil (contoh: tulisan hint 'e.g: A-1-2-B(2)') */
 	--fs-base: 1rem;
-	/* Base: Saiz default untuk teks biasa (label, input) */
 	--fs-md: 1.125rem;
-	/* Medium: Besar sikit dari biasa (button) */
 	--fs-lg: 1.25rem;
-	/* Large: Untuk tajuk kecil or sub-heading */
 	--fs-xl: 1.5rem;
-	/* Extra Large: Untuk tajuk sederhana besar (untuk tajuk) */
 	--fs-xxl: 1.75rem;
-	/* Extra Extra Large: Untuk tajuk utama paling besar dlm halaman */
 }
 
 ._avatar-besar {
 	display: flex;
-	justify-content: center;
+	justify-content: space-around;
 	align-items: center;
 	padding: 0.5rem;
 	height: 4rem;
@@ -64,7 +31,7 @@
 }
 
 ._avatar-besar img {
-	filter: brightness(0);
+	color: var(--bg-main);
 }
 
 ._links {
@@ -78,30 +45,35 @@
 ._menu-bawah>a h4 {
 	margin-bottom: 0;
 	font-size: var(--fs-base);
+	color: var(--bg-main);
 	white-space: nowrap;
-}
-
-._menu-bawah>a h4,
-._menu-bawah>a i {
-	color: var(--danger);
+	cursor: pointer;
+	border-radius: 14px;
+	transition: all 0.2s ease;
 }
 
 ._links>a,
 ._menu-bawah>a {
 	font-size: 18px;
-	padding: 1rem 1rem;
+	padding: 1rem 1rem !important;
 	text-decoration: none;
 	color: var(--text-main);
 	border-radius: var(--border-radius);
 	width: 100%;
 	gap: 0.5rem;
-	display: flex !important;
+	display: flex;
+	align-items: center;
+	font-weight: bold;
+	padding: 0.5rem 1.5rem;
 }
 
-._links>a:not(.active):hover,
-._menu-bawah>a:hover {
-	background-color: var(--primary-hover);
-	color: var(--primary);
+._sidebar a h4 {
+	flex: 1;
+}
+
+._links>a:not(.active):hover h4,
+._menu-bawah>a:hover h4 {
+	background-color: var(--primary-md);
 }
 
 ._links>a>i,
@@ -113,12 +85,16 @@
 	cursor: pointer;
 }
 
-
 ._avatar-kecil {
 	height: 80%;
 	border-radius: 50%;
-	aspect-ratio: 1 / 1;
-	background-color: #000;
+	border: 2px solid var(--primary);
+	background-color: var(--primary);
+}
+
+._avatar-kecil img {
+	width: 100%;
+	height: 100%;
 }
 
 ._sidebar {
@@ -127,7 +103,7 @@
 	display: flex;
 	flex-direction: column;
 	border-right: var(--border);
-	background-color: var(--primary-light);
+	background-color: #49135C;
 	transition: 0.2s all ease;
 }
 
@@ -138,7 +114,6 @@ _.menu-atas {
 
 ._menu-bawah {
 	margin-top: auto !important;
-	border-top: var(--border);
 }
 
 ._sidebar-moblie {
@@ -146,7 +121,7 @@ _.menu-atas {
 	width: 100%;
 	height: calc(100% - 7rem);
 	bottom: 0;
-	background-color: #8c8c8c;
+	background-color: #49135C !important;
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
@@ -173,7 +148,7 @@ _.menu-atas {
 
 ._sidebar-moblie a {
 	margin: 0.5rem auto;
-	width: 80%;
+	width: 100%;
 	display: flex;
 	justify-content: center;
 }
@@ -194,10 +169,19 @@ _.menu-atas {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	padding: 0 1rem;
-	border-bottom: var(--border);
-	box-shadow: var(--shadow);
-	background-color: var(--primary-light);
+	padding: 0 2rem;
+	background-color: var(--bg-main);
+}
+
+._navbar .title {
+	font-weight: bolder;
+	font-size: 3rem;
+	color: #49135C;
+}
+
+hr {
+	background-color: #F0F0F0;
+	height: 3px;
 }
 
 /* _navbar atas content */
@@ -212,6 +196,10 @@ _.menu-atas {
 	overflow-y: auto;
 	/* align-items: center; */
 	background-color: var(--bg-main);
+}
+
+._sidebar label {
+	cursor: pointer;
 }
 
 /* CONTENT */
@@ -239,11 +227,11 @@ body:has(#_mobile-sideBar:checked) ._sidebar-moblie {
 
 /*  */
 ._sidebar-moblie a i,
-._sidebar-moblie a h4
-{
+._sidebar-moblie a h4 {
 	padding: 1rem;
 	font-size: 2rem;
 }
+
 @media screen and (min-width:1000px) {
 
 	._sidebar-moblie ._avatar-besar {
@@ -266,6 +254,7 @@ body:has(#_mobile-sideBar:checked) ._sidebar-moblie {
 
 	._sidebar-_dekstop {
 		display: flex !important;
+		transition: all 0.3s ease;
 	}
 
 	/* show n hide */
@@ -289,6 +278,11 @@ body:has(#_dekstop-sideBar:checked) ._sidebar-_dekstop ._menu-bawah a h4 {
 
 body:has(#_dekstop-sideBar:checked) ._sidebar-_dekstop ._links a,
 body:has(#_dekstop-sideBar:checked) ._sidebar-_dekstop ._menu-bawah a {
-	display: none;
 	justify-content: center;
+}
+
+._menu-bawah a h4 {
+	padding: 0.5rem 1.5rem;
+	border-radius: 14px;
+	transition: all 0.2s ease;
 }

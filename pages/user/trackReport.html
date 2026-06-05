@@ -2,12 +2,13 @@
 <html lang="en">
 
 <head>
+	<link rel="shortcut icon" href="../../images/image.png" type="image/x-icon">
+
 	<meta charset="UTF-8">
 	<title>Dorm Facility Care</title>
 	<link rel="stylesheet" href="../../lib/bootstrap.css">
 	<script src="../../lib/bootstrap.js"></script>
 	<link rel="stylesheet" href="../../style/layout.css">
-
 
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 	<script src="../../lib/jquery.js"></script>
@@ -27,7 +28,10 @@
 
 			<div class="progress-container">
 				<section>
-					<h4>Progress</h4>
+					<h4>
+						<img src="../../images/progres.svg" alt="">
+						Progress
+					</h4>
 					<div class="track-progress">
 						<div>
 
@@ -58,7 +62,10 @@
 			<div class="report-detail-container">
 
 				<section>
-					<h4>Report Detail</h4>
+					<h4>
+						<img src="../../images/report.svg" alt="">
+						Report Detail
+					</h4>
 					<div class="report-detail">
 
 						<div class="input-control">
@@ -88,11 +95,15 @@
 
 			<div class="comment-container">
 				<section>
-					<h4>Comment</h4>
+					<h4>
+						<img src="../../images/report.svg" alt="">
+						Comment
+					</h4>
 					<div class="chat">
 						<div class="me">
 							<p>Me</p>
-							Mana Wifi Lorem, ipsum dolor sit amet consectetur adipisicing elit. Recusandae, dolorum.
+							Mana Wifi Lorem, ipsum dolor sit amet consectetur adipisicing elit. Recusandae,
+							dolorum.
 						</div>
 						<div class="other">
 							<p>Admin</p>
@@ -102,7 +113,9 @@
 
 					<div class="comment">
 						<div class="input-control">
-							<label for="description">Comment</label>
+							<label for="description">
+								Comment
+							</label>
 							<textarea type="text" name="description" id="comment-description"></textarea>
 						</div>
 					</div>
@@ -115,7 +128,10 @@
 
 			<div class="image-container">
 				<section>
-					<h4>Report Image</h4>
+					<h4>
+						<img src="../../images/report.svg" alt="">
+						Report Image
+					</h4>
 
 					<div class="image">
 						<img src="../../images/LogoUTeM-5b80a51b.png" alt="">
@@ -130,15 +146,16 @@
 
 	<!-- your script -->
 	<script>
-		$("#btn_submit-comment").click( ()=>{
+		$("#btn_submit-comment").click(() => {
 			let desc = $("#comment-description").val();
 			$(".chat").append('<div class="me"><p>Me</p>' + desc + '</div>');
 			$("#comment-description").val("");
 		});
 	</script>
-	
 
-	<input type="checkbox" hidden style="position: absolute; z-index: 10;" name="_dekstop-sideBar"id="_dekstop-sideBar">
+
+	<input type="checkbox" hidden style="position: absolute; z-index: 10;" name="_dekstop-sideBar"
+		id="_dekstop-sideBar">
 	<input type="checkbox" hidden style="position: absolute;" name="_mobile-sideBar" id="_mobile-sideBar">
 	<input type="text" name="role" id="role" hidden value="USER">
 	<input type="text" name="title" id="title" hidden value="Track Report">
