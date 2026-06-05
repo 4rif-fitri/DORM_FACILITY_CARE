@@ -78,6 +78,9 @@ form>section {
 	border: 1px solid var(--primary-md);
 }
 
+.input-control select:disabled{
+	opacity: 0.5;
+}
 
 .col-3 {
 	display: grid;
