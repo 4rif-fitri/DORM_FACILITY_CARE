@@ -33,36 +33,15 @@
 				</div>
 				<div class="profile-header">
 					<h2 class="profile-name">Name</h2>
-					<button onclick="hidContent()"class="btn btn-primary">Edit Profile</button>
+					<button class="btn btn-primary">Edit Profile</button>
 				</div>
 				<div class="profile-info">
-					<p class ="info-line" id="email-info">email@example.com</p>
-					<p class ="info-line" id="phone-info">123-456-7890</p>
-					<p class ="info-line" id="role-info">USER</p>
+					<p class="info-line">email@example.com</p>
+					<p class="info-line">123-456-7890</p>
+					<p class="info-line">USER</p>
 				</div>
 			</div>
 
-		</main>
-		<main class ="_edit-form" style="display: none;">
-			<div class="edit-card">
-				<h2>Edit Profile</h2>
-				<form>
-					<div class="mb-3">
-						<label for="photo" class="form-label">Avatar</label>
-						<input type="file" class="form-control" id="photo">
-					</div>
-					<div class="mb-3">
-						<label for="email" class="form-label">Email</label>
-						<input type="email" class="form-control" id="email" placeholder="Enter your email">
-					</div>
-					<div class="mb-3">
-						<label for="phone" class="form-label">Phone Number</label>
-						<input type="text" class="form-control" id="phone" placeholder="Enter your phone number">
-					</div>
-					<button type="button" onclick="cancelChange()" class="btn btn-secondary">Cancel</button>
-					<button type="button" onclick="saveChanges()" class="btn btn-success">Save Changes</button>
-				</form>
-			</div>
 		</main>
 		<!-- CONTENT HERE -->
 
@@ -70,79 +49,6 @@
 
 	<!-- your script -->
 	<script>
-		function hidContent(){
-			$("#email").val($("#email-info").text());
-			$("#phone").val($("#phone-info").text());
-
-			$("._content-area").hide();
-			$("._edit-form").show();
-		}
-
-		let avatarUrl = null;
-		function saveChanges() {
-			const file = $("#photo")[0].files[0];
-			const email = $("#email").val();
-			const phone = $("#phone").val();
-
-			$("#email-info").text(email);
-			$("#phone-info").text(phone);
-
-			sessionStorage.setItem("email", email);
-			sessionStorage.setItem("phone", phone);
-
-			if (file) {
-				const reader = new FileReader();
-
-				reader.onload = function(e) {
-					const imageData = e.target.result;
-
-					$("#profile-avatar").html(`
-						<img
-							src="${imageData}"
-							alt="Avatar"
-							style="width:100%;height:100%;object-fit:cover;border-radius:50%;"
-						>
-					`);
-
-					sessionStorage.setItem("avatar", imageData);
-				};
-
-				reader.readAsDataURL(file);
-			}
-
-			$("._edit-form").hide();
-			$("._content-area").show();
-		}
-		$(document).ready(function() {
-
-			const email = sessionStorage.getItem("email");
-			const phone = sessionStorage.getItem("phone");
-			const avatar = sessionStorage.getItem("avatar");
-
-			if (email) {
-				$("#email-info").text(email);
-			}
-
-			if (phone) {
-				$("#phone-info").text(phone);
-			}
-
-			if (avatar) {
-				$("#profile-avatar").html(`
-					<img
-						src="${avatar}"
-						alt="Avatar"
-						style="width:100%;height:100%;object-fit:cover;border-radius:50%;"
-					>
-				`);
-			}
-
-		});
-
-		function cancelChange(){
-			$("._edit-form").hide();
-    		$("._content-area").show();
-		}
 
 	</script>
 
