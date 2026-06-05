@@ -139,13 +139,13 @@ a{
     margin: 10px 0px;
 } */
 
-.trackingReportTbl tr:not(:first-child){
+/* .trackingReportTbl tr:not(:first-child){
     cursor: pointer;
 }
 
 .trackingReportTbl tr:not(:first-child):hover td{
     background-color: #f0e9ff;
-}
+} */
 
 .updateBtn{
     background-color: var(--primary);
