@@ -30,8 +30,9 @@
 				<div class="progress-container">
 					<section>
 						<h4>
-						<img src="../../images/progres.svg" alt="">
-							Progress</h4>
+							<img src="../../images/progres.svg" alt="">
+							Progress
+						</h4>
 						<div class="track-progress">
 							<div>
 
@@ -58,8 +59,9 @@
 						</div>
 
 						<article>
-							<button class="btn btn-secondary">Back</button>
-							<button class="btn btn-success">Done</button>
+							<span></span>
+							<button data-bs-target="#model-mark" data-bs-toggle="modal"
+								class="btn btn-success">Done</button>
 						</article>
 					</section>
 
@@ -69,8 +71,9 @@
 
 					<section>
 						<h4>
-						<img src="../../images/report.svg" alt="">
-							Report Detail</h4>
+							<img src="../../images/report.svg" alt="">
+							Report Detail
+						</h4>
 						<div class="report-detail">
 
 							<div class="input-control">
@@ -102,8 +105,9 @@
 				<div class="comment-container">
 					<section>
 						<h4>
-						<img src="../../images/report.svg" alt="">
-							Comment</h4>
+							<img src="../../images/report.svg" alt="">
+							Comment
+						</h4>
 						<div class="chat">
 							<div class="other">
 								<p>USer</p>
@@ -128,34 +132,12 @@
 					</section>
 				</div>
 
-				<div class="insert-image-container">
-					<div class="input-control">
-						<label for="image" class="required">
-							<h4>
-						<img src="../../images/report.svg" alt="">
-								Upload Image</h4>
-						</label>
-						<input hidden type="file" accept="image/*" name="image" id="image">
-						<label for="image" class="image-area">
-							<button type="button" class="btn btn-close hidden"></button>
-
-							<article>
-								<i class="fa-solid fa-file-arrow-up"></i>
-								<h5 class="text-drop">Click or Drop Image Here!</h5>
-							</article>
-
-						</label>
-						<p class="hidden name-file">asd.png</p>
-
-					</div>
-				</div>
-
-
 				<div class="image-container">
 					<section>
 						<h4>
-						<img src="../../images/report.svg" alt="">
-							Report Image</h4>
+							<img src="../../images/report.svg" alt="">
+							Report Image
+						</h4>
 
 						<div class="image">
 							<img src="../../images/LogoUTeM-5b80a51b.png" alt="">
@@ -168,6 +150,58 @@
 		</main>
 		<!-- CONTENT HERE -->
 	</section>
+
+	<div class="modal fade" id="model-mark">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+				<form action="">
+					<div class="modal-header">
+						<h4>
+							<img src="../../images/report.svg" alt="">
+							Close Report
+						</h4>
+					</div>
+					<div class="modal-body">
+						<div class="input-control">
+							<label for="message">
+								<h4>Message</h4>
+							</label>
+							<input placeholder="Short Message Before Report End" type="text" name="message"
+								id="message">
+						</div>
+						<div class="input-control">
+							<label for="image" class="required">
+								<h4>
+									Upload Image
+								</h4>
+							</label>
+							<input hidden type="file" accept="image/*" name="image" id="image">
+							<label for="image" class="image-area">
+								<button type="button" class="btn btn-close hidden"></button>
+
+								<article>
+									<i class="fa-solid fa-file-arrow-up"></i>
+									<h5 class="text-drop">Click or Drop Image Here!</h5>
+								</article>
+
+							</label>
+							<p class="hidden name-file">asd.png</p>
+
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" data-bs-dismiss="modal" class="btn btn-danger">
+							Clear
+						</button>
+
+						<button type="submit" class="btn btn-success">
+							Add
+						</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
 
 	<div class="modal fade" id="model">
 		<div class="modal-dialog modal-dialog-centered">
