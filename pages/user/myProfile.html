@@ -72,20 +72,39 @@
 				<form>
 					<div class="mb-3">
 						<label for="current-password" class="form-label">Current Password</label>
-						<input type="password" class="form-control" id="current-password" placeholder="Enter current password">
+						<input type="password" class="form-control" id="current-password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" required">
+						<input type="checkbox" id="show-password" class="form-check-input" style="margin-top: 10px;">
+						<label for="show-password" class="form-check-label">Show Password</label>
+						<p id="password-error" class="text-danger"></p>
 					</div>
 					<div class="mb-3">
 						<label for="new-password" class="form-label">New Password</label>
 						<input type="password" class="form-control" id="new-password" placeholder="Enter new password">
+						<input type="checkbox" id="show-new-password" class="form-check-input" style="margin-top: 10px;">
+						<label for="show-new-password" class="form-check-label">Show Password</label>
+						<p id="new-password-error" class="text-danger"></p>
 					</div>
 					<div class="mb-3">
 						<label for="confirm-password" class="form-label">Confirm New Password</label>
 						<input type="password" class="form-control" id="confirm-password" placeholder="Confirm new password">
+						<input type="checkbox" id="show-confirm-password" class="form-check-input" style="margin-top: 10px;">
+						<label for="show-confirm-password" class="form-check-label">Show Password</label>
+						<p id="confirm-password-error" class="text-danger"></p>
 					</div>
 					<button type="button" onclick="cancelChangePass()" class="btn btn-secondary">Cancel</button>
 					<button type="button" onclick="saveChangesPass()" class="btn btn-success">Save Changes</button>
 				</form>
+				<div id="password-requirements" style="margin-top: 20px;">
+					<h5>New password must contain the following:</h5>
+					<ul>
+						<li id="password-length">At least 8 characters long</li>
+						<li id="password-uppercase">Contains at least one uppercase letter</li>
+						<li id="password-lowercase">Contains at least one lowercase letter</li>
+						<li id="password-number">Contains at least one number</li>
+					</ul>
+				</div>
 			</div>
+		</main>
 		<!-- CONTENT HERE -->
 
 	</section>
@@ -107,19 +126,66 @@
 			$("._edit-password-form").hide();
 			$("._edit-form").show();
 		}
-		function saveChangesPass(){
+
+		var passLength = $("#password-length");
+		var passUpper = $("#password-uppercase");
+		var passLower = $("#password-lowercase");
+		var passNumber = $("#password-number");
+		$("#new-password").on("input", function() {
+			var password = $(this).val();
+
+			if (password.length >= 8) {
+				passLength.css("color", "green");
+			} else {
+				passLength.css("color", "red");
+			}
+
+			if (/[A-Z]/.test(password)) {
+				passUpper.css("color", "green");
+			} else {
+				passUpper.css("color", "red");
+			}
+
+			if (/[a-z]/.test(password)) {
+				passLower.css("color", "green");
+			} else {
+				passLower.css("color", "red");
+			}
+
+			if (/\d/.test(password)) {
+				passNumber.css("color", "green");
+			} else {
+				passNumber.css("color", "red");
+			}
+		});
+
+		function saveChangesPass() {
 			const currentPassword = $("#current-password").val();
-			const newPassword = $("#new-password").val();	
+			const newPassword = $("#new-password").val();
 			const confirmPassword = $("#confirm-password").val();
 
-			if (newPassword !== confirmPassword) {
-				alert("New password and confirm password do not match.");
-				return;
-			}
+			$("#password-error").text("");
+			$("#new-password-error").text("");
+			$("#confirm-password-error").text("");
+
 			if (!currentPassword || !newPassword || !confirmPassword) {
-				alert("Please fill in all password fields.");
+				$("#password-error").text("Please fill in all password fields.");
 				return;
 			}
+
+			const strongPassword = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/;
+			if (!strongPassword.test(newPassword)) {
+				$("#new-password-error").text("Password does not meet the requirements.");
+				return;
+			}
+
+			if (newPassword !== confirmPassword) {
+				$("#confirm-password-error").text("New password and confirm password do not match.");
+				return;
+			}
+
+			alert("Password changed successfully!");
+			cancelChangePass();
 		}
 
 		let avatarUrl = null;
