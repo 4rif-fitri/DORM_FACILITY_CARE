@@ -38,6 +38,8 @@
 ._content-area > section{
 	display: flex;
 	flex-direction: column;
+	margin: 0 auto;
+	background-color: lightblue;
 }
 
 .track-progress {
