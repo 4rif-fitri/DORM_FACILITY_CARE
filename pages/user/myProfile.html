@@ -59,11 +59,33 @@
 						<label for="phone" class="form-label">Phone Number</label>
 						<input type="text" class="form-control" id="phone" placeholder="Enter your phone number">
 					</div>
+					<button type="button" onclick="hidChangePass()" class="btn btn-warning">Change Password</button>
 					<button type="button" onclick="cancelChange()" class="btn btn-secondary">Cancel</button>
 					<button type="button" onclick="saveChanges()" class="btn btn-success">Save Changes</button>
 				</form>
 			</div>
 		</main>
+
+		<main class = "_edit-password-form" style="display: none;">
+			<div class="edit-card">
+				<h2>Edit Password</h2>
+				<form>
+					<div class="mb-3">
+						<label for="current-password" class="form-label">Current Password</label>
+						<input type="password" class="form-control" id="current-password" placeholder="Enter current password">
+					</div>
+					<div class="mb-3">
+						<label for="new-password" class="form-label">New Password</label>
+						<input type="password" class="form-control" id="new-password" placeholder="Enter new password">
+					</div>
+					<div class="mb-3">
+						<label for="confirm-password" class="form-label">Confirm New Password</label>
+						<input type="password" class="form-control" id="confirm-password" placeholder="Confirm new password">
+					</div>
+					<button type="button" onclick="cancelChangePass()" class="btn btn-secondary">Cancel</button>
+					<button type="button" onclick="saveChangesPass()" class="btn btn-success">Save Changes</button>
+				</form>
+			</div>
 		<!-- CONTENT HERE -->
 
 	</section>
@@ -76,6 +98,28 @@
 
 			$("._content-area").hide();
 			$("._edit-form").show();
+		}
+		function hidChangePass(){
+			$("._edit-password-form").show();
+			$("._edit-form").hide();
+		}
+		function cancelChangePass(){
+			$("._edit-password-form").hide();
+			$("._edit-form").show();
+		}
+		function saveChangesPass(){
+			const currentPassword = $("#current-password").val();
+			const newPassword = $("#new-password").val();	
+			const confirmPassword = $("#confirm-password").val();
+
+			if (newPassword !== confirmPassword) {
+				alert("New password and confirm password do not match.");
+				return;
+			}
+			if (!currentPassword || !newPassword || !confirmPassword) {
+				alert("Please fill in all password fields.");
+				return;
+			}
 		}
 
 		let avatarUrl = null;
