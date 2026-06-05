@@ -171,84 +171,97 @@
 		let rect = canvas_catagory.getBoundingClientRect();
 
 
-		let drawPieChart = canvas => {
+		let dataBlock = [
+			["Tuah", 10],
+			["Jebat", 10],
+			["Kesturi", 10],
+			["Lekir", 10],
+			["Lekiu", 10],
+			["Lestari", 10],
+			["Al jazari", 10],
+		]
+		let dataCatagory = [
+			["Wifi", 10],
+			["Jamban", 10],
+			["Electik", 10],
+			["Pintu", 10],
+			["Singki", 10],
+			["Others", 30],
+		]
+		let dataStatus = [
+			["Pending", 10],
+			["Review", 10],
+			["Repair", 10],
+			["Done", 10],
+		]
+		const colors = [
+			"#2563EB", // Blue
+			"#DC2626", // Red
+			"#16A34A", // Green
+			"#F59E0B", // Amber
+			"#7C3AED", // Purple
+			"#EC4899", // Pink
+			"#06B6D4", // Cyan
+			"#84CC16", // Lime
+			"#F97316", // Orange
+			"#64748B"  // Slate
+		];
+
+		let drawPieChart = (canvas, datas) => {
+
 			let ctx = canvas.getContext("2d")
 
+			let rect = canvas.parentElement.getBoundingClientRect();
 
 			canvas.width = rect.width;
-			canvas.height = rect.height;
+			canvas.height = 400;
 
-			let width = rect.width;
-			let height = rect.height;
+			let centerX = canvas.width * 0.3;
+			let centerY = canvas.height / 2;
 
-			let centerX = width / 2;
-			let centerY = height / 2;
+			let total = datas.reduce((acc, curr) => acc + curr[1], 0)
+			let radius = 150
+			let startAngle = 0
 
-			let datas = [10, 20, 30, 40, 50];
-
-			let colors = [
-				"#1E90FF",
-				"#FF5A79",
-				"#FF9F43",
-				"#FFE066",
-				"#2ECC71",
-			];
-
-			let total = datas.reduce((a, b) => a + b, 0);
-
-			let radius = Math.min(width, height) * 0.35;
-
-			let startAngle = 0;
+			let lagendX = 550
+			let lagendY = 50
 
 			datas.forEach((data, index) => {
+				console.log(data);
 
-				let sliceAngle = (data / total) * Math.PI * 2;
+				let slideAngle = (data[1] / total) * Math.PI * 2
+				ctx.beginPath()
+				ctx.fillStyle = colors[index]
+				ctx.moveTo(centerX, centerY)
+				ctx.arc(centerX, centerY, radius, startAngle, startAngle + slideAngle)
+				ctx.closePath()
+				ctx.fill()
+				ctx.strokeStyle = "#000"
+				ctx.lineWidth = 2
+				ctx.stroke()
 
-				ctx.beginPath();
-				ctx.moveTo(centerX, centerY);
+				let midAngle = startAngle + slideAngle / 2
+				let percentage = `${((data[1] / total) * 100).toFixed(1)}%`
+				let x = centerX + Math.cos(midAngle) * 90
+				let y = centerY + Math.sin(midAngle) * 90
 
-				ctx.fillStyle = colors[index];
+				ctx.font = "bold 1rem arial"
 
-				ctx.arc(
-					centerX,
-					centerY,
-					radius,
-					startAngle,
-					startAngle + sliceAngle
-				);
+				ctx.strokeStyle = "#fff"
+				ctx.strokeText(percentage, x - 10, y + 5)
+				startAngle += slideAngle
 
-				ctx.closePath();
-				ctx.fill();
+				ctx.fillStyle = "#000"
+				ctx.fillText(percentage, x - 10, y + 5)
 
-				ctx.strokeStyle = "#000";
-				ctx.lineWidth = 1;
-				ctx.stroke();
+				ctx.fillStyle = colors[index]
+				ctx.fillRect(lagendX, lagendY, 30, 30)
 
-				// Percentage label
-				let midAngle = startAngle + sliceAngle / 2;
+				ctx.font = "bold 1rem arial"
+				ctx.fillText(datas[index][0], lagendX + 40, lagendY + 20)
 
-				let labelX =
-					centerX + Math.cos(midAngle) * radius * 0.65;
-
-				let labelY =
-					centerY + Math.sin(midAngle) * radius * 0.65;
-
-				let percentage =
-					((data / total) * 100).toFixed(1) + "%";
-
-				ctx.font = "bold 16px Arial";
-				ctx.textAlign = "center";
-				ctx.textBaseline = "middle";
-
-				ctx.strokeStyle = "#000";
-				ctx.lineWidth = 3;
-				ctx.strokeText(percentage, labelX, labelY);
-
-				ctx.fillStyle = "#fff";
-				ctx.fillText(percentage, labelX, labelY);
-
-				startAngle += sliceAngle;
-			});
+				lagendY += 50
+			})
 		}
 
 		let drawBarChart = canvas => {
@@ -460,8 +473,8 @@
 
 		}
 
-		drawPieChart(canvas_catagory);
-		drawPieChart(canvas_Block);
+		drawPieChart(canvas_catagory, dataCatagory);
+		drawPieChart(canvas_Block, dataBlock);
 		drawLineGraph(canvas_Trand);
 		drawBarChart(canvas_Status);
 
@@ -471,8 +484,8 @@
 
 			resizeTimer = setTimeout(() => {
 
-				drawPieChart(canvas_catagory);
-				drawPieChart(canvas_Block);
+				drawPieChart(canvas_catagory, dataCatagory);
+				drawPieChart(canvas_Block, dataBlock);
 				drawLineGraph(canvas_Trand);
 				drawBarChart(canvas_Status);
 
