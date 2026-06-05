@@ -2,6 +2,8 @@
 <html lang="en">
 
 <head>
+	<link rel="shortcut icon" href="../../images/image.png" type="image/x-icon">
+
 	<meta charset="UTF-8">
 	<title>Dorm Facility Care</title>
 	<link rel="stylesheet" href="../../lib/bootstrap.css">
@@ -22,8 +24,44 @@
 
 		<!-- CONTENT HERE -->
 		<main class="_content-area">
+			<div class="dashboard-area">
+				<!-- TOTAL BOX -->
+				<div class="dashboard-box">
+					<div class="dashboard-header">
+						<img class="dashboard-icon" src="" alt="">
+					</div>
 
+					<h2>Total</h2>
+					<p id="totalReport">2</p>
+				</div>
 
+				<!-- ASSIGNED BOX -->
+				<div class="dashboard-box">
+					<div class="dashboard-header">
+						<img class="dashboard-icon" src="" alt="">
+					</div>
+					<h2>Assigned</h2>
+					<p id="assignedReport">1</p>
+				</div>
+
+				<!-- IN PROGRESS BOX -->
+				<div class="dashboard-box">
+					<div class="dashboard-header">
+						<img class="dashboard-icon" src="" alt="">
+					</div>
+					<h2>In Progress</h2>
+					<p id="progressReport">0</p>
+				</div>
+
+				<!-- COMPLETED BOX -->
+				<div class="dashboard-box">
+					<div class="dashboard-header">
+						<img class="dashboard-icon" src="" alt="">
+					</div>
+					<h2>Completed</h2>
+					<p id="completedReport">0</p>
+				</div>
+			</div>
 
 		</main>
 		<!-- CONTENT HERE -->
@@ -36,7 +74,8 @@
 	</script>
 
 
-	<input type="checkbox" hidden style="position: absolute; z-index: 10;" name="_dekstop-sideBar" id="_dekstop-sideBar">
+	<input type="checkbox" hidden style="position: absolute; z-index: 10;" name="_dekstop-sideBar"
+		id="_dekstop-sideBar">
 	<input type="checkbox" hidden style="position: absolute;" name="_mobile-sideBar" id="_mobile-sideBar">
 	<input type="text" name="role" id="role" hidden value="USER">
 	<input type="text" name="title" id="title" hidden value="Dashboard">
