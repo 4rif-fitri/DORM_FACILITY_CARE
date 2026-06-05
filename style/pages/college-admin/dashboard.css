@@ -1,0 +1,148 @@
+.dashboard-area{
+    width: calc(100% - 80px);
+    margin: 40px auto;
+	max-width: 1400px;
+}
+
+.dashboard-box{
+	background: white;
+	border-radius: 24px;
+	padding: 24px;
+	min-height: 180px;
+	display: flex;
+	flex-direction: column;
+	box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+    transition: all 0.25s ease;
+    border: 1px solid #f1f5f9;
+}
+
+.dashboard-box:hover {
+    transform: translateY(-4px);
+    box-shadow:0 10px 30px rgba(0,0,0,0.08);
+}
+
+
+/* TITLE */
+.dashboard-box h2{
+	font-size: 22px;
+	font-weight: 600;
+	padding: 0;
+	color: #49135C;
+	margin: 0;
+}
+
+/* NUMBER */
+.dashboard-box p{
+	font-size: 55px;
+	font-weight: 600;
+	padding: 20px 15px 0;
+	color: #8C44A6;
+}
+
+/* BIG BOX */
+.dashboard-total-card{
+   background:white;
+    border-radius:20px;
+    padding:30px;
+    min-height:180px;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    margin-bottom:30px;
+	box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+    transition: all 0.25s ease;
+    border: 1px solid #f1f5f9;
+}
+
+.dashboard-total-card h2{
+    font-size: 28px;
+    font-weight: 600;
+    color: #49135C;
+}
+
+.dashboard-total-card p{
+    font-size: 72px;
+    font-weight: 700;
+    color: #8C44A6;
+    margin-top: 15px;
+}
+
+.dashboard-total-card:hover {
+    transform: translateY(-4px);
+    box-shadow:0 10px 30px rgba(0,0,0,0.08);
+}
+
+/* SMALL BOX */
+.dashboard-stats{
+    display:grid;
+    grid-template-columns: repeat(auto-fit,minmax(200px,1fr));
+    gap:24px;
+}
+
+.dashboard-header{
+	display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.dashboard-icon{
+	width: 28px;
+    height: 28px;
+    object-fit: contain;
+}
+
+
+:root {
+	/* color */
+	--primary-dark: #6d28d9;
+	--primary: #7c3aed;
+	--primary-hover: rgba(124, 58, 237, 0.2);
+	--primary-light: #f5f3ff;
+
+	/* bg color */
+	--bg-main: #f8fafc;
+	--white: #ffffff;
+
+	/* text color */
+	--text-main: #1e293b;
+	--text-muted: #64748b;
+
+	--border-color: #e2e8f0;
+
+	--radius: 12px;
+	--shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+
+	/* success color */
+	--success: #16a34a;
+	--success-hover: #15803d;
+	--success-light: #f0fdf4;
+
+	/* warning color */
+	--warning: #d97706;
+	--warning-hover: #b45309;
+	--warning-light: #fffbeb;
+
+	/* danger color */
+	--danger: #dc2626;
+	--danger-hover: #b91c1c;
+	--danger-light: #fef2f2;
+	--border: 1px solid #e2e8f0;
+
+	--border-radius: 10px;
+
+	--fs-xs: 0.75rem;
+	/* Extra Small: Untuk teks paling kecil (error or note) */
+	--fs-sm: 0.875rem;
+	/* Small: Untuk teks kecil (contoh: tulisan hint 'e.g: A-1-2-B(2)') */
+	--fs-base: 1rem;
+	/* Base: Saiz default untuk teks biasa (label, input) */
+	--fs-md: 1.125rem;
+	/* Medium: Besar sikit dari biasa (button) */
+	--fs-lg: 1.25rem;
+	/* Large: Untuk tajuk kecil or sub-heading */
+	--fs-xl: 1.5rem;
+	/* Extra Large: Untuk tajuk sederhana besar (untuk tajuk) */
+	--fs-xxl: 1.75rem;
+	/* Extra Extra Large: Untuk tajuk utama paling besar dlm halaman */
+}
