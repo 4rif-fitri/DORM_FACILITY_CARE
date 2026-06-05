@@ -1,29 +1,25 @@
 :root {
-	--primary: #7c3aed;
-	--primary-hover: rgba(124, 58, 237, 0.2);
-	--primary-dark: #6d28d9;
-	--primary-light: #f5f3ff;
-	--bg-main: #f8fafc;
-	--white: #ffffff;
-	--text-main: #1e293b;
-	--text-muted: #64748b;
-	--border-color: #e2e8f0;
+	--primary: #49135C;
+	--primary-md: rgba(140, 68, 166, 0.5);
+	--primary-light: #D8B4FE;
 
+	--bg-main: #F0F0F0;
+	--text-main: #1e293b;
+
+	--orange-light: #FFF3E0;
+	--orange: #F57C00;
+
+	--blue-light: #E3F2FD;
+	--blue: #1976d2;
+
+	--choco-light: #FEF1E5;
+	--choco: #704116;
+
+	--green-light: #e8f5e9;
+	--green: #388e3c;
 
 	--radius: 12px;
 	--shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
-	--success: #16a34a;
-	--success-hover: #15803d;
-	--success-light: #f0fdf4;
-
-	--warning: #d97706;
-	--warning-hover: #b45309;
-	--warning-light: #fffbeb;
-
-	--danger: #dc2626;
-	--danger-hover: #b91c1c;
-	--danger-light: #fef2f2;
-	--border: 1px solid #e2e8f0;
 
 	--border-radius: 10px;
 
@@ -35,15 +31,16 @@
 	--fs-xl: 1.5rem;
 	--fs-xxl: 1.75rem;
 }
-
 ._content-area {
 	width: 100%;
 	overflow-y: auto;
 }
-._content-area > section{
+
+._content-area>section {
 	margin: 0 auto;
 	width: 95% !important;
 }
+
 .track-progress {
 	height: 50px;
 	display: flex;
@@ -115,7 +112,7 @@
 .report-detail-container>section,
 .comment-container>section,
 .image-container>section,
-.contractor-container>section, 
+.contractor-container>section,
 .insert-image-container {
 	background-color: var(--bg-main);
 	padding: 1rem;
@@ -203,7 +200,7 @@
 	gap: 0.5rem;
 }
 
-.input-control input{
+.input-control input {
 	width: 100%;
 	padding: 0.5rem;
 	border-radius: 10px;
@@ -227,6 +224,28 @@
 	justify-content: center;
 }
 
+.image-area i {
+	font-size: 5rem;
+}
+
+.hover {
+	background-color: var(--primary) !important;
+}
+
+.icon-hover {
+	color: var(--white) !important;
+}
+
+.btn-close {
+	width: 2rem;
+	height: 2rem;
+	top: 0;
+	right: 0;
+	position: absolute;
+	z-index: 50;
+	background-color: var(--danger);
+}
+
 @media screen and (min-width:1000px) {
 
 	.progress-container,
@@ -234,7 +253,7 @@
 	.comment-container,
 	.image-container,
 	.contractor-container,
-	.insert-image-container{
+	.insert-image-container {
 		width: 1000px;
 		margin: 0 auto;
 	}

@@ -2,6 +2,8 @@
 <html lang="en">
 
 <head>
+	<link rel="shortcut icon" href="../../images/image.png" type="image/x-icon">
+
 	<meta charset="UTF-8">
 	<title>Dorm Facility Care</title>
 	<link rel="stylesheet" href="../../lib/bootstrap.css">
@@ -39,7 +41,7 @@
 
 					<div class="input-control">
 						<label for="description" class="required">Description</label>
-						<textarea name="description" id="description" rows="10"></textarea>
+						<textarea rows="10" name="description" id="description" rows="10"></textarea>
 					</div>
 
 					<div class="input-control col-3">
@@ -126,6 +128,9 @@
 
 		let currentUrl = null;
 
+		let btnClear = document.querySelector(".clear")
+
+		btnClear.addEventListener("click", () => removePhoto())
 
 		let form = document.querySelector("form")
 

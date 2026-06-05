@@ -1,29 +1,25 @@
 :root {
-	--primary: #7c3aed;
-	--primary-hover: rgba(124, 58, 237, 0.2);
-	--primary-dark: #6d28d9;
-	--primary-light: #f5f3ff;
-	--bg-main: #f8fafc;
-	--white: #ffffff;
-	--text-main: #1e293b;
-	--text-muted: #64748b;
-	--border-color: #e2e8f0;
+	--primary: #49135C;
+	--primary-md: rgba(140, 68, 166, 0.5);
+	--primary-light: #D8B4FE;
 
+	--bg-main: #F0F0F0;
+	--text-main: #1e293b;
+
+	--orange-light: #FFF3E0;
+	--orange: #F57C00;
+
+	--blue-light: #E3F2FD;
+	--blue: #1976d2;
+
+	--choco-light: #FEF1E5;
+	--choco: #704116;
+
+	--green-light: #e8f5e9;
+	--green: #388e3c;
 
 	--radius: 12px;
 	--shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
-	--success: #16a34a;
-	--success-hover: #15803d;
-	--success-light: #f0fdf4;
-
-	--warning: #d97706;
-	--warning-hover: #b45309;
-	--warning-light: #fffbeb;
-
-	--danger: #dc2626;
-	--danger-hover: #b91c1c;
-	--danger-light: #fef2f2;
-	--border: 1px solid #e2e8f0;
 
 	--border-radius: 10px;
 
@@ -98,23 +94,23 @@
 .contractor-container h4 {
 	margin-bottom: 1rem;
 	width: max-content;
-	color: var(--white);
+	color: var(--primary);
 	border-radius: 7px;
 	font-weight: bolder;
-	padding: 1rem 1.5rem;
-	background-color: var(--primary);
 	font-size: var(--fs-base);
+	font-weight: bolder;
+	font-size: var(--fs-xl);
 }
 
 .progress-container>section,
 .report-detail-container>section,
 .comment-container>section,
 .image-container>section,
-.contractor-container > section {
-	background-color: var(--bg-main);
+.contractor-container>section {
 	padding: 1rem;
 	border-radius: 14px;
-	border: 2px solid var(--primary);
+	background-color: white;
+	box-shadow: var(--shadow);
 }
 
 .progress-container article {
@@ -140,8 +136,7 @@
 
 .input-control input,
 .input-control textarea,
-.input-control select
-{
+.input-control select {
 	width: 100%;
 	padding: 0.5rem;
 	border-radius: 5px;
