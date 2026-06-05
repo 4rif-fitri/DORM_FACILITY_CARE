@@ -5,7 +5,6 @@
   padding: 0;
 }
 
-/* Banner area - light gray top section */
 .profile-banner {
   height: 200px;
   background-color: #d9d9d9;
@@ -13,7 +12,6 @@
   flex-shrink: 0;
 }
 
-/* Profile card sits below the banner, full-width card */
 .profile-card {
   background-color: #f0f0f0;
   width: 100%;
@@ -23,9 +21,20 @@
   position: relative;
   box-shadow: none;
   border-radius: 0;
+  padding-top: 20px;
 }
 
-/* Large avatar - overlaps the banner */
+.profile-info {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-top: 36px;
+  padding-left: 0;
+  margin-top: 8px;
+}
+
+
+
 .profile-avatar {
   width: 160px;
   height: 160px;
@@ -47,14 +56,15 @@
   color: #4a1d7a;
 }
 
-/* Header row: name on left, button on right, with avatar offset */
 .profile-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-top: 90px;
+  /* Position it so name aligns with avatar center */
+  margin-top: -40px;   /* half the avatar overlap (80px / 2) */
   margin-bottom: 24px;
-  margin-left: 0;
+  margin-left: 200px;  /* avatar width (160px) + left padding (40px) */
+  min-height: 60px;
 }
 
 .profile-name {
@@ -66,7 +76,6 @@
   text-transform: uppercase;
 }
 
-/* Edit Profile button - dark purple */
 .btn-primary,
 button.btn.btn-primary {
   background-color: #4a1d7a !important;
@@ -102,7 +111,6 @@ button.btn.btn-primary:hover {
   min-width: 220px;
 }
 
-/* Edit form card */
 ._edit-form {
   width: 100%;
 }
