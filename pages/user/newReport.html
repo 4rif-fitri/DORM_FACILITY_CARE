@@ -48,7 +48,7 @@
 						<article>
 							<label for="location" class="required">Location</label>
 							<select name="location" id="location">
-								<option selected disabled value="">Select Location</option>
+								<option selected value="">Select Location</option>
 								<option value="Satria">Satria</option>
 								<option value="Al_Jazari">Al Jazari</option>
 								<option value="Lestari">Lestari</option>
@@ -140,6 +140,7 @@
 			inpBlock.removeAttribute("disabled")
 
 			let blokStaria = `
+				<option selected disabled value="">Select Block</option>
 				<option value="Satria_Jebat">Satria Jebat</option>
 				<option value="Satria_Tuah">Satria Tuah</option>
 				<option value="Satria_Lekir">Satria Lekir</option>
@@ -147,18 +148,18 @@
 				<option value="Satria_Kasturi">Satria Kasturi</option>
 			`
 			let blokAj = `
+				<option selected disabled value="">Select Block</option>
 				<option value="Al_Jazari_A">Blok A</option>
 				<option value="Al_Jazari_B">Blok B</option>
-				<option value="Al_Jazari_C">Blok C</option>		
+				<option value="Al_Jazari_C">Blok C</option>
 			`
-			
-			inpBlock.innerHTML = ""
-
 			let blokLestari = `
+				<option selected disabled value="">Select Block</option>
 				<option value="Lestari_A">Lelaki A</option>
 				<option value="Lestari_B">Perempuan B</option>
 			`
 
+			inpBlock.innerHTML = ""
 			if (kolej == "Satria") {
 				inpBlock.innerHTML = blokStaria
 
@@ -167,15 +168,56 @@
 
 			} else if (kolej == "Lestari") {
 				inpBlock.innerHTML = blokLestari
-
 			}
 
+			// WARN: assuming all blocks of a college have the same levels
+			// unconfirmed for Lestari
+			inpLevel.removeAttribute("disabled")
+			let levelStaria = `
+				<option value="1">1</option>
+				<option value="2">2</option>
+				<option value="3">3</option>
+				<option value="4">4</option>
+				<option value="5">5</option>
+				<option value="6">6</option>
+				<option value="7">7</option>
+				<option value="8">8</option>
+				<option value="9">9</option>
+			`
 
+			let levelAj = `
+				<option value="1">1</option>
+				<option value="2">2</option>
+				<option value="3">3</option>
+				<option value="4">4</option>
+				<option value="5">5</option>
+			`
+
+			let levelLestari = `
+				<option value="1">1</option>
+				<option value="2">2</option>
+				<option value="3">3</option>
+			`
+
+			inpLevel.innerHTML = ""
+			if (kolej == "Satria") {
+				inpLevel.innerHTML = levelStaria
+
+			} else if (kolej == "Al_Jazari") {
+				inpLevel.innerHTML = levelAj
+
+			} else if (kolej == "Lestari") {
+				inpLevel.innerHTML = levelLestari
+			}
 		})
 
 		inpBlock.addEventListener("change", e => {
 			let blok = e.target.value
 			console.log(blok);
+			
+			let kolej = inpLocation.value
+			console.log(kolej);
+
 			
 		})
 
