@@ -36,11 +36,9 @@
 	z-index: 20;
 	transition: 0.5s all ease;
 	opacity: 0%;
+	background-image: linear-gradient(var(--bg-main), var(--primary-light));
 }
 
-._sidebar-_mobile ._content-area div {
-	width: 25rem;
-}
 
 body:has(#_mobile-sideBar:checked) ._sidebar-_mobile {
 	opacity: 100%;
@@ -52,7 +50,8 @@ body:has(#_mobile-sideBar:checked) ._sidebar-_mobile {
 	flex-grow: 1;
 	height: 100%;
 	display: grid;
-	grid-template-rows: 6rem auto;
+	background-image: linear-gradient(var(--bg-main), var(--primary-light));
+		grid-template-rows: 4rem auto;
 }
 
 /* sebeleah _sidebar */
@@ -63,6 +62,7 @@ body:has(#_mobile-sideBar:checked) ._sidebar-_mobile {
 	align-items: center;
 	padding: 0 1rem;
 	justify-content: space-between;
+	background-color: transparent !important;
 }
 
 ._navbar article {
@@ -76,6 +76,7 @@ body:has(#_mobile-sideBar:checked) ._sidebar-_mobile {
 	display: flex;
 	align-items: center;
 	margin-bottom: 0;
+	font-size: 1.5rem;
 	color: var(--primary);
 }
 
@@ -105,7 +106,6 @@ body:has(#_mobile-sideBar:checked) ._sidebar-_mobile {
 	align-items: center;
 	height: 100%;
 	width: 100%;
-	background-image: linear-gradient(var(--bg-main), var(--primary-light));
 }
 
 .index-container {
@@ -117,7 +117,7 @@ body:has(#_mobile-sideBar:checked) ._sidebar-_mobile {
 }
 
 ._sidebar-_mobile ._content-area div {
-	width: 60%;
+	width: 90%;
 }
 
 .right {
@@ -191,6 +191,7 @@ article {
 	justify-content: center;
 	background-color: #fff;
 }
+
 .headline {
 	display: flex;
 	flex-direction: column;
@@ -200,7 +201,7 @@ article {
 
 .text,
 .text2 {
-	font-size: 3em;
+	font-size: 2em;
 	overflow: hidden;
 	white-space: nowrap;
 	width: 0;
@@ -266,7 +267,7 @@ article {
 
 ._btn-login {
 	background-color: var(--primary);
-	font-size: 1.5rem;
+	font-size: 1rem;
 }
 
 ._btn-login._mobile {
@@ -292,6 +293,7 @@ article {
 	font-weight: bolder !important;
 	color: var(--bg-main) !important;
 	cursor: pointer;
+	padding: 1rem 0 !important; 
 }
 
 
@@ -308,5 +310,13 @@ article {
 
 	._dekstop {
 		display: block;
+	}
+
+	._workspace {
+		grid-template-rows: 3.5rem auto;
+	}
+
+	._navbar article h2 {
+		font-size: 2rem;
 	}
 }
