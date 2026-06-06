@@ -21,29 +21,74 @@
 	<section class="_workspace">
 
 		<main class="_content-area">
-				<article>
-					<h3>Details</h3>
-					<p class="required">All fields must be filled.</p>
-				</article>
-				<form action="" method="post">
-	
-					<section class="form-detail">
-	
-						<div class="input-control">
-							<label for="categories" class="required">Categories</label>
-							<select name="categories" id="categories">
-								<option selected disabled value="">Select Categories</option>
-								<option value="category_1">Category 1</option>
-								<option value="category_2">Category 2</option>
+
+			<article>
+				<h3>Details</h3>
+				<p class="required">All fields must be filled.</p>
+			</article>
+			<form action="" method="post">
+
+				<section class="form-detail">
+
+					<div class="input-control">
+						<label for="categories" class="required">Categories</label>
+						<select name="categories" id="categories">
+							<option selected disabled value="">Select Categories</option>
+							<option value="category_1">Category 1</option>
+							<option value="category_2">Category 2</option>
+						</select>
+					</div>
+
+					<div class="input-control">
+						<label for="description" class="required">Description</label>
+						<textarea rows="10" name="description" id="description" rows="10"></textarea>
+					</div>
+
+					<div class="input-control col-3">
+						<article>
+							<label for="location" class="required">Location</label>
+							<select name="location" id="location">
+								<option selected disabled value="">Select Location</option>
+								<option value="Satria">Satria</option>
+								<option value="Al_Jazari">Al Jazari</option>
+								<option value="Lestari">Lestari</option>
 							</select>
-						</div>
-	
-						<div class="input-control">
-							<label for="description" class="required">Description</label>
-							<textarea rows="10" name="description" id="description" rows="10"></textarea>
-						</div>
-	
-						<div class="input-control col-3">
+						</article>
+
+						<article>
+							<label for="block" class="required">Block</label>
+							<select disabled name="block" id="block">
+								<option selected disabled value="">Select Block</option>
+
+							</select>
+						</article>
+
+						<article>
+							<label for="level" class="required">Level</label>
+							<select disabled name="level" id="level">
+								<option selected disabled value="">Select Level</option>
+								<option value="level_1">Level 1</option>
+								<option value="level_2">Level 2</option>
+							</select>
+						</article>
+					</div>
+
+					<div class="input-control">
+						<label for="room_no" class="required">Room no.</label>
+						<p class="text-danger hidden" style="margin-bottom: 0;">Errors</p>
+						<input disabled type="text" name="room_no" id="room_no" placeholder="A-1-2-B(2)">
+						<p class="hint">e.g: A-1-2-B(2)</p>
+					</div>
+				</section>
+
+				<section class="form-photo">
+
+					<div class="input-control">
+						<label for="image" class="required">Upload Image</label>
+						<input hidden type="file" accept="image/*" name="image" id="image">
+						<label for="image" class="image-area">
+							<button type="button" class="btn btn-close hidden"></button>
+
 							<article>
 								<label for="location" class="required">Location</label>
 								<select name="location" id="location">
@@ -131,8 +176,54 @@
 
 		btnClear.addEventListener("click", () => removePhoto())
 
-		let form = document.querySelector("form")
+		inpLocation.addEventListener("change", e => {
+			let kolej = e.target.value
+			console.log(kolej);
 
+			if (kolej == "") return
+			inpBlock.removeAttribute("disabled")
+
+			let blokStaria = `
+				<option value="Satria_Jebat">Satria Jebat</option>
+				<option value="Satria_Tuah">Satria Tuah</option>
+				<option value="Satria_Lekir">Satria Lekir</option>
+				<option value="Satria_Lekiu">Satria Lekiu</option>
+				<option value="Satria_Kasturi">Satria Kasturi</option>
+			`
+			let blokAj = `
+				<option value="Al_Jazari_A">Blok A</option>
+				<option value="Al_Jazari_B">Blok B</option>
+				<option value="Al_Jazari_C">Blok C</option>		
+			`
+			
+			inpBlock.innerHTML = ""
+
+			let blokLestari = `
+				<option value="Lestari_A">Lelaki A</option>
+				<option value="Lestari_B">Perempuan B</option>
+			`
+
+			if (kolej == "Satria") {
+				inpBlock.innerHTML = blokStaria
+
+			} else if (kolej == "Al_Jazari") {
+				inpBlock.innerHTML = blokAj
+
+			} else if (kolej == "Lestari") {
+				inpBlock.innerHTML = blokLestari
+
+			}
+
+
+		})
+
+		inpBlock.addEventListener("change", e => {
+			let blok = e.target.value
+			console.log(blok);
+			
+		})
+
+		let form = document.querySelector("form")
 		form.addEventListener("submit", e => {
 			e.preventDefault();
 
