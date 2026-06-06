@@ -79,7 +79,7 @@ form>section {
 }
 
 .input-control select:disabled{
-	opacity: 0.5;
+	opacity: 0.7;
 }
 
 .col-3 {
