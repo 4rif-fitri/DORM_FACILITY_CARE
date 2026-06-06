@@ -2,7 +2,8 @@
 	/* color */
 	--primary-dark: #6d28d9;
 	--primary: #7c3aed;
-	--primary-hover: rgba(124, 58, 237, 0.2);
+	--primary-hover: #6d28d9;
+	--primary-active: #5b21b6;
 	--primary-light: #f5f3ff;
 
 	/* bg color */
@@ -56,11 +57,24 @@
     flex-direction: column;
 }
 
+.add-box{
+    text-align: right;
+    padding: 20px 20px 0px 20px;
+}
+
+.addBtn{
+	padding: 8px 18px;
+	background-color: rgb(43, 138, 255);
+	border: 1px solid rgb(45, 96, 159);
+	border-radius: 5px;
+	color: var(--white);
+}
+
 .filter-box{
     display: flex;
     flex-direction: row;
     gap: 10px;
-    padding: 10px;
+    padding: 20px;
 }
 
 a{
@@ -68,26 +82,29 @@ a{
 }
 
 .filterBtn{
-    background-color: var(--primary);
-    color: var(--white);
+    background-color: transparent;
+	border: 1px solid var(--primary);
+   	color: var(--primary-dark);
     padding: 2px 16px;
     border-radius: 5px;
-    
+    transition: all 0.18s ease;
 }
 
 .filterBtn:hover{
-    background-color: var(--primary-hover);
+    background-color: #EEEDFE;
 }
 
-.filterBtn:active{
-    background-color: var(--primary-dark);
+.filterBtn.filtered{
+	background-color: var(--primary);
+	color: var(--white);
+	border-color: var(--primary-dark);
 }
 
 .table-container{
     padding: 20px;
 }
 
-/* ------------------TABLE START------------------------ */
+/* ------------------REPORT TABLE START------------------------ */
 
 .myReportTbl{
     width: 100%;
@@ -96,7 +113,6 @@ a{
 }
 
 .myReportTbl thead tr th{
-    /* text-align: center; */
     padding: 0 20px 5px;
 	letter-spacing: 0.03em;
 }
@@ -111,9 +127,7 @@ a{
 	border-left: 1px solid #e8e6f5;
 	border-top: 1px solid #e8e6f5;
 	border-bottom: 1px solid #e8e6f5;
-	/* color: #888;
-	font-size: 14px; */
-	width: 60px;
+
 }
 
 .myReportTbl tbody td:last-child {
@@ -123,27 +137,43 @@ a{
 	border-bottom: 1px solid #e8e6f5;
 }
 
+
 .myReportTbl tbody td:not(:first-child):not(:last-child) {
 	border-top: 1px solid #e8e6f5;
 	border-bottom: 1px solid #e8e6f5;
-}
+} 
 
 
 
 
-.trackingReportTbl tbody tr{
+/* .trackingReportTbl tbody tr{
     cursor: pointer;
 }
 
 .trackingReportTbl tbody tr:hover td{
     background-color: #e6e4e4;
-}
+} */
 
-/* ------------------TABLE END ------------------------ */
+/* ------------------REPORT TABLE END ------------------------ */
+
+
 
 
 .updateBtn{
+	display: inline-block;
     background-color: var(--primary);
     color: var(--white);
-    padding: 5px 16px;
+    padding: 5px 24px;
+	transition: all 0.18s ease;
+	border-radius: 5px;
+}
+
+.updateBtn:hover{
+	 background-color: var(--primary-hover);
+	 
+}
+
+.updateBtn:active{
+	background: var(--primary-active);
+    transform: scale(0.92);
 }
