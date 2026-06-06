@@ -211,3 +211,6 @@
 		margin: 0 auto;
 	}
 }
+._content-area > section{
+	margin: 0 auto;
+}
