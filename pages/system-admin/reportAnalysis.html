@@ -58,8 +58,8 @@
 					<div class="filter-control">
 						<input type="month" name="month" id="month">
 
-						<select name="catagory" id="catagory">
-							<option value="">All Catagory</option>
+						<select name="category" id="category">
+							<option value="">All Category</option>
 							<option>Electrical</option>
 							<option>Plumbing</option>
 							<option>Furniture</option>
@@ -79,8 +79,8 @@
 
 					<div class="filter-control">
 						<input type="month" name="month" id="month">
-						<select name="catagory" id="catagory">
-							<option value="">All Catagory</option>
+						<select name="category" id="category">
+							<option value="">All Category</option>
 							<option>Electrical</option>
 							<option>Plumbing</option>
 							<option>Furniture</option>
@@ -140,8 +140,8 @@
 
 					<div class="filter-control">
 						<input type="month" name="month" id="month">
-						<select name="catagory" id="catagory">
-							<option value="">All Catagory</option>
+						<select name="category" id="category">
+							<option value="">All category</option>
 							<option>Electrical</option>
 							<option>Plumbing</option>
 							<option>Furniture</option>
@@ -163,24 +163,24 @@
 	<!-- your script -->
 	<script>
 
-		let canvas_catagory = document.getElementById("canvas_pieChart");
+		let canvas_category = document.getElementById("canvas_pieChart");
 		let canvas_Block = document.getElementById("canvas_barGraphBlock");
 		let canvas_Trand = document.getElementById("canvas_barGraphTrand");
 		let canvas_Status = document.getElementById("canvas_donutBar");
 		let resizeTimer;
-		let rect = canvas_catagory.getBoundingClientRect();
+		let rect = canvas_category.getBoundingClientRect();
 
 
 		let dataBlock = [
 			["Tuah", 10],
 			["Jebat", 10],
-			["Kesturi", 10],
+			["Kasturi", 10],
 			["Lekir", 10],
 			["Lekiu", 10],
 			["Lestari", 10],
 			["Al jazari", 10],
 		]
-		let dataCatagory = [
+		let datacategory = [
 			["Wifi", 10],
 			["Jamban", 10],
 			["Electik", 10],
@@ -473,7 +473,7 @@
 
 		}
 
-		drawPieChart(canvas_catagory, dataCatagory);
+		drawPieChart(canvas_category, datacategory);
 		drawPieChart(canvas_Block, dataBlock);
 		drawLineGraph(canvas_Trand);
 		drawBarChart(canvas_Status);
@@ -484,7 +484,7 @@
 
 			resizeTimer = setTimeout(() => {
 
-				drawPieChart(canvas_catagory, dataCatagory);
+				drawPieChart(canvas_category, datacategory);
 				drawPieChart(canvas_Block, dataBlock);
 				drawLineGraph(canvas_Trand);
 				drawBarChart(canvas_Status);
