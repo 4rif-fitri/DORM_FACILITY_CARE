@@ -2,6 +2,8 @@
 session_start();
 require_once "./inc/init.php";
 
+auth("STD");
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 	$email = $_POST["email"];
 	$password = $_POST["password"];
