@@ -57,8 +57,8 @@
 					<div class="filter-control">
 						<input type="month" name="month" id="month">
 
-						<select name="catagory" id="catagory">
-							<option value="">All Catagory</option>
+						<select name="category" id="category">
+							<option value="">All category</option>
 							<option>Electrical</option>
 							<option>Plumbing</option>
 							<option>Furniture</option>
@@ -78,8 +78,8 @@
 
 					<div class="filter-control">
 						<input type="month" name="month" id="month">
-						<select name="catagory" id="catagory">
-							<option value="">All Catagory</option>
+						<select name="category" id="category">
+							<option value="">All category</option>
 							<option>Electrical</option>
 							<option>Plumbing</option>
 							<option>Furniture</option>
@@ -139,8 +139,8 @@
 
 					<div class="filter-control">
 						<input type="month" name="month" id="month">
-						<select name="catagory" id="catagory">
-							<option value="">All Catagory</option>
+						<select name="category" id="category">
+							<option value="">All category</option>
 							<option>Electrical</option>
 							<option>Plumbing</option>
 							<option>Furniture</option>
@@ -162,12 +162,12 @@
 	<!-- your script -->
 	<script>
 
-		let canvas_catagory = document.getElementById("canvas_pieChart");
+		let canvas_category = document.getElementById("canvas_pieChart");
 		let canvas_Block = document.getElementById("canvas_barGraphBlock");
 		let canvas_Trand = document.getElementById("canvas_barGraphTrand");
 		let canvas_Status = document.getElementById("canvas_donutBar");
 		let resizeTimer;
-		let rect = canvas_catagory.getBoundingClientRect();
+		let rect = canvas_category.getBoundingClientRect();
 
 
 		let drawPieChart = canvas => {
@@ -459,7 +459,7 @@
 
 		}
 
-		drawPieChart(canvas_catagory);
+		drawPieChart(canvas_category);
 		drawPieChart(canvas_Block);
 		drawLineGraph(canvas_Trand);
 		drawBarChart(canvas_Status);
@@ -470,7 +470,7 @@
 
 			resizeTimer = setTimeout(() => {
 
-				drawPieChart(canvas_catagory);
+				drawPieChart(canvas_category);
 				drawPieChart(canvas_Block);
 				drawLineGraph(canvas_Trand);
 				drawBarChart(canvas_Status);

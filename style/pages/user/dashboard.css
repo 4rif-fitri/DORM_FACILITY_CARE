@@ -92,6 +92,10 @@
     object-fit: contain;
 }
 
+a {
+	text-decoration: none;
+}
+
 
 :root {
 	/* color */
