@@ -2,6 +2,10 @@
 session_start();
 require_once "./inc/init.php";
 
+//php code hrre
+
+//php code hrre
+
 auth("STD");
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -39,8 +43,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 	<link rel="shortcut icon" href="../../images/image.png" type="image/x-icon">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 	<link rel="stylesheet" href="../lib/bootstrap.css">
-	<script src="../lib/bootstrap.js"></>
-	<script src="../lib/jquery.js"></script>
+	<script src="../lib/bootstrap.js">
+		< /> <
+		script src = "../lib/jquery.js" >
+	</script>
 	<meta charset="UTF-8">
 	<title>Dorm Facility Care</title>
 	<link rel="stylesheet" href="./style/index.css">
@@ -181,7 +187,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 			$("._loading-container").remove();
 		})
 
-		
+
 		document.addEventListener("submit", e => {
 			let from = e.target
 

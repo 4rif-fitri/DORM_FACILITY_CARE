@@ -1,3 +1,13 @@
+<?php
+session_start();
+require_once "./inc/init.php";
+auth("CTR");
+
+//php code hrre
+
+//php code hrre
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 

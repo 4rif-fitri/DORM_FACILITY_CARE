@@ -68,7 +68,7 @@ $(document).ready(() => {
 
 	let loadComponentCollegeAdmin = async () => {
 		let response = await fetch("../../components/college-admin/sidebar.php");
-		let html = await response.text();
+		let htmlSidebar = await response.text();
 
 		// let responseheader = await fetch("../../components/college-admin/header.php");
 		// let htmlheader = await responseheader.text();

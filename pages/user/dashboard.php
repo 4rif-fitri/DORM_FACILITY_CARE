@@ -1,5 +1,11 @@
 <?php
+session_start();
+require_once "./inc/init.php";
+auth("STD");
 
+//php code hrre
+
+//php code hrre
 
 ?>
 <!DOCTYPE html>

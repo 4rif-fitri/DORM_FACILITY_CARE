@@ -1,3 +1,13 @@
+<?php
+session_start();
+require_once "./inc/init.php";
+auth("CAD");
+
+//php code hrre
+
+//php code hrre
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -275,6 +285,6 @@
 	<input type="text" name="role" id="role" hidden value="USER">
 	<input type="text" name="title" id="title" hidden value="My Profile">
 	<input type="text" name="title" id="title" hidden value="My Profile">
-</body> 
+</body>
 
 </html>
