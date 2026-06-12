@@ -15,12 +15,14 @@
 	<script src="../../script/load-component.js"></script>
 
 	<!-- your styling -->
-	<link rel="stylesheet" href="../../style/pages/dashboard.css">
+	<link rel="stylesheet" href="../../style/dashboard.css">
 </head>
 
 <body>
 
 	<section class="_workspace">
+		<?php $title = "Dashboard" ?>
+		<?php include(__DIR__ . "../../../components/system-admin/header.php") ?>
 
 		<!-- CONTENT HERE -->
 		<main class="_content-area">

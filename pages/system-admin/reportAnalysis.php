@@ -21,7 +21,8 @@
 <body>
 
 	<section class="_workspace">
-
+		<?php $title = "Report Analysis" ?>
+		<?php include(__DIR__ . "../../../components/system-admin/header.php") ?>
 		<!-- CONTENT HERE -->
 		<main class="_content-area">
 
@@ -162,7 +163,6 @@
 
 	<!-- your script -->
 	<script>
-
 		let canvas_category = document.getElementById("canvas_pieChart");
 		let canvas_Block = document.getElementById("canvas_barGraphBlock");
 		let canvas_Trand = document.getElementById("canvas_barGraphTrand");
@@ -204,7 +204,7 @@
 			"#06B6D4", // Cyan
 			"#84CC16", // Lime
 			"#F97316", // Orange
-			"#64748B"  // Slate
+			"#64748B" // Slate
 		];
 
 		let drawPieChart = (canvas, datas) => {
@@ -384,7 +384,10 @@
 					padding -
 					(value / maxValue) * graphHeight;
 
-				points.push({ x, y });
+				points.push({
+					x,
+					y
+				});
 			});
 
 			// =========================
@@ -492,7 +495,6 @@
 			}, 1000);
 
 		});
-
 	</script>
 
 

@@ -21,6 +21,8 @@
 <body>
 
 	<section class="_workspace">
+		<?php $title = "Manage Report" ?>
+		<?php include(__DIR__ . "../../../components/system-admin/header.php") ?>
 
 		<!-- CONTENT HERE -->
 		<main class="_content-area">
@@ -85,6 +87,7 @@
 	<input type="checkbox" hidden style="position: absolute;" name="_mobile-sideBar" id="_mobile-sideBar">
 	<input type="text" name="role" id="role" hidden value="SAD">
 	<input type="text" name="title" id="title" hidden value="Manage Report">
+</body>
 </body>
 
 </html>

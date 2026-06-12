@@ -21,6 +21,8 @@
 <body>
 
 	<section class="_workspace">
+		<?php $title = "My Report" ?>
+		<?php include(__DIR__ . "../../../components/user/header.php") ?>
 
 		<!-- CONTENT HERE -->
 		<main class="_content-area">
@@ -87,7 +89,6 @@
 	<input type="checkbox" hidden style="position: absolute;" name="_mobile-sideBar" id="_mobile-sideBar">
 	<input type="text" name="role" id="role" hidden value="USER">
 	<input type="text" name="title" id="title" hidden value="My Report">
-
 </body>
 
 </html>

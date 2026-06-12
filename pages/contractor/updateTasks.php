@@ -21,7 +21,8 @@
 <body>
 
 	<section class="_workspace">
-
+		<?php $title = "Update Tasks" ?>
+		<?php include(__DIR__ . "../../../components/system-admin/header.php") ?>
 		<!-- CONTENT HERE -->
 		<main class="_content-area">
 
@@ -331,6 +332,7 @@
 	<input type="checkbox" hidden style="position: absolute;" name="_mobile-sideBar" id="_mobile-sideBar">
 	<input type="text" name="role" id="role" hidden value="CTR">
 	<input type="text" name="title" id="title" hidden value="Update Tasks">
+</body>
 </body>
 
 </html>

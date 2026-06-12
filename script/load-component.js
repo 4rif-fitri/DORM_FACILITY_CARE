@@ -2,11 +2,11 @@ $(document).ready(() => {
 	let role = $("#role").val()
 	let title = $("#title").val()
 
-	let loading = `<div class="_loading-container"><h1>Loading...</h1></div>`
-	$("body").prepend(loading);
+	// let loading = `<div class="_loading-container"><h1>Loading...</h1></div>`
+	// $("body").prepend(loading);
 
 	if (role == "") return
-	
+
 	$(document).on("change", "#_dekstop-sideBar", function () {
 		localStorage.setItem("sidebar-desktop", this.checked);
 
@@ -22,16 +22,16 @@ $(document).ready(() => {
 	let savedState = localStorage.getItem("sidebar-desktop");
 	$("#_dekstop-sideBar").prop("checked", savedState === "true");
 
-	let delay = time => new Promise(resolve => setTimeout(resolve,time))
+	let delay = time => new Promise(resolve => setTimeout(resolve, time))
 
-	let render = async (htmlSidebar, htmlheader) => {
-		let header = $(htmlheader)
+	let render = async (htmlSidebar = "", htmlheader = "") => {
+		// let header = $(htmlheader)
 		let side = $(htmlSidebar)
 
-		header.find(".title").text(title);
+		// header.find(".title").text(title);
 
 		$("body").prepend(side); // guna side
-		$("._workspace").prepend(header);
+		// $("._workspace").prepend(header);
 
 		let savedState = localStorage.getItem("sidebar-desktop");
 		$("#_dekstop-sideBar").prop("checked", savedState === "true");
@@ -52,48 +52,48 @@ $(document).ready(() => {
 			}
 		});
 
-		await delay(1000)
-		$("._loading-container").remove()
+		// await delay(1000)
+		// $("._loading-container").remove()
 	}
 
 	let loadComponentUser = async () => {
-		let responseSidebar = await fetch("../../components/user/sidebar.html");
+		let responseSidebar = await fetch("../../components/user/sidebar.php");
 		let htmlSidebar = await responseSidebar.text();
 
-		let responseheader = await fetch("../../components/user/header.html");
-		let htmlheader = await responseheader.text();
+		// let responseheader = await fetch("../../components/user/header.php");
+		// let htmlheader = await responseheader.text();
 
-		render(htmlSidebar, htmlheader)
+		render(htmlSidebar , "")
 	}
 
 	let loadComponentCollegeAdmin = async () => {
-		let response = await fetch("../../components/college-admin/sidebar.html");
+		let response = await fetch("../../components/college-admin/sidebar.php");
 		let html = await response.text();
 
-		let responseheader = await fetch("../../components/college-admin/header.html");
-		let htmlheader = await responseheader.text();
+		// let responseheader = await fetch("../../components/college-admin/header.php");
+		// let htmlheader = await responseheader.text();
 
-		render(html, htmlheader)
+		render(htmlSidebar, "")
 	}
 
 	let loadComponentSystemAdmin = async () => {
-		let response = await fetch("../../components/system-admin/sidebar.html");
+		let response = await fetch("../../components/system-admin/sidebar.php");
 		let htmlSidebar = await response.text();
 
-		let responseheader = await fetch("../../components/system-admin/header.html");
-		let htmlheader = await responseheader.text();
+		// let responseheader = await fetch("../../components/system-admin/header.php");
+		// let htmlheader = await responseheader.text();
 
-		render(htmlSidebar, htmlheader)
+		render(htmlSidebar, "")
 	}
 
 	let loadComponentContractor = async () => {
-		let response = await fetch("../../components/contractor/sidebar.html");
+		let response = await fetch("../../components/contractor/sidebar.php");
 		let htmlSidebar = await response.text();
 
-		let responseheader = await fetch("../../components/contractor/header.html");
-		let htmlheader = await responseheader.text();
+		// let responseheader = await fetch("../../components/contractor/header.php");
+		// let htmlheader = await responseheader.text();
 
-		render(htmlSidebar, htmlheader)
+		render(htmlSidebar, "")
 	}
 
 	if (role == "USER") loadComponentUser()

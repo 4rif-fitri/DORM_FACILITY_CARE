@@ -21,6 +21,8 @@
 <body>
 
 	<section class="_workspace">
+		<?php $title = "Add Student" ?>
+		<?php include(__DIR__ . "../../../components/system-admin/header.php") ?>
 
 		<!-- CONTENT HERE -->
 		<main class="_content-area">

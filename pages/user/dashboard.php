@@ -1,3 +1,7 @@
+<?php
+
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -18,6 +22,8 @@
 <body>
 
 	<section class="_workspace">
+		<?php $title = "Dashboard" ?>
+		<?php include(__DIR__ . "../../../components/user/header.php") ?>
 
 		<!-- CONTENT HERE -->
 		<main class="_content-area">

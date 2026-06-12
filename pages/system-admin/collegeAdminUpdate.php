@@ -21,6 +21,8 @@
 <body>
 
 	<section class="_workspace">
+		<?php $title = "Update College Admin" ?>
+		<?php include(__DIR__ . "../../../components/system-admin/header.php") ?>
 
 		<!-- CONTENT HERE -->
 		<main class="_content-area">
@@ -115,7 +117,7 @@
 		let inpCollege = document.querySelector("#college")
 		let inpPhoneNumber = document.querySelector("#phoneNumber")
 		let inpEmail = document.querySelector("#email")
-		let inpImage = document.querySelector("#image")//
+		let inpImage = document.querySelector("#image") //
 
 		let currentUrl = null;
 
@@ -167,6 +169,7 @@
 			}
 
 		});
+
 		function addPhoto(file) {
 			if (!file) return;
 

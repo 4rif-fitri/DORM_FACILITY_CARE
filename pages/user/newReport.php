@@ -19,6 +19,8 @@
 <body>
 
 	<section class="_workspace">
+		<?php $title = "New Report" ?>
+		<?php include(__DIR__ . "../../../components/user/header.php") ?>
 
 		<main class="_content-area">
 
@@ -202,7 +204,8 @@
 			<option value="2">2</option>
 			<option value="3">3</option>
 		`
-		let hasSelectBlock = false, hasSelectLevel = false
+		let hasSelectBlock = false,
+			hasSelectLevel = false
 
 		let inputImg = document.getElementById("image");
 		let imageArea = document.querySelector(".image-area");
@@ -249,23 +252,23 @@
 			}
 
 		})
-		
+
 		inpBlock.addEventListener("change", e => {
 			let blok = e.target.value
 			let kolej = inpLocation.value
 			console.log("Block selected: " + kolej + " " + blok);
-			
-			
+
+
 			// WARN: assuming all blocks of a college have the same levels
 			// unconfirmed for Lestari
 			inpLevel.removeAttribute("disabled")
 			inpLevel.innerHTML = ""
 			if (kolej == "Satria") {
 				inpLevel.innerHTML = levelStaria
-	
+
 			} else if (kolej == "Al_Jazari") {
 				inpLevel.innerHTML = levelAj
-	
+
 			} else if (kolej == "Lestari") {
 				inpLevel.innerHTML = levelLestari
 			}
@@ -317,6 +320,7 @@
 			}
 
 		});
+
 		function addPhoto(file) {
 			if (!file) return;
 

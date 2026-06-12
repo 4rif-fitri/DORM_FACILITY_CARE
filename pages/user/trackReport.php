@@ -22,6 +22,8 @@
 <body>
 
 	<section class="_workspace">
+		<?php $title = "Track Report" ?>
+		<?php include(__DIR__ . "../../../components/user/header.php") ?>
 
 		<!-- CONTENT HERE -->
 		<main class="_content-area">

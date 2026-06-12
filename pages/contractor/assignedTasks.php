@@ -21,7 +21,8 @@
 <body>
 
 	<section class="_workspace">
-
+		<?php $title = "Assigned Tasks" ?>
+		<?php include(__DIR__ . "../../../components/system-admin/header.php") ?>
 		<!-- CONTENT HERE -->
 		<main class="_content-area">
 			<nav class="filter-box">

@@ -20,7 +20,10 @@
 
 <body>
 
+
 	<section class="_workspace">
+		<?php $title = "My Profile" ?>
+		<?php include(__DIR__ . "../../../components/system-admin/header.php") ?>
 
 		<!-- CONTENT HERE -->
 		<main class="_content-area">
@@ -127,10 +130,12 @@
 			$("._content-area").hide();
 			$("._edit-form").show();
 		}
+
 		function hidChangePass() {
 			$("._edit-password-form").show();
 			$("._edit-form").hide();
 		}
+
 		function cancelChangePass() {
 			$("._edit-password-form").hide();
 			$("._edit-form").show();
@@ -140,7 +145,7 @@
 		var passUpper = $("#password-uppercase");
 		var passLower = $("#password-lowercase");
 		var passNumber = $("#password-number");
-		$("#new-password").on("input", function () {
+		$("#new-password").on("input", function() {
 			var password = $(this).val();
 
 			if (password.length >= 8) {
@@ -198,6 +203,7 @@
 		}
 
 		let avatarUrl = null;
+
 		function saveChanges() {
 			const file = $("#photo")[0].files[0];
 			const email = $("#email").val();
@@ -212,7 +218,7 @@
 			if (file) {
 				const reader = new FileReader();
 
-				reader.onload = function (e) {
+				reader.onload = function(e) {
 					const imageData = e.target.result;
 
 					$("#profile-avatar").php(`
@@ -232,7 +238,7 @@
 			$("._edit-form").hide();
 			$("._content-area").show();
 		}
-		$(document).ready(function () {
+		$(document).ready(function() {
 
 			const email = sessionStorage.getItem("email");
 			const phone = sessionStorage.getItem("phone");
@@ -262,7 +268,6 @@
 			$("._edit-form").hide();
 			$("._content-area").show();
 		}
-
 	</script>
 
 	<input type="checkbox" hidden style="position: absolute; z-index: 10;" name="_dekstop-sideBar"

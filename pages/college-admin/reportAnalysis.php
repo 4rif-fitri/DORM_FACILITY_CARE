@@ -20,6 +20,8 @@
 <body>
 
 	<section class="_workspace">
+		<?php $title = "Report Analysis" ?>
+		<?php include(__DIR__ . "../../../components/system-admin/header.php") ?>
 
 		<!-- CONTENT HERE -->
 		<main class="_content-area">
@@ -161,7 +163,6 @@
 
 	<!-- your script -->
 	<script>
-
 		let canvas_category = document.getElementById("canvas_pieChart");
 		let canvas_Block = document.getElementById("canvas_barGraphBlock");
 		let canvas_Trand = document.getElementById("canvas_barGraphTrand");
@@ -370,7 +371,10 @@
 					padding -
 					(value / maxValue) * graphHeight;
 
-				points.push({ x, y });
+				points.push({
+					x,
+					y
+				});
 			});
 
 			// =========================
@@ -478,14 +482,13 @@
 			}, 1000);
 
 		});
-
 	</script>
 
 
 	<input type="checkbox" hidden style="position: absolute; z-index: 10;" name="_dekstop-sideBar"
 		id="_dekstop-sideBar">
 	<input type="checkbox" hidden style="position: absolute;" name="_mobile-sideBar" id="_mobile-sideBar">
-	<input type="text" name="role" id="role" hidden value="CAD">
+	<input type="text" name="role" id="role" hidden value="CAD"> <input type="text" name="title" id="title" hidden value="Report Analysis">
 	<input type="text" name="title" id="title" hidden value="Report Analysis">
 </body>
 

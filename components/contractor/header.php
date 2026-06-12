@@ -3,9 +3,9 @@
 		<img style="height: 4rem;" src="../../images/dropdown icon.png" alt="">
 	</label>
 
-	<h1 class="title"></h1>
+	<h1 class="title"><?= $title ?></h1>
 	<div class="_avatar-kecil">
-		<a href="../../pages/system-admin/myProfile.php">
+		<a href="../../pages/contractor/myProfile.php">
 			<img src="../../images/profile.svg" alt="">
 		</a>
 	</div>

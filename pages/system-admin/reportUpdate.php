@@ -21,6 +21,8 @@
 <body>
 
 	<section class="_workspace">
+		<?php $title = "Update Report" ?>
+		<?php include(__DIR__ . "../../../components/system-admin/header.php") ?>
 
 		<!-- CONTENT HERE -->
 		<main class="_content-area">
@@ -207,11 +209,34 @@
 
 		images.forEach(image => image.addEventListener("click", e => prew(e.target.src)))
 
-		let dataContractor = [
-			{ id: 0, name: "En Lorem", email: "dopymonster@gmail.com", no: "0197231577", cType: "IT Tech" },
-			{ id: 1, name: "En Ipsum", email: "dopymonster@gmail.com", no: "0197231577", cType: "Mekanik" },
-			{ id: 2, name: "En Dolor", email: "dopymonster@gmail.com", no: "0197231577", cType: "Jamban" },
-			{ id: 3, name: "En Sit", email: "dopymonster@gmail.com", no: "0197231577", cType: "Kipas" },
+		let dataContractor = [{
+				id: 0,
+				name: "En Lorem",
+				email: "dopymonster@gmail.com",
+				no: "0197231577",
+				cType: "IT Tech"
+			},
+			{
+				id: 1,
+				name: "En Ipsum",
+				email: "dopymonster@gmail.com",
+				no: "0197231577",
+				cType: "Mekanik"
+			},
+			{
+				id: 2,
+				name: "En Dolor",
+				email: "dopymonster@gmail.com",
+				no: "0197231577",
+				cType: "Jamban"
+			},
+			{
+				id: 3,
+				name: "En Sit",
+				email: "dopymonster@gmail.com",
+				no: "0197231577",
+				cType: "Kipas"
+			},
 		]
 
 		selectContractor.addEventListener("change", e => {
@@ -228,7 +253,6 @@
 			textphoneContractor.textContent = orang.no
 			textcTypeContractor.textContent = orang.cType
 		})
-
 	</script>
 
 
