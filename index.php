@@ -170,7 +170,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 	</aside>
 
-
 	<script>
 		let loading = `<div class="_loading-container"><img width="200" src="./images/Loading_icon.gif" alt=""></div>`;
 		$("body").prepend(loading);
@@ -182,6 +181,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 			$("._loading-container").remove();
 		})
 
+		
 		document.addEventListener("submit", e => {
 			let from = e.target
 

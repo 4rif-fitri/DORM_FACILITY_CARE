@@ -1,5 +1,9 @@
 <?php 
 
 	function auth($role){
-		var_dump($role);
+		if($role == "STD"){
+			echo "Hallo User";
+		}else{
+			// login page
+		}
 	}
