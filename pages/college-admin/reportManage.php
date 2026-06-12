@@ -13,7 +13,6 @@
 	<script src="../../lib/jquery.js"></script>
 
 	<script src="../../script/load-component.js"></script>
-
 	<!-- your styling -->
 	<link rel="stylesheet" href="../../style/reportDisplay.css">
 </head>
@@ -52,8 +51,8 @@
 							<td>No wifi</td>
 							<td>Al-Jazari A-5-4-B-(2)</td>
 							<td>28/5/2026</td>
-							<td>Assigned</td>
-							<td><a href="./updateTasks.html" class="updateBtn">Update</a></td>
+							<td>Pending</td>
+							<td><a href="./reportUpdate.php" class="updateBtn">Update</a></td>
 						</tr>
 
 						<tr>
@@ -61,8 +60,8 @@
 							<td>No wifi</td>
 							<td>Al-Jazari A-5-4-B-(1)</td>
 							<td>28/5/2026</td>
-							<td>Assigned</td>
-							<td><a href="./updateTasks.html" class="updateBtn">Update</a></td>
+							<td>Pending</td>
+							<td><a href="./reportUpdate.php" class="updateBtn">Update</a></td>
 						</tr>
 					</tbody>
 
@@ -84,8 +83,8 @@
 	<input type="checkbox" hidden style="position: absolute; z-index: 10;" name="_dekstop-sideBar"
 		id="_dekstop-sideBar">
 	<input type="checkbox" hidden style="position: absolute;" name="_mobile-sideBar" id="_mobile-sideBar">
-	<input type="text" name="role" id="role" hidden value="CTR">
-	<input type="text" name="title" id="title" hidden value="Assigned Tasks">
+	<input type="text" name="role" id="role" hidden value="CAD">
+	<input type="text" name="title" id="title" hidden value="Manage Report">
 </body>
 
 </html>

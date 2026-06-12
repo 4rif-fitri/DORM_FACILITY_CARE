@@ -13,6 +13,7 @@
 	<script src="../../lib/jquery.js"></script>
 
 	<script src="../../script/load-component.js"></script>
+
 	<!-- your styling -->
 	<link rel="stylesheet" href="../../style/reportDisplay.css">
 </head>
@@ -24,8 +25,7 @@
 		<!-- CONTENT HERE -->
 		<main class="_content-area">
 			<nav class="filter-box">
-				<a href="" class="filterBtn">all</a>
-				<a href="" class="filterBtn">canceled</a>
+				<a href="" class="filterBtn filtered">all</a>
 				<a href="" class="filterBtn">pending</a>
 				<a href="" class="filterBtn">assigned</a>
 				<a href="" class="filterBtn">in progress</a>
@@ -33,15 +33,15 @@
 			</nav>
 
 			<section class="table-container">
-				<table class="myReportTbl">
+				<table class="myReportTbl trackingReportTbl">
 					<thead>
 						<tr>
 							<th>Id</th>
 							<th>Category</th>
-							<th>Location</th>
+							<th>Description</th>
 							<th>Date</th>
 							<th>Status</th>
-							<th>Edit</th>
+							<th>Track</th>
 						</tr>
 					</thead>
 
@@ -49,42 +49,45 @@
 						<tr>
 							<td>067</td>
 							<td>No wifi</td>
-							<td>Al-Jazari A-5-4-B-(2)</td>
+							<td>Aku Nak IFI</td>
 							<td>28/5/2026</td>
 							<td>Pending</td>
-							<td><a href="./reportUpdate.html" class="updateBtn">Update</a></td>
+							<td><a href="./trackReport.php" class="updateBtn">Track</a></td>
 						</tr>
 
 						<tr>
 							<td>067</td>
 							<td>No wifi</td>
-							<td>Al-Jazari A-5-4-B-(1)</td>
+							<td>Aku Nak IFI</td>
 							<td>28/5/2026</td>
 							<td>Pending</td>
-							<td><a href="./reportUpdate.html" class="updateBtn">Update</a></td>
+							<td><a href="./trackReport.php" class="updateBtn">Track</a></td>
 						</tr>
 					</tbody>
 
 				</table>
 			</section>
 
-
 		</main>
-		<!-- CONTENT HERE -->
-
 	</section>
 
 	<!-- your script -->
 	<script>
-
+		document.querySelectorAll("tr").forEach(tr => {
+			tr.addEventListener("click", e => {
+				console.log(tr)
+			})
+		})
 	</script>
 
 
+	<!-- testing only -->
 	<input type="checkbox" hidden style="position: absolute; z-index: 10;" name="_dekstop-sideBar"
 		id="_dekstop-sideBar">
 	<input type="checkbox" hidden style="position: absolute;" name="_mobile-sideBar" id="_mobile-sideBar">
-	<input type="text" name="role" id="role" hidden value="CAD">
-	<input type="text" name="title" id="title" hidden value="Manage Report">
+	<input type="text" name="role" id="role" hidden value="USER">
+	<input type="text" name="title" id="title" hidden value="My Report">
+
 </body>
 
 </html>

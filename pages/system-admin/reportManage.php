@@ -24,8 +24,13 @@
 
 		<!-- CONTENT HERE -->
 		<main class="_content-area">
-			<nav class="add-box">
-				<a href="" class="addBtn">Add Admin</a>
+			<nav class="filter-box">
+				<a href="" class="filterBtn">all</a>
+				<a href="" class="filterBtn">canceled</a>
+				<a href="" class="filterBtn">pending</a>
+				<a href="" class="filterBtn">assigned</a>
+				<a href="" class="filterBtn">in progress</a>
+				<a href="" class="filterBtn">completed</a>
 			</nav>
 
 			<section class="table-container">
@@ -33,37 +38,36 @@
 					<thead>
 						<tr>
 							<th>Id</th>
-							<th>Name</th>
-							<th>College</th>
-							<th>Email</th>
-							<th>Phone No</th>
+							<th>Category</th>
+							<th>Location</th>
+							<th>Date</th>
+							<th>Status</th>
 							<th>Edit</th>
 						</tr>
 					</thead>
 
 					<tbody>
 						<tr>
-							<td>D032410396</td>
-							<td>Arif Fitri</td>
-							<td>Al-Jazari</td>
-							<td>arifa321@gmail.com</td>
-							<td>011 167 6767</td>
-							<td><a href="./collegeAdminUpdate.html" class="updateBtn">Update</a></td>
+							<td>067</td>
+							<td>No wifi</td>
+							<td>Al-Jazari A-5-4-B-(2)</td>
+							<td>28/5/2026</td>
+							<td>Pending</td>
+							<td><a href="./reportUpdate.php" class="updateBtn">Update</a></td>
 						</tr>
 
 						<tr>
-							<td>D032410396</td>
-							<td>Muhammad Imran Danial bin Samsudin</td>
-							<td>Satria</td>
-							<td>carod1234@gmail.com</td>
-							<td>013 145 7816</td>
-							<td><a href="./collegeAdminUpdate.html" class="updateBtn">Update</a></td>
+							<td>067</td>
+							<td>No wifi</td>
+							<td>Al-Jazari A-5-4-B-(1)</td>
+							<td>28/5/2026</td>
+							<td>Pending</td>
+							<td><a href="./reportUpdate.php" class="updateBtn">Update</a></td>
 						</tr>
 					</tbody>
 
 				</table>
 			</section>
-
 
 		</main>
 		<!-- CONTENT HERE -->
@@ -80,8 +84,7 @@
 		id="_dekstop-sideBar">
 	<input type="checkbox" hidden style="position: absolute;" name="_mobile-sideBar" id="_mobile-sideBar">
 	<input type="text" name="role" id="role" hidden value="SAD">
-	<input type="text" name="title" id="title" hidden value="Manage College Admin">
-
+	<input type="text" name="title" id="title" hidden value="Manage Report">
 </body>
 
 </html>

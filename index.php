@@ -1,14 +1,47 @@
+<?php
+session_start();
+require_once "./inc/init.php";
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+	$email = $_POST["email"];
+	$password = $_POST["password"];
+
+	$stmt = mysqli_prepare($conn, "SELECT * FROM user WHERE email = ? AND password = ?");
+	mysqli_stmt_bind_param($stmt, "ss", $email, $password);
+	mysqli_stmt_execute($stmt);
+	$result = mysqli_stmt_get_result($stmt);
+
+	if (mysqli_num_rows($result) > 0) {
+
+		$user = mysqli_fetch_assoc($result);
+
+		$_SESSION["name"] = $user["name"];
+		$_SESSION["email"] = $user["email"];
+		$_SESSION["id"] = $user["id"];
+
+		header("Location: ./pages/user/dashboard.php");
+		exit;
+	} else {
+		echo "
+			<script>alert('Invalid Credential')</script>
+		";
+	}
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
 	<link rel="shortcut icon" href="../../images/image.png" type="image/x-icon">
-
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+	<link rel="stylesheet" href="../lib/bootstrap.css">
+	<script src="../lib/bootstrap.js"></>
+	<script src="../lib/jquery.js"></script>
 	<meta charset="UTF-8">
 	<title>Dorm Facility Care</title>
 	<link rel="stylesheet" href="./style/index.css">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-	<script src="./lib/jquery.js"></script>
 </head>
 
 <body>
@@ -27,7 +60,7 @@
 		</header>
 
 		<!-- CONTENT HERE -->
-		<main class="_content-area">
+		<main class="_content-area ">
 
 			<div class="index-container">
 
@@ -36,7 +69,7 @@
 					<div>
 						<form action="" method="post">
 							<article>
-								<h1>Welcome Back !</h1>
+								<h1 class="bg-primary">Welcome Back !</h1>
 								<p>Lorem, ipsum dolor</p>
 							</article>
 
@@ -55,10 +88,10 @@
 								<button type="submit" class="btn">Log in</button>
 							</div>
 							<div class="input-control">
-								<a href="./pages/user/dashboard.html">user</a>
-								<a href="./pages/system-admin/dashboard.html">system admin</a>
-								<a href="./pages/contractor/dashboard.html">contractor</a>
-								<a href="./pages/college-admin/dashboard.html">college admin</a>
+								<a href="./pages/user/dashboard.php">user</a>
+								<a href="./pages/system-admin/dashboard.php">system admin</a>
+								<a href="./pages/contractor/dashboard.php">contractor</a>
+								<a href="./pages/college-admin/dashboard.php">college admin</a>
 							</div>
 						</form>
 					</div>
@@ -104,29 +137,29 @@
 								<h1>Welcome Back !</h1>
 								<p>Lorem, ipsum dolor</p>
 							</article>
-			
+
 							<div class="input-control">
 								<label for="email">Email</label>
 								<input required placeholder="Your emaill" type="email" name="email" id="email">
 							</div>
-			
+
 							<div class="input-control">
 								<label for="password">Password</label>
 								<input required placeholder="Your password" type="password" name="password" id="password">
 							</div>
-			
+
 							<div class="input-control">
 								<button type="submit" class="btn">Log in</button>
 							</div>
 							<div class="input-control">
-								<a href="./pages/user/dashboard.html">user</a>
-								<a href="./pages/system-admin/dashboard.html">system admin</a>
-								<a href="./pages/contractor/dashboard.html">contractor</a>
-								<a href="./pages/college-admin/dashboard.html">college admin</a>
+								<a href="./pages/user/dashboard.php">user</a>
+								<a href="./pages/system-admin/dashboard.php">system admin</a>
+								<a href="./pages/contractor/dashboard.php">contractor</a>
+								<a href="./pages/college-admin/dashboard.php">college admin</a>
 							</div>
 						</form>
 					</div>
-			
+
 				</section>
 			</div>
 
@@ -148,13 +181,13 @@
 		})
 
 		document.addEventListener("submit", e => {
-			e.preventDefault();
 			let from = e.target
 
 			let inputs = from.querySelectorAll("input")
 
 			for (let input of inputs) {
 				if (input.value.trim() == "") {
+					e.preventDefault();
 					input.focus()
 					return
 				}
@@ -163,7 +196,6 @@
 
 
 		})
-
 	</script>
 </body>
 

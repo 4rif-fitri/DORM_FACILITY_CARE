@@ -15,7 +15,7 @@
 	<script src="../../script/load-component.js"></script>
 
 	<!-- your styling -->
-	<link rel="stylesheet" href="../../style/pages/user/myProfile.css">
+	<link rel="stylesheet" href="../../style/myProfile.css">
 </head>
 
 <body>
@@ -33,17 +33,17 @@
 				</div>
 				<div class="profile-header">
 					<h2 class="profile-name">Name</h2>
-					<button onclick="hidContent()"class="btn btn-primary">Edit Profile</button>
+					<button onclick="hidContent()" class="btn btn-primary">Edit Profile</button>
 				</div>
 				<div class="profile-info">
-					<p class ="info-line" id="email-info">email@example.com</p>
-					<p class ="info-line" id="phone-info">123-456-7890</p>
-					<p class ="info-line" id="role-info">CONTRACTOR</p>
+					<p class="info-line" id="email-info">email@example.com</p>
+					<p class="info-line" id="phone-info">123-456-7890</p>
+					<p class="info-line" id="role-info">SYSTEM ADMIN</p>
 				</div>
 			</div>
 
 		</main>
-		<main class ="_edit-form" style="display: none;">
+		<main class="_edit-form" style="display: none;">
 			<div class="edit-card">
 				<h2>Edit Profile</h2>
 				<form>
@@ -59,35 +59,44 @@
 						<label for="phone" class="form-label">Phone Number</label>
 						<input type="text" class="form-control" id="phone" placeholder="Enter your phone number">
 					</div>
-					<button type="button" onclick="hidChangePass()" class="btn btn-warning">Change Password</button>
+					<button type="button" onclick="hidChangePass()" class="btn btn-warning">Change
+						Password</button>
 					<button type="button" onclick="cancelChange()" class="btn btn-secondary">Cancel</button>
 					<button type="button" onclick="saveChanges()" class="btn btn-success">Save Changes</button>
 				</form>
 			</div>
 		</main>
 
-		<main class = "_edit-password-form" style="display: none;">
+		<main class="_edit-password-form" style="display: none;">
 			<div class="edit-card">
 				<h2>Edit Password</h2>
 				<form>
 					<div class="mb-3">
 						<label for="current-password" class="form-label">Current Password</label>
-						<input type="password" class="form-control" id="current-password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" required">
-						<input type="checkbox" id="show-password" class="form-check-input" style="margin-top: 10px;">
+						<input type="password" class="form-control" id="current-password"
+							pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+							title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters"
+							required">
+						<input type="checkbox" id="show-password" class="form-check-input"
+							style="margin-top: 10px;">
 						<label for="show-password" class="form-check-label">Show Password</label>
 						<p id="password-error" class="text-danger"></p>
 					</div>
 					<div class="mb-3">
 						<label for="new-password" class="form-label">New Password</label>
-						<input type="password" class="form-control" id="new-password" placeholder="Enter new password">
-						<input type="checkbox" id="show-new-password" class="form-check-input" style="margin-top: 10px;">
+						<input type="password" class="form-control" id="new-password"
+							placeholder="Enter new password">
+						<input type="checkbox" id="show-new-password" class="form-check-input"
+							style="margin-top: 10px;">
 						<label for="show-new-password" class="form-check-label">Show Password</label>
 						<p id="new-password-error" class="text-danger"></p>
 					</div>
 					<div class="mb-3">
 						<label for="confirm-password" class="form-label">Confirm New Password</label>
-						<input type="password" class="form-control" id="confirm-password" placeholder="Confirm new password">
-						<input type="checkbox" id="show-confirm-password" class="form-check-input" style="margin-top: 10px;">
+						<input type="password" class="form-control" id="confirm-password"
+							placeholder="Confirm new password">
+						<input type="checkbox" id="show-confirm-password" class="form-check-input"
+							style="margin-top: 10px;">
 						<label for="show-confirm-password" class="form-check-label">Show Password</label>
 						<p id="confirm-password-error" class="text-danger"></p>
 					</div>
@@ -111,18 +120,18 @@
 
 	<!-- your script -->
 	<script>
-		function hidContent(){
+		function hidContent() {
 			$("#email").val($("#email-info").text());
 			$("#phone").val($("#phone-info").text());
 
 			$("._content-area").hide();
 			$("._edit-form").show();
 		}
-		function hidChangePass(){
+		function hidChangePass() {
 			$("._edit-password-form").show();
 			$("._edit-form").hide();
 		}
-		function cancelChangePass(){
+		function cancelChangePass() {
 			$("._edit-password-form").hide();
 			$("._edit-form").show();
 		}
@@ -131,7 +140,7 @@
 		var passUpper = $("#password-uppercase");
 		var passLower = $("#password-lowercase");
 		var passNumber = $("#password-number");
-		$("#new-password").on("input", function() {
+		$("#new-password").on("input", function () {
 			var password = $(this).val();
 
 			if (password.length >= 8) {
@@ -203,10 +212,10 @@
 			if (file) {
 				const reader = new FileReader();
 
-				reader.onload = function(e) {
+				reader.onload = function (e) {
 					const imageData = e.target.result;
 
-					$("#profile-avatar").html(`
+					$("#profile-avatar").php(`
 						<img
 							src="${imageData}"
 							alt="Avatar"
@@ -223,7 +232,7 @@
 			$("._edit-form").hide();
 			$("._content-area").show();
 		}
-		$(document).ready(function() {
+		$(document).ready(function () {
 
 			const email = sessionStorage.getItem("email");
 			const phone = sessionStorage.getItem("phone");
@@ -238,7 +247,7 @@
 			}
 
 			if (avatar) {
-				$("#profile-avatar").html(`
+				$("#profile-avatar").php(`
 					<img
 						src="${avatar}"
 						alt="Avatar"
@@ -249,9 +258,9 @@
 
 		});
 
-		function cancelChange(){
+		function cancelChange() {
 			$("._edit-form").hide();
-    		$("._content-area").show();
+			$("._content-area").show();
 		}
 
 	</script>

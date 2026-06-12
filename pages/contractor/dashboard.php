@@ -15,7 +15,7 @@
 	<script src="../../script/load-component.js"></script>
 
 	<!-- your styling -->
-	<link rel="stylesheet" href="../../style/pages/college-admin/dashboard.css">
+	<link rel="stylesheet" href="../../style/dashboard.css">
 </head>
 
 <body>
@@ -27,15 +27,16 @@
 			<div class="dashboard-area">
 
 				<!-- BIG TOTAL CARD -->
-				 <a href="reportManage.html" style="text-decoration: none;">
-				<div class="dashboard-total-card">
-					<div class="dashboard-header">
-						<img class="dashboard-icon" src="../../images/total.svg" alt="">
-						<h2>Total Reports</h2>
-					</div>
+				<a href="completedTasks.php" style="text-decoration: none;">
+					<div class="dashboard-total-card">
+						<div class="dashboard-header">
+							<img class="dashboard-icon" src="../../images/total.svg" alt="">
+							<h2>Total Reports</h2>
+						</div>
 
-					<p id="totalReport">2</p>
-				</div></a>
+						<p id="totalReport">2</p>
+					</div>
+				</a>
 
 				<!-- SMALL CARDS -->
 				<div class="dashboard-stats">
@@ -81,6 +82,7 @@
 			</div>
 
 
+
 		</main>
 		<!-- CONTENT HERE -->
 
@@ -95,7 +97,7 @@
 	<input type="checkbox" hidden style="position: absolute; z-index: 10;" name="_dekstop-sideBar"
 		id="_dekstop-sideBar">
 	<input type="checkbox" hidden style="position: absolute;" name="_mobile-sideBar" id="_mobile-sideBar">
-	<input type="text" name="role" id="role" hidden value="CAD">
+	<input type="text" name="role" id="role" hidden value="CTR">
 	<input type="text" name="title" id="title" hidden value="Dashboard">
 </body>
 

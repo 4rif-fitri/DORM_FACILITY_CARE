@@ -15,7 +15,7 @@
 	<script src="../../script/load-component.js"></script>
 
 	<!-- your styling -->
-	<link rel="stylesheet" href="../../style/pages/user/myProfile.css">
+	<link rel="stylesheet" href="../../style/myProfile.css">
 </head>
 
 <body>
@@ -38,7 +38,7 @@
 				<div class="profile-info">
 					<p class="info-line" id="email-info">email@example.com</p>
 					<p class="info-line" id="phone-info">123-456-7890</p>
-					<p class="info-line" id="role-info">USER</p>
+					<p class="info-line" id="role-info">CONTRACTOR</p>
 				</div>
 			</div>
 
@@ -215,7 +215,7 @@
 				reader.onload = function (e) {
 					const imageData = e.target.result;
 
-					$("#profile-avatar").html(`
+					$("#profile-avatar").php(`
 						<img
 							src="${imageData}"
 							alt="Avatar"
@@ -247,7 +247,7 @@
 			}
 
 			if (avatar) {
-				$("#profile-avatar").html(`
+				$("#profile-avatar").php(`
 					<img
 						src="${avatar}"
 						alt="Avatar"
