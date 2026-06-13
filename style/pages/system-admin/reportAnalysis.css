@@ -40,7 +40,6 @@
 	grid-template-areas:
 		'pieChart'
 		'barGraphBlock'
-		'barGraphTrand'
 		'donutBar'
 		'table'
 	;
@@ -110,7 +109,7 @@ section+.table table td {
 	width: 100%;
 	display: grid;
 	gap: 0.5rem;
-	grid-template-columns: 2fr 2fr 1fr 1fr;
+	grid-template-columns: 2fr 2fr;
 }
 
 .filter-control select {
@@ -147,7 +146,11 @@ section+.table table td {
 	background-color: white !important;
 }
 
-@media screen and (min-width:1000px) {}
+@media screen and (min-width:1000px) {
+	.filter-control {
+		grid-template-columns: 2fr 2fr 1fr 1fr;
+	}
+}
 
 @media screen and (min-width:1300px) {
 
@@ -159,7 +162,7 @@ section+.table table td {
 	.analisis-conainer {
 		grid-template-areas:
 			'pieChart 		barGraphBlock'
-			'barGraphTrand 	donutBar'
+			'donutBar 	donutBar'
 			'table  			table'
 		;
 	}
