@@ -3,7 +3,85 @@ require_once __DIR__ . "../../../inc/init.php";
 auth("SAD");
 
 //php code hrre
+function getDataStatus($conn)
+{
+	$sql = "SELECT status, COUNT(*) AS total
+            FROM report
+            GROUP BY status";
 
+	$result = mysqli_query($conn, $sql);
+
+	$data = [];
+
+	while ($row = mysqli_fetch_assoc($result)) {
+		$data[] = [
+			$row["status"],
+			(int)$row["total"]
+		];
+	}
+
+	return $data;
+}
+function getDataCategory($conn)
+{
+	$sql = "SELECT reportCategory, COUNT(*) AS total
+            FROM report
+            GROUP BY reportCategory";
+
+	$result = mysqli_query($conn, $sql);
+
+	$data = [];
+
+	while ($row = mysqli_fetch_assoc($result)) {
+		$data[] = [
+			$row["reportCategory"],
+			(int)$row["total"]
+		];
+	}
+
+	return $data;
+}
+function getDataCollage($conn)
+{
+	$sql = "SELECT college, COUNT(*) AS total
+            FROM report
+            GROUP BY college";
+
+	$result = mysqli_query($conn, $sql);
+
+	$data = [];
+
+	while ($row = mysqli_fetch_assoc($result)) {
+		$data[] = [
+			$row["college"],
+			(int)$row["total"]
+		];
+	}
+
+	return $data;
+}
+// function getDataTarnd($conn)
+// {
+// 	$sql = 	"SELECT DATE_FORMAT(dateReported, '%b') AS month,
+//     			COUNT(*) AS total
+// 			FROM report
+// 			GROUP BY MONTH(dateReported)
+// 			ORDER BY MONTH(dateReported)
+// 			";
+
+// 	$result = mysqli_query($conn, $sql);
+
+// 	$dataTrend = [];
+
+// 	while ($row = mysqli_fetch_assoc($result)) {
+// 		$dataTrend[] = [
+// 			$row["month"],
+// 			(int)$row["total"]
+// 		];
+// 	}
+
+// 	echo json_encode($dataTrend);
+// }
 //php code hrre
 
 ?>
@@ -34,6 +112,7 @@ auth("SAD");
 						<input type="month" name="month" id="month">
 
 						<select name="college" id="college">
+							<option selected value="">All College</option>
 							<option value="">Satria Jebat</option>
 							<option value="">Satria Tuah</option>
 							<option value="">Satria Kasturi</option>
@@ -54,7 +133,16 @@ auth("SAD");
 					</canvas>
 
 					<div class="filter-control">
-						<input type="month" name="month" id="month">
+						<select name="college" id="college">
+							<option selected value="">All College</option>
+							<option value="">Satria Jebat</option>
+							<option value="">Satria Tuah</option>
+							<option value="">Satria Kasturi</option>
+							<option value="">Satria Lekir</option>
+							<option value="">Satria Lekiu</option>
+							<option value="">Lestari</option>
+							<option value="">Al Jazari</option>
+						</select>
 
 						<select name="category" id="category">
 							<option value="">All Category</option>
@@ -69,14 +157,23 @@ auth("SAD");
 
 					</div>
 				</section>
-				<section class="barGraphTrand">
+				<!-- <section class="barGraphTrand">
 					<h2>Monthly Report Trend</h2>
 					<canvas id="canvas_barGraphTrand">
 
 					</canvas>
 
 					<div class="filter-control">
-						<input type="month" name="month" id="month">
+						<select name="college" id="college">
+							<option selected value="">All College</option>
+							<option value="">Satria Jebat</option>
+							<option value="">Satria Tuah</option>
+							<option value="">Satria Kasturi</option>
+							<option value="">Satria Lekir</option>
+							<option value="">Satria Lekiu</option>
+							<option value="">Lestari</option>
+							<option value="">Al Jazari</option>
+						</select>
 						<select name="category" id="category">
 							<option value="">All Category</option>
 							<option>Electrical</option>
@@ -88,7 +185,7 @@ auth("SAD");
 						<button class="btn-reset">Reset</button>
 						<button class="btn-export">Export cvs</button>
 					</div>
-				</section>
+				</section> -->
 				<section class="donutBar">
 					<h2>Report Status</h2>
 					<canvas id="canvas_donutBar">
@@ -112,30 +209,70 @@ auth("SAD");
 					</div>
 				</section>
 				<section class="table">
-					<h2>Top 5 Problem Locations</h2>
+					<h2>Top Problem Locations</h2>
 
-					<table>
-						<thead>
-							<tr>
-								<th>Rank</th>
-								<th>Collage</th>
-								<th>Total Report</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<td>1</td>
-								<td>Satria Jebat</td>
-								<td>100</td>
-							</tr>
-							<tr>
-								<td>2</td>
-								<td>Al Jazari</td>
-								<td>20</td>
-							</tr>
-						</tbody>
-					</table>
-
+					<div class="table-responsive">
+						<table>
+							<thead>
+								<tr>
+									<th>Rank</th>
+									<th>Collage</th>
+									<th>Total Report</th>
+									<th>Pending</th>
+									<th>Review</th>
+									<th>Repair</th>
+									<th>Done</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>1</td>
+									<td>Satria Jebat</td>
+									<td>100</td>
+									<td>100</td>
+									<td>100</td>
+									<td>100</td>
+									<td>100</td>
+								</tr>
+								<tr>
+									<td>2</td>
+									<td>Al Jazari</td>
+									<td>100</td>
+									<td>100</td>
+									<td>100</td>
+									<td>100</td>
+									<td>20</td>
+								</tr>
+								<tr>
+									<td>2</td>
+									<td>Al Jazari</td>
+									<td>100</td>
+									<td>100</td>
+									<td>100</td>
+									<td>100</td>
+									<td>20</td>
+								</tr>
+								<tr>
+									<td>2</td>
+									<td>Al Jazari</td>
+									<td>100</td>
+									<td>100</td>
+									<td>100</td>
+									<td>100</td>
+									<td>20</td>
+								</tr>
+								<tr>
+									<td>2</td>
+									<td>Al Jazari</td>
+									<td>100</td>
+									<td>100</td>
+									<td>100</td>
+									<td>100</td>
+									<td>20</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
 					<div class="filter-control">
 						<input type="month" name="month" id="month">
 						<select name="category" id="category">
@@ -162,35 +299,18 @@ auth("SAD");
 	<script>
 		let canvas_category = document.getElementById("canvas_pieChart");
 		let canvas_Block = document.getElementById("canvas_barGraphBlock");
-		let canvas_Trand = document.getElementById("canvas_barGraphTrand");
+		// let canvas_Trand = document.getElementById("canvas_barGraphTrand");
 		let canvas_Status = document.getElementById("canvas_donutBar");
 		let resizeTimer;
 		let rect = canvas_category.getBoundingClientRect();
 
+		let dataBlock = <?= json_encode(getDataCollage($conn)) ?>;
 
-		let dataBlock = [
-			["Tuah", 10],
-			["Jebat", 10],
-			["Kasturi", 10],
-			["Lekir", 10],
-			["Lekiu", 10],
-			["Lestari", 10],
-			["Al jazari", 10],
-		]
-		let datacategory = [
-			["Wifi", 10],
-			["Jamban", 10],
-			["Electik", 10],
-			["Pintu", 10],
-			["Singki", 10],
-			["Others", 30],
-		]
-		let dataStatus = [
-			["Pending", 10],
-			["Review", 10],
-			["Repair", 10],
-			["Done", 10],
-		]
+		let datacategory = <?= json_encode(getDataCategory($conn)) ?>;
+
+		let dataStatus = <?= json_encode(getDataStatus($conn)) ?>;
+
+
 		const colors = [
 			"#2563EB", // Blue
 			"#DC2626", // Red
@@ -261,24 +381,16 @@ auth("SAD");
 			})
 		}
 
-		let drawBarChart = canvas => {
+		let drawBarChart = (canvas, datas) => {
+			console.log(datas);
+
 			let ctx = canvas.getContext("2d")
 			canvas.width = 700
 			canvas.height = 300
 
-			let datas = [10, 50, 90, 70, 30]
-			let labels = ["Student 1", "Student 2", "Student 3", "Student 4", "Student 5"]
-			let colors = [
-				"#1E90FF",
-				"#FF5A79",
-				"#FF9F43",
-				"#FFE066",
-				"#2ECC71",
-			]
-
 			let startX = 50
 			let startY = 250
-			let max = Math.max(...datas)
+			let max = Math.max(...datas.map(item => item[1]));
 			let gap = 30
 			let barWidth = 70
 
@@ -288,195 +400,135 @@ auth("SAD");
 			ctx.lineTo(startX, startY)
 			ctx.lineTo(startX, startY - 200)
 
-			datas.forEach((value, index) => {
-				let barHeight = (value / max) * 200
-				let x = startX + gap + index * (barWidth + gap)
-				let y = startY - barHeight
-				ctx.fillStyle = colors[index]
-				ctx.fillRect(x, y, barWidth, barHeight)
-				ctx.font = "bold 0.75rem arial"
+			datas.forEach((item, index) => {
 
-				ctx.fillText(`${datas[index]} Mark`, x, y - 10)
-				ctx.fillText(`${labels[index]} Mark`, x, startY + 15)
-			})
+				let value = item[1];
+				let label = item[0];
 
+				let barHeight = (value / max) * 200;
+				let x = startX + gap + index * (barWidth + gap);
+				let y = startY - barHeight;
+
+				ctx.fillStyle = colors[index];
+				ctx.fillRect(x, y, barWidth, barHeight);
+
+				ctx.fillStyle = "#000";
+				ctx.fillText(value, x, y - 10);
+				ctx.fillText(label, x, startY + 20);
+			});
 			ctx.fillStyle = "#000"
 			ctx.lineWidth = 3
 			ctx.stroke()
 		}
 
-		function drawLineGraph(canvas) {
+		// function drawLineGraph(canvas, datas) {
 
-			const ctx = canvas.getContext("2d");
+		// 	const ctx = canvas.getContext("2d");
 
-			const rect = canvas.getBoundingClientRect();
+		// 	const rect = canvas.getBoundingClientRect();
 
-			canvas.width = rect.width;
-			canvas.height = rect.height;
+		// 	canvas.width = rect.width;
+		// 	canvas.height = 400;
 
-			const width = canvas.width;
-			const height = canvas.height;
+		// 	const width = canvas.width;
+		// 	const height = canvas.height;
 
-			const data = [200, 150, 170, 100, 80, 50, 350, 200, 200, 230];
+		// 	const padding = 50;
 
-			const labels = [
-				"Jan", "Feb", "Mar", "Apr", "May",
-				"Jun", "Jul", "Aug", "Sep", "Oct"
-			];
+		// 	const graphWidth = width - padding * 2;
+		// 	const graphHeight = height - padding * 2;
 
-			const padding = 50;
+		// 	const maxValue = Math.max(...datas.map(item => item[1]));
 
-			const graphWidth = width - padding * 2;
-			const graphHeight = height - padding * 2;
+		// 	// Grid
+		// 	ctx.strokeStyle = "#ddd";
+		// 	ctx.lineWidth = 1;
 
-			const maxValue = Math.max(...data);
+		// 	for (let i = 0; i <= 5; i++) {
 
-			// =========================
-			// GRID
-			// =========================
+		// 		let y = padding + (graphHeight / 5) * i;
 
-			ctx.strokeStyle = "#fff";
-			ctx.lineWidth = 0;
+		// 		ctx.beginPath();
+		// 		ctx.moveTo(padding, y);
+		// 		ctx.lineTo(width - padding, y);
+		// 		ctx.stroke();
+		// 	}
 
-			for (let i = 0; i <= 5; i++) {
+		// 	// Axis
+		// 	ctx.strokeStyle = "#000";
+		// 	ctx.lineWidth = 2;
 
-				let y = padding + (graphHeight / 5) * i;
+		// 	ctx.beginPath();
+		// 	ctx.moveTo(padding, padding);
+		// 	ctx.lineTo(padding, height - padding);
+		// 	ctx.lineTo(width - padding, height - padding);
+		// 	ctx.stroke();
 
-				ctx.beginPath();
-				ctx.moveTo(padding, y);
-				ctx.lineTo(width - padding, y);
-				ctx.stroke();
-			}
+		// 	const points = [];
 
-			// =========================
-			// AXIS
-			// =========================
+		// 	datas.forEach((item, index) => {
 
-			ctx.strokeStyle = "#000";
-			ctx.lineWidth = 2;
+		// 		const value = item[1];
 
-			ctx.beginPath();
+		// 		const x = padding + (graphWidth / (datas.length - 1)) * index;
 
-			ctx.moveTo(padding, padding);
-			ctx.lineTo(padding, height - padding);
+		// 		const y = height - padding - (value / maxValue) * graphHeight;
 
-			ctx.lineTo(width - padding, height - padding);
+		// 		points.push({
+		// 			x,
+		// 			y
+		// 		});
+		// 	});
 
-			ctx.stroke();
+		// 	// Area
+		// 	ctx.beginPath();
+		// 	ctx.moveTo(points[0].x, height - padding);
+		// 	ctx.lineTo(points[0].x, points[0].y);
 
-			// =========================
-			// POINTS
-			// =========================
+		// 	points.forEach(point => {
+		// 		ctx.lineTo(point.x, point.y);
+		// 	});
 
-			const points = [];
+		// 	ctx.lineTo(points[points.length - 1].x, height - padding);
+		// 	ctx.closePath();
 
-			data.forEach((value, index) => {
+		// 	ctx.fillStyle = "rgba(124,58,237,0.15)";
+		// 	ctx.fill();
 
-				const x =
-					padding +
-					(graphWidth / (data.length - 1)) * index;
+		// 	// Line
+		// 	ctx.beginPath();
+		// 	ctx.strokeStyle = "#7c3aed";
+		// 	ctx.lineWidth = 3;
 
-				const y =
-					height -
-					padding -
-					(value / maxValue) * graphHeight;
+		// 	ctx.moveTo(points[0].x, points[0].y);
 
-				points.push({
-					x,
-					y
-				});
-			});
+		// 	for (let i = 1; i < points.length; i++) {
+		// 		ctx.lineTo(points[i].x, points[i].y);
+		// 	}
 
-			// =========================
-			// AREA
-			// =========================
+		// 	ctx.stroke();
 
-			ctx.beginPath();
+		// 	// Point
+		// 	points.forEach((point, index) => {
 
-			ctx.moveTo(points[0].x, height - padding);
-			ctx.lineTo(points[0].x, points[0].y);
+		// 		ctx.beginPath();
+		// 		ctx.arc(point.x, point.y, 5, 0, Math.PI * 2);
+		// 		ctx.fillStyle = "#7c3aed";
+		// 		ctx.fill();
 
-			points.forEach(point => {
-				ctx.lineTo(point.x, point.y);
-			});
+		// 		ctx.fillStyle = "#000";
+		// 		ctx.textAlign = "center";
+		// 		ctx.font = "bold 12px Arial";
 
-			ctx.lineTo(
-				points[points.length - 1].x,
-				height - padding
-			);
-
-			ctx.closePath();
-
-			ctx.fillStyle = "rgba(124,58,237,0.15)";
-			ctx.fill();
-
-			// =========================
-			// LINE
-			// =========================
-
-			ctx.beginPath();
-
-			ctx.strokeStyle = "#7c3aed";
-			ctx.lineWidth = 3;
-
-			ctx.moveTo(points[0].x, points[0].y);
-
-			for (let i = 1; i < points.length; i++) {
-				ctx.lineTo(points[i].x, points[i].y);
-			}
-
-			ctx.stroke();
-
-			// =========================
-			// POINT CIRCLE
-			// =========================
-
-			points.forEach((point, index) => {
-
-				ctx.beginPath();
-
-				ctx.arc(
-					point.x,
-					point.y,
-					5,
-					0,
-					Math.PI * 2
-				);
-
-				ctx.fillStyle = "#7c3aed";
-				ctx.fill();
-
-				ctx.strokeStyle = "#fff";
-				ctx.lineWidth = 2;
-				ctx.stroke();
-
-				// Value
-				ctx.fillStyle = "#000";
-				ctx.font = "bold 12px Arial";
-				ctx.textAlign = "center";
-
-				ctx.fillText(
-					data[index],
-					point.x,
-					point.y - 15
-				);
-
-				// Month Label
-				ctx.fillStyle = "#666";
-
-				ctx.fillText(
-					labels[index],
-					point.x,
-					height - 20
-				);
-			});
-
-		}
+		// 		ctx.fillText(datas[index][1], point.x, point.y - 15);
+		// 		ctx.fillText(datas[index][0], point.x, height - 20);
+		// 	});
+		// }
 
 		drawPieChart(canvas_category, datacategory);
 		drawPieChart(canvas_Block, dataBlock);
-		drawLineGraph(canvas_Trand);
-		drawBarChart(canvas_Status);
+		// drawLineGraph(canvas_Trand, dataTrand);
+		drawBarChart(canvas_Status, dataStatus);
 
 		window.addEventListener("resize", () => {
 
@@ -486,8 +538,8 @@ auth("SAD");
 
 				drawPieChart(canvas_category, datacategory);
 				drawPieChart(canvas_Block, dataBlock);
-				drawLineGraph(canvas_Trand);
-				drawBarChart(canvas_Status);
+				// drawLineGraph(canvas_Trand, dataTrand);
+				drawBarChart(canvas_Status, dataStatus);
 
 			}, 1000);
 

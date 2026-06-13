@@ -15,6 +15,9 @@ $row = mysqli_fetch_assoc($result);
 if (!$row) {
 	die("No data found for this user");
 }
+
+
+
 //php code hrre
 
 ?>
@@ -47,12 +50,12 @@ if (!$row) {
 					<div class="input-control">
 						<label for="categories" class="required">Categories</label>
 						<select name="categories" id="categories">
-							<option selected value="">Select Categories</option>
-							<option>Electrical</option>
-							<option>Plumbing</option>
-							<option>Furniture</option>
-							<option>Internet</option>
-							<option>Others</option>
+							<option disabled selected value="">Select Categories</option>
+							<option value="Electrical">Electrical</option>
+							<option value="Plumbing">Plumbing</option>
+							<option value="Furniture">Furniture</option>
+							<option value="Internet">Internet</option>
+							<option value="Others">Others</option>
 						</select>
 					</div>
 
@@ -63,7 +66,7 @@ if (!$row) {
 					<div class="input-control col-3">
 						<article>
 							<label for="location" class="required">Location</label>
-							<select required name="location" id="location">
+							<select disabled required name="location" id="location">
 								<option value="Satria" <?= (trim($row["studentCollege"]) == "Satria") ? "selected" : "" ?>>Satria</option>
 
 								<option value="Al_Jazari" <?= (trim($row["studentCollege"]) == "Al_Jazari") ? "selected" : "" ?>>Al Jazari</option>
@@ -75,7 +78,6 @@ if (!$row) {
 						<article>
 							<label for="block" class="required">Block</label>
 							<select required name="block" id="block">
-								<option selected value="">Select Block</option>
 
 							</select>
 						</article>
@@ -83,17 +85,38 @@ if (!$row) {
 						<article>
 							<label for="level" class="required">Level</label>
 							<select name="level" id="level">
-								<option selected value="">Select Level</option>
 
 							</select>
 						</article>
+
+						<article>
+							<label for="rumah" class="required">No Rumah</label>
+							<select name="rumah" id="rumah">
+
+							</select>
+						</article>
+
+						<article>
+							<label for="bilik" class="required">Bilik</label>
+							<select name="bilik" id="bilik">
+
+							</select>
+						</article>
+
+						<article>
+							<label for="katil" class="required">Katil</label>
+							<select name="katil" id="katil">
+
+							</select>
+						</article>
+
+
+
 					</div>
 
 					<div class="input-control">
-						<label for="room_no" class="required">Room no.</label>
-						<p class="text-danger hidden" style="margin-bottom: 0;">Errors</p>
-						<input disabled value="<?= $row["studentRoom"] ?>" type="text" name="room_no" id="room_no" placeholder="A-1-2-B(2)">
-						<p class="hint">e.g: A-1-2-B(2)</p>
+						<p for="room_no">Full Alamat</p>
+						<input disabled type="text" name="room_no" id="room_no">
 					</div>
 				</section>
 
@@ -170,6 +193,13 @@ if (!$row) {
 
 		</main>
 	</section>
+	<div class="popUpFail hidden">
+		<div class="card p-3">
+			<h1 class="text-center">🚫</h1>
+			<h2>Fail to Add Report</h2>
+			<a href="" class="btn btn-success">Ok</a>
+		</div>
+	</div>
 	<div class="popUpDone hidden">
 		<div class="card p-3">
 			<!-- <img id="asd" src="" alt=""> -->
@@ -178,7 +208,14 @@ if (!$row) {
 			<a href="./myReport.php" class="btn btn-success">Ok</a>
 		</div>
 	</div>
+	<div class="popUpLoading hidden">
+		<div class="card p-3">
+			<h1 class="text-center">🔃</h1>
+			<h2>Wait...</h2>
+		</div>
+	</div>
 	<script>
+		// <-------- Satria ------------->
 		let blokStaria = `
 			<option selected disabled hidden value="">Select Block</option>
 			<option value="Satria_Jebat">Satria Jebat</option>
@@ -199,6 +236,22 @@ if (!$row) {
 			<option value="8">8</option>
 			<option value="9">9</option>
 		`
+		let rumahStaria = `
+			<option selected disabled hidden value="">Select Rumah</option>
+			<option value="1">1</option>
+			<option value="2">2</option>
+			<option value="3">3</option>
+			<option value="4">4</option>
+			<option value="5">5</option>
+			<option value="6">6</option>
+			<option value="7">7</option>
+			<option value="8">8</option>
+			<option value="9">9</option>
+			<option value="10">10</option>
+			<option value="11">11</option>
+			<option value="12">12</option>
+		`
+		// <-------- AJ ------------->
 		let blokAj = `
 			<option selected disabled hidden value="">Select Block</option>
 			<option value="Al_Jazari_A">Blok A</option>
@@ -213,14 +266,31 @@ if (!$row) {
 			<option value="4">4</option>
 			<option value="5">5</option>
 		`
+		let rumahAj = `
+			<option selected disabled hidden value="">Select Rumah</option>
+			<option value="1">1</option>
+			<option value="2">2</option>
+			<option value="3">3</option>
+			<option value="4">4</option>
+			<option value="5">5</option>
+			<option value="6">6</option>
+		`
 		// WARN: assuming all blocks of a college have the same levels
 		// unconfirmed for Lestari
+
+		// <-------- Lestari ------------->
 		let blokLestari = `
 			<option selected disabled hidden value="">Select Block</option>
 			<option value="Lestari_A">Lelaki A</option>
 			<option value="Lestari_B">Perempuan B</option>
 		`
 		let levelLestari = `
+			<option selected disabled hidden value="">Select Level</option>
+			<option value="1">1</option>
+			<option value="2">2</option>
+			<option value="3">3</option>
+		`
+		let rumahLestari = `
 			<option selected disabled hidden value="">Select Level</option>
 			<option value="1">1</option>
 			<option value="2">2</option>
@@ -238,31 +308,78 @@ if (!$row) {
 
 		let inpCategories = document.querySelector("#categories")
 		let inpDescription = document.querySelector("#description")
+
 		let inpLocation = document.querySelector("#location")
+
 		let inpBlock = document.querySelector("#block")
 		let inpLevel = document.querySelector("#level")
-		let inpRoomNo = document.querySelector("#room_no")
+		let inpRoomNo = document.querySelector("#rumah")
+
+		let inpBilik = document.querySelector("#bilik")
+		let inpKatil = document.querySelector("#katil")
 		let inpImage = document.querySelector("#image")
+
+		let room_no = document.getElementById("room_no")
 
 		let currentUrl = null;
 		let imgURL
 		let btnClear = document.querySelector(".clear")
 
 		btnClear.addEventListener("click", () => removePhoto())
-		let run = () => {
 
-			let alamat = "<?= $row["studentRoom"] ?>"
-			alamat = alamat.split("-")
+		let getFullAddredd = () => {
 			let kolej = "<?= $row["studentCollege"] ?>"
-			
-			let blok = alamat[0]
-			let floor = alamat[1]
-			let rumah = alamat[2]
 
-			let BILIK = alamat[3]
+			if (kolej == "Al_Jazari") {
+				let inpBlock = document.querySelector("#block").value
+				let inpLevel = document.querySelector("#level").value
+				let inpRoomNo = document.querySelector("#rumah").value
+				let inpBilik = document.querySelector("#bilik").value
+				let inpKatil = document.querySelector("#katil").value
+				room_no.value = `AJ-${inpBlock}-${inpLevel}-${inpRoomNo}-${inpBilik}(${inpKatil})`
+			} else if (kolej == "Lestari") {
 
-			let bilik = BILIK.split("(")[0]
-			let katil = BILIK.split("(")[1].replaceAll(")", "")
+			} else if (kolej == "Satria") {
+				let inpBlock = document.querySelector("#block").value
+				let inpLevel = document.querySelector("#level").value
+				let inpRoomNo = document.querySelector("#rumah").value
+				let inpBilik = document.querySelector("#bilik").value
+				let inpKatil = document.querySelector("#katil").value
+				room_no.value = `${inpBlock}-${inpLevel}-${inpRoomNo}-${inpBilik}(${inpKatil})`
+			}
+
+
+		}
+
+		let run = () => {
+			let kolej = "<?= $row["studentCollege"] ?>"
+			let alamat = "<?= $row["studentRoom"] ?>"
+			let blok, floor, rumah, BILIK, bilik, katil
+			alamat = alamat.split("-")
+
+			if (kolej == "Al_Jazari") {
+				blok = alamat[0]
+				floor = alamat[1]
+				rumah = alamat[2]
+				BILIK = alamat[3]
+				bilik = BILIK.split("(")[0]
+				katil = BILIK.split("(")[1].replaceAll(")", "")
+
+			} else if (kolej == "Lestari") {
+				blok = alamat[0]
+				rumah = alamat[1]
+				floor = alamat[2]
+				bilik = alamat[3]
+				katil = 1 //!
+
+			} else if (kolej == "Satria") {
+				blok = alamat[1]
+				floor = alamat[2]
+				rumah = alamat[3]
+				BILIK = alamat[4]
+				bilik = BILIK.split("(")[0]
+				katil = BILIK.split("(")[1].replace(")", "")
+			}
 
 			console.log({
 				alamat,
@@ -272,45 +389,121 @@ if (!$row) {
 				bilik,
 				katil
 			});
-			inpBlock.innerHTML = ""
-			if (kolej == "Al_Jazari") {
-				inpBlock.removeAttribute("disabled")
-				let blokAj = `
-					<option disabled hidden value="">Select Block</option>
-					<option ${blok == "A" ? "selected" : ""} value="A">Blok A</option>
-					<option ${blok == "B" ? "selected" : ""} value="B">Blok B</option>
-					<option ${blok == "C" ? "selected" : ""} value="C">Blok C</option>
-					`
-				inpBlock.innerHTML = blokAj
-			} else if (kolej == "Satria") { //SATRIA LESTARI
-				let blokStaria = `
-						<option selected hidden value="">Select Block</option>
-						<option value="Satria_Jebat">Satria Jebat</option>
-						<option value="Satria_Tuah">Satria Tuah</option>
-						<option value="Satria_Lekir">Satria Lekir</option>
-						<option value="Satria_Lekiu">Satria Lekiu</option>
-						<option value="Satria_Kasturi">Satria Kasturi</option>
-					`
-			} else if (kolej == "Lestari") { //SATRIA LESTARI
 
-			}
+			let optBlock, optLevel, optNo_Rumah, optBilik, optKatil
 
 			if (kolej == "Al_Jazari") {
-				inpLevel.removeAttribute("disabled")
-				let levelAj = `
-							<option selected disabled hidden value="">Select Level</option>
-							<option ${floor == "1" ? "selected" : ""} value="1">1</option>
-							<option ${floor == "2" ? "selected" : ""} value="2">2</option>
-							<option ${floor == "3" ? "selected" : ""} value="3">3</option>
-							<option ${floor == "4" ? "selected" : ""} value="4">4</option>
-							<option ${floor == "5" ? "selected" : ""} value="5">5</option>
+
+				optBlock = `
+						<option ${blok == "A" ? "selected" : ""} value="A">Blok A</option>
+						<option ${blok == "B" ? "selected" : ""} value="B">Blok B</option>
+						<option ${blok == "C" ? "selected" : ""} value="C">Blok C</option>
 						`
-				inpLevel.innerHTML = levelAj
-			} else if (kolej == "Satria") { //SATRIA LESTARI
+				optLevel = `
+						<option ${floor == "1" ? "selected" : ""} value="1">1</option>
+						<option ${floor == "2" ? "selected" : ""} value="2">2</option>
+						<option ${floor == "3" ? "selected" : ""} value="3">3</option>
+						<option ${floor == "4" ? "selected" : ""} value="4">4</option>
+						<option ${floor == "5" ? "selected" : ""} value="5">5</option>
+					`
+				optNo_Rumah = `
+						<option ${rumah == "1" ? "selected" : ""} value="1">1</option>
+						<option ${rumah == "2" ? "selected" : ""} value="2">2</option>
+						<option ${rumah == "3" ? "selected" : ""} value="3">3</option>
+						<option ${rumah == "4" ? "selected" : ""} value="4">4</option>
+						<option ${rumah == "5" ? "selected" : ""} value="5">5</option>
+						<option ${rumah == "6" ? "selected" : ""} value="6">6</option>
+					`
+				optBilik = `
+						<option ${bilik == "A" ? "selected" : ""} value="A">A</option>
+						<option ${bilik == "B" ? "selected" : ""} value="B">B</option>
+						<option ${bilik == "C" ? "selected" : ""} value="C">C</option>
+						<option ${bilik == "D" ? "selected" : ""} value="D">D</option>
+						<option ${bilik == "E" ? "selected" : ""} value="E">E</option>
+				`
+				optKatil = `
+						<option ${katil == "1" ? "selected" : ""} value="1">1</option>
+						<option ${katil == "2" ? "selected" : ""} value="2">2</option>
+						<option ${katil == "3" ? "selected" : ""} value="3">3</option>
+				`
 
-			} else if (kolej == "Lestari") { //SATRIA LESTARI
-
+			} else if (kolej == "Satria") {
+				optBlock = `
+					<option ${blok == "J" ? "selected" : ""} value="SJ-J">Satria Jebat</option>
+					<option ${blok == "T" ? "selected" : ""} value="ST-T">Satria Tuah</option>
+					<option ${blok == "L" ? "selected" : ""} value="SL-L">Satria Lekir</option>
+					<option ${blok == "E" ? "selected" : ""} value="SE-E">Satria Lekiu</option>
+					<option ${blok == "K" ? "selected" : ""} value="SK-K">Satria Kasturi</option>
+					`
+				optLevel = `
+					<option  ${floor == "1" ? "selected" : ""} value="1">1</option>
+					<option  ${floor == "2" ? "selected" : ""} value="2">2</option>
+					<option  ${floor == "3" ? "selected" : ""} value="3">3</option>
+					<option  ${floor == "4" ? "selected" : ""} value="4">4</option>
+					<option  ${floor == "5" ? "selected" : ""} value="5">5</option>
+					<option  ${floor == "6" ? "selected" : ""} value="6">6</option>
+					<option  ${floor == "7" ? "selected" : ""} value="7">7</option>
+					<option  ${floor == "8" ? "selected" : ""} value="8">8</option>
+					<option  ${floor == "9" ? "selected" : ""} value="9">9</option>
+					`
+				optNo_Rumah = `
+					<option  ${rumah == "1" ? "selected" : ""} value="1">1</option>
+					<option  ${rumah == "2" ? "selected" : ""} value="2">2</option>
+					<option  ${rumah == "3" ? "selected" : ""} value="3">3</option>
+					<option  ${rumah == "4" ? "selected" : ""} value="4">4</option>
+					<option  ${rumah == "5" ? "selected" : ""} value="5">5</option>
+					<option  ${rumah == "6" ? "selected" : ""} value="6">6</option>
+					<option  ${rumah == "7" ? "selected" : ""} value="7">7</option>
+					<option  ${rumah == "8" ? "selected" : ""} value="8">8</option>
+					<option  ${rumah == "9" ? "selected" : ""} value="9">9</option>
+					<option  ${rumah == "10" ? "selected" : ""} value="10">10</option>
+					<option  ${rumah == "11" ? "selected" : ""} value="11">11</option>
+					<option  ${rumah == "12" ? "selected" : ""} value="12">12</option>
+					`
+				optBilik = `
+					<option  ${bilik == "A" ? "selected" : ""} value="A">A</option>
+					<option  ${bilik == "B" ? "selected" : ""} value="B">B</option>
+					<option  ${bilik == "C" ? "selected" : ""} value="C">C</option>
+					<option  ${bilik == "D" ? "selected" : ""} value="D">D</option>
+					<option  ${bilik == "E" ? "selected" : ""} value="E">E</option>
+				`
+				optKatil = `
+					<option  ${katil == "1" ? "selected" : ""} value="1">1</option>
+					<option  ${katil == "2" ? "selected" : ""} value="2">2</option>
+				`
+			} else if (kolej == "Lestari") {
+				optBlock = `
+					<option  ${blok == "1" ? "selected" : ""} value="Lestari_A">Lelaki A</option>
+					<option  ${blok == "1" ? "selected" : ""} value="Lestari_B">Perempuan B</option>
+				`
+				optLevel = `
+					<option  ${floor == "1" ? "selected" : ""} value="1">1</option>
+					<option  ${floor == "2" ? "selected" : ""} value="2">2</option>
+					<option  ${floor == "3" ? "selected" : ""} value="3">3</option>
+				`
+				optNo_Rumah = `
+					<option  ${rumah == "1" ? "selected" : ""} value="1">1</option>
+					<option  ${rumah == "2" ? "selected" : ""} value="2">2</option>
+					<option  ${rumah == "3" ? "selected" : ""} value="3">3</option>
+				`
+				optBilik = `
+					<option  ${bilik == "A" ? "selected" : ""} value="A">A</option>
+					<option  ${bilik == "B" ? "selected" : ""} value="B">B</option>
+					<option  ${bilik == "C" ? "selected" : ""} value="C">C</option>
+					<option  ${bilik == "D" ? "selected" : ""} value="D">D</option>
+				`
+				optKatil = `
+					<option  ${katil == "1" ? "selected" : ""} value="1">1</option>
+					<option  ${katil == "2" ? "selected" : ""} value="2">2</option>
+				`
 			}
+
+			inpBlock.innerHTML = optBlock
+			inpLevel.innerHTML = optLevel
+			inpRoomNo.innerHTML = optNo_Rumah
+			inpBilik.innerHTML = optBilik
+			inpKatil.innerHTML = optKatil
+			getFullAddredd()
 		}
 		run()
 
@@ -370,8 +563,6 @@ if (!$row) {
 				inpDescription,
 				inpLocation,
 				inpBlock,
-				inpLevel,
-				inpRoomNo,
 				inpImage
 			];
 
@@ -402,6 +593,7 @@ if (!$row) {
 			} else {
 				console.log("All Clear");
 
+				document.querySelector(".popUpLoading").classList.remove("hidden");
 				$.ajax({
 					url: "../../api/submitReport.php",
 					method: "POST",
@@ -410,17 +602,22 @@ if (!$row) {
 						description: inpDescription.value,
 						url: imgURL,
 						location: inpLocation.value,
-						block: inpBlock.value,
-						level: inpLevel.value,
-						room_no: inpRoomNo.value
+						room_no: room_no.value
 					},
 					success: response => {
 						console.log(response)
 						// document.getElementById("asd").src = response[0][7]
+						document.querySelector(".popUpLoading").classList.add("hidden");
 						document.querySelector(".popUpDone").classList.remove("hidden");
+
 					},
 					error: response => {
 						console.log(response.responseText);
+						document.querySelector(".popUpLoading").classList.add("hidden");
+						document.querySelector(".popUpFail").classList.remove("hidden");
+					},
+					complete: () => {
+
 					}
 				})
 

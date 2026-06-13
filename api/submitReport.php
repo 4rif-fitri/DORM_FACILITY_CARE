@@ -3,15 +3,13 @@
 	require_once "../inc/conn.php";
 	
 	header("Content-Type: application/json");
-ob_clean();
+	ob_clean();
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
 	$id = $_SESSION["userID"];
 	$category = $_POST["category"];
 	$url = $_POST["url"];
 	$description = $_POST["description"];
 	$location = $_POST["location"];
-	$block = $_POST["block"];
-	$level = $_POST["level"];
 	$room = $_POST["room_no"];
 	$status = "Pending";
 	$arr = array(
@@ -19,8 +17,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 		$category,
 		$description,
 		$location,
-		$block,
-		$level,
 		$room,
 		$url
 	);

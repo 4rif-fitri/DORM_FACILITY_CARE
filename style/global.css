@@ -16,8 +16,6 @@ body {
 	font-family: poppins, sans-serif;
 }
 
-@import url("global.css");
-
 :root {
 	--primary: #49135C;
 	--primary-md: rgba(140, 68, 166, 0.5);

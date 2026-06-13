@@ -286,7 +286,7 @@ body:has(#_dekstop-sideBar:checked) ._sidebar-_dekstop ._menu-bawah a {
 	transition: all 0.2s ease;
 }
 
-.popUpDone{
+.popUpDone,.popUpLoading,.popUpFail{
 	z-index: 10;
 	top: 0;
 	left: 0;
