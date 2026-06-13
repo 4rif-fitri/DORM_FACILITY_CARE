@@ -1,12 +1,13 @@
 <?php
 require_once __DIR__ . "../../../inc/init.php";
 auth("STD");
+		send("ariffitrimohdjamil@gmail.com", "LOREM", "LOREM");
 
-//php code hrre
+		//php code hrre
 
-//php code hrre
+		//php code hrre
 
-?>
+		?>
 <!DOCTYPE html>
 <html lang="en">
 
