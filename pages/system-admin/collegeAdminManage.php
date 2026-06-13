@@ -24,7 +24,10 @@ auth("SAD");
 		<!-- CONTENT HERE -->
 		<main class="_content-area">
 			<nav class="add-box">
-				<a href="" class="addBtn">Add Admin</a>
+				<button type="button" class="addBtn" data-bs-toggle="modal" data-bs-target="#Modal">
+					Add Admin
+				</button>
+				<!-- <a href="" class="addBtn">Add Admin</a> -->
 			</nav>
 
 			<section class="table-container">
@@ -67,7 +70,29 @@ auth("SAD");
 		</main>
 		<!-- CONTENT HERE -->
 
+
+
 	</section>
+
+	<div class="modal fade" id="Modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+				<form action="" method="post">
+					<div class="modal-header">
+						<h1 class="modal-title fs-5" id="exampleModalLabel">Add Admin</h1>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
+	
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+						<button type="button" class="btn btn-primary">Save changes</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
 
 	<!-- your script -->
 	<script>
