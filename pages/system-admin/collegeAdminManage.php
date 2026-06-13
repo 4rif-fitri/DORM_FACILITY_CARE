@@ -83,11 +83,39 @@ auth("SAD");
 						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 					</div>
 					<div class="modal-body">
-	
+						<div class="input-control">
+							<label for="name">Name</label>
+							<input type="text" name="name" id="name">
+						</div>
+						<div class="input-control">
+							<label for="password">Password</label>
+							<input type="password" name="password" id="password">
+						</div>
+						<div class="input-control">
+							<label for="numTel">numTel</label>
+							<input type="text" name="numTel" id="numTel">
+						</div>
+						<div class="input-control">
+							<label for="email">email</label>
+							<input type="text" name="email" id="email">
+						</div>
+						<div class="input-control">
+							<label for="collage">Collage</label>
+							<select name="collage" id="collage">
+								<option disabled selected value="">Select Collage</option>
+								<option value="KOLEJ KEDIAMAN SATRIA JEBAT">KOLEJ KEDIAMAN SATRIA JEBAT</option>
+								<option value="KOLEJ KEDIAMAN SATRIA TUAH">KOLEJ KEDIAMAN SATRIA TUAH</option>
+								<option value="KOLEJ KEDIAMAN SATRIA KASTURI">KOLEJ KEDIAMAN SATRIA KASTURI</option>
+								<option value="KOLEJ KEDIAMAN SATRIA LEKIR">KOLEJ KEDIAMAN SATRIA LEKIR</option>
+								<option value="KOLEJ KEDIAMAN SATRIA LEKIU">KOLEJ KEDIAMAN SATRIA LEKIU</option>
+								<option value="KOLEJ KEDIAMAN AL JAZARI">KOLEJ KEDIAMAN AL JAZARI</option>
+								<option value="KOLEJ KEDIAMAN LESTARI">KOLEJ KEDIAMAN LESTARI</option>
+							</select>
+						</div>
 					</div>
 					<div class="modal-footer">
-						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-						<button type="button" class="btn btn-primary">Save changes</button>
+						<button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+						<button type="submit" class="btn btn-primary">Save changes</button>
 					</div>
 				</form>
 			</div>

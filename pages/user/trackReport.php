@@ -46,11 +46,11 @@ auth("STD");
 								<article>
 									<p class="text-active">Pending</p>
 									<p></p>
-									<p class="text-active">Review</p>
+									<p class="text-active">Assigned</p>
 									<p></p>
-									<p>Repair</p>
+									<p>In Progress</p>
 									<p></p>
-									<p>Done</p>
+									<p>Completed</p>
 								</article>
 							</div>
 						</div>

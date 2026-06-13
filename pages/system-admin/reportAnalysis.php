@@ -219,9 +219,9 @@ function getDataCollage($conn)
 									<th>Collage</th>
 									<th>Total Report</th>
 									<th>Pending</th>
-									<th>Review</th>
-									<th>Repair</th>
-									<th>Done</th>
+									<th>Assigned</th>
+									<th>In Progress</th>
+									<th>Completed</th>
 								</tr>
 							</thead>
 							<tbody>

@@ -24,7 +24,10 @@ auth("SAD");
 		<!-- CONTENT HERE -->
 		<main class="_content-area">
 			<nav class="add-box">
-				<a href="" class="addBtn">Add Student</a>
+				<button type="button" class="addBtn" data-bs-toggle="modal" data-bs-target="#Modal">
+					Add Student
+				</button>
+				<!-- <a href="" class="addBtn">Add Student</a> -->
 			</nav>
 
 			<section class="table-container">
@@ -45,7 +48,7 @@ auth("SAD");
 							<td>Arif Fitri bin Mohd Jamil</td>
 							<td>Al-Jazari</td>
 							<td>011 167 6767</td>
-							<td><a href="" class="updateBtn">Update</a></td>
+							<td><a href="./studentUpdate.php" class="updateBtn">Update</a></td>
 						</tr>
 
 						<tr>
@@ -53,7 +56,7 @@ auth("SAD");
 							<td>Muhammad Imran Danial</td>
 							<td>Satria</td>
 							<td>013 145 7816</td>
-							<td><a href="" class="updateBtn">Update</a></td>
+							<td><a href="./studentUpdate.php" class="updateBtn">Update</a></td>
 						</tr>
 					</tbody>
 
@@ -65,7 +68,53 @@ auth("SAD");
 		<!-- CONTENT HERE -->
 
 	</section>
-
+	<div class="modal fade" id="Modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+				<form action="" method="post">
+					<div class="modal-header">
+						<h1 class="modal-title fs-5" id="exampleModalLabel">Add Admin</h1>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
+						<div class="input-control">
+							<label for="name">Name</label>
+							<input type="text" name="name" id="name">
+						</div>
+						<div class="input-control">
+							<label for="password">Password</label>
+							<input type="password" name="password" id="password">
+						</div>
+						<div class="input-control">
+							<label for="numTel">numTel</label>
+							<input type="text" name="numTel" id="numTel">
+						</div>
+						<div class="input-control">
+							<label for="email">email</label>
+							<input type="text" name="email" id="email">
+						</div>
+						<div class="input-control">
+							<label for="collage">Collage</label>
+							<select name="collage" id="collage">
+								<option disabled selected value="">Select Collage</option>
+								<option value="Satria">Satria</option>
+								<option value="Al_Jazari">Al_Jazari</option>
+								<option value="Lestari">Lestari</option>
+							</select>
+						</div>
+						<div class="input-control">
+							<label for="studentRoom">Student Room</label>
+							<input type="text" name="studentRoom" id="studentRoom">
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+						<button type="submit" class="btn btn-primary">Save changes</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
 	<!-- your script -->
 	<script>
 

@@ -46,11 +46,11 @@ auth("CTR");
 								<article>
 									<p class="text-active">Pending</p>
 									<p></p>
-									<p class="text-active">Review</p>
+									<p class="text-active">Assigned</p>
 									<p></p>
-									<p class="text-active">Repair</p>
+									<p class="text-active">In Progress</p>
 									<p></p>
-									<p>Done</p>
+									<p>Completed</p>
 								</article>
 
 							</div>
@@ -59,7 +59,7 @@ auth("CTR");
 						<article>
 							<span></span>
 							<button data-bs-target="#model-mark" data-bs-toggle="modal"
-								class="btn btn-success">Done</button>
+								class="btn btn-success">Completed</button>
 						</article>
 					</section>
 
