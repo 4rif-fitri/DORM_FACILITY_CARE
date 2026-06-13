@@ -1,10 +1,20 @@
 <?php
-session_start();
 require_once __DIR__ . "../../../inc/init.php";
 auth("STD");
 
 //php code hrre
+$id = $_SESSION["userID"];
+$sql =   "SELECT * FROM user INNER JOIN student
+			ON user.userID = student.userID
+			WHERE user.userID  = '$id'
+			";
+$result = mysqli_query($conn, $sql);
 
+$row = mysqli_fetch_assoc($result);
+
+if (!$row) {
+	die("No data found for this user");
+}
 //php code hrre
 
 ?>
@@ -12,21 +22,13 @@ auth("STD");
 <html lang="en">
 
 <head>
-	<link rel="shortcut icon" href="../../images/image.png" type="image/x-icon">
-
-	<meta charset="UTF-8">
-	<title>Dorm Facility Care</title>
-	<link rel="stylesheet" href="../../lib/bootstrap.css">
-	<script src="../../lib/bootstrap.js"></script>
-	<link rel="stylesheet" href="../../style/layout.css">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-	<script src="../../lib/jquery.js"></script>
-	<script src="../../script/load-component.js"></script>
-
+	<!-- your styling -->
 	<link rel="stylesheet" href="../../style/pages/user/newReport.css">
 </head>
 
 <body>
+
+
 
 	<section class="_workspace">
 		<?php $title = "New Report" ?>
@@ -45,9 +47,12 @@ auth("STD");
 					<div class="input-control">
 						<label for="categories" class="required">Categories</label>
 						<select name="categories" id="categories">
-							<option selected disabled value="">Select Categories</option>
-							<option value="category_1">Category 1</option>
-							<option value="category_2">Category 2</option>
+							<option selected value="">Select Categories</option>
+							<option>Electrical</option>
+							<option>Plumbing</option>
+							<option>Furniture</option>
+							<option>Internet</option>
+							<option>Others</option>
 						</select>
 					</div>
 
@@ -55,30 +60,30 @@ auth("STD");
 						<label for="description" class="required">Description</label>
 						<textarea rows="10" name="description" id="description" rows="10"></textarea>
 					</div>
-
 					<div class="input-control col-3">
 						<article>
 							<label for="location" class="required">Location</label>
 							<select required name="location" id="location">
-								<option selected disabled hidden value="">Select Location</option>
-								<option value="Satria">Satria</option>
-								<option value="Al_Jazari">Al Jazari</option>
-								<option value="Lestari">Lestari</option>
+								<option value="Satria" <?= (trim($row["studentCollege"]) == "Satria") ? "selected" : "" ?>>Satria</option>
+
+								<option value="Al_Jazari" <?= (trim($row["studentCollege"]) == "Al_Jazari") ? "selected" : "" ?>>Al Jazari</option>
+
+								<option value="Lestari" <?= (trim($row["studentCollege"]) == "Lestari") ? "selected" : "" ?>>Lestari</option>
 							</select>
 						</article>
 
 						<article>
 							<label for="block" class="required">Block</label>
-							<select disabled required name="block" id="block">
-								<option selected disabled value="">Select Block</option>
+							<select required name="block" id="block">
+								<option selected value="">Select Block</option>
 
 							</select>
 						</article>
 
 						<article>
 							<label for="level" class="required">Level</label>
-							<select disabled name="level" id="level">
-								<option selected disabled value="">Select Level</option>
+							<select name="level" id="level">
+								<option selected value="">Select Level</option>
 
 							</select>
 						</article>
@@ -87,7 +92,7 @@ auth("STD");
 					<div class="input-control">
 						<label for="room_no" class="required">Room no.</label>
 						<p class="text-danger hidden" style="margin-bottom: 0;">Errors</p>
-						<input disabled type="text" name="room_no" id="room_no" placeholder="A-1-2-B(2)">
+						<input disabled value="<?= $row["studentRoom"] ?>" type="text" name="room_no" id="room_no" placeholder="A-1-2-B(2)">
 						<p class="hint">e.g: A-1-2-B(2)</p>
 					</div>
 				</section>
@@ -165,7 +170,14 @@ auth("STD");
 
 		</main>
 	</section>
-
+	<div class="popUpDone hidden">
+		<div class="card p-3">
+			<!-- <img id="asd" src="" alt=""> -->
+			<h1 class="text-center">✅</h1>
+			<h2>Done Add Report</h2>
+			<a href="./myReport.php" class="btn btn-success">Ok</a>
+		</div>
+	</div>
 	<script>
 		let blokStaria = `
 			<option selected disabled hidden value="">Select Block</option>
@@ -233,10 +245,62 @@ auth("STD");
 		let inpImage = document.querySelector("#image")
 
 		let currentUrl = null;
-
+		let imgURL
 		let btnClear = document.querySelector(".clear")
 
 		btnClear.addEventListener("click", () => removePhoto())
+		let run = () => {
+
+			let alamat = "<?= $row["studentRoom"] ?>"
+			alamat = alamat.split("-")
+			let kolej = "<?= $row["studentCollege"] ?>"
+			let blok = alamat[0]
+			let floor = alamat[1]
+			let rumah = alamat[2]
+
+			let BILIK = alamat[3]
+
+			let bilik = BILIK.split("(")[0]
+			let katil = BILIK.split("(")[1].replaceAll(")", "")
+
+			console.log({
+				alamat,
+				blok,
+				floor,
+				rumah,
+				bilik,
+				katil
+			});
+			inpBlock.innerHTML = ""
+			if (kolej == "Al_Jazari") {
+				inpBlock.removeAttribute("disabled")
+				let blokAj = `
+					<option selected disabled hidden value="">Select Block</option>
+					<option ${blok == "A" ? "selected" : ""} value="A">Blok A</option>
+					<option ${blok == "B" ? "selected" : ""} value="B">Blok B</option>
+					<option ${blok == "C" ? "selected" : ""} value="C">Blok C</option>
+					`
+				inpBlock.innerHTML = blokAj
+			} else { //SATRIA LESTARI
+
+			}
+
+			if (kolej == "Al_Jazari") {
+				inpLevel.removeAttribute("disabled")
+				let levelAj = `
+							<option selected disabled hidden value="">Select Level</option>
+							<option ${floor == "1" ? "selected" : ""} value="1">1</option>
+							<option ${floor == "2" ? "selected" : ""} value="2">2</option>
+							<option ${floor == "3" ? "selected" : ""} value="3">3</option>
+							<option ${floor == "4" ? "selected" : ""} value="4">4</option>
+							<option ${floor == "5" ? "selected" : ""} value="5">5</option>
+						`
+				inpLevel.innerHTML = levelAj
+			} else { //SATRIA LESTARI
+
+			}
+		}
+		run()
 
 		inpLocation.addEventListener("change", e => {
 			let kolej = e.target.value
@@ -322,10 +386,31 @@ auth("STD");
 			}
 
 			if (!isValid) {
-				console.log("!OK");
-
+				console.log("All NOT Clear");
 			} else {
-				console.log("OK");
+				console.log("All Clear");
+
+				$.ajax({
+					url: "../../api/submitReport.php",
+					method: "POST",
+					data: {
+						category: inpCategories.value,
+						description: inpDescription.value,
+						url: imgURL,
+						location: inpLocation.value,
+						block: inpBlock.value,
+						level: inpLevel.value,
+						room_no: inpRoomNo.value
+					},
+					success: response => {
+						console.log(response)
+						// document.getElementById("asd").src = response[0][7]
+						document.querySelector(".popUpDone").classList.remove("hidden");
+					},
+					error: response => {
+						console.log(response.responseText);
+					}
+				})
 
 			}
 
@@ -339,6 +424,30 @@ auth("STD");
 			}
 
 			currentUrl = URL.createObjectURL(file);
+			let img = new Image()
+			img.src = currentUrl
+			img.onload = e => {
+				let width = e.target.width
+				let height = e.target.height
+
+				let ratio = Math.min(600 / width, 600 / height)
+
+				if (ratio < 1) {
+					width *= ratio
+					height *= ratio
+				}
+
+				let canvas = document.createElement("canvas")
+				let ctx = canvas.getContext("2d")
+
+				canvas.width = width
+				canvas.height = height
+
+				ctx.drawImage(img, 0, 0, width, height)
+
+				imgURL = canvas.toDataURL()
+
+			}
 
 			imageArea.style.backgroundImage = `url(${currentUrl})`;
 			imageArea.style.backgroundSize = "cover";
@@ -349,6 +458,8 @@ auth("STD");
 			imageAreaIcon.classList.add("hidden");
 			nameFile.classList.remove("hidden");
 			btnClose.classList.remove("hidden");
+
+
 		}
 
 		function removePhoto() {

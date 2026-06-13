@@ -22,11 +22,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 		$_SESSION["name"] = $user["name"];
 		$_SESSION["email"] = $user["email"];
-		$_SESSION["id"] = $user["id"];
+		$_SESSION["userID"] = $user["userID"];
 		$_SESSION["type"] = $user["type"];
-		$_SESSION["url"] = $user["url"];
+		$_SESSION["url"] = $user["imgProfileUrl"];
 
-		// var_dump($user["type"]);
 		
 		if($user["type"] == "STD" || $user["type"] == "STF"){
 			header("Location: ./pages/user/dashboard.php");

@@ -4,9 +4,11 @@
 	</label>
 
 	<h1 class="title"><?= $title ?></h1>
-	<div class="_avatar-kecil">
+	<article>
 		<a href="../../pages/college-admin/myProfile.php">
-			<img src="../../images/profile.svg" alt="">
+			<p class="_dekstop"><?= $_SESSION["name"] ?></p>
+			<div class="_avatar-kecil" style="background-image: url('<?= $_SESSION["url"] ?>')">
+			</div>
 		</a>
-	</div>
+	</article>
 </header>

@@ -1,5 +1,4 @@
 <?php
-session_start();
 require_once __DIR__ . "../../../inc/init.php";
 auth("CTR");
 
@@ -12,18 +11,6 @@ auth("CTR");
 <html lang="en">
 
 <head>
-	<link rel="shortcut icon" href="../../images/image.png" type="image/x-icon">
-
-	<meta charset="UTF-8">
-	<title>Dorm Facility Care</title>
-	<link rel="stylesheet" href="../../lib/bootstrap.css">
-	<script src="../../lib/bootstrap.js"></script>
-	<link rel="stylesheet" href="../../style/layout.css">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-	<script src="../../lib/jquery.js"></script>
-
-	<script src="../../script/load-component.js"></script>
-
 	<!-- your styling -->
 	<link rel="stylesheet" href="../../style/reportDisplay.css">
 </head>
