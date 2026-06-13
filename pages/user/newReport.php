@@ -1,6 +1,6 @@
 <?php
 require_once __DIR__ . "../../../inc/init.php";
-auth("STD");
+auth("STD", $_SESSION["type"]);
 
 //php code hrre
 $id = $_SESSION["userID"];
@@ -254,6 +254,7 @@ if (!$row) {
 			let alamat = "<?= $row["studentRoom"] ?>"
 			alamat = alamat.split("-")
 			let kolej = "<?= $row["studentCollege"] ?>"
+			
 			let blok = alamat[0]
 			let floor = alamat[1]
 			let rumah = alamat[2]
@@ -275,13 +276,22 @@ if (!$row) {
 			if (kolej == "Al_Jazari") {
 				inpBlock.removeAttribute("disabled")
 				let blokAj = `
-					<option selected disabled hidden value="">Select Block</option>
+					<option disabled hidden value="">Select Block</option>
 					<option ${blok == "A" ? "selected" : ""} value="A">Blok A</option>
 					<option ${blok == "B" ? "selected" : ""} value="B">Blok B</option>
 					<option ${blok == "C" ? "selected" : ""} value="C">Blok C</option>
 					`
 				inpBlock.innerHTML = blokAj
-			} else { //SATRIA LESTARI
+			} else if (kolej == "Satria") { //SATRIA LESTARI
+				let blokStaria = `
+						<option selected hidden value="">Select Block</option>
+						<option value="Satria_Jebat">Satria Jebat</option>
+						<option value="Satria_Tuah">Satria Tuah</option>
+						<option value="Satria_Lekir">Satria Lekir</option>
+						<option value="Satria_Lekiu">Satria Lekiu</option>
+						<option value="Satria_Kasturi">Satria Kasturi</option>
+					`
+			} else if (kolej == "Lestari") { //SATRIA LESTARI
 
 			}
 
@@ -296,7 +306,9 @@ if (!$row) {
 							<option ${floor == "5" ? "selected" : ""} value="5">5</option>
 						`
 				inpLevel.innerHTML = levelAj
-			} else { //SATRIA LESTARI
+			} else if (kolej == "Satria") { //SATRIA LESTARI
+
+			} else if (kolej == "Lestari") { //SATRIA LESTARI
 
 			}
 		}
