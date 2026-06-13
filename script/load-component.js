@@ -57,7 +57,7 @@ $(document).ready(() => {
 	}
 
 	let loadComponentUser = async () => {
-		let responseSidebar = await fetch("../../components/user/sidebar.php");
+		let responseSidebar = await fetch("../../components/user/sidebar.html");
 		let htmlSidebar = await responseSidebar.text();
 
 		// let responseheader = await fetch("../../components/user/header.php");
@@ -67,7 +67,7 @@ $(document).ready(() => {
 	}
 
 	let loadComponentCollegeAdmin = async () => {
-		let response = await fetch("../../components/college-admin/sidebar.php");
+		let response = await fetch("../../components/college-admin/sidebar.html");
 		let htmlSidebar = await response.text();
 
 		// let responseheader = await fetch("../../components/college-admin/header.php");
@@ -77,7 +77,7 @@ $(document).ready(() => {
 	}
 
 	let loadComponentSystemAdmin = async () => {
-		let response = await fetch("../../components/system-admin/sidebar.php");
+		let response = await fetch("../../components/system-admin/sidebar.html");
 		let htmlSidebar = await response.text();
 
 		// let responseheader = await fetch("../../components/system-admin/header.php");
@@ -87,7 +87,7 @@ $(document).ready(() => {
 	}
 
 	let loadComponentContractor = async () => {
-		let response = await fetch("../../components/contractor/sidebar.php");
+		let response = await fetch("../../components/contractor/sidebar.html");
 		let htmlSidebar = await response.text();
 
 		// let responseheader = await fetch("../../components/contractor/header.php");
@@ -96,6 +96,7 @@ $(document).ready(() => {
 		render(htmlSidebar, "")
 	}
 
+	
 	if (role == "USER") loadComponentUser()
 	else if (role == "CAD") loadComponentCollegeAdmin()
 	else if (role == "SAD") loadComponentSystemAdmin()

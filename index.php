@@ -1,12 +1,11 @@
 <?php
 session_start();
-require_once "./inc/init.php";
-
-//php code hrre
-
-//php code hrre
-
+require_once "./inc/conn.php";
+require_once "./inc/auth.php";
+require_once "./inc/mail.php";
 auth("STD");
+
+//php code hrre
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 	$email = $_POST["email"];
@@ -24,8 +23,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 		$_SESSION["name"] = $user["name"];
 		$_SESSION["email"] = $user["email"];
 		$_SESSION["id"] = $user["id"];
+		$_SESSION["type"] = $user["type"];
+		$_SESSION["url"] = $user["url"];
 
-		header("Location: ./pages/user/dashboard.php");
+		// var_dump($user["type"]);
+		
+		if($user["type"] == "STD" || $user["type"] == "STF"){
+			header("Location: ./pages/user/dashboard.php");
+		}else if($user["type"] == "SAD"){
+			header("Location: ./pages/system-admin/dashboard.php");
+		}else if($user["type"] == "CTR"){
+			header("Location: ./pages/contractor/dashboard.php");
+		}else if($user["type"] == "CAD"){
+			header("Location: ./pages/college-admin/dashboard.php");
+		}
+
 		exit;
 	} else {
 		echo "
@@ -33,6 +45,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 		";
 	}
 }
+//php code hrre
 
 ?>
 
@@ -42,13 +55,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
 	<link rel="shortcut icon" href="../../images/image.png" type="image/x-icon">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-	<link rel="stylesheet" href="../lib/bootstrap.css">
-	<script src="../lib/bootstrap.js">
-		< /> <
-		script src = "../lib/jquery.js" >
-	</script>
 	<meta charset="UTF-8">
 	<title>Dorm Facility Care</title>
+	<script src="./lib/jquery.js"></script>
 	<link rel="stylesheet" href="./style/index.css">
 </head>
 
@@ -75,7 +84,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 				<section class="right _dekstop">
 					<img class="logo" src="./images/logo2.svg" alt="">
 					<div>
-						<form action="" method="post">
+						<form action="" method="post" id="form">
 							<article>
 								<h1 class="bg-primary">Welcome Back !</h1>
 								<p>Lorem, ipsum dolor</p>
@@ -95,13 +104,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 							<div class="input-control">
 								<button type="submit" class="btn">Log in</button>
 							</div>
-							<div class="input-control">
-								<a href="./pages/user/dashboard.php">user</a>
-								<a href="./pages/system-admin/dashboard.php">system admin</a>
-								<a href="./pages/contractor/dashboard.php">contractor</a>
-								<a href="./pages/college-admin/dashboard.php">college admin</a>
-							</div>
 						</form>
+						<div class="input-control">
+							<form method="POST" action=""><input hidden value="ADMIN@utem.edu.my" type="text" name="email"><input hidden value="admin123" type="text" name="password"><button name="submit" type="submit">Login as System Admin</button></form>
+							<form method="POST" action=""><input hidden value="MIRZA@utem.edu.my" type="text" name="email"><input hidden value="ctr125" type="text" name="password"><button name="submit" type="submit">Login as Contractor</button></form>
+							<form method="POST" action=""><input hidden value="D032410018@student.utem.edu.my" type="text" name="email"><input hidden value="std126" type="text" name="password"><button name="submit" type="submit">Login as User</button></form>
+							<form method="POST" action=""><input hidden value="TUAH@utem.edu.my" type="text" name="email"><input hidden value="staff123" type="text" name="password"><button name="submit" type="submit">Login as College Admin</button></form>
+						</div>
 					</div>
 
 				</section>
@@ -159,12 +168,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 							<div class="input-control">
 								<button type="submit" class="btn">Log in</button>
 							</div>
-							<div class="input-control">
+							<!-- <div class="input-control">
 								<a href="./pages/user/dashboard.php">user</a>
 								<a href="./pages/system-admin/dashboard.php">system admin</a>
 								<a href="./pages/contractor/dashboard.php">contractor</a>
 								<a href="./pages/college-admin/dashboard.php">college admin</a>
-							</div>
+							</div> -->
 						</form>
 					</div>
 
@@ -187,23 +196,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 			$("._loading-container").remove();
 		})
 
+		document.querySelectorAll("form").forEach(form => {
+			form.addEventListener("submit", e => {
+				let inputs = form.querySelectorAll("input");
 
-		document.addEventListener("submit", e => {
-			let from = e.target
-
-			let inputs = from.querySelectorAll("input")
-
-			for (let input of inputs) {
-				if (input.value.trim() == "") {
-					e.preventDefault();
-					input.focus()
-					return
+				for (let input of inputs) {
+					if (input.value.trim() === "") {
+						e.preventDefault();
+						input.focus();
+						return;
+					}
 				}
-			}
-
-
-
-		})
+			});
+		});
 	</script>
 </body>
 

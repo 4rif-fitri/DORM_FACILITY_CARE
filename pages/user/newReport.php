@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once "./inc/init.php";
+require_once __DIR__ . "../../../inc/init.php";
 auth("STD");
 
 //php code hrre
