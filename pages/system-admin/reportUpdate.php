@@ -65,6 +65,35 @@ auth("SAD");
 
 				</div>
 
+				<div class="contractor-container">
+					<section>
+						<h4>
+							<img src="../../images/report.svg" alt="">
+							Contractor
+						</h4>
+
+						<div class="comment">
+							<div class="input-control">
+								<label for="selectContractor">Select contractor</label>
+								<select name="selectContractor" id="selectContractor">
+									<option disabled selected value="">Select contractor</option>
+									<option value="0">En lorem</option>
+									<option value="1">En Ipsum</option>
+									<option value="2">En Dolor</option>
+									<option value="3">En Sit</option>
+								</select>
+								<p class="hidden my-2" id="emailContractor">lorem@gamail.com</p>
+								<p class="hidden mb-2" id="phoneContractor">0197231577</p>
+								<p class="hidden mb-2" id="cTypeContractor">IT technician</p>
+							</div>
+						</div>
+
+						<article>
+							<button class="btn btn-success">Assign</button>
+						</article>
+					</section>
+				</div>
+
 				<div class="report-detail-container">
 
 					<section>
@@ -126,35 +155,6 @@ auth("SAD");
 
 						<article>
 							<button class="btn btn-success">Submit</button>
-						</article>
-					</section>
-				</div>
-
-				<div class="contractor-container">
-					<section>
-						<h4>
-							<img src="../../images/report.svg" alt="">
-							Contractor
-						</h4>
-
-						<div class="comment">
-							<div class="input-control">
-								<label for="selectContractor">Select contractor</label>
-								<select name="selectContractor" id="selectContractor">
-									<option disabled selected value="">Select contractor</option>
-									<option value="0">En lorem</option>
-									<option value="1">En Ipsum</option>
-									<option value="2">En Dolor</option>
-									<option value="3">En Sit</option>
-								</select>
-								<p class="hidden my-2" id="emailContractor">lorem@gamail.com</p>
-								<p class="hidden mb-2" id="phoneContractor">0197231577</p>
-								<p class="hidden mb-2" id="cTypeContractor">IT technician</p>
-							</div>
-						</div>
-
-						<article>
-							<button class="btn btn-success">Assign</button>
 						</article>
 					</section>
 				</div>
