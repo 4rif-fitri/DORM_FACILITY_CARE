@@ -57,8 +57,8 @@ auth("CAD");
 						</div>
 
 						<article>
-							<button class="btn btn-secondary">Reject</button>
-							<button class="btn btn-success">Proceed</button>
+							<button class="btn btn-danger">Reject</button>
+							<button class="btn btn-success">Forward</button>
 						</article>
 					</section>
 
@@ -95,9 +95,6 @@ auth("CAD");
 							</div>
 						</div>
 
-						<article>
-							<button class="btn btn-success">Forward</button>
-						</article>
 					</section>
 
 				</div>

@@ -188,12 +188,12 @@ auth("CTR");
 						</div>
 					</div>
 					<div class="modal-footer">
-						<button type="button" data-bs-dismiss="modal" class="btn btn-danger">
+						<button type="reset" data-bs-dismiss="modal" class="btn btn-danger">
 							Clear
 						</button>
 
 						<button type="submit" class="btn btn-success">
-							Add
+							Done!
 						</button>
 					</div>
 				</form>

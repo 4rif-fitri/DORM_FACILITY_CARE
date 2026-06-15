@@ -11,18 +11,23 @@ $sql = "	SELECT 	reportID,
 				dateReported, 
 				status
         	FROM report
-        	WHERE userID = '$userID'";
+        	WHERE userID = '$userID'
+		ORDER BY dateReported DESC
+		";
 
 if (isset($_GET["status"])) {
 	$status = $_GET["status"];
 	if ($status != "All") {
 		$sql = "	SELECT 	reportID, 
-			reportCategory, 	
-			reportDesc, 
-			dateReported, 
-			status
-	FROM report
-	WHERE status = '$status'";
+				reportCategory, 	
+				reportDesc, 
+				dateReported, 
+				status
+			FROM report
+			WHERE status = '$status' AND 
+			userID = '$userID'
+			ORDER BY dateReported DESC
+			";
 	}
 }
 

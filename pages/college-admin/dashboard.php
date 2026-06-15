@@ -1,6 +1,6 @@
 <?php
 require_once __DIR__ . "../../../inc/init.php";
-auth("CAD");
+// auth("CAD");
 
 //php code hrre
 

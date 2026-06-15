@@ -115,9 +115,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 							<form method="POST" action=""><input hidden value="D032410297@student.utem.edu.my" type="text" name="email"><input hidden value="std125" type="text" name="password"><button name="submit" type="submit">User FARHAN </button></form>
 
 							<form method="POST" action=""><input hidden value="TUAH@utem.edu.my" type="text" name="email"><input hidden value="staff123" type="text" name="password"><button name="submit" type="submit">Admin TUAH</button></form>
-							<form method="POST" action=""><input hidden value="JEBAT@utem.edu.my" type="text" name="email"><input hidden value="staff123" type="text" name="password"><button name="submit" type="submit">Admin JEBAT</button></form>
-							<form method="POST" action=""><input hidden value="JAZARI@utem.edu.my" type="text" name="email"><input hidden value="staff123" type="text" name="password"><button name="submit" type="submit">Admin AJ</button></form>
-							<form method="POST" action=""><input hidden value="LESTARI@utem.edu.my" type="text" name="email"><input hidden value="staff123" type="text" name="password"><button name="submit" type="submit">Admin Lestari</button></form>
+							<form method="POST" action=""><input hidden value="JEBAT@utem.edu.my" type="text" name="email"><input hidden value="staff124" type="text" name="password"><button name="submit" type="submit">Admin JEBAT</button></form>
+							<form method="POST" action=""><input hidden value="JAZARI@utem.edu.my" type="text" name="email"><input hidden value="staff127" type="text" name="password"><button name="submit" type="submit">Admin AJ</button></form>
+							<form method="POST" action=""><input hidden value="LESTARI@utem.edu.my" type="text" name="email"><input hidden value="staff128" type="text" name="password"><button name="submit" type="submit">Admin Lestari</button></form>
 						</div>
 					</div>
 

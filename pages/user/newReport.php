@@ -118,6 +118,7 @@ if (!$row) {
 						<p for="room_no">Full Alamat</p>
 						<input disabled type="text" name="room_no" id="room_no">
 					</div>
+					<button type="button" id="reset-alamat" class="btn btn-secondary w-25">Reset Alamat</button>
 				</section>
 
 				<!-- problem (duplicate form-photo) -->
@@ -649,7 +650,7 @@ if (!$row) {
 				showLogin()
 
 				// document.querySelector(".popUpLoading").classList.remove("hidden");
-				await delay(1000)
+				await delay(2000)
 				$.ajax({
 					url: "../../api/submitReport.php",
 					method: "POST",
@@ -665,7 +666,7 @@ if (!$row) {
 						// document.getElementById("asd").src = response[0][7]
 						// document.querySelector(".popUpLoading").classList.add("hidden");
 						// document.querySelector(".popUpDone").classList.remove("hidden");
-						document.querySelector(".popUpLoading .bulat").style.animation = "fadeIN 0.6s forwards"
+						document.querySelector(".popUpLoading .bulat").style.animation = "fadeIN 0.2s forwards"
 						document.querySelector(".popUpLoading .bulat > *").style.animation = "show 0.3s forwards"
 					},
 					error: response => {
@@ -694,6 +695,9 @@ if (!$row) {
 		})
 		inpKatil.addEventListener("change", e => {
 			getFullAddredd()
+		})
+		document.getElementById("reset-alamat").addEventListener("click", e => {
+			run()
 		})
 
 		// handle image 

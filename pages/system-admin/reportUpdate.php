@@ -58,14 +58,14 @@ auth("SAD");
 						</div>
 
 						<article>
-							<button class="btn btn-secondary">Reject</button>
-							<button class="btn btn-success">Proceed</button>
+							<button class="btn btn-danger">Reject</button>
+							<button data-bs-toggle="modal" data-bs-target="#modalContraktor" class="btn btn-success">Assign</button>
 						</article>
 					</section>
 
 				</div>
 
-				<div class="contractor-container">
+				<!-- <div class="contractor-container">
 					<section>
 						<h4>
 							<img src="../../images/report.svg" alt="">
@@ -92,7 +92,7 @@ auth("SAD");
 							<button class="btn btn-success">Assign</button>
 						</article>
 					</section>
-				</div>
+				</div> -->
 
 				<div class="report-detail-container">
 
@@ -166,9 +166,11 @@ auth("SAD");
 							Report Image
 						</h4>
 
-
-						<div class="image">
-							<img src="../../images/LogoUTeM-5b80a51b.png" alt="">
+						<div class="image imgReportgroup">
+							<!-- <div class="imgReport"
+								data-src="<?= $row["reportImgUrl"] ?>"
+								style="background-image:url('<?= $row["reportImgUrl"] ?>')">
+							</div> -->
 						</div>
 					</section>
 				</div>
@@ -178,6 +180,49 @@ auth("SAD");
 		<!-- CONTENT HERE -->
 
 	</section>
+
+	<div class="modal fade" id="modalContraktor">
+		<form method="POST" action="">
+			<div class="modal-dialog modal-dialog-centered">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h1 class="modal-title fs-5">
+							<img src="../../images/report.svg" alt="">
+							Assign Contraktor
+						</h1>
+					</div>
+					<div class="modal-body">
+
+						<section>
+
+							<div class="comment">
+								<div class="input-control">
+									<label for="selectContractor">Select contractor</label>
+									<select name="selectContractor" id="selectContractor">
+										<option disabled selected value="">Select contractor</option>
+										<option value="0">En lorem</option>
+										<option value="1">En Ipsum</option>
+										<option value="2">En Dolor</option>
+										<option value="3">En Sit</option>
+									</select>
+									<p class="hidden my-2" id="emailContractor">lorem@gamail.com</p>
+									<p class="hidden mb-2" id="phoneContractor">0197231577</p>
+									<p class="hidden mb-2" id="cTypeContractor">IT technician</p>
+								</div>
+							</div>
+
+						</section>
+
+					</div>
+					<div class="modal-footer">
+						<button type="reset" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+						<button type="submit" class="btn btn-success">Assign!</button>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+
 
 	<div class="modal fade" id="model">
 		<div class="modal-dialog modal-dialog-centered">
@@ -199,13 +244,16 @@ auth("SAD");
 
 		let images = document.querySelectorAll(".image")
 
-		let prew = url => {
-			// console.log(url);
-			document.querySelector(".modal-image").src = url
-			myModal.show()
+		const prew = url => {
+			document.querySelector(".modal-image").src = url;
+			myModal.show();
 		}
 
-		images.forEach(image => image.addEventListener("click", e => prew(e.target.src)))
+		document.querySelectorAll(".imgReport").forEach(img => {
+			img.addEventListener("click", () => {
+				prew(img.dataset.src);
+			});
+		});
 
 		let dataContractor = [{
 				id: 0,

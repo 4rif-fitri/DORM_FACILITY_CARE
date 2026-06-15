@@ -61,7 +61,9 @@ auth("SAD");
 							<td>Al-Jazari A-5-4-B-(1)</td>
 							<td>28/5/2026</td>
 							<td>Pending</td>
-							<td><a href="./reportUpdate.php" class="updateBtn">Update</a></td>
+							<td>
+								<a href="./reportUpdate.php" class="updateBtn">Update</a>
+							</td>
 						</tr>
 					</tbody>
 

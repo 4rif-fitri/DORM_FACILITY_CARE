@@ -47,22 +47,22 @@ if (isset($_GET["id"])) {
 						<div class="track-progress">
 							<div>
 								<article>
-									<div class="dot <?= $row["status"] == "Pending" ? "active" : "" ?> "></div>
+									<div class="dot <?= in_array($row["status"], ["Pending", "Assigned", "In_Progress", "Completed"]) ? "active" : "" ?> "></div>
 									<div class="desh"></div>
-									<div class="dot <?= $row["status"] == "Assigned" ? "text-active" : "" ?>"></div>
+									<div class="dot <?= in_array($row["status"], ["Assigned", "In_Progress", "Completed"]) ? "text-active" : "" ?>"></div>
 									<div class="desh"></div>
-									<div class="dot <?= $row["status"] == "Assigned" ? "text-active" : "" ?>"></div>
+									<div class="dot <?= in_array($row["status"], ["In_Progress", "Completed"]) ? "text-active" : "" ?>"></div>
 									<div class="desh"></div>
-									<div class="dot <?= $row["status"] == "Completed" ? "text-active" : "" ?>"></div>
+									<div class="dot <?= in_array($row["status"], ["Completed"]) ? "text-active" : "" ?>"></div>
 								</article>
 								<article>
-									<p class="<?= $row["status"] == "Pending" ? "text-active" : "" ?>">Pending</p>
+									<p class="<?= in_array($row["status"], ["Pending", "Assigned", "In_Progress", "Completed"]) ? "text-active" : "" ?>">Pending</p>
 									<p></p>
-									<p class="<?= $row["status"] == "Assigned" ? "text-active" : "" ?>">Assigned</p>
+									<p class="<?= in_array($row["status"], ["Assigned", "In_Progress", "Completed"]) ? "text-active" : "" ?>">Assigned</p>
 									<p></p>
-									<p class="<?= $row["status"] == "In Progress" ? "text-active" : "" ?>">In Progress</p>
+									<p class="<?= in_array($row["status"], ["In_Progress", "Completed"]) ? "text-active" : "" ?>">In Progress</p>
 									<p></p>
-									<p class="<?= $row["status"] == "Completed" ? "text-active" : "" ?>">Completed</p>
+									<p class="<?= in_array($row["status"], ["Completed"]) ? "text-active" : "" ?>">Completed</p>
 								</article>
 							</div>
 						</div>
@@ -86,9 +86,7 @@ if (isset($_GET["id"])) {
 
 							<div class="input-control">
 								<label for="description">Description</label>
-								<textarea readonly type="text" name="description" id="description">
-									<?= $row["reportDesc"] ?>
-								</textarea>
+								<textarea readonly type="text" name="description" id="description"><?= $row["reportDesc"] ?></textarea>
 							</div>
 
 							<div class="input-control">
@@ -147,8 +145,10 @@ if (isset($_GET["id"])) {
 						</h4>
 
 						<div class="image imgReportgroup">
-							<div class="imgReport" style="background-image: url('<?= $row["reportImgUrl"] ?>')"></div>
-							<div class="imgReport"></div>
+							<div class="imgReport"
+								data-src="<?= $row["reportImgUrl"] ?>"
+								style="background-image:url('<?= $row["reportImgUrl"] ?>')">
+							</div>
 						</div>
 					</section>
 				</div>
@@ -159,12 +159,36 @@ if (isset($_GET["id"])) {
 
 	</section>
 
+	<div class="modal fade" id="model">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+				<img class="modal-image" src="" alt="">
+			</div>
+		</div>
+	</div>
+
 	<!-- your script -->
 	<script>
 		$("#btn_submit-comment").click(() => {
 			let desc = $("#comment-description").val();
 			$(".chat").append('<div class="me"><p>Me</p>' + desc + '</div>');
 			$("#comment-description").val("");
+		});
+
+		let model = document.getElementById("model")
+		let myModal = new bootstrap.Modal(model)
+
+		let images = document.querySelectorAll(".image")
+
+		const prew = url => {
+			document.querySelector(".modal-image").src = url;
+			myModal.show();
+		}
+
+		document.querySelectorAll(".imgReport").forEach(img => {
+			img.addEventListener("click", () => {
+				prew(img.dataset.src);
+			});
 		});
 	</script>
 
