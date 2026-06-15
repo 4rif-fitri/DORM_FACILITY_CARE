@@ -259,6 +259,11 @@ body:has(#_mobile-sideBar:checked) ._sidebar-moblie {
 		transition: all 0.3s ease;
 	}
 
+	.imgReportgroup {
+		grid-template-columns: repeat(2, 1fr);
+		grid-template-rows: repeat(1, 1fr);
+	}
+
 
 }
 
@@ -286,7 +291,9 @@ body:has(#_dekstop-sideBar:checked) ._sidebar-_dekstop ._menu-bawah a {
 	transition: all 0.2s ease;
 }
 
-.popUpDone,.popUpLoading,.popUpFail{
+.popUpDone,
+.popUpLoading,
+.popUpFail {
 	z-index: 10;
 	top: 0;
 	left: 0;
@@ -297,4 +304,15 @@ body:has(#_dekstop-sideBar:checked) ._sidebar-_dekstop ._menu-bawah a {
 	display: flex;
 	align-items: center;
 	justify-content: center;
+}
+
+.imgReportgroup {
+	width: 100%;
+	display: grid;
+}
+
+.imgReport {
+	height: 300px;
+	width: 100%;
+
 }

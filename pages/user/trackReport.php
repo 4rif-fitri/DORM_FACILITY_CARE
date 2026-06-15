@@ -4,6 +4,19 @@ auth("STD");
 
 //php code hrre
 
+if (isset($_GET["id"])) {
+	$reportId = $_GET["id"];
+
+	$sql = "SELECT *
+        	FROM report
+        	WHERE reportId = '$reportId'";
+
+	$result = mysqli_query($conn, $sql);
+	$row = mysqli_fetch_assoc($result);
+} else {
+	header("Location: myReport.php");
+}
+
 //php code hrre
 
 ?>
@@ -33,24 +46,23 @@ auth("STD");
 						</h4>
 						<div class="track-progress">
 							<div>
-
 								<article>
-									<div class="dot active"></div>
+									<div class="dot <?= $row["status"] == "Pending" ? "active" : "" ?> "></div>
 									<div class="desh"></div>
-									<div class="dot active"></div>
+									<div class="dot <?= $row["status"] == "Assigned" ? "text-active" : "" ?>"></div>
 									<div class="desh"></div>
-									<div class="dot "></div>
+									<div class="dot <?= $row["status"] == "Assigned" ? "text-active" : "" ?>"></div>
 									<div class="desh"></div>
-									<div class="dot"></div>
+									<div class="dot <?= $row["status"] == "Completed" ? "text-active" : "" ?>"></div>
 								</article>
 								<article>
-									<p class="text-active">Pending</p>
+									<p class="<?= $row["status"] == "Pending" ? "text-active" : "" ?>">Pending</p>
 									<p></p>
-									<p class="text-active">Assigned</p>
+									<p class="<?= $row["status"] == "Assigned" ? "text-active" : "" ?>">Assigned</p>
 									<p></p>
-									<p>In Progress</p>
+									<p class="<?= $row["status"] == "In Progress" ? "text-active" : "" ?>">In Progress</p>
 									<p></p>
-									<p>Completed</p>
+									<p class="<?= $row["status"] == "Completed" ? "text-active" : "" ?>">Completed</p>
 								</article>
 							</div>
 						</div>
@@ -69,22 +81,24 @@ auth("STD");
 
 							<div class="input-control">
 								<label for="category">category</label>
-								<input readonly type="text" name="category" id="category">
+								<input value="<?= $row["reportCategory"] ?>" readonly type="text" name="category" id="category">
 							</div>
 
 							<div class="input-control">
 								<label for="description">Description</label>
-								<textarea readonly type="text" name="description" id="description"></textarea>
+								<textarea readonly type="text" name="description" id="description">
+									<?= $row["reportDesc"] ?>
+								</textarea>
 							</div>
 
 							<div class="input-control">
 								<label for="college">College</label>
-								<input readonly type="text" name="college" id="college">
+								<input readonly type="text" name="college" value="<?= trim($row["reportCategory"]) ?>" id="college">
 							</div>
 
 							<div class="input-control">
 								<label for="room">Room</label>
-								<input readonly type="text" name="room" id="room">
+								<input value="<?= $row["reportRoom"] ?>" readonly type="text" name="room" id="room">
 							</div>
 						</div>
 
@@ -132,8 +146,9 @@ auth("STD");
 							Report Image
 						</h4>
 
-						<div class="image">
-							<img src="../../images/LogoUTeM-5b80a51b.png" alt="">
+						<div class="image imgReportgroup">
+							<div class="imgReport" style="background-image: url('<?= $row["reportImgUrl"] ?>')"></div>
+							<div class="imgReport"></div>
 						</div>
 					</section>
 				</div>

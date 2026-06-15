@@ -356,7 +356,12 @@ if (!$row) {
 				let inpKatil = document.querySelector("#katil").value
 				room_no.value = `AJ-${inpBlock}-${inpLevel}-${inpRoomNo}-${inpBilik}(${inpKatil})`
 			} else if (kolej == "Lestari") {
-
+				let inpBlock = document.querySelector("#block").value
+				let inpLevel = document.querySelector("#level").value
+				let inpRoomNo = document.querySelector("#rumah").value
+				let inpBilik = document.querySelector("#bilik").value
+				let inpKatil = document.querySelector("#katil").value
+				room_no.value = `LS-${inpBlock}-${inpRoomNo}-${inpLevel}-${inpBilik}(${inpKatil})`
 			} else if (kolej == "Satria") {
 				let inpBlock = document.querySelector("#block").value
 				let inpLevel = document.querySelector("#level").value
@@ -372,6 +377,8 @@ if (!$row) {
 		let run = () => {
 			let kolej = "<?= $row["studentCollege"] ?>"
 			let alamat = "<?= $row["studentRoom"] ?>"
+			// console.log("Full Address:" + alamat);
+
 			let blok, floor, rumah, BILIK, bilik, katil
 			alamat = alamat.split("-")
 
@@ -387,8 +394,9 @@ if (!$row) {
 				blok = alamat[0]
 				rumah = alamat[1]
 				floor = alamat[2]
-				bilik = alamat[3]
-				katil = 1 //!
+				BILIK = alamat[3]
+				bilik = BILIK.split("(")[0]
+				katil = BILIK.split("(")[1].replaceAll(")", "")
 
 			} else if (kolej == "Satria") {
 				blok = alamat[1]
@@ -491,24 +499,30 @@ if (!$row) {
 				`
 			} else if (kolej == "Lestari") {
 				optBlock = `
-					<option  ${blok == "1" ? "selected" : ""} value="Lestari_A">Lelaki A</option>
-					<option  ${blok == "1" ? "selected" : ""} value="Lestari_B">Perempuan B</option>
+					<option  ${blok == "B1" ? "selected" : ""} value="B1">B1</option>
+					<option  ${blok == "B2" ? "selected" : ""} value="B2">B2</option>
+				`
+				optNo_Rumah = `
+					<option  ${rumah == "A" ? "selected" : ""} value="A">A</option>
+					<option  ${rumah == "B" ? "selected" : ""} value="B">B</option>
+					<option  ${rumah == "C" ? "selected" : ""} value="C">C</option>
+					<option  ${rumah == "D" ? "selected" : ""} value="D">D</option>
+					<option  ${rumah == "E" ? "selected" : ""} value="E">E</option>
 				`
 				optLevel = `
+					<option  ${floor == "G" ? "selected" : ""} value="G">G</option>
 					<option  ${floor == "1" ? "selected" : ""} value="1">1</option>
 					<option  ${floor == "2" ? "selected" : ""} value="2">2</option>
 					<option  ${floor == "3" ? "selected" : ""} value="3">3</option>
 				`
-				optNo_Rumah = `
-					<option  ${rumah == "1" ? "selected" : ""} value="1">1</option>
-					<option  ${rumah == "2" ? "selected" : ""} value="2">2</option>
-					<option  ${rumah == "3" ? "selected" : ""} value="3">3</option>
-				`
 				optBilik = `
-					<option  ${bilik == "A" ? "selected" : ""} value="A">A</option>
-					<option  ${bilik == "B" ? "selected" : ""} value="B">B</option>
-					<option  ${bilik == "C" ? "selected" : ""} value="C">C</option>
-					<option  ${bilik == "D" ? "selected" : ""} value="D">D</option>
+					<option  ${bilik == "01" ? "selected" : ""} value="01">01</option>
+					<option  ${bilik == "02" ? "selected" : ""} value="02">02</option>
+					<option  ${bilik == "03" ? "selected" : ""} value="03">03</option>
+					<option  ${floor == "04" ? "selected" : ""} value="04">04</option>
+					<option  ${floor == "05" ? "selected" : ""} value="05">05</option>
+					<option  ${bilik == "06" ? "selected" : ""} value="06">06</option>
+					<option  ${bilik == "07" ? "selected" : ""} value="07">07</option>
 				`
 				optKatil = `
 					<option  ${katil == "1" ? "selected" : ""} value="1">1</option>
@@ -525,52 +539,52 @@ if (!$row) {
 		}
 		run()
 
-		inpLocation.addEventListener("change", e => {
-			let kolej = e.target.value
-			console.log("Location selected: " + kolej);
+		// inpLocation.addEventListener("change", e => {
+		// 	let kolej = e.target.value
+		// 	console.log("Location selected: " + kolej);
 
-			if (kolej == "") return
+		// 	if (kolej == "") return
 
-			inpLevel.setAttribute("disabled", "true")
-			inpLevel.innerHTML = `
-				<option selected disabled value="">Select Level</option>
-			`
+		// 	inpLevel.setAttribute("disabled", "true")
+		// 	inpLevel.innerHTML = `
+		// 		<option selected disabled value="">Select Level</option>
+		// 	`
 
-			inpBlock.removeAttribute("disabled")
-			inpBlock.innerHTML = ""
-			if (kolej == "Satria") {
-				inpBlock.innerHTML = blokStaria
+		// 	inpBlock.removeAttribute("disabled")
+		// 	inpBlock.innerHTML = ""
+		// 	if (kolej == "Satria") {
+		// 		inpBlock.innerHTML = blokStaria
 
-			} else if (kolej == "Al_Jazari") {
-				inpBlock.innerHTML = blokAj
+		// 	} else if (kolej == "Al_Jazari") {
+		// 		inpBlock.innerHTML = blokAj
 
-			} else if (kolej == "Lestari") {
-				inpBlock.innerHTML = blokLestari
-			}
+		// 	} else if (kolej == "Lestari") {
+		// 		inpBlock.innerHTML = blokLestari
+		// 	}
 
-		})
+		// })
 
-		inpBlock.addEventListener("change", e => {
-			let blok = e.target.value
-			let kolej = inpLocation.value
-			console.log("Block selected: " + kolej + " " + blok);
+		// inpBlock.addEventListener("change", e => {
+		// 	let blok = e.target.value
+		// 	let kolej = inpLocation.value
+		// 	console.log("Block selected: " + kolej + " " + blok);
 
 
-			// WARN: assuming all blocks of a college have the same levels
-			// unconfirmed for Lestari
-			inpLevel.removeAttribute("disabled")
-			inpLevel.innerHTML = ""
-			if (kolej == "Satria") {
-				inpLevel.innerHTML = levelStaria
+		// 	// WARN: assuming all blocks of a college have the same levels
+		// 	// unconfirmed for Lestari
+		// 	inpLevel.removeAttribute("disabled")
+		// 	inpLevel.innerHTML = ""
+		// 	if (kolej == "Satria") {
+		// 		inpLevel.innerHTML = levelStaria
 
-			} else if (kolej == "Al_Jazari") {
-				inpLevel.innerHTML = levelAj
+		// 	} else if (kolej == "Al_Jazari") {
+		// 		inpLevel.innerHTML = levelAj
 
-			} else if (kolej == "Lestari") {
-				inpLevel.innerHTML = levelLestari
-			}
+		// 	} else if (kolej == "Lestari") {
+		// 		inpLevel.innerHTML = levelLestari
+		// 	}
 
-		})
+		// })
 
 		let delay = time => new Promise(resolve => setTimeout(resolve, time))
 
@@ -611,12 +625,26 @@ if (!$row) {
 			if (!isValid) {
 				console.log("All NOT Clear");
 			} else {
-				console.log(inpLocation.value);
-				console.log(inpBlock.value);
 
-				return
+				let getCollage = (c) => {
+					if (c == "ST-T") return "Satria_Tuah"
+					else if (c == "SJ-J") return "Satria_jebat"
+					else if (c == "SL-L") return "Satria_Lekir"
+					else if (c == "SE-E") return "Satria_Lekiu"
+					else if (c == "SK-K") return "Satria_Kasturi"
 
-				console.log("All Clear");
+					else if (c == "B2" || c == "B1") return "Lestari"
+					else if (c == "Al_Jazari") return "Al_Jazari"
+				}
+
+				let collage
+				if (inpLocation.value == "Satria") {
+					collage = getCollage(inpBlock.value)
+				} else if (inpLocation.value == "Al_Jazari") {
+					collage = getCollage(inpLocation.value)
+				} else if (inpLocation.value == "Lestari") {
+					collage = getCollage(inpBlock.value)
+				}
 
 				showLogin()
 
@@ -629,7 +657,7 @@ if (!$row) {
 						category: inpCategories.value,
 						description: inpDescription.value,
 						url: imgURL,
-						location: inpLocation.value,
+						location: collage,
 						room_no: room_no.value
 					},
 					success: response => {
@@ -651,6 +679,24 @@ if (!$row) {
 			}
 
 		});
+
+		inpBlock.addEventListener("change", e => {
+			getFullAddredd()
+		})
+		inpLevel.addEventListener("change", e => {
+			getFullAddredd()
+		})
+		inpRoomNo.addEventListener("change", e => {
+			getFullAddredd()
+		})
+		inpBilik.addEventListener("change", e => {
+			getFullAddredd()
+		})
+		inpKatil.addEventListener("change", e => {
+			getFullAddredd()
+		})
+
+		// handle image 
 
 		function addPhoto(file) {
 			if (!file) return;
