@@ -3,8 +3,32 @@ require_once __DIR__ . "../../../inc/init.php";
 auth("STD");
 
 //php code hrre
+$userID = $_SESSION["userID"];
 
-//php code hrre
+$sql = "	SELECT 	reportID, 
+				reportCategory, 	
+				reportDesc, 
+				dateReported, 
+				status
+        	FROM report
+        	WHERE userID = '$userID'";
+
+if (isset($_GET["status"])) {
+	$status = $_GET["status"];
+	if ($status != "All") {
+		$sql = "	SELECT 	reportID, 
+			reportCategory, 	
+			reportDesc, 
+			dateReported, 
+			status
+	FROM report
+	WHERE status = '$status'";
+	}
+}
+
+$result = mysqli_query($conn, $sql);
+
+// php code hrre
 
 ?>
 <!DOCTYPE html>
@@ -24,11 +48,11 @@ auth("STD");
 		<!-- CONTENT HERE -->
 		<main class="_content-area">
 			<nav class="filter-box">
-				<a href="" class="filterBtn filtered">all</a>
-				<a href="" class="filterBtn">pending</a>
-				<a href="" class="filterBtn">assigned</a>
-				<a href="" class="filterBtn">in progress</a>
-				<a href="" class="filterBtn">completed</a>
+				<a href="myReport.php?status=All" class="filterBtn filtered">all</a>
+				<a href="myReport.php?status=Pending" class="filterBtn">pending</a>
+				<a href="myReport.php?status=Assigned" class="filterBtn">assigned</a>
+				<a href="myReport.php?status=In_Progress" class="filterBtn">in progress</a>
+				<a href="myReport.php?status=Completed" class="filterBtn">completed</a>
 			</nav>
 
 			<section class="table-container">
@@ -45,23 +69,16 @@ auth("STD");
 					</thead>
 
 					<tbody>
-						<tr>
-							<td>067</td>
-							<td>No wifi</td>
-							<td>Aku Nak IFI</td>
-							<td>28/5/2026</td>
-							<td>Pending</td>
-							<td><a href="./trackReport.php" class="updateBtn">Track</a></td>
-						</tr>
-
-						<tr>
-							<td>067</td>
-							<td>No wifi</td>
-							<td>Aku Nak IFI</td>
-							<td>28/5/2026</td>
-							<td>Pending</td>
-							<td><a href="./trackReport.php" class="updateBtn">Track</a></td>
-						</tr>
+						<?php while ($row = mysqli_fetch_assoc($result)) : ?>
+							<tr>
+								<td><?= $row["reportID"] ?></td>
+								<td><?= $row["reportCategory"] ?></td>
+								<td><?= $row["reportDesc"] ?></td>
+								<td><?= $row["dateReported"] ?></td>
+								<td><?= $row["status"] ?></td>
+								<td><a href="./trackReport.php?id=<?= $row["reportID"] ?>" class="updateBtn">Track</a></td>
+							</tr>
+						<?php endwhile ?>
 					</tbody>
 
 				</table>
@@ -77,6 +94,17 @@ auth("STD");
 				console.log(tr)
 			})
 		})
+
+		const params = new URLSearchParams(window.location.search);
+		const status = params.get("status");
+		let filterBox = document.querySelectorAll(".filter-box a")
+		filterBox.forEach(box => box.classList.remove("filtered"))
+
+		if (status == "All" || status == null) filterBox[0].classList.add("filtered")
+		else if (status == "Pending") filterBox[1].classList.add("filtered")
+		else if (status == "Assigned") filterBox[2].classList.add("filtered")
+		else if (status == "In_Progress") filterBox[3].classList.add("filtered")
+		else if (status == "Completed") filterBox[4].classList.add("filtered")
 	</script>
 
 
