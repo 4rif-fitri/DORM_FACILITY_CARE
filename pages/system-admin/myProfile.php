@@ -270,7 +270,7 @@ auth("SAD");
 	<input type="checkbox" hidden style="position: absolute; z-index: 10;" name="_dekstop-sideBar"
 		id="_dekstop-sideBar">
 	<input type="checkbox" hidden style="position: absolute;" name="_mobile-sideBar" id="_mobile-sideBar">
-	<input type="text" name="role" id="role" hidden value="USER">
+	<input type="text" name="role" id="role" hidden value="SAD">
 	<input type="text" name="title" id="title" hidden value="My Profile">
 </body>
 

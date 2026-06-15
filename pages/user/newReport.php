@@ -208,13 +208,31 @@ if (!$row) {
 			<a href="./myReport.php" class="btn btn-success">Ok</a>
 		</div>
 	</div>
-	<div class="popUpLoading hidden">
+	<!-- <div class="popUpLoading hidden">
 		<div class="card p-3">
 			<h1 class="text-center">🔃</h1>
 			<h2>Wait...</h2>
 		</div>
+	</div> -->
+	<div class="popUpLoading hidden">
+		<div class="loading-container">
+			<div class="loading-circle"></div>
+			<div class="loading-circle"></div>
+			<div class="loading-circle"></div>
+			<div class="loading-circle"></div>
+		</div>
+		<div class="bulat">
+			<article>
+				<h1 class="text-center">✅</h1>
+				<h2>Done Add Report</h2>
+				<a href="./myReport.php" class="btn btn-success w-100">Ok</a>
+			</article>
+		</div>
 	</div>
 	<script>
+		let showLogin = () => {
+			document.querySelector(".popUpLoading").classList.remove("hidden")
+		}
 		// <-------- Satria ------------->
 		let blokStaria = `
 			<option selected disabled hidden value="">Select Block</option>
@@ -554,8 +572,10 @@ if (!$row) {
 
 		})
 
+		let delay = time => new Promise(resolve => setTimeout(resolve, time))
+
 		let form = document.querySelector("form")
-		form.addEventListener("submit", e => {
+		form.addEventListener("submit", async e => {
 			e.preventDefault();
 
 			const inputs = [
@@ -591,9 +611,17 @@ if (!$row) {
 			if (!isValid) {
 				console.log("All NOT Clear");
 			} else {
+				console.log(inpLocation.value);
+				console.log(inpBlock.value);
+
+				return
+
 				console.log("All Clear");
 
-				document.querySelector(".popUpLoading").classList.remove("hidden");
+				showLogin()
+
+				// document.querySelector(".popUpLoading").classList.remove("hidden");
+				await delay(1000)
 				$.ajax({
 					url: "../../api/submitReport.php",
 					method: "POST",
@@ -607,18 +635,17 @@ if (!$row) {
 					success: response => {
 						console.log(response)
 						// document.getElementById("asd").src = response[0][7]
-						document.querySelector(".popUpLoading").classList.add("hidden");
-						document.querySelector(".popUpDone").classList.remove("hidden");
-
+						// document.querySelector(".popUpLoading").classList.add("hidden");
+						// document.querySelector(".popUpDone").classList.remove("hidden");
+						document.querySelector(".popUpLoading .bulat").style.animation = "fadeIN 0.6s forwards"
+						document.querySelector(".popUpLoading .bulat > *").style.animation = "show 0.3s forwards"
 					},
 					error: response => {
 						console.log(response.responseText);
 						document.querySelector(".popUpLoading").classList.add("hidden");
 						document.querySelector(".popUpFail").classList.remove("hidden");
 					},
-					complete: () => {
-
-					}
+					complete: () => {}
 				})
 
 			}

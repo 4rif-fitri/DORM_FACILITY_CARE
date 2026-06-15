@@ -26,14 +26,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 		$_SESSION["type"] = $user["type"];
 		$_SESSION["url"] = $user["imgProfileUrl"];
 
-		
-		if($user["type"] == "STD" || $user["type"] == "STF"){
+
+		if ($user["type"] == "STD" || $user["type"] == "STF") {
 			header("Location: ./pages/user/dashboard.php");
-		}else if($user["type"] == "SAD"){
+		} else if ($user["type"] == "SAD") {
 			header("Location: ./pages/system-admin/dashboard.php");
-		}else if($user["type"] == "CTR"){
+		} else if ($user["type"] == "CTR") {
 			header("Location: ./pages/contractor/dashboard.php");
-		}else if($user["type"] == "CAD"){
+		} else if ($user["type"] == "CAD") {
 			header("Location: ./pages/college-admin/dashboard.php");
 		}
 
@@ -105,10 +105,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 							</div>
 						</form>
 						<div class="input-control">
-							<form method="POST" action=""><input hidden value="ADMIN@utem.edu.my" type="text" name="email"><input hidden value="admin123" type="text" name="password"><button name="submit" type="submit">Login as System Admin</button></form>
-							<form method="POST" action=""><input hidden value="MIRZA@utem.edu.my" type="text" name="email"><input hidden value="ctr125" type="text" name="password"><button name="submit" type="submit">Login as Contractor</button></form>
-							<form method="POST" action=""><input hidden value="D032410018@student.utem.edu.my" type="text" name="email"><input hidden value="std126" type="text" name="password"><button name="submit" type="submit">Login as User</button></form>
-							<form method="POST" action=""><input hidden value="TUAH@utem.edu.my" type="text" name="email"><input hidden value="staff123" type="text" name="password"><button name="submit" type="submit">Login as College Admin</button></form>
+							<form method="POST" action=""><input hidden value="ADMIN@utem.edu.my" type="text" name="email"><input hidden value="admin123" type="text" name="password"><button name="submit" type="submit">System Admin</button></form>
+							<form method="POST" action=""><input hidden value="MIRZA@utem.edu.my" type="text" name="email"><input hidden value="ctr125" type="text" name="password"><button name="submit" type="submit">Contractor</button></form>
+
+							<form method="POST" action=""><input hidden value="D032410018@student.utem.edu.my" type="text" name="email"><input hidden value="std126" type="text" name="password"><button name="submit" type="submit">User AIMAN </button></form>
+							<form method="POST" action=""><input hidden value="D032410021@student.utem.edu.my" type="text" name="email"><input hidden value="std127" type="text" name="password"><button name="submit" type="submit">User ALYA </button></form>
+							<form method="POST" action=""><input hidden value="D032410257@student.utem.edu.my" type="text" name="email"><input hidden value="std123" type="text" name="password"><button name="submit" type="submit">User HAKIM </button></form>
+							<form method="POST" action=""><input hidden value="D032410278@student.utem.edu.my" type="text" name="email"><input hidden value="std124" type="text" name="password"><button name="submit" type="submit">User ABQARI</button></form>
+							<form method="POST" action=""><input hidden value="D032410297@student.utem.edu.my" type="text" name="email"><input hidden value="std125" type="text" name="password"><button name="submit" type="submit">User FARHAN </button></form>
+
+							<form method="POST" action=""><input hidden value="TUAH@utem.edu.my" type="text" name="email"><input hidden value="staff123" type="text" name="password"><button name="submit" type="submit">Admin TUAH</button></form>
+							<form method="POST" action=""><input hidden value="JEBAT@utem.edu.my" type="text" name="email"><input hidden value="staff123" type="text" name="password"><button name="submit" type="submit">Admin JEBAT</button></form>
+							<form method="POST" action=""><input hidden value="JAZARI@utem.edu.my" type="text" name="email"><input hidden value="staff123" type="text" name="password"><button name="submit" type="submit">Admin AJ</button></form>
+							<form method="POST" action=""><input hidden value="LESTARI@utem.edu.my" type="text" name="email"><input hidden value="staff123" type="text" name="password"><button name="submit" type="submit">Admin Lestari</button></form>
 						</div>
 					</div>
 

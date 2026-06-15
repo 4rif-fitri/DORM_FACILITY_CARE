@@ -24,7 +24,10 @@ auth("SAD");
 		<!-- CONTENT HERE -->
 		<main class="_content-area">
 			<nav class="add-box">
-				<a href="" class="addBtn">Add Admin</a>
+				<button type="button" class="addBtn" data-bs-toggle="modal" data-bs-target="#Modal">
+					Add Admin
+				</button>
+				<!-- <a href="" class="addBtn">Add Admin</a> -->
 			</nav>
 
 			<section class="table-container">
@@ -67,7 +70,57 @@ auth("SAD");
 		</main>
 		<!-- CONTENT HERE -->
 
+
+
 	</section>
+
+	<div class="modal fade" id="Modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+				<form action="" method="post">
+					<div class="modal-header">
+						<h1 class="modal-title fs-5" id="exampleModalLabel">Add Admin</h1>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
+						<div class="input-control">
+							<label for="name">Name</label>
+							<input type="text" name="name" id="name">
+						</div>
+						<div class="input-control">
+							<label for="password">Password</label>
+							<input type="password" name="password" id="password">
+						</div>
+						<div class="input-control">
+							<label for="numTel">numTel</label>
+							<input type="text" name="numTel" id="numTel">
+						</div>
+						<div class="input-control">
+							<label for="email">email</label>
+							<input type="text" name="email" id="email">
+						</div>
+						<div class="input-control">
+							<label for="collage">Collage</label>
+							<select name="collage" id="collage">
+								<option disabled selected value="">Select Collage</option>
+								<option value="KOLEJ KEDIAMAN SATRIA JEBAT">KOLEJ KEDIAMAN SATRIA JEBAT</option>
+								<option value="KOLEJ KEDIAMAN SATRIA TUAH">KOLEJ KEDIAMAN SATRIA TUAH</option>
+								<option value="KOLEJ KEDIAMAN SATRIA KASTURI">KOLEJ KEDIAMAN SATRIA KASTURI</option>
+								<option value="KOLEJ KEDIAMAN SATRIA LEKIR">KOLEJ KEDIAMAN SATRIA LEKIR</option>
+								<option value="KOLEJ KEDIAMAN SATRIA LEKIU">KOLEJ KEDIAMAN SATRIA LEKIU</option>
+								<option value="KOLEJ KEDIAMAN AL JAZARI">KOLEJ KEDIAMAN AL JAZARI</option>
+								<option value="KOLEJ KEDIAMAN LESTARI">KOLEJ KEDIAMAN LESTARI</option>
+							</select>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+						<button type="submit" class="btn btn-primary">Save changes</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
 
 	<!-- your script -->
 	<script>
