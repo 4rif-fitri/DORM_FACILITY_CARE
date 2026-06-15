@@ -611,6 +611,11 @@ if (!$row) {
 			if (!isValid) {
 				console.log("All NOT Clear");
 			} else {
+				console.log(inpLocation.value);
+				console.log(inpBlock.value);
+
+				return
+
 				console.log("All Clear");
 
 				showLogin()
