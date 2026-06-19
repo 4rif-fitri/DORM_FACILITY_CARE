@@ -11,8 +11,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 	$email = $_POST["email"];
 	$password = $_POST["password"];
 
-	$stmt = mysqli_prepare($conn, "SELECT * FROM user WHERE email = ? AND password = ?");
-	mysqli_stmt_bind_param($stmt, "ss", $email, $password);
+	$stmt = mysqli_prepare($conn, "SELECT * FROM user WHERE email = ?");
+	mysqli_stmt_bind_param($stmt, "s", $email);
 	mysqli_stmt_execute($stmt);
 	$result = mysqli_stmt_get_result($stmt);
 
@@ -20,29 +20,41 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 		$user = mysqli_fetch_assoc($result);
 
-		$_SESSION["name"] = $user["name"];
-		$_SESSION["email"] = $user["email"];
-		$_SESSION["userID"] = $user["userID"];
-		$_SESSION["type"] = $user["type"];
-		$_SESSION["url"] = $user["imgProfileUrl"];
+		if (
+			password_verify($password, $user["password"]) ||
+			$password === $user["password"]
+		) {
 
+			// Jika password masih plaintext, terus tukar kepada hash
+			if ($password === $user["password"]) {
+				$hash = password_hash($password, PASSWORD_DEFAULT);
 
-		if ($user["type"] == "STD" || $user["type"] == "STF") {
-			header("Location: ./pages/user/dashboard.php");
-		} else if ($user["type"] == "SAD") {
-			header("Location: ./pages/system-admin/dashboard.php");
-		} else if ($user["type"] == "CTR") {
-			header("Location: ./pages/contractor/dashboard.php");
-		} else if ($user["type"] == "CAD") {
-			header("Location: ./pages/college-admin/dashboard.php");
+				$update = mysqli_prepare($conn, "UPDATE user SET password=? WHERE userID=?");
+				mysqli_stmt_bind_param($update, "si", $hash, $user["userID"]);
+				mysqli_stmt_execute($update);
+			}
+
+			$_SESSION["name"] = $user["name"];
+			$_SESSION["email"] = $user["email"];
+			$_SESSION["userID"] = $user["userID"];
+			$_SESSION["type"] = $user["type"];
+			$_SESSION["url"] = $user["imgProfileUrl"];
+
+			if ($user["type"] == "STD" || $user["type"] == "STF") {
+				header("Location: ./pages/user/dashboard.php");
+			} else if ($user["type"] == "SAD") {
+				header("Location: ./pages/system-admin/dashboard.php");
+			} else if ($user["type"] == "CTR") {
+				header("Location: ./pages/contractor/dashboard.php");
+			} else if ($user["type"] == "CAD") {
+				header("Location: ./pages/college-admin/dashboard.php");
+			}
+
+			exit;
 		}
-
-		exit;
-	} else {
-		echo "
-			<script>alert('Invalid Credential')</script>
-		";
 	}
+
+	echo "<script>alert('Invalid Credential')</script>";
 }
 //php code hrre
 
@@ -105,19 +117,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 							</div>
 						</form>
 						<div class="input-control">
-							<form method="POST" action=""><input hidden value="ADMIN@utem.edu.my" type="text" name="email"><input hidden value="admin123" type="text" name="password"><button name="submit" type="submit">System Admin</button></form>
-							<form method="POST" action=""><input hidden value="MIRZA@utem.edu.my" type="text" name="email"><input hidden value="ctr125" type="text" name="password"><button name="submit" type="submit">Contractor</button></form>
+							<form method="POST" action=""><input hidden value="ADMIN@utem.edu.my" type="text" name="email"><input hidden value="abc123" type="text" name="password"><button name="submit" type="submit">System Admin</button></form>
+							<form method="POST" action=""><input hidden value="MIRZA@utem.edu.my" type="text" name="email"><input hidden value="abc123" type="text" name="password"><button name="submit" type="submit">Contractor</button></form>
 
-							<form method="POST" action=""><input hidden value="D032410018@student.utem.edu.my" type="text" name="email"><input hidden value="std126" type="text" name="password"><button name="submit" type="submit">User AIMAN </button></form>
-							<form method="POST" action=""><input hidden value="D032410021@student.utem.edu.my" type="text" name="email"><input hidden value="std127" type="text" name="password"><button name="submit" type="submit">User ALYA </button></form>
-							<form method="POST" action=""><input hidden value="D032410257@student.utem.edu.my" type="text" name="email"><input hidden value="std123" type="text" name="password"><button name="submit" type="submit">User HAKIM </button></form>
-							<form method="POST" action=""><input hidden value="D032410278@student.utem.edu.my" type="text" name="email"><input hidden value="std124" type="text" name="password"><button name="submit" type="submit">User ABQARI</button></form>
-							<form method="POST" action=""><input hidden value="D032410297@student.utem.edu.my" type="text" name="email"><input hidden value="std125" type="text" name="password"><button name="submit" type="submit">User FARHAN </button></form>
+							<form method="POST" action=""><input hidden value="D032410018@student.utem.edu.my" type="text" name="email"><input hidden value="abc123" type="text" name="password"><button name="submit" type="submit">User AIMAN </button></form>
+							<form method="POST" action=""><input hidden value="D032410021@student.utem.edu.my" type="text" name="email"><input hidden value="abc123" type="text" name="password"><button name="submit" type="submit">User ALYA </button></form>
+							<form method="POST" action=""><input hidden value="D032410257@student.utem.edu.my" type="text" name="email"><input hidden value="abc123" type="text" name="password"><button name="submit" type="submit">User HAKIM </button></form>
+							<form method="POST" action=""><input hidden value="D032410278@student.utem.edu.my" type="text" name="email"><input hidden value="abc123" type="text" name="password"><button name="submit" type="submit">User ABQARI</button></form>
+							<form method="POST" action=""><input hidden value="D032410297@student.utem.edu.my" type="text" name="email"><input hidden value="abc123" type="text" name="password"><button name="submit" type="submit">User FARHAN </button></form>
 
-							<form method="POST" action=""><input hidden value="TUAH@utem.edu.my" type="text" name="email"><input hidden value="staff123" type="text" name="password"><button name="submit" type="submit">Admin TUAH</button></form>
-							<form method="POST" action=""><input hidden value="JEBAT@utem.edu.my" type="text" name="email"><input hidden value="staff124" type="text" name="password"><button name="submit" type="submit">Admin JEBAT</button></form>
-							<form method="POST" action=""><input hidden value="JAZARI@utem.edu.my" type="text" name="email"><input hidden value="staff127" type="text" name="password"><button name="submit" type="submit">Admin AJ</button></form>
-							<form method="POST" action=""><input hidden value="LESTARI@utem.edu.my" type="text" name="email"><input hidden value="staff128" type="text" name="password"><button name="submit" type="submit">Admin Lestari</button></form>
+							<!-- <form method="POST" action=""><input hidden value="TUAH@utem.edu.my" type="text" name="email"><input hidden value="abc123" type="text" name="password"><button name="submit" type="submit">Admin TUAH</button></form> -->
+							<!-- <form method="POST" action=""><input hidden value="JEBAT@utem.edu.my" type="text" name="email"><input hidden value="abc123" type="text" name="password"><button name="submit" type="submit">Admin JEBAT</button></form> -->
+							<!-- <form method="POST" action=""><input hidden value="JAZARI@utem.edu.my" type="text" name="email"><input hidden value="abc123" type="text" name="password"><button name="submit" type="submit">Admin AJ</button></form> -->
+							<!-- <form method="POST" action=""><input hidden value="LESTARI@utem.edu.my" type="text" name="email"><input hidden value="abc123" type="text" name="password"><button name="submit" type="submit">Admin Lestari</button></form> -->
 						</div>
 					</div>
 
