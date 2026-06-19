@@ -1,0 +1,170 @@
+:root {
+	--primary: #7c3aed;
+	--primary-hover: rgba(124, 58, 237, 0.2);
+	--primary-dark: #6d28d9;
+	--primary-light: #f5f3ff;
+	--bg-main: #f8fafc;
+	--white: #ffffff;
+	--text-main: #1e293b;
+	--text-muted: #64748b;
+	--border-color: #e2e8f0;
+
+
+	--radius: 12px;
+	--shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+	--success: #16a34a;
+	--success-hover: #15803d;
+	--success-light: #f0fdf4;
+
+	--warning: #d97706;
+	--warning-hover: #b45309;
+	--warning-light: #fffbeb;
+
+	--danger: #dc2626;
+	--danger-hover: #b91c1c;
+	--danger-light: #fef2f2;
+	--border: 1px solid #e2e8f0;
+
+	--border-radius: 10px;
+
+	--fs-xs: 0.75rem;
+	--fs-sm: 0.875rem;
+	--fs-base: 1rem;
+	--fs-md: 1.125rem;
+	--fs-lg: 1.25rem;
+	--fs-xl: 1.5rem;
+	--fs-xxl: 1.75rem;
+}
+
+.analisis-conainer {
+	width: 100%;
+	height: auto;
+	background-color: #fff;
+	display: grid;
+	gap: 1rem;
+	grid-template-areas:
+		'pieChart'
+		'barGraphBlock'
+		'barGraphTrand'
+		'donutBar'
+		'table'
+	;
+	padding: 1rem;
+}
+
+.analisis-conainer>* {
+	padding: 0.5rem;
+	border: 1px solid black;
+}
+
+.analisis-conainer>*>h2 {
+	text-align: center;
+}
+
+.analisis-conainer>*>canvas {
+	width: 100%;
+	height: 400px;
+}
+
+.pieChart {
+	grid-area: pieChart;
+}
+
+.barGraphBlock {
+	grid-area: barGraphBlock;
+}
+
+.barGraphTrand {
+	grid-area: barGraphTrand;
+}
+
+.donutBar {
+	grid-area: donutBar;
+}
+
+.table {
+	grid-area: table;
+}
+
+section+.table {
+	margin-top: 1rem;
+}
+
+section+.table table {
+	border-collapse: collapse;
+	border-radius: 7px;
+	margin-top: 1rem;
+	width: 100%;
+	border-collapse: collapse;
+}
+
+section+.table table th {
+	color: var(--white);
+	background-color: var(--text-main) !important;
+}
+
+section+.table table th,
+section+.table table td {
+	padding: 0.5rem;
+}
+
+.filter-control {
+	padding: 0.5rem;
+	width: 100%;
+	display: grid;
+	gap: 0.5rem;
+	grid-template-columns: 2fr 2fr 1fr 1fr;
+	background-color: var(--primary-light);
+	box-shadow: var(--shadow);
+}
+
+.filter-control select {
+	padding: 0.5rem;
+	border-radius: 4px;
+}
+
+.filter-control button {
+	all: unset;
+	cursor: pointer;
+	padding: 0.5rem;
+	text-align: center;
+	border-radius: 5px;
+	border: 2px solid black;
+}
+
+.btn-reset {
+	color: var(--white) !important;
+	background-color: var(--danger) !important;
+}
+
+.btn-reset:hover {
+	background-color: var(--danger-hover) !important;
+}
+
+.btn-export {
+	background-color: var(--success) !important;
+	color: var(--white) !important;
+}
+
+.btn-export:hover {
+	background-color: var(--success-hover) !important;
+}
+
+@media screen and (min-width:1000px) {}
+
+@media screen and (min-width:1300px) {
+
+	.cards {
+		grid-template-columns: repeat(4, 1fr);
+		height: auto;
+	}
+
+	.analisis-conainer {
+		grid-template-areas:
+			'pieChart 		barGraphBlock'
+			'barGraphTrand 	donutBar'
+			'table  			table'
+		;
+	}
+
+}
