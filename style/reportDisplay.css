@@ -110,6 +110,7 @@ a{
     width: 100%;
     border-collapse: separate;
     border-spacing: 0px 10px;
+	
 }
 
 .myReportTbl thead tr th{
@@ -143,6 +144,53 @@ a{
 	border-bottom: 1px solid #e8e6f5;
 } 
 
+.reportCard{
+	width: 400px;
+	border-collapse: separate;
+	border-spacing: 0;
+	display: none;
+}
+
+.reportCard tbody tr th, .reportCard tbody tr td{
+	padding: 12px 20px;
+	background-color: #F5F2F2;
+}
+
+.reportCard tbody tr th{
+	width: 100px;
+}
+
+.reportCard tbody tr:first-child th{
+	border-radius: 12px 0px 0px 0px;
+	border-left: 1px solid #e8e6f5;
+	border-top: 1px solid #e8e6f5;
+}
+
+.reportCard tbody tr:not(:first-child):not(:last-child) th{
+	border-left: 1px solid #e8e6f5;
+}
+
+.reportCard tbody tr:last-child td:first-child{
+	border-radius: 0px 0px 0px 12px;
+	border-left: 1px solid #e8e6f5;
+	border-bottom: 1px solid #e8e6f5;
+}
+
+.reportCard tbody tr:first-child td{
+	border-radius: 0px 12px 0px 0px;
+	border-top: 1px solid #e8e6f5;
+	border-right: 1px solid #e8e6f5;
+}
+
+.reportCard tbody tr:not(:first-child):not(:last-child) td{
+	border-right: 1px solid #e8e6f5;
+}
+
+.reportCard tbody tr:last-child td:last-child{
+	border-radius: 0px 0px 12px 0px;
+	border-right: 1px solid #e8e6f5;
+	border-bottom: 1px solid #e8e6f5;
+}
 
 
 
@@ -186,4 +234,14 @@ a{
 {
 	width: 100%;
 	padding: 0.5rem;
+}
+
+@media(max-width: 500px) {
+	.reportCard{
+		display: block;
+	}
+
+	.myReportTbl{
+		display: none;
+	}
 }

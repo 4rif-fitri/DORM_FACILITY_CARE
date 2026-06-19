@@ -61,7 +61,7 @@ $result = mysqli_query($conn, $sql);
 			</nav>
 
 			<section class="table-container">
-				<table class="myReportTbl trackingReportTbl">
+				<table class="myReportTbl">
 					<thead>
 						<tr>
 							<th>Id</th>
@@ -86,6 +86,62 @@ $result = mysqli_query($conn, $sql);
 						<?php endwhile ?>
 					</tbody>
 
+				</table>
+
+				<table class="reportCard">
+							<tbody>
+								<tr>
+									<th>Id</th>
+									<td>67</td>
+								</tr>
+
+								<tr>
+									<th>Category</th>
+									<td>Plumbing</td>
+								</tr>
+								
+								<tr>
+									<th>Date</th>
+									<td>09/11/2025</td>
+								</tr>
+
+								<tr>
+									<th>Status</th>
+									<td>Pending</td>
+								</tr>
+
+								<tr>
+									<td><a href="#" class="updateBtn">Track</a></td>
+									<td></td>
+								</tr>
+							</tbody>
+
+							<tbody>
+								<tr>
+									<th>Id</th>
+									<td>67</td>
+								</tr>
+
+								<tr>
+									<th>Category</th>
+									<td>Plumbing</td>
+								</tr>
+								
+								<tr>
+									<th>Date</th>
+									<td>09/11/2025</td>
+								</tr>
+
+								<tr>
+									<th>Status</th>
+									<td>Pending</td>
+								</tr>
+
+								<tr>
+									<td><a href="#" class="updateBtn">Track</a></td>
+									<td></td>
+								</tr>
+							</tbody>
 				</table>
 			</section>
 
