@@ -294,7 +294,7 @@ body:has(#_dekstop-sideBar:checked) ._sidebar-_dekstop ._menu-bawah a {
 .popUpDone,
 .popUpLoading,
 .popUpFail {
-	z-index: 10;
+	z-index: 999;
 	top: 0;
 	left: 0;
 	position: absolute;

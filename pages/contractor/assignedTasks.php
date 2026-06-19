@@ -4,6 +4,28 @@ auth("CTR");
 
 //php code hrre
 
+if (isset($_GET["idDoit"])) {
+	$reportID = $_GET["idDoit"];
+	$sql = "	UPDATE report
+			SET  status = 'In_Progress'
+			WHERE reportID = '$reportID' 
+			";
+	mysqli_query($conn, $sql);
+	header("Location: updateTasks.php?id=$reportID");
+}
+
+$idContractor = $_SESSION["userID"];
+$sql = "	SELECT 	reportID, 
+				reportCategory, 	
+				reportDesc, 
+				dateReported, 
+				status
+        	FROM report
+		WHERE (status = 'Assigned' OR status = 'In_Progress') AND contractorID = '$idContractor'
+		ORDER BY dateReported DESC
+		";
+$result = mysqli_query($conn, $sql);
+
 //php code hrre
 
 ?>
@@ -19,17 +41,17 @@ auth("CTR");
 
 	<section class="_workspace">
 		<?php $title = "Assigned Tasks" ?>
-		<?php include(__DIR__ . "../../../components/system-admin/header.php") ?>
+		<?php include(__DIR__ . "../../../components/contractor/header.php") ?>
 		<!-- CONTENT HERE -->
 		<main class="_content-area">
-			<nav class="filter-box">
+			<!-- <nav class="filter-box">
 				<a href="" class="filterBtn">all</a>
 				<a href="" class="filterBtn">canceled</a>
 				<a href="" class="filterBtn">pending</a>
 				<a href="" class="filterBtn">assigned</a>
 				<a href="" class="filterBtn">in progress</a>
 				<a href="" class="filterBtn">completed</a>
-			</nav>
+			</nav> -->
 
 			<section class="table-container">
 				<table class="myReportTbl">
@@ -45,23 +67,16 @@ auth("CTR");
 					</thead>
 
 					<tbody>
-						<tr>
-							<td>067</td>
-							<td>No wifi</td>
-							<td>Al-Jazari A-5-4-B-(2)</td>
-							<td>28/5/2026</td>
-							<td>Assigned</td>
-							<td><a href="./updateTasks.php" class="updateBtn">Update</a></td>
-						</tr>
-
-						<tr>
-							<td>067</td>
-							<td>No wifi</td>
-							<td>Al-Jazari A-5-4-B-(1)</td>
-							<td>28/5/2026</td>
-							<td>Assigned</td>
-							<td><a href="./updateTasks.php" class="updateBtn">Update</a></td>
-						</tr>
+						<?php while ($row = mysqli_fetch_assoc($result)) : ?>
+							<tr>
+								<td><?= $row["reportID"] ?></td>
+								<td><?= $row["reportCategory"] ?></td>
+								<td><?= $row["reportDesc"] ?></td>
+								<td><?= $row["dateReported"] ?></td>
+								<td><?= $row["status"] ?></td>
+								<td><a href="./assignedTasks.php?idDoit=<?= $row["reportID"] ?>" class="updateBtn">Take</a></td>
+							</tr>
+						<?php endwhile ?>
 					</tbody>
 
 				</table>
