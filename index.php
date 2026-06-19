@@ -122,8 +122,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 							<form method="POST" action=""><input hidden value="D032410018@student.utem.edu.my" type="text" name="email"><input hidden value="abc123" type="text" name="password"><button name="submit" type="submit">User AIMAN </button></form>
 							<form method="POST" action=""><input hidden value="D032410021@student.utem.edu.my" type="text" name="email"><input hidden value="abc123" type="text" name="password"><button name="submit" type="submit">User ALYA </button></form>
-							<form method="POST" action=""><input hidden value="D032410257@student.utem.edu.my" type="text" name="email"><input hidden value="abc123" type="text" name="password"><button name="submit" type="submit">User HAKIM </button></form>
-							<form method="POST" action=""><input hidden value="D032410278@student.utem.edu.my" type="text" name="email"><input hidden value="abc123" type="text" name="password"><button name="submit" type="submit">User ABQARI</button></form>
 							<form method="POST" action=""><input hidden value="D032410297@student.utem.edu.my" type="text" name="email"><input hidden value="abc123" type="text" name="password"><button name="submit" type="submit">User FARHAN </button></form>
 
 							<!-- <form method="POST" action=""><input hidden value="TUAH@utem.edu.my" type="text" name="email"><input hidden value="abc123" type="text" name="password"><button name="submit" type="submit">Admin TUAH</button></form> -->
