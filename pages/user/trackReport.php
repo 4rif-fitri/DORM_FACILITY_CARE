@@ -49,11 +49,11 @@ if (isset($_GET["id"])) {
 								<article>
 									<div class="dot <?= in_array($row["status"], ["Pending", "Assigned", "In_Progress", "Completed"]) ? "active" : "" ?> "></div>
 									<div class="desh"></div>
-									<div class="dot <?= in_array($row["status"], ["Assigned", "In_Progress", "Completed"]) ? "text-active" : "" ?>"></div>
+									<div class="dot <?= in_array($row["status"], ["Assigned", "In_Progress", "Completed"]) ? "active" : "" ?>"></div>
 									<div class="desh"></div>
-									<div class="dot <?= in_array($row["status"], ["In_Progress", "Completed"]) ? "text-active" : "" ?>"></div>
+									<div class="dot <?= in_array($row["status"], ["In_Progress", "Completed"]) ? "active" : "" ?>"></div>
 									<div class="desh"></div>
-									<div class="dot <?= in_array($row["status"], ["Completed"]) ? "text-active" : "" ?>"></div>
+									<div class="dot <?= in_array($row["status"], ["Completed"]) ? "active" : "" ?>"></div>
 								</article>
 								<article>
 									<p class="<?= in_array($row["status"], ["Pending", "Assigned", "In_Progress", "Completed"]) ? "text-active" : "" ?>">Pending</p>
@@ -146,8 +146,12 @@ if (isset($_GET["id"])) {
 
 						<div class="image imgReportgroup">
 							<div class="imgReport"
-								data-src="<?= $row["reportImgUrl"] ?>"
-								style="background-image:url('<?= $row["reportImgUrl"] ?>')">
+								data-src="<?= $row["reportImgUrl"] ?? "" ?>"
+								style="background-image:url('<?= $row["reportImgUrl"] ?? "" ?>')">
+							</div>
+							<div class="imgReport"
+								data-src="<?= $row["completedImgUrl"] ?? "" ?>"
+								style="background-image:url('<?= $row["completedImgUrl"] ?? "" ?>')">
 							</div>
 						</div>
 					</section>

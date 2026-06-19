@@ -4,6 +4,36 @@ require_once __DIR__ . "../../../inc/init.php";
 auth("CAD");
 
 //php code hrre
+$idAdmin = $_SESSION["userID"];
+
+function getCollage($college)
+{
+	if ($college == "KOLEJ KEDIAMAN SATRIA JEBAT") return "Satria_Jebat";
+	else if ($college == "KOLEJ KEDIAMAN SATRIA TUAH") return "Satria_Tuah";
+	else if ($college == "KOLEJ KEDIAMAN SATRIA KASTURI") return "Satria_Kasturi";
+	else if ($college == "KOLEJ KEDIAMAN SATRIA LEKIR") return "Satria_Lekir";
+	else if ($college == "KOLEJ KEDIAMAN SATRIA LEKIU") return "Satria_Lekiu";
+	else if ($college == "KOLEJ KEDIAMAN AL JAZARI") return "Al_Jazari";
+	else if ($college == "KOLEJ KEDIAMAN LESTARI") return "Lestari";
+}
+
+$sql = "	SELECT user.userID, user.name, user.email, user.numTel,
+			college_admin.college
+			FROM user INNER JOIN college_admin
+			ON user.userID = college_admin.colAdminID 
+			WHERE userID = '$idAdmin'
+			";
+
+$result = mysqli_query($conn, $sql);
+$dataAdmin = mysqli_fetch_assoc($result);
+
+$collage = getCollage($dataAdmin["college"]);
+
+$sql = "	SELECT * FROM report 
+		WHERE college = '$collage' AND status = 'Pending'
+		ORDER BY dateReported DESC";
+$result = mysqli_query($conn, $sql);
+
 
 //php code hrre
 
@@ -24,14 +54,14 @@ auth("CAD");
 
 		<!-- CONTENT HERE -->
 		<main class="_content-area">
-			<nav class="filter-box">
+			<!-- <nav class="filter-box">
 				<a href="" class="filterBtn">all</a>
 				<a href="" class="filterBtn">canceled</a>
 				<a href="" class="filterBtn">pending</a>
 				<a href="" class="filterBtn">assigned</a>
 				<a href="" class="filterBtn">in progress</a>
 				<a href="" class="filterBtn">completed</a>
-			</nav>
+			</nav> -->
 
 			<section class="table-container">
 				<table class="myReportTbl">
@@ -47,23 +77,16 @@ auth("CAD");
 					</thead>
 
 					<tbody>
-						<tr>
-							<td>067</td>
-							<td>No wifi</td>
-							<td>Al-Jazari A-5-4-B-(2)</td>
-							<td>28/5/2026</td>
-							<td>Pending</td>
-							<td><a href="./reportUpdate.php" class="updateBtn">Update</a></td>
-						</tr>
-
-						<tr>
-							<td>067</td>
-							<td>No wifi</td>
-							<td>Al-Jazari A-5-4-B-(1)</td>
-							<td>28/5/2026</td>
-							<td>Pending</td>
-							<td><a href="./reportUpdate.php" class="updateBtn">Update</a></td>
-						</tr>
+						<?php while ($row = mysqli_fetch_assoc($result)) : ?>
+							<tr>
+								<td><?= $row["reportID"] ?></td>
+								<td><?= $row["reportCategory"] ?></td>
+								<td><?= $row["reportDesc"] ?></td>
+								<td><?= $row["dateReported"] ?></td>
+								<td><?= $row["status"] ?></td>
+								<td><a href="./reportUpdate.php?id=<?= $row["reportID"] ?>" class="updateBtn">Update</a></td>
+							</tr>
+						<?php endwhile ?>
 					</tbody>
 
 				</table>

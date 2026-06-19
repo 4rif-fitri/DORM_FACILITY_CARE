@@ -243,7 +243,7 @@ function getDatatable($conn)
 
 					</div>
 				</section>
-				<section class="table">
+				<section class="table" id="table">
 					<h2>Top Problem Locations</h2>
 
 					<div class="table-responsive">
@@ -287,6 +287,9 @@ function getDatatable($conn)
 
 	<!-- your script -->
 	<script>
+		let table = document.getElementById("table")
+		let tbody = table.querySelector("tbody")
+
 		let canvas_category = document.getElementById("canvas_pieChart");
 		let canvas_Block = document.getElementById("canvas_barGraphBlock");
 		// let canvas_Trand = document.getElementById("canvas_barGraphTrand");
@@ -294,7 +297,6 @@ function getDatatable($conn)
 		let resizeTimer;
 		let rect = canvas_category.getBoundingClientRect();
 
-		let tbody = document.querySelector("tbody")
 
 		let dataBlock = <?= json_encode(getDataCollage($conn)) ?>;
 
@@ -319,10 +321,21 @@ function getDatatable($conn)
 			"#64748B" // Slate
 		];
 
+		let filterTable = (date,catagory) => {
+
+		}
+
+		document.getElementById("filter-month-table").addEventListener("change", e => {
+			console.log(e.target.value);
+			
+		})
+
 		document.getElementById("filter-category-table").addEventListener("change", e => {
 			let filter = e.target.value
-			console.log({filter});
-			
+			console.log({
+				filter
+			});
+
 			$.ajax({
 				url: "../../api/getFilterdDatatable.php",
 				method: "POST",
@@ -330,7 +343,15 @@ function getDatatable($conn)
 					filter: filter
 				},
 				success: response => {
-					console.log(response)
+					console.log(response.datas)
+
+					if (filter == "All category") {
+						table.querySelector("h2").textContent = `Top Problem Locations`
+					} else {
+						table.querySelector("h2").textContent = `Top Problem Locations for ${filter}`
+					}
+					renderTable(response.datas)
+
 				},
 				error: response => {
 					console.log(response.responseText);

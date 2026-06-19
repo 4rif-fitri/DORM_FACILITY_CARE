@@ -3,7 +3,49 @@ require_once __DIR__ . "../../../inc/init.php";
 auth("SAD");
 
 //php code hrre
+if (isset($_GET["rejectID"])) {
 
+	$reportId = $_GET["rejectID"];
+
+	$sql = "UPDATE report
+            SET status='Canceled'
+            WHERE reportId='$reportId'";
+
+	if (mysqli_query($conn, $sql)) {
+		header("Location: reportUpdate.php?id=$reportId");
+		exit;
+	} else echo mysqli_error($conn);
+} else if (isset($_GET["id"])) {
+	$reportId = $_GET["id"];
+
+	$sql = "SELECT *
+        	FROM report
+        	WHERE reportId = '$reportId'";
+
+	$result = mysqli_query($conn, $sql);
+	$row = mysqli_fetch_assoc($result);
+} else {
+	header("Location: reportManage.php");
+}
+
+$sql = " SELECT u.userID, u.name, u.email,
+    			 u.numTel, c.cType
+		FROM user u
+		JOIN contractor c
+		ON u.userID = c.contractorID
+";
+$resultContractor = mysqli_query($conn, $sql);
+$dataContractor = [];
+
+while ($datas = mysqli_fetch_assoc($resultContractor)) {
+	$dataContractor[] = [
+		"id" => $datas["userID"],
+		"name" => $datas["name"],
+		"email" => $datas["email"],
+		"no" => $datas["numTel"],
+		"cType" => $datas["cType"]
+	];
+}
 //php code hrre
 
 ?>
@@ -36,30 +78,35 @@ auth("SAD");
 							<div>
 
 								<article>
-									<div class="dot active"></div>
+									<div class="dot <?= in_array($row["status"], ["Pending", "Assigned", "In_Progress", "Completed"]) ? "active" : "" ?> "></div>
 									<div class="desh"></div>
-									<div class="dot active"></div>
+									<div class="dot <?= in_array($row["status"], ["Assigned", "In_Progress", "Completed"]) ? "active" : "" ?>"></div>
 									<div class="desh"></div>
-									<div class="dot "></div>
+									<div class="dot <?= in_array($row["status"], ["In_Progress", "Completed"]) ? "active" : "" ?>"></div>
 									<div class="desh"></div>
-									<div class="dot"></div>
+									<div class="dot <?= in_array($row["status"], ["Completed"]) ? "active" : "" ?>"></div>
 								</article>
 								<article>
-									<p class="text-active">Pending</p>
+									<p class="<?= in_array($row["status"], ["Pending", "Assigned", "In_Progress", "Completed"]) ? "text-active" : "" ?>">Pending</p>
 									<p></p>
-									<p class="text-active">Assigned</p>
+									<p class="<?= in_array($row["status"], ["Assigned", "In_Progress", "Completed"]) ? "text-active" : "" ?>">Assigned</p>
 									<p></p>
-									<p>In Progress</p>
+									<p class="<?= in_array($row["status"], ["In_Progress", "Completed"]) ? "text-active" : "" ?>">In Progress</p>
 									<p></p>
-									<p>Completed</p>
+									<p class="<?= in_array($row["status"], ["Completed"]) ? "text-active" : "" ?>">Completed</p>
 								</article>
 
 							</div>
 						</div>
 
 						<article>
-							<button class="btn btn-danger">Reject</button>
-							<button data-bs-toggle="modal" data-bs-target="#modalContraktor" class="btn btn-success">Assign</button>
+							<?php if ($row["status"] == "Canceled" || $row["status"] == "Assigned" || $row["status"] == "Completed") : ?>
+								<button href="./reportUpdate.php?rejectID=<?= $row["reportID"] ?>" class="btn btn-danger disabled">Reject</button>
+								<button data-bs-toggle="modal" data-bs-target="#modalContraktor" class="btn btn-success disabled">Assign</button>
+							<?php else : ?>
+								<button href="./reportUpdate.php?rejectID=<?= $row["reportID"] ?>" class="btn btn-danger">Reject</button>
+								<button data-bs-toggle="modal" data-bs-target="#modalContraktor" class="btn btn-success">Assign</button>
+							<?php endif ?>
 						</article>
 					</section>
 
@@ -105,27 +152,27 @@ auth("SAD");
 
 							<div class="input-control">
 								<label for="category">category</label>
-								<input readonly type="text" name="category" id="category" value="Wifi">
+								<input value="<?= $row["reportCategory"] ?>" readonly type="text" name="category" id="category">
 							</div>
 
 							<div class="input-control">
 								<label for="description">Description</label>
-								<textarea readonly type="text" name="description" id="description">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quaerat eveniet, cupiditate quis odit ipsum eum quae enim sequi veritatis non ratione? Quia veniam nulla nisi illum accusantium voluptates ducimus laboriosam.
-							</textarea>
+								<textarea readonly type="text" name="description" id="description"><?= $row["reportDesc"] ?></textarea>
 							</div>
 
 							<div class="input-control">
 								<label for="college">College</label>
-								<input readonly type="text" name="college" id="college" value="Al Jazari">
+								<input readonly type="text" name="college" value="<?= trim($row["reportCategory"]) ?>" id="college">
 							</div>
 
 							<div class="input-control">
 								<label for="room">Room</label>
-								<input readonly type="text" name="room" id="room" value="B-4-5-B(2)">
+								<input value="<?= $row["reportRoom"] ?>" readonly type="text" name="room" id="room">
 							</div>
 						</div>
 
 					</section>
+
 
 				</div>
 
@@ -167,10 +214,14 @@ auth("SAD");
 						</h4>
 
 						<div class="image imgReportgroup">
-							<!-- <div class="imgReport"
-								data-src="<?= $row["reportImgUrl"] ?>"
-								style="background-image:url('<?= $row["reportImgUrl"] ?>')">
-							</div> -->
+							<div class="imgReport"
+								data-src="<?= $row["reportImgUrl"] ?? "" ?>"
+								style="background-image:url('<?= $row["reportImgUrl"] ?? "" ?>')">
+							</div>
+							<div class="imgReport"
+								data-src="<?= $row["completedImgUrl"] ?? "" ?>"
+								style="background-image:url('<?= $row["completedImgUrl"] ?? "" ?>')">
+							</div>
 						</div>
 					</section>
 				</div>
@@ -182,13 +233,13 @@ auth("SAD");
 	</section>
 
 	<div class="modal fade" id="modalContraktor">
-		<form method="POST" action="">
+		<form action="" onsubmit="handleSubmit(event)" method="post">
 			<div class="modal-dialog modal-dialog-centered">
 				<div class="modal-content">
 					<div class="modal-header">
 						<h1 class="modal-title fs-5">
 							<img src="../../images/report.svg" alt="">
-							Assign Contraktor
+							Assign Contractor
 						</h1>
 					</div>
 					<div class="modal-body">
@@ -200,10 +251,11 @@ auth("SAD");
 									<label for="selectContractor">Select contractor</label>
 									<select name="selectContractor" id="selectContractor">
 										<option disabled selected value="">Select contractor</option>
-										<option value="0">En lorem</option>
-										<option value="1">En Ipsum</option>
-										<option value="2">En Dolor</option>
-										<option value="3">En Sit</option>
+										<?php foreach ($dataContractor as $contractor): ?>
+											<option value="<?= $contractor['id'] ?>">
+												<?= $contractor['name'] ?>
+											</option>
+										<?php endforeach; ?>
 									</select>
 									<p class="hidden my-2" id="emailContractor">lorem@gamail.com</p>
 									<p class="hidden mb-2" id="phoneContractor">0197231577</p>
@@ -232,6 +284,29 @@ auth("SAD");
 		</div>
 	</div>
 
+	<div class="popUpFail hidden">
+		<div class="card p-3">
+			<h1 class="text-center">🚫</h1>
+			<h2>Fail to Assign Contractor</h2>
+			<a href="" class="btn btn-success">Ok</a>
+		</div>
+	</div>
+	<div class="popUpLoading hidden">
+		<div class="loading-container">
+			<div class="loading-circle"></div>
+			<div class="loading-circle"></div>
+			<div class="loading-circle"></div>
+			<div class="loading-circle"></div>
+		</div>
+		<div class="bulat">
+			<article>
+				<h1 class="text-center">✅</h1>
+				<h2>Done Assign Contractor</h2>
+				<a href="./reportUpdate.php?id=<?= $_GET["id"] ?>" class="btn btn-success w-100">Ok</a>
+			</article>
+		</div>
+	</div>
+
 	<!-- your script -->
 	<script>
 		let selectContractor = document.querySelector("#selectContractor")
@@ -242,7 +317,13 @@ auth("SAD");
 		let model = document.getElementById("model")
 		let myModal = new bootstrap.Modal(model)
 
+		const modalContraktor = bootstrap.Modal.getOrCreateInstance(
+			document.getElementById("modalContraktor")
+		);
+
 		let images = document.querySelectorAll(".image")
+
+		let delay = time => new Promise(resolve => setTimeout(resolve, time))
 
 		const prew = url => {
 			document.querySelector(".modal-image").src = url;
@@ -255,38 +336,10 @@ auth("SAD");
 			});
 		});
 
-		let dataContractor = [{
-				id: 0,
-				name: "En Lorem",
-				email: "dopymonster@gmail.com",
-				no: "0197231577",
-				cType: "IT Tech"
-			},
-			{
-				id: 1,
-				name: "En Ipsum",
-				email: "dopymonster@gmail.com",
-				no: "0197231577",
-				cType: "Mekanik"
-			},
-			{
-				id: 2,
-				name: "En Dolor",
-				email: "dopymonster@gmail.com",
-				no: "0197231577",
-				cType: "Jamban"
-			},
-			{
-				id: 3,
-				name: "En Sit",
-				email: "dopymonster@gmail.com",
-				no: "0197231577",
-				cType: "Kipas"
-			},
-		]
+		let dataContractor = <?= json_encode($dataContractor) ?>;
 
 		selectContractor.addEventListener("change", e => {
-			let id = Number(e.target.value)
+			let id = (e.target.value)
 			console.log(id);
 
 			let orang = dataContractor.find(data => data.id == id)
@@ -299,6 +352,38 @@ auth("SAD");
 			textphoneContractor.textContent = orang.no
 			textcTypeContractor.textContent = orang.cType
 		})
+
+		async function handleSubmit(e) {
+			e.preventDefault();
+			let idConst = e.target.querySelector("select").value
+			if (idConst == "") {
+				alert("Sila Pilih Contractor")
+				return
+			} else {
+				modalContraktor.hide();
+				document.querySelector(".popUpLoading").classList.remove("hidden")
+				await delay(2000)
+				$.ajax({
+					url: "../../api/assignContractor.php",
+					method: "POST",
+					data: {
+						reportID: "<?= $_GET["id"] ?>",
+						contractorID: idConst,
+					},
+					success: response => {
+						console.log(response);
+						document.querySelector(".popUpLoading .bulat").style.animation = "fadeIN 0.2s forwards"
+						document.querySelector(".popUpLoading .bulat > *").style.animation = "show 0.3s forwards"
+					},
+					error: error => {
+						console.log(error);
+						document.querySelector(".popUpLoading").classList.add("hidden");
+						document.querySelector(".popUpFail").classList.remove("hidden");
+					}
+				})
+			}
+
+		}
 	</script>
 
 
