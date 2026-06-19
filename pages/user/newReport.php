@@ -51,10 +51,11 @@ if (!$row) {
 						<label for="categories" class="required">Categories</label>
 						<select name="categories" id="categories">
 							<option disabled selected value="">Select Categories</option>
-							<option value="Electrical">Electrical</option>
 							<option value="Plumbing">Plumbing</option>
-							<option value="Furniture">Furniture</option>
-							<option value="Internet">Internet</option>
+							<option value="Electrical">Electrical</option>
+							<option value="Furniture">Cleaning</option>
+							<option value="Internet">Facilities</option>
+							<option value="Others">Security</option>
 							<option value="Others">Others</option>
 						</select>
 					</div>

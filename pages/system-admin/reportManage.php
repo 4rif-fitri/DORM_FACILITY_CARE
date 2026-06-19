@@ -11,7 +11,7 @@ $sql = "	SELECT 	reportID,
 				dateReported, 
 				status
         	FROM report
-		WHERE status = 'forward'
+		WHERE status = 'Pending'
 		ORDER BY dateReported DESC
 		";
 
