@@ -3,7 +3,30 @@ require_once __DIR__ . "../../../inc/init.php";
 auth("CAD");
 
 //php code hrre
+if (isset($_GET["rejectID"])) {
 
+	$reportId = $_GET["rejectID"];
+
+	$sql = "UPDATE report
+            SET status='Canceled'
+            WHERE reportId='$reportId'";
+
+	if (mysqli_query($conn, $sql)) {
+		header("Location: reportUpdate.php?id=$reportId");
+		exit;
+	} else echo mysqli_error($conn);
+} else if (isset($_GET["id"])) {
+	$reportId = $_GET["id"];
+
+	$sql = "SELECT *
+        	FROM report
+        	WHERE reportId = '$reportId'";
+
+	$result = mysqli_query($conn, $sql);
+	$row = mysqli_fetch_assoc($result);
+} else {
+	header("Location: reportManage.php");
+}
 //php code hrre
 
 ?>
@@ -34,31 +57,38 @@ auth("CAD");
 							<div>
 
 								<article>
-									<div class="dot active"></div>
+									<div class="dot <?= in_array($row["status"], ["Pending", "Assigned", "In_Progress", "Completed"]) ? "active" : "" ?> "></div>
 									<div class="desh"></div>
-									<div class="dot"></div>
+									<div class="dot <?= in_array($row["status"], ["Assigned", "In_Progress", "Completed"]) ? "active" : "" ?>"></div>
 									<div class="desh"></div>
-									<div class="dot "></div>
+									<div class="dot <?= in_array($row["status"], ["In_Progress", "Completed"]) ? "active" : "" ?>"></div>
 									<div class="desh"></div>
-									<div class="dot"></div>
-
+									<div class="dot <?= in_array($row["status"], ["Completed"]) ? "active" : "" ?>"></div>
 								</article>
 								<article>
-									<p class="text-active">Pending</p>
+									<p class="<?= in_array($row["status"], ["Pending", "Assigned", "In_Progress", "Completed"]) ? "text-active" : "" ?>">Pending</p>
 									<p></p>
-									<p>Assigned</p>
+									<p class="<?= in_array($row["status"], ["Assigned", "In_Progress", "Completed"]) ? "text-active" : "" ?>">Assigned</p>
 									<p></p>
-									<p>In Progress</p>
+									<p class="<?= in_array($row["status"], ["In_Progress", "Completed"]) ? "text-active" : "" ?>">In Progress</p>
 									<p></p>
-									<p>Completed</p>
+									<p class="<?= in_array($row["status"], ["Completed"]) ? "text-active" : "" ?>">Completed</p>
 								</article>
 
 							</div>
 						</div>
 
 						<article>
-							<button class="btn btn-secondary">Reject</button>
-							<button class="btn btn-success">Proceed</button>
+							<?php if ($row["status"] == "Canceled") : ?>
+								<button href="./reportUpdate.php?rejectID=<?= $row["reportID"] ?>" class="btn btn-danger disabled">Reject</button>
+								<button data-bs-toggle="modal" data-bs-target="#modalContraktor" class="btn btn-success disabled">Forward</button>
+							<?php elseif ($row["status"] == "Assigned") : ?>
+								<button href="./reportUpdate.php?rejectID=<?= $row["reportID"] ?>" class="btn btn-danger disabled">Reject</button>
+								<button data-bs-toggle="modal" data-bs-target="#modalContraktor" class="btn btn-success disabled">Forward</button>
+							<?php else : ?>
+								<button href="./reportUpdate.php?rejectID=<?= $row["reportID"] ?>" class="btn btn-danger">Reject</button>
+								<button onclick="handleForward(event)" data-bs-toggle="modal" data-bs-target="#modalContraktor" class="btn btn-success">Forward</button>
+							<?php endif ?>
 						</article>
 					</section>
 
@@ -71,33 +101,29 @@ auth("CAD");
 							<img src="../../images/report.svg" alt="">
 							Report Detail
 						</h4>
-
 						<div class="report-detail">
 
 							<div class="input-control">
 								<label for="category">category</label>
-								<input readonly type="text" name="category" id="category">
+								<input value="<?= $row["reportCategory"] ?>" readonly type="text" name="category" id="category">
 							</div>
 
 							<div class="input-control">
 								<label for="description">Description</label>
-								<textarea readonly type="text" name="description" id="description"></textarea>
+								<textarea readonly type="text" name="description" id="description"><?= $row["reportDesc"] ?></textarea>
 							</div>
 
 							<div class="input-control">
 								<label for="college">College</label>
-								<input readonly type="text" name="college" id="college">
+								<input readonly type="text" name="college" value="<?= trim($row["reportCategory"]) ?>" id="college">
 							</div>
 
 							<div class="input-control">
 								<label for="room">Room</label>
-								<input readonly type="text" name="room" id="room">
+								<input value="<?= $row["reportRoom"] ?>" readonly type="text" name="room" id="room">
 							</div>
 						</div>
 
-						<article>
-							<button class="btn btn-success">Forward</button>
-						</article>
 					</section>
 
 				</div>
@@ -139,8 +165,15 @@ auth("CAD");
 							Report Image
 						</h4>
 
-						<div class="image">
-							<img src="../../images/LogoUTeM-5b80a51b.png" alt="">
+						<div class="image imgReportgroup">
+							<div class="imgReport"
+								data-src="<?= $row["reportImgUrl"] ?? "" ?>"
+								style="background-image:url('<?= $row["reportImgUrl"] ?? "" ?>')">
+							</div>
+							<div class="imgReport"
+								data-src="<?= $row["completedImgUrl"] ?? "" ?>"
+								style="background-image:url('<?= $row["completedImgUrl"] ?? "" ?>')">
+							</div>
 						</div>
 					</section>
 				</div>
@@ -151,9 +184,56 @@ auth("CAD");
 
 	</section>
 
+
+	<div class="popUpFail hidden">
+		<div class="card p-3">
+			<h1 class="text-center">🚫</h1>
+			<h2>Fail to Forward Report</h2>
+			<a href="" class="btn btn-success">Ok</a>
+		</div>
+	</div>
+	<div class="popUpLoading hidden">
+		<div class="loading-container">
+			<div class="loading-circle"></div>
+			<div class="loading-circle"></div>
+			<div class="loading-circle"></div>
+			<div class="loading-circle"></div>
+		</div>
+		<div class="bulat">
+			<article>
+				<h1 class="text-center">✅</h1>
+				<h2>Done Forward Report</h2>
+				<a href="./reportUpdate.php?id=<?= $_GET["id"] ?>" class="btn btn-success w-100">Ok</a>
+			</article>
+		</div>
+	</div>
+
 	<!-- your script -->
 	<script>
+		let delay = time => new Promise(resolve => setTimeout(resolve, time))
 
+		async function handleForward(e) {
+			e.preventDefault();
+			document.querySelector(".popUpLoading").classList.remove("hidden")
+			await delay(2000)
+			$.ajax({
+				url: "../../api/handleForward.php",
+				method: "POST",
+				data: {
+					reportID: "<?= $_GET["id"] ?>",
+				},
+				success: response => {
+					console.log(response);
+					document.querySelector(".popUpLoading .bulat").style.animation = "fadeIN 0.2s forwards"
+					document.querySelector(".popUpLoading .bulat > *").style.animation = "show 0.3s forwards"
+				},
+				error: error => {
+					console.log(error);
+					document.querySelector(".popUpLoading").classList.add("hidden");
+					document.querySelector(".popUpFail").classList.remove("hidden");
+				}
+			})
+		}
 	</script>
 
 

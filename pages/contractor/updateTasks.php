@@ -3,7 +3,30 @@ require_once __DIR__ . "../../../inc/init.php";
 auth("CTR");
 
 //php code hrre
+if (isset($_GET["rejectID"])) {
 
+	$reportId = $_GET["rejectID"];
+
+	$sql = "UPDATE report
+            SET status='Canceled'
+            WHERE reportId='$reportId'";
+
+	if (mysqli_query($conn, $sql)) {
+		header("Location: reportUpdate.php?id=$reportId");
+		exit;
+	} else echo mysqli_error($conn);
+} else if (isset($_GET["id"])) {
+	$reportId = $_GET["id"];
+
+	$sql = "SELECT *
+        	FROM report
+        	WHERE reportId = '$reportId'";
+
+	$result = mysqli_query($conn, $sql);
+	$row = mysqli_fetch_assoc($result);
+} else {
+	header("Location: reportManage.php");
+}
 //php code hrre
 
 ?>
@@ -35,24 +58,23 @@ auth("CTR");
 							<div>
 
 								<article>
-									<div class="dot active"></div>
+									<div class="dot <?= in_array($row["status"], ["Pending", "Assigned", "In_Progress", "Completed"]) ? "active" : "" ?> "></div>
 									<div class="desh"></div>
-									<div class="dot active"></div>
+									<div class="dot <?= in_array($row["status"], ["Assigned", "In_Progress", "Completed"]) ? "active" : "" ?>"></div>
 									<div class="desh"></div>
-									<div class="dot active"></div>
+									<div class="dot <?= in_array($row["status"], ["In_Progress", "Completed"]) ? "active" : "" ?>"></div>
 									<div class="desh"></div>
-									<div class="dot"></div>
+									<div class="dot <?= in_array($row["status"], ["Completed"]) ? "active" : "" ?>"></div>
 								</article>
 								<article>
-									<p class="text-active">Pending</p>
+									<p class="<?= in_array($row["status"], ["Pending", "Assigned", "In_Progress", "Completed"]) ? "text-active" : "" ?>">Pending</p>
 									<p></p>
-									<p class="text-active">Assigned</p>
+									<p class="<?= in_array($row["status"], ["Assigned", "In_Progress", "Completed"]) ? "text-active" : "" ?>">Assigned</p>
 									<p></p>
-									<p class="text-active">In Progress</p>
+									<p class="<?= in_array($row["status"], ["In_Progress", "Completed"]) ? "text-active" : "" ?>">In Progress</p>
 									<p></p>
-									<p>Completed</p>
+									<p class="<?= in_array($row["status"], ["Completed"]) ? "text-active" : "" ?>">Completed</p>
 								</article>
-
 							</div>
 						</div>
 
@@ -76,26 +98,24 @@ auth("CTR");
 
 							<div class="input-control">
 								<label for="category">category</label>
-								<input readonly type="text" name="category" id="category" value="Wifi">
+								<input value="<?= $row["reportCategory"] ?>" readonly type="text" name="category" id="category">
 							</div>
 
 							<div class="input-control">
 								<label for="description">Description</label>
-								<textarea rows="10" readonly type="text" name="description" id="description">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quaerat eveniet, cupiditate quis odit ipsum eum quae enim sequi veritatis non ratione? Quia veniam nulla nisi illum accusantium voluptates ducimus laboriosam.
-										</textarea>
+								<textarea readonly type="text" name="description" id="description"><?= $row["reportDesc"] ?></textarea>
 							</div>
 
 							<div class="input-control">
 								<label for="college">College</label>
-								<input readonly type="text" name="college" id="college" value="Al Jazari">
+								<input readonly type="text" name="college" value="<?= trim($row["college"]) ?>" id="college">
 							</div>
 
 							<div class="input-control">
 								<label for="room">Room</label>
-								<input readonly type="text" name="room" id="room" value="B-4-5-B(2)">
+								<input value="<?= $row["reportRoom"] ?>" readonly type="text" name="room" id="room">
 							</div>
 						</div>
-
 					</section>
 
 				</div>
@@ -137,8 +157,15 @@ auth("CTR");
 							Report Image
 						</h4>
 
-						<div class="image">
-							<img src="../../images/LogoUTeM-5b80a51b.png" alt="">
+						<div class="image imgReportgroup">
+							<div class="imgReport"
+								data-src="<?= $row["reportImgUrl"] ?? "" ?>"
+								style="background-image:url('<?= $row["reportImgUrl"] ?? "" ?>')">
+							</div>
+							<div class="imgReport"
+								data-src="<?= $row["completedImgUrl"] ?? "" ?>"
+								style="background-image:url('<?= $row["completedImgUrl"] ?? "" ?>')">
+							</div>
 						</div>
 					</section>
 				</div>
@@ -152,7 +179,7 @@ auth("CTR");
 	<div class="modal fade" id="model-mark">
 		<div class="modal-dialog modal-dialog-centered">
 			<div class="modal-content">
-				<form action="">
+				<form onsubmit="handleSubmit(event)" action="" method="POST">
 					<div class="modal-header">
 						<h4>
 							<img src="../../images/report.svg" alt="">
@@ -164,7 +191,7 @@ auth("CTR");
 							<label for="message">
 								<h4>Message</h4>
 							</label>
-							<input placeholder="Short Message Before Report End" type="text" name="message"
+							<input class="message" placeholder="Short Message Before Report End" type="text" name="message"
 								id="message">
 						</div>
 						<div class="input-control">
@@ -173,7 +200,7 @@ auth("CTR");
 									Upload Image
 								</h4>
 							</label>
-							<input hidden type="file" accept="image/*" name="image" id="image">
+							<input class="image" hidden type="file" accept="image/*" name="image" id="image">
 							<label for="image" class="image-area">
 								<button type="button" class="btn btn-close hidden"></button>
 
@@ -188,12 +215,12 @@ auth("CTR");
 						</div>
 					</div>
 					<div class="modal-footer">
-						<button type="button" data-bs-dismiss="modal" class="btn btn-danger">
+						<button type="reset" data-bs-dismiss="modal" class="btn btn-danger">
 							Clear
 						</button>
 
 						<button type="submit" class="btn btn-success">
-							Add
+							Done!
 						</button>
 					</div>
 				</form>
@@ -209,6 +236,30 @@ auth("CTR");
 		</div>
 	</div>
 
+	<div class="popUpFail hidden">
+		<div class="card p-3">
+			<h1 class="text-center">🚫</h1>
+			<h2>Fail to Update Report</h2>
+			<a href="" class="btn btn-success">Ok</a>
+		</div>
+	</div>
+	<div class="popUpLoading hidden">
+		<div class="loading-container">
+			<div class="loading-circle"></div>
+			<div class="loading-circle"></div>
+			<div class="loading-circle"></div>
+			<div class="loading-circle"></div>
+		</div>
+		<div class="bulat">
+			<article>
+				<h1 class="text-center">✅</h1>
+				<h2>Done Update Task</h2>
+				<a href="./assignedTasks.php" class="btn btn-success w-100">Ok</a>
+			</article>
+		</div>
+	</div>
+
+
 	<!-- your script -->
 	<script>
 		let inputImg = document.getElementById("image");
@@ -222,6 +273,7 @@ auth("CTR");
 		let model = document.getElementById("model")
 		let myModal = new bootstrap.Modal(model)
 		let images = document.querySelectorAll(".image img")
+		let imgURL = ""
 
 		let prew = url => {
 			// console.log(url);
@@ -229,17 +281,85 @@ auth("CTR");
 			myModal.show()
 		}
 
+		const modelMark = bootstrap.Modal.getOrCreateInstance(
+			document.getElementById("model-mark")
+		);
+
+		let delay = time => new Promise(resolve => setTimeout(resolve, time))
+
+		async function handleSubmit(e) {
+			e.preventDefault();
+
+			let mark = e.target.querySelector(".message").value.trim()
+			if (mark == "") {
+				alert("Type something in Message");
+				return;
+			}
+
+			if (imgURL == "") {
+				alert("Please insert A Photo to Prove");
+				return;
+			}
+
+			modelMark.hide()
+			document.querySelector(".popUpLoading").classList.remove("hidden")
+			await delay(2000)
+
+			$.ajax({
+				url: "../../api/completedTask.php",
+				method: "POST",
+				data: {
+					reportID: "<?= $_GET["id"] ?>",
+					message: mark,
+					url: imgURL,
+				},
+				success: response => {
+					console.log(response);
+					document.querySelector(".popUpLoading .bulat").style.animation = "fadeIN 0.2s forwards"
+					document.querySelector(".popUpLoading .bulat > *").style.animation = "show 0.3s forwards"
+				},
+				error: error => {
+					console.log(error);
+					document.querySelector(".popUpLoading").classList.add("hidden");
+					document.querySelector(".popUpFail").classList.remove("hidden");
+				}
+			})
+		}
+
 		images.forEach(image => image.addEventListener("click", e => prew(e.target.src)));
 
 		function addPhoto(file) {
 			if (!file) return;
-			console.log(file);
 
 			if (currentUrl) {
 				URL.revokeObjectURL(currentUrl);
 			}
 
 			currentUrl = URL.createObjectURL(file);
+			let img = new Image()
+			img.src = currentUrl
+			img.onload = e => {
+				let width = e.target.width
+				let height = e.target.height
+
+				let ratio = Math.min(600 / width, 600 / height)
+
+				if (ratio < 1) {
+					width *= ratio
+					height *= ratio
+				}
+
+				let canvas = document.createElement("canvas")
+				let ctx = canvas.getContext("2d")
+
+				canvas.width = width
+				canvas.height = height
+
+				ctx.drawImage(img, 0, 0, width, height)
+
+				imgURL = canvas.toDataURL()
+
+			}
 
 			imageArea.style.backgroundImage = `url(${currentUrl})`;
 			imageArea.style.backgroundSize = "cover";
@@ -329,7 +449,6 @@ auth("CTR");
 	<input type="checkbox" hidden style="position: absolute;" name="_mobile-sideBar" id="_mobile-sideBar">
 	<input type="text" name="role" id="role" hidden value="CTR">
 	<input type="text" name="title" id="title" hidden value="Update Tasks">
-</body>
 </body>
 
 </html>

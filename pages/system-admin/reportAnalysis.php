@@ -5,7 +5,7 @@ auth("SAD");
 //php code hrre
 function getDataStatus($conn)
 {
-	$sql = "SELECT status, COUNT(*) AS total
+	$sql = "SELECT college,status,dateReported, COUNT(*) AS total
             FROM report
             GROUP BY status";
 
@@ -16,7 +16,8 @@ function getDataStatus($conn)
 	while ($row = mysqli_fetch_assoc($result)) {
 		$data[] = [
 			$row["status"],
-			(int)$row["total"]
+			(int)$row["total"],
+			$row["college"],
 		];
 	}
 
@@ -24,7 +25,7 @@ function getDataStatus($conn)
 }
 function getDataCategory($conn)
 {
-	$sql = "SELECT reportCategory, COUNT(*) AS total
+	$sql = "SELECT dateReported,college,reportCategory, COUNT(*) AS total
             FROM report
             GROUP BY reportCategory";
 
@@ -35,7 +36,9 @@ function getDataCategory($conn)
 	while ($row = mysqli_fetch_assoc($result)) {
 		$data[] = [
 			$row["reportCategory"],
-			(int)$row["total"]
+			(int)$row["total"],
+			$row["college"],
+			$row["dateReported"],
 		];
 	}
 
@@ -43,7 +46,7 @@ function getDataCategory($conn)
 }
 function getDataCollage($conn)
 {
-	$sql = "SELECT college, COUNT(*) AS total
+	$sql = "SELECT dateReported,college,reportCategory, COUNT(*) AS total
             FROM report
             GROUP BY college";
 
@@ -54,12 +57,44 @@ function getDataCollage($conn)
 	while ($row = mysqli_fetch_assoc($result)) {
 		$data[] = [
 			$row["college"],
-			(int)$row["total"]
+			(int)$row["total"],
+			$row["reportCategory"],
 		];
 	}
 
 	return $data;
 }
+
+function getDatatable($conn)
+{
+	$sql = "	SELECT college,reportCategory,dateReported,
+				    COUNT(*) AS totalReport,
+				    SUM(status='Pending') AS pending,
+				    SUM(status='Assigned') AS assigned,
+				    SUM(status='In_Progress') AS inProgress,
+				    SUM(status='Completed') AS completed
+			FROM report
+			GROUP BY college
+			ORDER BY totalReport DESC";
+	$result = mysqli_query($conn, $sql);
+
+	$data = [];
+
+	while ($row = mysqli_fetch_assoc($result)) {
+		$data[] = [
+			$row["college"],
+			$row["totalReport"],
+			$row["pending"],
+			$row["assigned"],
+			$row["inProgress"],
+			$row["completed"],
+			$row["reportCategory"],
+			$row["dateReported"],
+		];
+	}
+	return $data;
+}
+
 // function getDataTarnd($conn)
 // {
 // 	$sql = 	"SELECT DATE_FORMAT(dateReported, '%b') AS month,
@@ -208,7 +243,7 @@ function getDataCollage($conn)
 
 					</div>
 				</section>
-				<section class="table">
+				<section class="table" id="table">
 					<h2>Top Problem Locations</h2>
 
 					<div class="table-responsive">
@@ -225,63 +260,18 @@ function getDataCollage($conn)
 								</tr>
 							</thead>
 							<tbody>
-								<tr>
-									<td>1</td>
-									<td>Satria Jebat</td>
-									<td>100</td>
-									<td>100</td>
-									<td>100</td>
-									<td>100</td>
-									<td>100</td>
-								</tr>
-								<tr>
-									<td>2</td>
-									<td>Al Jazari</td>
-									<td>100</td>
-									<td>100</td>
-									<td>100</td>
-									<td>100</td>
-									<td>20</td>
-								</tr>
-								<tr>
-									<td>2</td>
-									<td>Al Jazari</td>
-									<td>100</td>
-									<td>100</td>
-									<td>100</td>
-									<td>100</td>
-									<td>20</td>
-								</tr>
-								<tr>
-									<td>2</td>
-									<td>Al Jazari</td>
-									<td>100</td>
-									<td>100</td>
-									<td>100</td>
-									<td>100</td>
-									<td>20</td>
-								</tr>
-								<tr>
-									<td>2</td>
-									<td>Al Jazari</td>
-									<td>100</td>
-									<td>100</td>
-									<td>100</td>
-									<td>100</td>
-									<td>20</td>
-								</tr>
 							</tbody>
 						</table>
 					</div>
 					<div class="filter-control">
-						<input type="month" name="month" id="month">
-						<select name="category" id="category">
-							<option value="">All category</option>
-							<option>Electrical</option>
-							<option>Plumbing</option>
-							<option>Furniture</option>
-							<option>Internet</option>
-							<option>Others</option>
+						<input type="month" name="month" id="filter-month-table">
+						<select name="category" id="filter-category-table">
+							<option value="All category">All category</option>
+							<option value="Electrical">Electrical</option>
+							<option value="Plumbing">Plumbing</option>
+							<option value="Furniture">Furniture</option>
+							<option value="Internet">Internet</option>
+							<option value="Others">Others</option>
 						</select>
 						<button class="btn-reset">Reset</button>
 						<button class="btn-export">Export cvs</button>
@@ -297,6 +287,9 @@ function getDataCollage($conn)
 
 	<!-- your script -->
 	<script>
+		let table = document.getElementById("table")
+		let tbody = table.querySelector("tbody")
+
 		let canvas_category = document.getElementById("canvas_pieChart");
 		let canvas_Block = document.getElementById("canvas_barGraphBlock");
 		// let canvas_Trand = document.getElementById("canvas_barGraphTrand");
@@ -304,11 +297,15 @@ function getDataCollage($conn)
 		let resizeTimer;
 		let rect = canvas_category.getBoundingClientRect();
 
+
 		let dataBlock = <?= json_encode(getDataCollage($conn)) ?>;
 
 		let datacategory = <?= json_encode(getDataCategory($conn)) ?>;
 
 		let dataStatus = <?= json_encode(getDataStatus($conn)) ?>;
+
+
+		let datatable = <?= json_encode(getDatatable($conn)) ?>;
 
 
 		const colors = [
@@ -323,6 +320,66 @@ function getDataCollage($conn)
 			"#F97316", // Orange
 			"#64748B" // Slate
 		];
+
+		let filterTable = (date,catagory) => {
+
+		}
+
+		document.getElementById("filter-month-table").addEventListener("change", e => {
+			console.log(e.target.value);
+			
+		})
+
+		document.getElementById("filter-category-table").addEventListener("change", e => {
+			let filter = e.target.value
+			console.log({
+				filter
+			});
+
+			$.ajax({
+				url: "../../api/getFilterdDatatable.php",
+				method: "POST",
+				data: {
+					filter: filter
+				},
+				success: response => {
+					console.log(response.datas)
+
+					if (filter == "All category") {
+						table.querySelector("h2").textContent = `Top Problem Locations`
+					} else {
+						table.querySelector("h2").textContent = `Top Problem Locations for ${filter}`
+					}
+					renderTable(response.datas)
+
+				},
+				error: response => {
+					console.log(response.responseText);
+				},
+				complete: () => {}
+			})
+
+		})
+
+		let renderTable = (datatable) => {
+			tbody.innerHTML = ""
+
+			datatable.forEach((datas, index) => {
+				// console.log(datas);
+
+				let tr = document.createElement("tr")
+				tr.innerHTML = `
+					<td>${index+1}</td>
+					<td>${datas[0]}</td>
+					<td>${datas[1]}</td>
+					<td>${datas[2]}</td>
+					<td>${datas[3]}</td>
+					<td>${datas[4]}</td>
+					<td>${datas[5]}</td>
+				`
+				tbody.appendChild(tr)
+			})
+		}
 
 		let drawPieChart = (canvas, datas) => {
 
@@ -344,7 +401,7 @@ function getDataCollage($conn)
 			let lagendY = 50
 
 			datas.forEach((data, index) => {
-				console.log(data);
+				// console.log(data);
 
 				let slideAngle = (data[1] / total) * Math.PI * 2
 				ctx.beginPath()
@@ -382,7 +439,7 @@ function getDataCollage($conn)
 		}
 
 		let drawBarChart = (canvas, datas) => {
-			console.log(datas);
+			// console.log(datas);
 
 			let ctx = canvas.getContext("2d")
 			canvas.width = 700
@@ -529,6 +586,7 @@ function getDataCollage($conn)
 		drawPieChart(canvas_Block, dataBlock);
 		// drawLineGraph(canvas_Trand, dataTrand);
 		drawBarChart(canvas_Status, dataStatus);
+		renderTable(datatable)
 
 		window.addEventListener("resize", () => {
 

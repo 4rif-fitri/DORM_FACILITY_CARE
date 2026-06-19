@@ -48,7 +48,10 @@ auth("SAD");
 							<td>Arif Fitri bin Mohd Jamil</td>
 							<td>Al-Jazari</td>
 							<td>011 167 6767</td>
-							<td><a href="./studentUpdate.php" class="updateBtn">Update</a></td>
+							<td>
+								<button class="updateBtn" data-bs-target="#modalStudent" data-bs-toggle="modal">Update</button>
+								<!-- <a href="./studentUpdate.php" class="updateBtn">Update</a> -->
+							</td>
 						</tr>
 
 						<tr>
@@ -56,7 +59,10 @@ auth("SAD");
 							<td>Muhammad Imran Danial</td>
 							<td>Satria</td>
 							<td>013 145 7816</td>
-							<td><a href="./studentUpdate.php" class="updateBtn">Update</a></td>
+							<td>
+								<button class="updateBtn" data-bs-target="#modalStudent" data-bs-toggle="modal">Update</button>
+								<!-- <a href="./studentUpdate.php" class="updateBtn">Update</a> -->
+							</td>
 						</tr>
 					</tbody>
 
@@ -68,7 +74,7 @@ auth("SAD");
 		<!-- CONTENT HERE -->
 
 	</section>
-	<div class="modal fade" id="Modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal fade" id="Modal">
 		<div class="modal-dialog modal-dialog-centered">
 			<div class="modal-content">
 				<form action="" method="post">
@@ -115,6 +121,79 @@ auth("SAD");
 			</div>
 		</div>
 	</div>
+
+	<div class="modal fade" id="modalStudent">
+		<form method="POST" action="">
+			<div class="modal-dialog modal-dialog-centered">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h1 class="modal-title fs-5">
+							<img src="../../images/report.svg" alt="">
+							Update Admin
+						</h1>
+					</div>
+					<div class="modal-body">
+
+						<section>
+							<article>
+								<h3>ID: 001</h3>
+								<p class="required">All fields must be filled.</p>
+							</article>
+							<form action="" method="post">
+
+								<section class="form-detail">
+
+									<div class="input-control">
+										<label for="name" class="required">Name</label>
+										<input type="text" name="name" id="name">
+									</div>
+
+									<div class="input-control">
+										<label for="name" class="required">Password</label>
+										<input type="password" name="password" id="password">
+									</div>
+
+									<div class="input-control">
+										<label for="cPassword" class="required">Confirm Password</label>
+										<input type="password" name="cPassword" id="cPassword">
+									</div>
+
+									<div class="input-control">
+										<label for="college" class="required">College</label>
+										<select name="college" id="college">
+											<option selected disabled value="">Select Location</option>
+											<option value="location_1">Location 1</option>
+											<option value="location_2">Location 2</option>
+										</select>
+									</div>
+
+									<div class="input-control">
+										<label for="phoneNumber" class="required">Phone Number</label>
+										<input type="number" name="phoneNumber" id="phoneNumber">
+									</div>
+
+									<div class="input-control">
+										<label for="email" class="required">Email</label>
+										<input type="email" name="email" id="email">
+									</div>
+
+								</section>
+
+
+							</form>
+
+						</section>
+
+					</div>
+					<div class="modal-footer">
+						<button type="reset" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+						<button type="submit" class="btn btn-success">Assign!</button>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+
 	<!-- your script -->
 	<script>
 
