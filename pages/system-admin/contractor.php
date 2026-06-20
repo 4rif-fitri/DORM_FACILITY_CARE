@@ -18,7 +18,7 @@ auth("SAD");
 <body>
 
 	<section class="_workspace">
-		<?php $title = "Add Student" ?>
+		<?php $title = "Contractor" ?>
 		<?php include(__DIR__ . "../../../components/system-admin/header.php") ?>
 
 		<!-- CONTENT HERE -->
@@ -27,7 +27,6 @@ auth("SAD");
 				<button type="button" class="addBtn" data-bs-toggle="modal" data-bs-target="#Modal">
 					Add Student
 				</button>
-				<!-- <a href="" class="addBtn">Add Student</a> -->
 			</nav>
 
 			<section class="table-container">
@@ -204,7 +203,7 @@ auth("SAD");
 		id="_dekstop-sideBar">
 	<input type="checkbox" hidden style="position: absolute;" name="_mobile-sideBar" id="_mobile-sideBar">
 	<input type="text" name="role" id="role" hidden value="SAD">
-	<input type="text" name="title" id="title" hidden value="Add Student">
+	<input type="text" name="title" id="title" hidden value="Contractor">
 </body>
 
 </html>

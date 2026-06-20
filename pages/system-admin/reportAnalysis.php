@@ -253,10 +253,10 @@ function getDatatable($conn)
 									<th>Rank</th>
 									<th>Collage</th>
 									<th>Total Report</th>
-									<th>Pending</th>
-									<th>Assigned</th>
-									<th>In Progress</th>
-									<th>Completed</th>
+									<th><span class="pending">Pending</span></th>
+									<th><span class="assigned">Assigned</span></th>
+									<th><span class="inProgress">In Progress</span></th>
+									<th><span class="completed">Completed</span></th>
 								</tr>
 							</thead>
 							<tbody>
