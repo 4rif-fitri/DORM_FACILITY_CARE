@@ -53,10 +53,15 @@
 	--fs-xxl: 1.75rem;
 	/* Extra Extra Large: Untuk tajuk utama paling besar dlm halaman */
 }
-._content-area{
-    display: flex;
-    flex-direction: column;
-    height: 100%;
+._workspace {
+	height: 100vh;
+	display: grid;
+	grid-template-rows: 5rem 1fr;
+}
+._content-area {
+	display: unset;
+	height: auto;
+	overflow-y: auto;
 }
 
 .add-box {
@@ -72,11 +77,13 @@
 	color: var(--white);
 }
 
-.filter-box{
-    display: flex;
-    flex-direction: row;
-    gap: 10px;
-    padding: 20px;
+.filter-box {
+	width: 100%;
+	height: max-content !important;
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	padding: 20px;
 	flex-shrink: 0;
 }
 
@@ -87,10 +94,10 @@ a {
 .filterBtn {
 	background-color: transparent;
 	border: 1px solid var(--primary);
-   	color: var(--primary);
-    padding: 2px 16px;
-    border-radius: 5px;
-    transition: all 0.18s ease;
+	color: var(--primary);
+	padding: 2px 16px;
+	border-radius: 5px;
+	transition: all 0.18s ease;
 }
 
 .filterBtn:hover {
@@ -103,19 +110,20 @@ a {
 	border-color: var(--primary-dark);
 }
 
-.table-container{
-    padding: 20px;
-	flex: 1;
-    overflow-y: auto;
+.table-container {
+	padding: 20px;
+	width: 100%;
+	/* flex: 1; */
+	/* overflow-y: auto; */
 }
 
 /* ------------------REPORT TABLE START------------------------ */
 
-.myReportTbl{
-    width: 100%;
-    border-collapse: separate;
-    border-spacing: 0px 10px;
-	
+.myReportTbl {
+	width: 100% !important;
+	border-collapse: separate;
+	border-spacing: 0px 10px;
+
 }
 
 .myReportTbl thead tr th {
@@ -124,9 +132,9 @@ a {
 	color: var(--primary-dark);
 }
 
-.myReportTbl tbody tr td{
-    padding: 16px 20px;
-    background-color: var(--primary-light);
+.myReportTbl tbody tr td {
+	padding: 16px 20px;
+	background-color: var(--primary-light);
 }
 
 .myReportTbl tbody td:first-child {
@@ -148,56 +156,57 @@ a {
 .myReportTbl tbody td:not(:first-child):not(:last-child) {
 	border-top: 1px solid var(--primary-md);
 	border-bottom: 1px solid var(--primary-md);
-} 
+}
 
-.reportCard{
+.reportCard {
 	width: 400px;
 	border-collapse: separate;
 	border-spacing: 0;
 	display: none;
 }
 
-.reportCard tbody{
+.reportCard tbody {
 	display: block;
 	margin-bottom: 10px;
 }
 
-.reportCard tbody tr th, .reportCard tbody tr td{
+.reportCard tbody tr th,
+.reportCard tbody tr td {
 	padding: 12px 20px;
 	background-color: #F5F2F2;
 }
 
-.reportCard tbody tr th{
+.reportCard tbody tr th {
 	width: 100px;
 }
 
-.reportCard tbody tr:first-child th{
+.reportCard tbody tr:first-child th {
 	border-radius: 12px 0px 0px 0px;
 	border-left: 1px solid #e8e6f5;
 	border-top: 1px solid #e8e6f5;
 }
 
-.reportCard tbody tr:not(:first-child):not(:last-child) th{
+.reportCard tbody tr:not(:first-child):not(:last-child) th {
 	border-left: 1px solid #e8e6f5;
 }
 
-.reportCard tbody tr:last-child td:first-child{
+.reportCard tbody tr:last-child td:first-child {
 	border-radius: 0px 0px 0px 12px;
 	border-left: 1px solid #e8e6f5;
 	border-bottom: 1px solid #e8e6f5;
 }
 
-.reportCard tbody tr:first-child td{
+.reportCard tbody tr:first-child td {
 	border-radius: 0px 12px 0px 0px;
 	border-top: 1px solid #e8e6f5;
 	border-right: 1px solid #e8e6f5;
 }
 
-.reportCard tbody tr:not(:first-child):not(:last-child) td{
+.reportCard tbody tr:not(:first-child):not(:last-child) td {
 	border-right: 1px solid #e8e6f5;
 }
 
-.reportCard tbody tr:last-child td:last-child{
+.reportCard tbody tr:last-child td:last-child {
 	border-radius: 0px 0px 12px 0px;
 	border-right: 1px solid #e8e6f5;
 	border-bottom: 1px solid #e8e6f5;
@@ -248,37 +257,33 @@ a {
 }
 
 @media(max-width: 700px) {
-	.reportCard{
+	.reportCard {
 		display: block;
 	}
 
-	.myReportTbl{
+	.myReportTbl {
 		display: none;
 	}
+}
+
+/* ==============  filter  =============== */
+
 .filter-cantainer {
-	flex: auto;
+	display: block;
 	width: 100% !important;
 	padding: 0.5rem;
 	gap: 0.5rem;
 	display: grid;
-	grid-template-columns: repeat(2, 1fr);
+	grid-template-columns: repeat(1, 1fr);
 }
-
-
 
 .pagination {
 	display: flex;
 	flex-direction: column;
 }
-.pagination > p{
-	text-align: center;
-} 
 
-@media screen and (min-width: 1000px) {
-	.pagination {
-		justify-content: space-between !important;
-	flex-direction: unset;
-	}
+.pagination>p {
+	text-align: center;
 }
 
 .pagination article {
@@ -305,6 +310,7 @@ a {
 
 .btn-reset-filter {
 	all: unset;
+	width: max-content;
 	padding: 0.5rem 1rem;
 	border: 1px solid var(--danger);
 	background-color: var(--danger-light);
@@ -316,4 +322,15 @@ a {
 .btn-reset-filter:hover {
 	background-color: var(--danger-hover);
 	color: white;
+}
+
+@media screen and (min-width: 1000px) {
+	.pagination {
+		justify-content: space-between !important;
+		flex-direction: unset;
+	}
+
+	.filter-cantainer {
+		grid-template-columns: repeat(2, 1fr);
+	}
 }

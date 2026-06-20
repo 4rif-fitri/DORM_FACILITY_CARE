@@ -9,35 +9,12 @@ $sql = "	SELECT 	reportID,
 				reportCategory, 	
 				reportDesc, 
 				dateReported, 
-				status
+				status,
+				college
         	FROM report
 		WHERE status = 'Pending'
 		ORDER BY dateReported DESC
 		";
-
-if (isset($_GET["status"])) {
-	$status = $_GET["status"];
-	if ($status != "All") {
-		$sql = "	SELECT 	reportID, 
-				reportCategory, 	
-				reportDesc, 
-				dateReported, 
-				status
-			FROM report
-			WHERE status = '$status'
-			ORDER BY dateReported DESC
-			";
-	} else {
-		$sql = "	SELECT 	reportID, 
-				reportCategory, 	
-				reportDesc, 
-				dateReported, 
-				status
-        	FROM report
-		ORDER BY dateReported DESC
-		";
-	}
-}
 
 $result = mysqli_query($conn, $sql);
 //php code hrre
@@ -58,15 +35,8 @@ $result = mysqli_query($conn, $sql);
 		<?php include(__DIR__ . "../../../components/system-admin/header.php") ?>
 
 		<!-- CONTENT HERE -->
-		<main class="_content-area" style="display:flex; flex-direction:row;">
+		<main class="_content-area">
 			<nav class="filter-box">
-				<!-- <a href="reportManage.php?status=All" class="filterBtn">All</a>
-				<a href="reportManage.php?status=Canceled" class="filterBtn">Canceled</a>
-				<a href="reportManage.php?status=Pending" class="filterBtn">Pending</a>
-				<a href="reportManage.php?status=Assigned" class="filterBtn">Assigned</a>
-				<a href="reportManage.php?status=In_Progress" class="filterBtn">In Progress</a>
-				<a href="reportManage.php?status=Completed" class="filterBtn">Completed</a> -->
-
 				<div class="filter-cantainer">
 					<div class="input-control">
 						<label for="filter-date">Date</label>
@@ -134,7 +104,7 @@ $result = mysqli_query($conn, $sql);
 							<tr>
 								<td><?= $row["reportID"] ?></td>
 								<td><?= $row["reportCategory"] ?></td>
-								<td><?= $row["reportDesc"] ?></td>
+								<td><?= $row["college"] ?></td>
 								<td><?= $row["dateReported"] ?></td>
 								<td><?= $row["status"] ?></td>
 								<td><a href="./reportUpdate.php?id=<?= $row["reportID"] ?>" class="updateBtn">Update</a></td>
@@ -144,6 +114,7 @@ $result = mysqli_query($conn, $sql);
 
 				</table>
 
+				
 				<div class="pagination">
 					<p>Show 1 to 10 of 100 entries</p>
 					<article>
@@ -154,7 +125,6 @@ $result = mysqli_query($conn, $sql);
 						<button class="btn-next">Next</button>
 					</article>
 				</div>
-
 			</section>
 
 		</main>
@@ -164,17 +134,7 @@ $result = mysqli_query($conn, $sql);
 
 	<!-- your script -->
 	<script>
-		// const params = new URLSearchParams(window.location.search);
-		// const status = params.get("status");
-		// let filterBox = document.querySelectorAll(".filter-box a")
-		// filterBox.forEach(box => box.classList.remove("filtered"))
 
-		// if (status == "All" || status == null) filterBox[0].classList.add("filtered")
-		// else if (status == "Canceled") filterBox[1].classList.add("filtered")
-		// else if (status == "Pending") filterBox[2].classList.add("filtered")
-		// else if (status == "Assigned") filterBox[3].classList.add("filtered")
-		// else if (status == "In_Progress") filterBox[4].classList.add("filtered")
-		// else if (status == "Completed") filterBox[5].classList.add("filtered")
 	</script>
 
 
