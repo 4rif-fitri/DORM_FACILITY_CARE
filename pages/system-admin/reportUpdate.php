@@ -32,7 +32,8 @@ if (isset($_GET["rejectID"])) {
 			report.dateReported,
 			report.college,
 			report.reportImgUrl,
-			report.completedImgUrl
+			report.completedImgUrl,
+			report.dateAssigned
 
         	FROM report 
 		INNER JOIN user ON report.userID = user.userID
@@ -115,9 +116,16 @@ while ($datas = mysqli_fetch_assoc($resultContractor)) {
 						</div>
 
 						<article>
-							<?php if ($row["status"] == "Canceled" || $row["status"] == "Assigned" || $row["status"] == "Completed") : ?>
+							<?php if ($row["status"] == "Canceled" || $row["status"] == "Assigned") : ?>
 								<button href="./reportUpdate.php?rejectID=<?= $row["reportID"] ?>" class="btn btn-danger disabled">Reject</button>
-								<button data-bs-toggle="modal" data-bs-target="#modalContraktor" class="btn btn-success disabled">Assign</button>
+								<button data-bs-toggle="modal" data-bs-target="#modalContraktor" class="btn btn-success">Assign</button>
+
+							<?php elseif ($row["status"] == "Completed") : ?>
+								<button href="./reportUpdate.php?rejectID=<?= $row["reportID"] ?>" class="btn btn-danger disabled">Reject</button>
+								<article>
+									<button data-bs-toggle="modal" data-bs-target="#modalContraktor" class="btn btn-success disabled">Assign</button>
+									<button class="btn btn-primary mx-1">Ganerate PDF</button>
+								</article>
 							<?php else : ?>
 								<button href="./reportUpdate.php?rejectID=<?= $row["reportID"] ?>" class="btn btn-danger">Reject</button>
 								<button data-bs-toggle="modal" data-bs-target="#modalContraktor" class="btn btn-success">Assign</button>
@@ -137,28 +145,23 @@ while ($datas = mysqli_fetch_assoc($resultContractor)) {
 						<div>
 							<div class="report-detail">
 								<div class="input-control">
-									<label for="category">RepotID</label>
-									<input value="<?= $row["reportID"] ?>" readonly type="text" name="category" id="category">
+									<label for="category">RepotID: <?= $row["reportID"] ?></label>
 								</div>
 
 								<div class="input-control">
-									<label for="">Reporter Name</label>
-									<input value="<?= $row["name"] ?>" readonly type="text" name="category" id="category">
+									<label for="">Reporter Name: <?= $row["name"] ?></label>
 								</div>
 
 								<div class="input-control">
-									<label for="">Reporter ID</label>
-									<input value="<?= $row["userID"] ?>" readonly type="text" name="category" id="category">
+									<label for="">Reporter ID: <?= $row["userID"] ?></label>
 								</div>
 
 								<div class="input-control">
-									<label for="">Phone Number</label>
-									<input value="<?= $row["numTel"] ?>" readonly type="text" name="category" id="category">
+									<label for="">Phone Number: <?= $row["numTel"] ?></label>
 								</div>
 
 								<div class="input-control">
-									<label for="room">College & Room</label>
-									<input value="<?= trim($row["college"]) ?>, <?= $row["reportRoom"] ?>" readonly type="text" name="room" id="room">
+									<label for="room">College & Room: <?= trim($row["college"]) ?>, <?= $row["reportRoom"] ?></label>
 								</div>
 							</div>
 							<div class="report-detail">
@@ -167,24 +170,19 @@ while ($datas = mysqli_fetch_assoc($resultContractor)) {
 
 
 								<div class="input-control">
-									<label for="">Email</label>
-									<input value="<?= $row["email"] ?>" readonly type="text" name="category" id="category">
+									<label for="">Email: <?= $row["email"] ?></label>
 								</div>
 
 								<div class="input-control">
-									<label for="category">category</label>
-									<input value="<?= $row["reportCategory"] ?>" readonly type="text" name="category" id="category">
+									<label for="category">Category: <?= $row["reportCategory"] ?></label>
 								</div>
 
 								<div class="input-control">
-									<label for="description">Description</label>
-									<textarea readonly type="text" name="description" id="description"><?= $row["reportDesc"] ?></textarea>
+									<label for="description">Description: <?= $row["reportDesc"] ?></label>
 								</div>
 
-
 								<div class="input-control">
-									<label for="description">Report Date</label>
-									<input value="<?= $row["dateReported"] ?>" readonly type="text" name="category" id="category">
+									<label for="description">Report Date: <?= $row["dateReported"] ?></label>
 								</div>
 							</div>
 
@@ -258,6 +256,63 @@ while ($datas = mysqli_fetch_assoc($resultContractor)) {
 							</center>
 						<?php endif ?>
 					</section>
+				</div>
+
+				<div class="comment-container">
+
+					<section>
+						<h4>
+							<img src="../../images/report.svg" alt="">
+							Update History
+						</h4>
+						<div class="report-detail">
+
+							<table class="w-100 table">
+								<thead>
+									<tr>
+										<th>Date & Time</th>
+										<th>Status</th>
+										<th>Update By</th>
+										<th>Remarks</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td><?= $row["dateReported"] ?></td>
+										<td><span class="pending">Pending</span></td>
+										<td><?= $_SESSION["name"] ?></td>
+										<td>Report has been Submitted</td>
+									</tr>
+									<?php if (in_array($row["status"], ["Assigned", "Completed"])) : ?>
+										<tr>
+											<td><?= $row["dateAssigned"] ?></td>
+											<td><span class="assigned">Assigned</span></td>
+											<td>System Admin(You)</td>
+											<td>Report Assigned to <?= $row["name"] ?></td>
+										</tr>
+									<?php endif ?>
+									<?php if ($row["status"] == "Completed") : ?>
+										<tr>
+											<td><?= $row["dateAssigned"] ?></td>
+											<td><span class="completed">Completed</span></td>
+											<td><?= $row["name"] ?></td>
+											<td>Report has been Close</td>
+										</tr>
+									<?php endif ?>
+									<?php if ($row["status"] == "Rejected") : ?>
+										<tr>
+											<td><?= $row["dateAssigned"] ?></td>
+											<td><span class="completed">Completed</span></td>
+											<td>System Admin</td>
+											<td>Report has been rejected</td>
+										</tr>
+									<?php endif ?>
+								</tbody>
+							</table>
+
+						</div>
+					</section>
+
 				</div>
 			</section>
 

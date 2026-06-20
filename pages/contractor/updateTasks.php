@@ -18,9 +18,26 @@ if (isset($_GET["rejectID"])) {
 } else if (isset($_GET["id"])) {
 	$reportId = $_GET["id"];
 
-	$sql = "SELECT *
-        	FROM report
-        	WHERE reportId = '$reportId'";
+	$sql = "	SELECT
+			user.userID, 
+			user.name, 
+			user.numTel, 
+			user.email,
+
+			report.reportID,
+			report.reportCategory,
+			report.reportDesc,
+			report.reportRoom,
+			report.status,
+			report.dateReported,
+			report.college,
+			report.reportImgUrl,
+			report.completedImgUrl,
+			report.dateAssigned
+
+        	FROM report 
+		INNER JOIN user ON report.userID = user.userID
+		WHERE reportId = '$reportId'";
 
 	$result = mysqli_query($conn, $sql);
 	$row = mysqli_fetch_assoc($result);
@@ -80,13 +97,70 @@ if (isset($_GET["rejectID"])) {
 
 						<article>
 							<span></span>
-							<button data-bs-target="#model-mark" data-bs-toggle="modal"
-								class="btn btn-success">Completed</button>
+							<?php if ($row["status"] == "Completed") : ?>
+								<button disabled data-bs-target="#model-mark" data-bs-toggle="modal" class="btn btn-success">Completed</button>
+							<?php else : ?>
+								<button data-bs-target="#model-mark" data-bs-toggle="modal" class="btn btn-success">Completed</button>
+							<?php endif ?>
 						</article>
 					</section>
 
 				</div>
+				<div class="report-detail-container">
 
+					<section>
+						<h4>
+							<img src="../../images/report.svg" alt="">
+							Report Detail
+						</h4>
+						<div>
+							<div class="report-detail">
+								<div class="input-control">
+									<label for="category">RepotID: <?= $row["reportID"] ?></label>
+								</div>
+
+								<div class="input-control">
+									<label for="">Reporter Name: <?= $row["name"] ?></label>
+								</div>
+
+								<div class="input-control">
+									<label for="">Reporter ID: <?= $row["userID"] ?></label>
+								</div>
+
+								<div class="input-control">
+									<label for="">Phone Number: <?= $row["numTel"] ?></label>
+								</div>
+
+								<div class="input-control">
+									<label for="room">College & Room: <?= trim($row["college"]) ?>, <?= $row["reportRoom"] ?></label>
+								</div>
+							</div>
+							<div class="report-detail">
+
+
+
+
+								<div class="input-control">
+									<label for="">Email: <?= $row["email"] ?></label>
+								</div>
+
+								<div class="input-control">
+									<label for="category">Category: <?= $row["reportCategory"] ?></label>
+								</div>
+
+								<div class="input-control">
+									<label for="description">Description: <?= $row["reportDesc"] ?></label>
+								</div>
+
+								<div class="input-control">
+									<label for="description">Report Date: <?= $row["dateReported"] ?></label>
+								</div>
+							</div>
+
+						</div>
+					</section>
+
+				</div>
 				<div class="comment-container">
 					<section>
 						<h4>
@@ -154,7 +228,70 @@ if (isset($_GET["rejectID"])) {
 					</section>
 				</div>
 
+				<div class="comment-container">
 
+					<section>
+						<h4>
+							<img src="../../images/report.svg" alt="">
+							Update History
+						</h4>
+						<div class="report-detail">
+
+							<table class="w-100 table">
+								<thead>
+									<tr>
+										<th>Date & Time</th>
+										<th>Status</th>
+										<th>Update By</th>
+										<th>Remarks</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td><?= $row["dateReported"] ?></td>
+										<td><span class="pending">Pending</span></td>
+										<td><?= $row["name"] ?></td>
+										<td>Report has been Submitted</td>
+									</tr>
+									<?php if (in_array($row["status"], ["Assigned", "Completed", "In_Progress"])) : ?>
+										<tr>
+											<td><?= $row["dateAssigned"] ?></td>
+											<td><span class="assigned">Assigned</span></td>
+											<td>System Admin</td>
+											<td>Report Assigned to <?= $_SESSION["name"] ?></td>
+										</tr>
+									<?php endif ?>
+									<?php if (in_array($row["status"], ["Assigned", "Completed", "In_Progress"])) : ?>
+										<tr>
+											<td><?= $row["dateAssigned"] ?></td>
+											<td><span class="inProgress">In Progress</span></td>
+											<td><?= $_SESSION["name"] ?>(You)</td>
+											<td>Tengah Repair</td>
+										</tr>
+									<?php endif ?>
+									<?php if (in_array($row["status"], ["Completed"])) : ?>
+										<tr>
+											<td><?= $row["dateAssigned"] ?></td>
+											<td><span class="completed">Completed</span></td>
+											<td><?= $_SESSION["name"] ?>(You)</td>
+											<td>Report has been Close</td>
+										</tr>
+									<?php endif ?>
+									<?php if ($row["status"] == "Rejected") : ?>
+										<tr>
+											<td><?= $row["dateAssigned"] ?></td>
+											<td><span class="completed">Rejected</span></td>
+											<td>System Admin</td>
+											<td>Report has been rejected</td>
+										</tr>
+									<?php endif ?>
+								</tbody>
+							</table>
+
+						</div>
+					</section>
+
+				</div>
 
 
 			</section>
