@@ -156,8 +156,8 @@ function getDatatable($conn)
 							<option value="Al_Jazari">Al Jazari</option>
 						</select>
 
-						<button class=" btn-reset">Reset</button>
-						<button class="btn-export">Export cvs</button>
+						<button class="btn-reset" id="filter-college-reset">Reset</button>
+						<button class="btn-export" id="filter-college-export">Export cvs</button>
 					</div>
 				</section>
 				<!-- <section class="barGraphBlock">
@@ -238,8 +238,8 @@ function getDatatable($conn)
 							<option value="Lestari">Lestari</option>
 							<option value="Al_Jazari">Al Jazari</option>
 						</select>
-						<button class="btn-reset">Reset</button>
-						<button class="btn-export">Export cvs</button>
+						<button class="btn-reset" id="filter-status-reset">Reset</button>
+						<button class="btn-export" id="filter-status-export">Export cvs</button>
 
 					</div>
 				</section>
@@ -266,15 +266,15 @@ function getDatatable($conn)
 					<div class="filter-control">
 						<input type="month" name="month" id="filter-month-table">
 						<select name="category" id="filter-category-table">
-							<option value="All category">All category</option>
+							<option value="">All category</option>
 							<option value="Electrical">Electrical</option>
 							<option value="Plumbing">Plumbing</option>
 							<option value="Furniture">Furniture</option>
 							<option value="Internet">Internet</option>
 							<option value="Others">Others</option>
 						</select>
-						<button class="btn-reset">Reset</button>
-						<button class="btn-export">Export cvs</button>
+						<button class="btn-reset" id="filter-table-reset">Reset</button>
+						<button class="btn-export" id="filter-table-export">Export cvs</button>
 
 					</div>
 				</section>
@@ -345,6 +345,17 @@ function getDatatable($conn)
 			})
 		}
 
+		document.getElementById("filter-college-reset").addEventListener('click', () => {
+
+			filterMonthCategory = "";
+			filterCollegeCategory = "";
+
+			document.getElementById("filter-month-category").value = "";
+			document.getElementById("filter-college-category").value = "";
+
+			filterCategory();
+		});
+
 		document.getElementById("filter-month-category").addEventListener("change", e => {
 			filterMonthCategory = e.target.value
 			filterCategory()
@@ -379,6 +390,16 @@ function getDatatable($conn)
 				complete: () => {}
 			})
 		}
+		filterStatus()
+		document.getElementById("filter-status-reset").addEventListener('click', e => {
+			filterStatusCollege = ""
+			filterStatusMonth = ""
+
+			document.getElementById("filter-status-month").value = ""
+			document.getElementById("filter-status-college").value = ""
+
+			filterStatus()
+		})
 
 		document.getElementById("filter-status-college").addEventListener("change", e => {
 			filterStatusCollege = e.target.value
@@ -414,7 +435,7 @@ function getDatatable($conn)
 				success: response => {
 					// console.log(response)
 
-					if (tableFiltercatagory == "All category") {
+					if (tableFiltercatagory == "") {
 						table.querySelector("h2").textContent = `Top Problem Locations`
 					} else {
 						table.querySelector("h2").textContent = `Top Problem Locations for ${tableFiltercatagory}`
@@ -427,6 +448,16 @@ function getDatatable($conn)
 				complete: () => {}
 			})
 		}
+
+		document.getElementById("filter-table-reset").addEventListener('click', e => {
+			tableFilterDate = ""
+			tableFiltercatagory = ""
+
+			document.getElementById('filter-month-table').value = ""
+			document.getElementById('filter-category-table').value = ""
+
+			filterTable()
+		})
 
 		document.getElementById("filter-month-table").addEventListener("change", e => {
 			tableFilterDate = e.target.value
