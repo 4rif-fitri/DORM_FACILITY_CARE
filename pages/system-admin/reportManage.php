@@ -27,7 +27,7 @@ if (isset($_GET["status"])) {
 			WHERE status = '$status'
 			ORDER BY dateReported DESC
 			";
-	}else{
+	} else {
 		$sql = "	SELECT 	reportID, 
 				reportCategory, 	
 				reportDesc, 
@@ -58,17 +58,65 @@ $result = mysqli_query($conn, $sql);
 		<?php include(__DIR__ . "../../../components/system-admin/header.php") ?>
 
 		<!-- CONTENT HERE -->
-		<main class="_content-area">
+		<main class="_content-area" style="display:flex; flex-direction:row;">
 			<nav class="filter-box">
-				<a href="reportManage.php?status=All" class="filterBtn">All</a>
+				<!-- <a href="reportManage.php?status=All" class="filterBtn">All</a>
 				<a href="reportManage.php?status=Canceled" class="filterBtn">Canceled</a>
 				<a href="reportManage.php?status=Pending" class="filterBtn">Pending</a>
 				<a href="reportManage.php?status=Assigned" class="filterBtn">Assigned</a>
 				<a href="reportManage.php?status=In_Progress" class="filterBtn">In Progress</a>
-				<a href="reportManage.php?status=Completed" class="filterBtn">Completed</a>
+				<a href="reportManage.php?status=Completed" class="filterBtn">Completed</a> -->
+
+				<div class="filter-cantainer">
+					<div class="input-control">
+						<label for="filter-date">Date</label>
+						<select name="filter-date" id="filter-date">
+							<option value="Today" selected>Today</option>
+							<option value="This Week">This Week</option>
+							<option value="This Mounth">This Mounth</option>
+						</select>
+					</div>
+					<div class="input-control">
+						<label for="filter-status">Status</label>
+						<select name="filter-status" id="filter-status">
+							<option value="" selected>Select Status</option>
+							<option value="Plumbing">Plumbing</option>
+							<option value="Electrical">Electrical</option>
+							<option value="Cleaning">Cleaning</option>
+							<option value="Facilities">Facilities</option>
+							<option value="Security">Security</option>
+							<option value="Others">Others</option>
+						</select>
+					</div>
+					<div class="input-control">
+						<label for="filter-catagory">Catagory</label>
+						<select name="filter-catagory" id="filter-catagory">
+							<option value="" selected>Select Status</option>
+							<option value="Pending" selected>Pending</option>
+							<option value="In_Progress">In Progress</option>
+							<option value="Completed">Completed</option>
+							<option value="Rejected">Rejected</option>
+							<option value="Cancelled">cancelled</option>
+						</select>
+					</div>
+					<div class="input-control">
+						<label for="filter-location">location</label>
+						<select name="filter-location" id="filter-location">
+							<option selected value="">All College</option>
+							<option value="Satria_Jebat">Satria Jebat</option>
+							<option value="Satria_Tuah">Satria Tuah</option>
+							<option value="Satria_Kasturi">Satria Kasturi</option>
+							<option value="Satria_Lekir">Satria Lekir</option>
+							<option value="Satria_Lekiu">Satria Lekiu</option>
+							<option value="Lestari">Lestari</option>
+							<option value="Al_Jazari">Al Jazari</option>
+						</select>
+					</div>
+				</div>
+				<button class="btn-reset-filter">Reset Filter</button>
 			</nav>
 
-			<section class="table-container">
+			<section class="table-container" style="width:100%;">
 				<table class="myReportTbl">
 					<thead>
 						<tr>
@@ -95,6 +143,18 @@ $result = mysqli_query($conn, $sql);
 					</tbody>
 
 				</table>
+
+				<div class="pagination">
+					<p>Show 1 to 10 of 100 entries</p>
+					<article>
+						<button class="btn-previous">Previous</button>
+						<button class="btn-number active">1</button>
+						<button class="btn-number">2</button>
+						<button class="btn-number">3</button>
+						<button class="btn-next">Next</button>
+					</article>
+				</div>
+
 			</section>
 
 		</main>
@@ -104,17 +164,17 @@ $result = mysqli_query($conn, $sql);
 
 	<!-- your script -->
 	<script>
-		const params = new URLSearchParams(window.location.search);
-		const status = params.get("status");
-		let filterBox = document.querySelectorAll(".filter-box a")
-		filterBox.forEach(box => box.classList.remove("filtered"))
+		// const params = new URLSearchParams(window.location.search);
+		// const status = params.get("status");
+		// let filterBox = document.querySelectorAll(".filter-box a")
+		// filterBox.forEach(box => box.classList.remove("filtered"))
 
-		if (status == "All" || status == null) filterBox[0].classList.add("filtered")
-		else if (status == "Canceled") filterBox[1].classList.add("filtered")
-		else if (status == "Pending") filterBox[2].classList.add("filtered")
-		else if (status == "Assigned") filterBox[3].classList.add("filtered")
-		else if (status == "In_Progress") filterBox[4].classList.add("filtered")
-		else if (status == "Completed") filterBox[5].classList.add("filtered")
+		// if (status == "All" || status == null) filterBox[0].classList.add("filtered")
+		// else if (status == "Canceled") filterBox[1].classList.add("filtered")
+		// else if (status == "Pending") filterBox[2].classList.add("filtered")
+		// else if (status == "Assigned") filterBox[3].classList.add("filtered")
+		// else if (status == "In_Progress") filterBox[4].classList.add("filtered")
+		// else if (status == "Completed") filterBox[5].classList.add("filtered")
 	</script>
 
 

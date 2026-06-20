@@ -18,9 +18,25 @@ if (isset($_GET["rejectID"])) {
 } else if (isset($_GET["id"])) {
 	$reportId = $_GET["id"];
 
-	$sql = "SELECT *
-        	FROM report
-        	WHERE reportId = '$reportId'";
+	$sql = "	SELECT
+			user.userID, 
+			user.name, 
+			user.numTel, 
+			user.email,
+
+			report.reportID,
+			report.reportCategory,
+			report.reportDesc,
+			report.reportRoom,
+			report.status,
+			report.dateReported,
+			report.college,
+			report.reportImgUrl,
+			report.completedImgUrl
+
+        	FROM report 
+		INNER JOIN user ON report.userID = user.userID
+		WHERE reportId = '$reportId'";
 
 	$result = mysqli_query($conn, $sql);
 	$row = mysqli_fetch_assoc($result);
@@ -55,7 +71,6 @@ while ($datas = mysqli_fetch_assoc($resultContractor)) {
 <head>
 	<!-- your styling -->
 	<link rel="stylesheet" href="../../style/form.css">
-
 </head>
 
 <body>
@@ -112,35 +127,6 @@ while ($datas = mysqli_fetch_assoc($resultContractor)) {
 
 				</div>
 
-				<!-- <div class="contractor-container">
-					<section>
-						<h4>
-							<img src="../../images/report.svg" alt="">
-							Contractor
-						</h4>
-
-						<div class="comment">
-							<div class="input-control">
-								<label for="selectContractor">Select contractor</label>
-								<select name="selectContractor" id="selectContractor">
-									<option disabled selected value="">Select contractor</option>
-									<option value="0">En lorem</option>
-									<option value="1">En Ipsum</option>
-									<option value="2">En Dolor</option>
-									<option value="3">En Sit</option>
-								</select>
-								<p class="hidden my-2" id="emailContractor">lorem@gamail.com</p>
-								<p class="hidden mb-2" id="phoneContractor">0197231577</p>
-								<p class="hidden mb-2" id="cTypeContractor">IT technician</p>
-							</div>
-						</div>
-
-						<article>
-							<button class="btn btn-success">Assign</button>
-						</article>
-					</section>
-				</div> -->
-
 				<div class="report-detail-container">
 
 					<section>
@@ -170,9 +156,37 @@ while ($datas = mysqli_fetch_assoc($resultContractor)) {
 								<input value="<?= $row["reportRoom"] ?>" readonly type="text" name="room" id="room">
 							</div>
 						</div>
-
 					</section>
 
+					<section>
+						<h4>
+							<img src="../../images/report.svg" alt="">
+							Student Detail
+						</h4>
+						<div class="report-detail">
+
+							<div class="input-control">
+								<label for="">Name</label>
+								<input value="<?= $row["name"] ?>" readonly type="text" name="category" id="category">
+							</div>
+
+							<div class="input-control">
+								<label for="">Matric Number</label>
+								<input value="<?= $row["userID"] ?>" readonly type="text" name="category" id="category">
+							</div>
+
+							<div class="input-control">
+								<label for="">Phone Number</label>
+								<input value="<?= $row["numTel"] ?>" readonly type="text" name="category" id="category">
+							</div>
+
+							<div class="input-control">
+								<label for="">College</label>
+								<input readonly type="text" name="college" value="<?= trim($row["college"]) ?>" id="college">
+							</div>
+
+						</div>
+					</section>
 
 				</div>
 
@@ -218,11 +232,28 @@ while ($datas = mysqli_fetch_assoc($resultContractor)) {
 								data-src="<?= $row["reportImgUrl"] ?? "" ?>"
 								style="background-image:url('<?= $row["reportImgUrl"] ?? "" ?>')">
 							</div>
+						</div>
+					</section>
+				</div>
+
+				<div class="image-container">
+					<section>
+						<h4>
+							<img src="../../images/report.svg" alt="">
+							Report Image
+						</h4>
+						<?php if($row["completedImgUrl"] != "") : ?>
+						<div class="image imgReportgroup">
 							<div class="imgReport"
 								data-src="<?= $row["completedImgUrl"] ?? "" ?>"
 								style="background-image:url('<?= $row["completedImgUrl"] ?? "" ?>')">
 							</div>
 						</div>
+						<?php else : ?>
+							<center>
+								<h2>No Image Yet</h2>
+							</center>
+						<?php endif ?>
 					</section>
 				</div>
 			</section>

@@ -3,35 +3,38 @@ session_start();
 require_once "../inc/conn.php";
 
 header("Content-Type: application/json");
-ob_clean();
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
-	$filter = $_POST["filter"];
-	$sql;
+	$tableFilterDate = $_POST["tableFilterDate"] ?? "";
+	$tableFilterCategory = $_POST["tableFiltercatagory"] ?? "";
 
-	if($filter == "All category"){
-		$sql = "	SELECT college,
-					COUNT(*) AS totalReport,
-					SUM(status='Pending') AS pending,
-					SUM(status='Assigned') AS assigned,
-					SUM(status='In_Progress') AS inProgress,
-					SUM(status='Completed') AS completed
-				FROM report
-				GROUP BY college
-				ORDER BY totalReport DESC";
-	}else{
-		$sql = "	SELECT college,
-					COUNT(*) AS totalReport,
-					SUM(status='Pending') AS pending,
-					SUM(status='Assigned') AS assigned,
-					SUM(status='In_Progress') AS inProgress,
-					SUM(status='Completed') AS completed
-				FROM report
-				WHERE reportCategory = '$filter'
-				GROUP BY college
-				ORDER BY totalReport DESC";
+	$sql = "
+		SELECT college,
+			COUNT(*) AS totalReport,
+			SUM(status='Pending') AS pending,
+			SUM(status='Assigned') AS assigned,
+			SUM(status='In_Progress') AS inProgress,
+			SUM(status='Completed') AS completed
+		FROM report
+		WHERE 1=1
+	";
+
+	// FILTER CATEGORY
+	if (!empty($tableFilterCategory) && $tableFilterCategory != "All category") {
+		$sql .= " AND reportCategory = '$tableFilterCategory'";
 	}
+
+	// FILTER MONTH (input type="month" => YYYY-MM)
+	if (!empty($tableFilterDate)) {
+		$year = date('Y', strtotime($tableFilterDate));
+		$month = date('m', strtotime($tableFilterDate));
+
+		$sql .= " AND YEAR(dateReported) = '$year'
+				  AND MONTH(dateReported) = '$month'";
+	}
+
+	$sql .= " GROUP BY college ORDER BY totalReport DESC";
 
 	$result = mysqli_query($conn, $sql);
 
@@ -48,15 +51,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 		];
 	}
 
-	if ($result) {
-		echo json_encode([
-			"status" => "success",
-			"datas" => $data
-		]);
-	} else {
-		echo json_encode([
-			"status" => "error",
-			"message" => mysqli_error($conn)
-		]);
-	}
+	echo json_encode([
+		"status" => "success",
+		"datas" => $data,
+		"tableFilterDate" => $tableFilterDate,
+		"tableFilterCategory" => $tableFilterCategory
+	]);
 }

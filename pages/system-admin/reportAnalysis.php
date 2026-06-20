@@ -64,7 +64,6 @@ function getDataCollage($conn)
 
 	return $data;
 }
-
 function getDatatable($conn)
 {
 	$sql = "	SELECT college,reportCategory,dateReported,
@@ -144,24 +143,24 @@ function getDatatable($conn)
 					</canvas>
 
 					<div class="filter-control">
-						<input type="month" name="month" id="month">
+						<input type="month" name="month" id="filter-month-category">
 
-						<select name="college" id="college">
+						<select name="college" id="filter-college-category">
 							<option selected value="">All College</option>
-							<option value="">Satria Jebat</option>
-							<option value="">Satria Tuah</option>
-							<option value="">Satria Kasturi</option>
-							<option value="">Satria Lekir</option>
-							<option value="">Satria Lekiu</option>
-							<option value="">Lestari</option>
-							<option value="">Al Jazari</option>
+							<option value="Satria_Jebat">Satria Jebat</option>
+							<option value="Satria_Tuah">Satria Tuah</option>
+							<option value="Satria_Kasturi">Satria Kasturi</option>
+							<option value="Satria_Lekir">Satria Lekir</option>
+							<option value="Satria_Lekiu">Satria Lekiu</option>
+							<option value="Lestari">Lestari</option>
+							<option value="Al_Jazari">Al Jazari</option>
 						</select>
 
-						<button class="btn-reset">Reset</button>
+						<button class=" btn-reset">Reset</button>
 						<button class="btn-export">Export cvs</button>
 					</div>
 				</section>
-				<section class="barGraphBlock">
+				<!-- <section class="barGraphBlock">
 					<h2>Reports by Block</h2>
 					<canvas id="canvas_barGraphBlock">
 
@@ -191,7 +190,7 @@ function getDatatable($conn)
 						<button class="btn-export">Export cvs</button>
 
 					</div>
-				</section>
+				</section> -->
 				<!-- <section class="barGraphTrand">
 					<h2>Monthly Report Trend</h2>
 					<canvas id="canvas_barGraphTrand">
@@ -228,15 +227,16 @@ function getDatatable($conn)
 					</canvas>
 
 					<div class="filter-control">
-						<input type="month" name="month" id="month">
-						<select name="college" id="college">
-							<option value="">Satria Jebat</option>
-							<option value="">Satria Tuah</option>
-							<option value="">Satria Kasturi</option>
-							<option value="">Satria Lekir</option>
-							<option value="">Satria Lekiu</option>
-							<option value="">Lestari</option>
-							<option value="">Al Jazari</option>
+						<input type="month" name="month" id="filter-status-month">
+						<select name="college" id="filter-status-college">
+							<option value="">All Collage</option>
+							<option value="Satria_Jebat">Satria Jebat</option>
+							<option value="Satria_Tuah">Satria Tuah</option>
+							<option value="Satria_Kasturi">Satria Kasturi</option>
+							<option value="Satria_Lekir">Satria Lekir</option>
+							<option value="Satria_Lekiu">Satria Lekiu</option>
+							<option value="Lestari">Lestari</option>
+							<option value="Al_Jazari">Al Jazari</option>
 						</select>
 						<button class="btn-reset">Reset</button>
 						<button class="btn-export">Export cvs</button>
@@ -291,22 +291,16 @@ function getDatatable($conn)
 		let tbody = table.querySelector("tbody")
 
 		let canvas_category = document.getElementById("canvas_pieChart");
-		let canvas_Block = document.getElementById("canvas_barGraphBlock");
+		// let canvas_Block = document.getElementById("canvas_barGraphBlock");
 		// let canvas_Trand = document.getElementById("canvas_barGraphTrand");
 		let canvas_Status = document.getElementById("canvas_donutBar");
 		let resizeTimer;
 		let rect = canvas_category.getBoundingClientRect();
 
-
 		let dataBlock = <?= json_encode(getDataCollage($conn)) ?>;
-
 		let datacategory = <?= json_encode(getDataCategory($conn)) ?>;
-
 		let dataStatus = <?= json_encode(getDataStatus($conn)) ?>;
-
-
 		let datatable = <?= json_encode(getDatatable($conn)) ?>;
-
 
 		const colors = [
 			"#2563EB", // Blue
@@ -321,36 +315,27 @@ function getDatatable($conn)
 			"#64748B" // Slate
 		];
 
-		let filterTable = (date,catagory) => {
 
-		}
+		let filterMonthCategory = ""
+		let filterCollegeCategory = ""
 
-		document.getElementById("filter-month-table").addEventListener("change", e => {
-			console.log(e.target.value);
-			
-		})
-
-		document.getElementById("filter-category-table").addEventListener("change", e => {
-			let filter = e.target.value
-			console.log({
-				filter
-			});
-
+		let filterCategory = () => {
 			$.ajax({
-				url: "../../api/getFilterdDatatable.php",
+				url: "../../api/filterReportsbyCategory.php",
 				method: "POST",
 				data: {
-					filter: filter
+					filterMonthCategory: filterMonthCategory,
+					filterCollegeCategory: filterCollegeCategory
 				},
 				success: response => {
-					console.log(response.datas)
+					console.log(response);
 
-					if (filter == "All category") {
-						table.querySelector("h2").textContent = `Top Problem Locations`
-					} else {
-						table.querySelector("h2").textContent = `Top Problem Locations for ${filter}`
-					}
-					renderTable(response.datas)
+					let datas = response.datas.map(item => [
+						item.reportCategory,
+						parseInt(item.total)
+					]);
+
+					drawPieChart(canvas_category, datas);
 
 				},
 				error: response => {
@@ -358,7 +343,99 @@ function getDatatable($conn)
 				},
 				complete: () => {}
 			})
+		}
 
+		document.getElementById("filter-month-category").addEventListener("change", e => {
+			filterMonthCategory = e.target.value
+			filterCategory()
+		})
+		document.getElementById("filter-college-category").addEventListener("change", e => {
+			filterCollegeCategory = e.target.value
+			filterCategory()
+		})
+
+
+		// === Status filter ===
+
+		let filterStatusCollege = ""
+		let filterStatusMonth = ""
+
+		let filterStatus = () => {
+			$.ajax({
+				url: "../../api/getFilterdStatus.php",
+				method: "POST",
+				data: {
+					filterStatusCollege: filterStatusCollege,
+					filterStatusMonth: filterStatusMonth
+				},
+				success: response => {
+					console.log(response)
+					drawBarChart(canvas_Status, response.datas);
+
+				},
+				error: response => {
+					console.log(response.responseText);
+				},
+				complete: () => {}
+			})
+		}
+
+		document.getElementById("filter-status-college").addEventListener("change", e => {
+			filterStatusCollege = e.target.value
+			filterStatus()
+
+		})
+		document.getElementById("filter-status-month").addEventListener("change", e => {
+			filterStatusMonth = e.target.value
+			filterStatus()
+		})
+
+		// === Status filter ===
+
+
+		// === table filter ===
+
+		let tableFilterDate = ""
+		let tableFiltercatagory = ""
+
+		let filterTable = () => {
+			console.log({
+				tableFilterDate,
+				tableFiltercatagory
+			});
+
+			$.ajax({
+				url: "../../api/getFilterdDatatable.php",
+				method: "POST",
+				data: {
+					tableFilterDate: tableFilterDate,
+					tableFiltercatagory: tableFiltercatagory
+				},
+				success: response => {
+					// console.log(response)
+
+					if (tableFiltercatagory == "All category") {
+						table.querySelector("h2").textContent = `Top Problem Locations`
+					} else {
+						table.querySelector("h2").textContent = `Top Problem Locations for ${tableFiltercatagory}`
+					}
+					renderTable(response.datas)
+				},
+				error: response => {
+					console.log(response.responseText);
+				},
+				complete: () => {}
+			})
+		}
+
+		document.getElementById("filter-month-table").addEventListener("change", e => {
+			tableFilterDate = e.target.value
+			filterTable()
+		})
+
+		document.getElementById("filter-category-table").addEventListener("change", e => {
+			tableFiltercatagory = e.target.value
+			filterTable()
 		})
 
 		let renderTable = (datatable) => {
@@ -380,6 +457,8 @@ function getDatatable($conn)
 				tbody.appendChild(tr)
 			})
 		}
+
+		// === table filter ===
 
 		let drawPieChart = (canvas, datas) => {
 
@@ -583,7 +662,7 @@ function getDatatable($conn)
 		// }
 
 		drawPieChart(canvas_category, datacategory);
-		drawPieChart(canvas_Block, dataBlock);
+		// drawPieChart(canvas_Block, dataBlock);
 		// drawLineGraph(canvas_Trand, dataTrand);
 		drawBarChart(canvas_Status, dataStatus);
 		renderTable(datatable)
@@ -595,7 +674,7 @@ function getDatatable($conn)
 			resizeTimer = setTimeout(() => {
 
 				drawPieChart(canvas_category, datacategory);
-				drawPieChart(canvas_Block, dataBlock);
+				// drawPieChart(canvas_Block, dataBlock);
 				// drawLineGraph(canvas_Trand, dataTrand);
 				drawBarChart(canvas_Status, dataStatus);
 

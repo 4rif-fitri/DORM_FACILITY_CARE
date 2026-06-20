@@ -38,10 +38,11 @@
 	display: grid;
 	gap: 1rem;
 	grid-template-areas:
+	'table'
 		'pieChart'
-		'barGraphBlock'
+		/* 'barGraphBlock' */
 		'donutBar'
-		'table'
+		/* 'barGraphTrand' */
 	;
 	padding: 1rem;
 }
@@ -161,9 +162,8 @@ section+.table table td {
 
 	.analisis-conainer {
 		grid-template-areas:
-			'pieChart 		barGraphBlock'
-			'donutBar 	donutBar'
-			'table  			table'
+			'table table'
+			'pieChart donutBar'
 		;
 	}
 
