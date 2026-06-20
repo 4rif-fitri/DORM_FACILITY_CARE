@@ -55,6 +55,7 @@
 ._content-area{
     display: flex;
     flex-direction: column;
+    height: 100%;
 }
 
 .add-box{
@@ -75,6 +76,7 @@
     flex-direction: row;
     gap: 10px;
     padding: 20px;
+	flex-shrink: 0;
 }
 
 a{
@@ -102,6 +104,8 @@ a{
 
 .table-container{
     padding: 20px;
+	flex: 1;
+    overflow-y: auto;
 }
 
 /* ------------------REPORT TABLE START------------------------ */
@@ -149,6 +153,11 @@ a{
 	border-collapse: separate;
 	border-spacing: 0;
 	display: none;
+}
+
+.reportCard tbody{
+	display: block;
+	margin-bottom: 10px;
 }
 
 .reportCard tbody tr th, .reportCard tbody tr td{
@@ -236,7 +245,7 @@ a{
 	padding: 0.5rem;
 }
 
-@media(max-width: 500px) {
+@media(max-width: 700px) {
 	.reportCard{
 		display: block;
 	}
