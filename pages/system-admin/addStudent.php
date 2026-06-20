@@ -23,7 +23,7 @@ auth("SAD");
 
 		<!-- CONTENT HERE -->
 		<main class="_content-area">
-			<nav class="add-box">
+			<nav class="filter-box">
 				<button type="button" class="addBtn" data-bs-toggle="modal" data-bs-target="#Modal">
 					Add Student
 				</button>

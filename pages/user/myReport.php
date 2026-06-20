@@ -9,27 +9,12 @@ $sql = "	SELECT 	reportID,
 				reportCategory, 	
 				reportDesc, 
 				dateReported, 
-				status
+				status,
+				college
         	FROM report
         	WHERE userID = '$userID'
 		ORDER BY dateReported DESC
 		";
-
-if (isset($_GET["status"])) {
-	$status = $_GET["status"];
-	if ($status != "All") {
-		$sql = "	SELECT 	reportID, 
-				reportCategory, 	
-				reportDesc, 
-				dateReported, 
-				status
-			FROM report
-			WHERE status = '$status' AND 
-			userID = '$userID'
-			ORDER BY dateReported DESC
-			";
-	}
-}
 
 $result = mysqli_query($conn, $sql);
 
@@ -53,11 +38,20 @@ $result = mysqli_query($conn, $sql);
 		<!-- CONTENT HERE -->
 		<main class="_content-area">
 			<nav class="filter-box">
-				<a href="myReport.php?status=All" class="filterBtn filtered">all</a>
-				<a href="myReport.php?status=Pending" class="filterBtn">pending</a>
-				<a href="myReport.php?status=Assigned" class="filterBtn">assigned</a>
-				<a href="myReport.php?status=In_Progress" class="filterBtn">in progress</a>
-				<a href="myReport.php?status=Completed" class="filterBtn">completed</a>
+				<div class="filter-cantainer">
+					<div class="input-control">
+						<label for="filter-catagory">Catagory</label>
+						<select name="filter-catagory" id="filter-catagory">
+							<option value="" selected>Select Status</option>
+							<option value="Pending" selected>Pending</option>
+							<option value="In_Progress">In Progress</option>
+							<option value="Completed">Completed</option>
+							<option value="Rejected">Rejected</option>
+							<option value="Cancelled">cancelled</option>
+						</select>
+					</div>
+				</div>
+				<button class="btn-reset-filter">Reset Filter</button>
 			</nav>
 
 			<section class="table-container">
@@ -66,10 +60,10 @@ $result = mysqli_query($conn, $sql);
 						<tr>
 							<th>Id</th>
 							<th>Category</th>
-							<th>Description</th>
+							<th>Collage</th>
 							<th>Date</th>
 							<th>Status</th>
-							<th>Track</th>
+							<th>Action</th>
 						</tr>
 					</thead>
 
@@ -78,7 +72,7 @@ $result = mysqli_query($conn, $sql);
 							<tr>
 								<td><?= $row["reportID"] ?></td>
 								<td><?= $row["reportCategory"] ?></td>
-								<td><?= $row["reportDesc"] ?></td>
+								<td><?= $row["college"] ?></td>
 								<td><?= $row["dateReported"] ?></td>
 								<td><?= $row["status"] ?></td>
 								<td><a href="./trackReport.php?id=<?= $row["reportID"] ?>" class="updateBtn">Track</a></td>
@@ -89,59 +83,59 @@ $result = mysqli_query($conn, $sql);
 				</table>
 
 				<table class="reportCard">
-							<tbody>
-								<tr>
-									<th>Id</th>
-									<td>67</td>
-								</tr>
+					<tbody>
+						<tr>
+							<th>Id</th>
+							<td>67</td>
+						</tr>
 
-								<tr>
-									<th>Category</th>
-									<td>Plumbing</td>
-								</tr>
-								
-								<tr>
-									<th>Date</th>
-									<td>09/11/2025</td>
-								</tr>
+						<tr>
+							<th>Category</th>
+							<td>Plumbing</td>
+						</tr>
 
-								<tr>
-									<th>Status</th>
-									<td>Pending</td>
-								</tr>
+						<tr>
+							<th>Date</th>
+							<td>09/11/2025</td>
+						</tr>
 
-								<tr>
-									<td><a href="#" class="updateBtn">Track</a></td>
-									<td></td>
-								</tr>
-							</tbody>
+						<tr>
+							<th>Status</th>
+							<td>Pending</td>
+						</tr>
 
-							<tbody>
-								<tr>
-									<th>Id</th>
-									<td>67</td>
-								</tr>
+						<tr>
+							<td><a href="#" class="updateBtn">Track</a></td>
+							<td></td>
+						</tr>
+					</tbody>
 
-								<tr>
-									<th>Category</th>
-									<td>Plumbing</td>
-								</tr>
-								
-								<tr>
-									<th>Date</th>
-									<td>09/11/2025</td>
-								</tr>
+					<tbody>
+						<tr>
+							<th>Id</th>
+							<td>67</td>
+						</tr>
 
-								<tr>
-									<th>Status</th>
-									<td>Pending</td>
-								</tr>
+						<tr>
+							<th>Category</th>
+							<td>Plumbing</td>
+						</tr>
 
-								<tr>
-									<td><a href="#" class="updateBtn">Track</a></td>
-									<td></td>
-								</tr>
-							</tbody>
+						<tr>
+							<th>Date</th>
+							<td>09/11/2025</td>
+						</tr>
+
+						<tr>
+							<th>Status</th>
+							<td>Pending</td>
+						</tr>
+
+						<tr>
+							<td><a href="#" class="updateBtn">Track</a></td>
+							<td></td>
+						</tr>
+					</tbody>
 				</table>
 			</section>
 

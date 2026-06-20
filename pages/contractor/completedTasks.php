@@ -18,19 +18,10 @@ auth("CTR");
 <body>
 
 	<section class="_workspace">
-		<?php $title = "Completed Taskst" ?>
+		<?php $title = "Completed Tasks" ?>
 		<?php include(__DIR__ . "../../../components/system-admin/header.php") ?>
 		<!-- CONTENT HERE -->
 		<main class="_content-area">
-			<nav class="filter-box">
-				<!-- <a href="" class="filterBtn">all</a>
-				<a href="" class="filterBtn">canceled</a>
-				<a href="" class="filterBtn">pending</a>
-				<a href="" class="filterBtn">assigned</a>
-				<a href="" class="filterBtn">in progress</a>
-				<a href="" class="filterBtn">completed</a> -->
-			</nav>
-
 			<section class="table-container">
 				<table class="myReportTbl">
 					<thead>
