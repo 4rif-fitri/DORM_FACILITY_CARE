@@ -87,39 +87,6 @@ if (isset($_GET["rejectID"])) {
 
 				</div>
 
-				<div class="report-detail-container">
-
-					<section>
-						<h4>
-							<img src="../../images/report.svg" alt="">
-							Report Detail
-						</h4>
-						<div class="report-detail">
-
-							<div class="input-control">
-								<label for="category">category</label>
-								<input value="<?= $row["reportCategory"] ?>" readonly type="text" name="category" id="category">
-							</div>
-
-							<div class="input-control">
-								<label for="description">Description</label>
-								<textarea readonly type="text" name="description" id="description"><?= $row["reportDesc"] ?></textarea>
-							</div>
-
-							<div class="input-control">
-								<label for="college">College</label>
-								<input readonly type="text" name="college" value="<?= trim($row["college"]) ?>" id="college">
-							</div>
-
-							<div class="input-control">
-								<label for="room">Room</label>
-								<input value="<?= $row["reportRoom"] ?>" readonly type="text" name="room" id="room">
-							</div>
-						</div>
-					</section>
-
-				</div>
-
 				<div class="comment-container">
 					<section>
 						<h4>
@@ -162,13 +129,33 @@ if (isset($_GET["rejectID"])) {
 								data-src="<?= $row["reportImgUrl"] ?? "" ?>"
 								style="background-image:url('<?= $row["reportImgUrl"] ?? "" ?>')">
 							</div>
-							<div class="imgReport"
-								data-src="<?= $row["completedImgUrl"] ?? "" ?>"
-								style="background-image:url('<?= $row["completedImgUrl"] ?? "" ?>')">
-							</div>
 						</div>
 					</section>
 				</div>
+
+				<div class="image-container">
+					<section>
+						<h4>
+							<img src="../../images/report.svg" alt="">
+							Report Image
+						</h4>
+						<?php if ($row["completedImgUrl"] != "") : ?>
+							<div class="image imgReportgroup">
+								<div class="imgReport"
+									data-src="<?= $row["completedImgUrl"] ?? "" ?>"
+									style="background-image:url('<?= $row["completedImgUrl"] ?? "" ?>')">
+								</div>
+							</div>
+						<?php else : ?>
+							<center>
+								<h2>No Image Yet</h2>
+							</center>
+						<?php endif ?>
+					</section>
+				</div>
+
+
+
 
 			</section>
 

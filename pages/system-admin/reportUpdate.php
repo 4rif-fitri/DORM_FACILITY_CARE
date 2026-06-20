@@ -134,55 +134,58 @@ while ($datas = mysqli_fetch_assoc($resultContractor)) {
 							<img src="../../images/report.svg" alt="">
 							Report Detail
 						</h4>
-						<div class="report-detail">
+						<div>
+							<div class="report-detail">
+								<div class="input-control">
+									<label for="category">RepotID</label>
+									<input value="<?= $row["reportID"] ?>" readonly type="text" name="category" id="category">
+								</div>
 
-							<div class="input-control">
-								<label for="category">category</label>
-								<input value="<?= $row["reportCategory"] ?>" readonly type="text" name="category" id="category">
+								<div class="input-control">
+									<label for="">Reporter Name</label>
+									<input value="<?= $row["name"] ?>" readonly type="text" name="category" id="category">
+								</div>
+
+								<div class="input-control">
+									<label for="">Reporter ID</label>
+									<input value="<?= $row["userID"] ?>" readonly type="text" name="category" id="category">
+								</div>
+
+								<div class="input-control">
+									<label for="">Phone Number</label>
+									<input value="<?= $row["numTel"] ?>" readonly type="text" name="category" id="category">
+								</div>
+
+								<div class="input-control">
+									<label for="room">College & Room</label>
+									<input value="<?= trim($row["college"]) ?>, <?= $row["reportRoom"] ?>" readonly type="text" name="room" id="room">
+								</div>
 							</div>
+							<div class="report-detail">
 
-							<div class="input-control">
-								<label for="description">Description</label>
-								<textarea readonly type="text" name="description" id="description"><?= $row["reportDesc"] ?></textarea>
-							</div>
 
-							<div class="input-control">
-								<label for="college">College</label>
-								<input readonly type="text" name="college" value="<?= trim($row["reportCategory"]) ?>" id="college">
-							</div>
 
-							<div class="input-control">
-								<label for="room">Room</label>
-								<input value="<?= $row["reportRoom"] ?>" readonly type="text" name="room" id="room">
-							</div>
-						</div>
-					</section>
 
-					<section>
-						<h4>
-							<img src="../../images/report.svg" alt="">
-							Student Detail
-						</h4>
-						<div class="report-detail">
+								<div class="input-control">
+									<label for="">Email</label>
+									<input value="<?= $row["email"] ?>" readonly type="text" name="category" id="category">
+								</div>
 
-							<div class="input-control">
-								<label for="">Name</label>
-								<input value="<?= $row["name"] ?>" readonly type="text" name="category" id="category">
-							</div>
+								<div class="input-control">
+									<label for="category">category</label>
+									<input value="<?= $row["reportCategory"] ?>" readonly type="text" name="category" id="category">
+								</div>
 
-							<div class="input-control">
-								<label for="">Matric Number</label>
-								<input value="<?= $row["userID"] ?>" readonly type="text" name="category" id="category">
-							</div>
+								<div class="input-control">
+									<label for="description">Description</label>
+									<textarea readonly type="text" name="description" id="description"><?= $row["reportDesc"] ?></textarea>
+								</div>
 
-							<div class="input-control">
-								<label for="">Phone Number</label>
-								<input value="<?= $row["numTel"] ?>" readonly type="text" name="category" id="category">
-							</div>
 
-							<div class="input-control">
-								<label for="">College</label>
-								<input readonly type="text" name="college" value="<?= trim($row["college"]) ?>" id="college">
+								<div class="input-control">
+									<label for="description">Report Date</label>
+									<input value="<?= $row["dateReported"] ?>" readonly type="text" name="category" id="category">
+								</div>
 							</div>
 
 						</div>
@@ -242,13 +245,13 @@ while ($datas = mysqli_fetch_assoc($resultContractor)) {
 							<img src="../../images/report.svg" alt="">
 							Report Image
 						</h4>
-						<?php if($row["completedImgUrl"] != "") : ?>
-						<div class="image imgReportgroup">
-							<div class="imgReport"
-								data-src="<?= $row["completedImgUrl"] ?? "" ?>"
-								style="background-image:url('<?= $row["completedImgUrl"] ?? "" ?>')">
+						<?php if ($row["completedImgUrl"] != "") : ?>
+							<div class="image imgReportgroup">
+								<div class="imgReport"
+									data-src="<?= $row["completedImgUrl"] ?? "" ?>"
+									style="background-image:url('<?= $row["completedImgUrl"] ?? "" ?>')">
+								</div>
 							</div>
-						</div>
 						<?php else : ?>
 							<center>
 								<h2>No Image Yet</h2>

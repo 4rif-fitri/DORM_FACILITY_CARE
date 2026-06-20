@@ -138,6 +138,7 @@ body > main {
 	display: flex;
 	align-items: center;
 	justify-content: center;
+	
 }
 
 .bulat>* {
@@ -286,4 +287,36 @@ body > main {
 	75% {
 		transform: translateX(0) translateY(-100px);
 	}
+}
+
+.pending {
+	padding: 0.2rem 1rem;
+	border-radius: 4px;
+	color: var(--orange);
+	background-color: var(--orange-light);
+	border: 2px solid var(--orange) !important;
+}
+
+span.assigned {
+	padding: 0.2rem 1rem;
+	border-radius: 4px;
+	color: var(--blue);
+	background-color: var(--blue-light);
+	border: 2px solid var(--blue) !important;
+}
+
+span.inProgress {
+	padding: 0.2rem 1rem;
+	border-radius: 4px;
+	color: var(--choco);
+	background-color: var(--choco-light);
+	border: 2px solid var(--choco) !important;
+}
+
+span.completed {
+	padding: 0.2rem 1rem;
+	border-radius: 4px;
+	color: var(--green);
+	background-color: var(--green-light);
+	border: 2px solid var(--green) !important;
 }
