@@ -1,10 +1,11 @@
 :root {
 	/* color */
-	--primary-dark: #6d28d9;
+	--primary-dark: #49135C;
 	--primary: #7c3aed;
 	--primary-hover: #6d28d9;
 	--primary-active: #5b21b6;
 	--primary-light: #f5f3ff;
+	--primary-md: rgba(140, 68, 166, 0.5);
 
 	/* bg color */
 	--bg-main: #f8fafc;
@@ -86,7 +87,7 @@ a{
 .filterBtn{
     background-color: transparent;
 	border: 1px solid var(--primary);
-   	color: var(--primary-dark);
+   	color: var(--primary);
     padding: 2px 16px;
     border-radius: 5px;
     transition: all 0.18s ease;
@@ -120,32 +121,33 @@ a{
 .myReportTbl thead tr th{
     padding: 0 20px 5px;
 	letter-spacing: 0.03em;
+	color: var(--primary-dark);
 }
 
 .myReportTbl tbody tr td{
     padding: 16px 20px;
-    background-color: #F5F2F2;
+    background-color: var(--primary-light);
 }
 
 .myReportTbl tbody td:first-child {
 	border-radius: 12px 0 0 12px;
-	border-left: 1px solid #e8e6f5;
-	border-top: 1px solid #e8e6f5;
-	border-bottom: 1px solid #e8e6f5;
+	border-left: 1px solid var(--primary-md);
+	border-top: 1px solid var(--primary-md);
+	border-bottom: 1px solid var(--primary-md);
 
 }
 
 .myReportTbl tbody td:last-child {
 	border-radius: 0 12px 12px 0;
-	border-right: 1px solid #e8e6f5;
-	border-top: 1px solid #e8e6f5;
-	border-bottom: 1px solid #e8e6f5;
+	border-right: 1px solid var(--primary-md);
+	border-top: 1px solid var(--primary-md);
+	border-bottom: 1px solid var(--primary-md);
 }
 
 
 .myReportTbl tbody td:not(:first-child):not(:last-child) {
-	border-top: 1px solid #e8e6f5;
-	border-bottom: 1px solid #e8e6f5;
+	border-top: 1px solid var(--primary-md);
+	border-bottom: 1px solid var(--primary-md);
 } 
 
 .reportCard{
