@@ -15,6 +15,7 @@ if (isset($_GET["rejectID"])) {
 		header("Location: reportUpdate.php?id=$reportId");
 		exit;
 	} else echo mysqli_error($conn);
+
 } else if (isset($_GET["id"])) {
 	$reportId = $_GET["id"];
 
@@ -36,11 +37,40 @@ if (isset($_GET["rejectID"])) {
 			report.dateAssigned
 
         	FROM report 
-		INNER JOIN user ON report.userID = user.userID
+		INNER JOIN user ON report.userID   = user.userID
 		WHERE reportId = '$reportId'";
 
 	$result = mysqli_query($conn, $sql);
 	$row = mysqli_fetch_assoc($result);
+
+	if ($row["status"] == "Assigned") {
+		$sql = "	SELECT
+			reporter.userID,
+			reporter.name,
+			reporter.numTel,
+			reporter.email,
+
+			contractor.name AS contractorName,
+			contractor.email AS contractorEmail,
+
+			report.reportID,
+			report.reportCategory,
+			report.reportDesc,
+			report.reportRoom,
+			report.status,
+			report.dateReported,
+			report.college,
+			report.reportImgUrl,
+			report.completedImgUrl,
+			report.dateAssigned
+
+        	FROM report 
+		INNER JOIN user reporter ON report.userID = reporter.userID
+		INNER JOIN user contractor ON report.contractorID = contractor.userID
+		WHERE reportId = '$reportId'";
+	$result = mysqli_query($conn, $sql);
+	$row = mysqli_fetch_assoc($result);
+	}
 } else {
 	header("Location: reportManage.php");
 }
@@ -124,7 +154,7 @@ while ($datas = mysqli_fetch_assoc($resultContractor)) {
 						</div>
 
 						<article>
-							<?php if (in_array($row["status"], ["Assigned", "Rejected"])) : ?>
+							<?php if (in_array($row["status"], ["Assigned", "Rejected", "In_Progress"])) : ?>
 								<a href="./reportUpdate.php?rejectID=<?= $row["reportID"] ?>" class="btn btn-danger disabled">Reject</a>
 								<button data-bs-toggle="modal" data-bs-target="#modalContraktor" class="btn btn-success disabled">Assign</button>
 
@@ -132,7 +162,7 @@ while ($datas = mysqli_fetch_assoc($resultContractor)) {
 								<a href="./reportUpdate.php?rejectID=<?= $row["reportID"] ?>" class="btn btn-danger disabled">Reject</a>
 								<article>
 									<button data-bs-toggle="modal" data-bs-target="#modalContraktor" class="btn btn-success disabled">Assign</button>
-									<button class="btn btn-primary mx-1">Ganerate PDF</button>
+									<!-- <button class="btn btn-primary mx-1">Ganerate PDF</button> -->
 								</article>
 							<?php else : ?>
 								<a href="./reportUpdate.php?rejectID=<?= $row["reportID"] ?>" class="btn btn-danger">Reject</a>
@@ -153,41 +183,41 @@ while ($datas = mysqli_fetch_assoc($resultContractor)) {
 						<div>
 							<div class="report-detail">
 								<div class="input-control">
-									<label for="category">RepotID: <?= $row["reportID"] ?></label>
+									<label for="category"><b>RepotID: </b> <?= $row["reportID"] ?></label>
 								</div>
 
 								<div class="input-control">
-									<label for="">Reporter Name: <?= $row["name"] ?></label>
+									<label for=""><b>Reporter Name: </b><?= $row["name"] ?></label>
 								</div>
 
 								<div class="input-control">
-									<label for="">Reporter ID: <?= $row["userID"] ?></label>
+									<label for=""><b>Reporter ID: </b><?= $row["userID"] ?></label>
 								</div>
 
 								<div class="input-control">
-									<label for="">Phone Number: <?= $row["numTel"] ?></label>
+									<label for=""><b>Phone Number: </b><?= $row["numTel"] ?></label>
 								</div>
 
 								<div class="input-control">
-									<label for="room">College & Room: <?= trim($row["college"]) ?>, <?= $row["reportRoom"] ?></label>
+									<label for="room"><b>College & Room: </b><?= trim($row["college"]) ?>, <?= $row["reportRoom"] ?></label>
 								</div>
 							</div>
 							<div class="report-detail">
 
 								<div class="input-control">
-									<label for="">Email: <?= $row["email"] ?></label>
+									<label for=""><b>Email: </b><?= $row["email"] ?></label>
 								</div>
 
 								<div class="input-control">
-									<label for="category">Category: <?= $row["reportCategory"] ?></label>
+									<label for="category"><b>Category: </b><?= $row["reportCategory"] ?></label>
 								</div>
 
 								<div class="input-control">
-									<label for="description">Description: <?= $row["reportDesc"] ?></label>
+									<label for="description"><b>Description: </b><?= $row["reportDesc"] ?></label>
 								</div>
 
 								<div class="input-control">
-									<label for="description">Report Date: <?= $row["dateReported"] ?></label>
+									<label for="description"><b>Report Date: </b><?= $row["dateReported"] ?></label>
 								</div>
 							</div>
 
@@ -285,7 +315,7 @@ while ($datas = mysqli_fetch_assoc($resultContractor)) {
 									<tr>
 										<td><?= $row["dateReported"] ?></td>
 										<td><span class="pending">Pending</span></td>
-										<td><?= $_SESSION["name"] ?></td>
+										<td><?= $row["name"] ?></td>
 										<td>Report has been Submitted</td>
 									</tr>
 									<?php if (in_array($row["status"], ["Assigned", "Completed"])) : ?>
@@ -293,7 +323,7 @@ while ($datas = mysqli_fetch_assoc($resultContractor)) {
 											<td><?= $row["dateAssigned"] ?></td>
 											<td><span class="assigned">Assigned</span></td>
 											<td>System Admin(You)</td>
-											<td>Report Assigned to <?= $row["name"] ?></td>
+											<td>Report Assigned to <?= $row["contractorName"] ?></td>
 										</tr>
 									<?php endif ?>
 									<?php if ($row["status"] == "Completed") : ?>

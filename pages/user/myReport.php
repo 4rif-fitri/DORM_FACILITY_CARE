@@ -40,9 +40,13 @@ $result = mysqli_query($conn, $sql);
 			<nav class="filter-box">
 				<div class="filter-cantainer">
 					<div class="input-control">
-						<label for="filter-catagory">Catagory</label>
-						<select name="filter-catagory" id="filter-catagory">
-							<option value="" selected>Select Status</option>
+						<label for="filter-date">Date</label>
+						<input type="date" name="filter-date" value="<?= date('Y-m-d') ?>" max="<?= date('Y-m-d') ?>" id="filter-date">
+					</div>
+					<div class="input-control">
+						<label for="filter-status">Status</label>
+						<select name="filter-status" id="filter-status">
+							<option value="">All Status</option>
 							<option value="Pending" selected>Pending</option>
 							<option value="In_Progress">In Progress</option>
 							<option value="Completed">Completed</option>
@@ -50,8 +54,33 @@ $result = mysqli_query($conn, $sql);
 							<option value="Cancelled">cancelled</option>
 						</select>
 					</div>
+					<div class="input-control">
+						<label for="filter-catagory">Catagory</label>
+						<select name="filter-catagory" id="filter-catagory">
+							<option value="" selected>All Catagory</option>
+							<option value="Plumbing">Plumbing</option>
+							<option value="Electrical">Electrical</option>
+							<option value="Cleaning">Cleaning</option>
+							<option value="Facilities">Facilities</option>
+							<option value="Security">Security</option>
+							<option value="Others">Others</option>
+						</select>
+					</div>
+					<div class="input-control">
+						<label for="filter-location">location</label>
+						<select name="filter-location" id="filter-location">
+							<option selected value="">All College</option>
+							<option value="Satria_Jebat">Satria Jebat</option>
+							<option value="Satria_Tuah">Satria Tuah</option>
+							<option value="Satria_Kasturi">Satria Kasturi</option>
+							<option value="Satria_Lekir">Satria Lekir</option>
+							<option value="Satria_Lekiu">Satria Lekiu</option>
+							<option value="Lestari">Lestari</option>
+							<option value="Al_Jazari">Al Jazari</option>
+						</select>
+					</div>
 				</div>
-				<button class="btn-reset-filter">Reset Filter</button>
+				<button class="btn-reset-filter" id="btn-reset-filter">Reset Filter</button>
 			</nav>
 
 			<section class="table-container">
@@ -67,18 +96,7 @@ $result = mysqli_query($conn, $sql);
 						</tr>
 					</thead>
 
-					<tbody>
-						<?php while ($row = mysqli_fetch_assoc($result)) : ?>
-							<tr>
-								<td><?= $row["reportID"] ?></td>
-								<td><?= $row["reportCategory"] ?></td>
-								<td><?= $row["college"] ?></td>
-								<td><?= $row["dateReported"] ?></td>
-								<td><?= $row["status"] ?></td>
-								<td><a href="./trackReport.php?id=<?= $row["reportID"] ?>" class="updateBtn">Track</a></td>
-							</tr>
-						<?php endwhile ?>
-					</tbody>
+					<tbody id="table-data"></tbody>
 
 				</table>
 
@@ -144,22 +162,80 @@ $result = mysqli_query($conn, $sql);
 
 	<!-- your script -->
 	<script>
-		document.querySelectorAll("tr").forEach(tr => {
-			tr.addEventListener("click", e => {
-				console.log(tr)
-			})
-		})
+		$(document).ready(function() {
 
-		const params = new URLSearchParams(window.location.search);
-		const status = params.get("status");
-		let filterBox = document.querySelectorAll(".filter-box a")
-		filterBox.forEach(box => box.classList.remove("filtered"))
+			loadTable();
 
-		if (status == "All" || status == null) filterBox[0].classList.add("filtered")
-		else if (status == "Pending") filterBox[1].classList.add("filtered")
-		else if (status == "Assigned") filterBox[2].classList.add("filtered")
-		else if (status == "In_Progress") filterBox[3].classList.add("filtered")
-		else if (status == "Completed") filterBox[4].classList.add("filtered")
+			function loadTable() {
+				console.log("Request");
+				document.getElementById("table-data").innerHTML = "";
+				
+				let tr = document.createElement("tr");
+				tr.innerHTML = `<td colspan='6'><center>Wait Load the data...</center></td>`
+				document.getElementById("table-data").appendChild(tr);
+
+				$.ajax({
+					url: "../../api/getReportUser.php",
+					type: "POST",
+					data: {
+						userID: "<?= $_SESSION["userID"] ?>",
+						date: $("#filter-date").val(),
+						status: $("#filter-status").val(),
+						category: $("#filter-catagory").val(),
+						location: $("#filter-location").val()
+					},
+
+					success: response => {
+						console.log(response.data);
+						console.log(response.data.length);
+						document.getElementById("table-data").innerHTML = ""
+
+						if (response.data.length > 0) {
+							response.data.forEach(data => {
+								let tr = document.createElement("tr");
+								tr.innerHTML = `
+								<td>${data.reportID}</td>
+								<td>${data.reportCategory}</td>
+								<td>${data.college}</td>
+								<td>${data.dateReported}</td>
+								<td>${data.status}</td>
+								<td>
+									<a href="./reportUpdate.php?id=${data.reportID}" class="updateBtn">Update</a>
+								</td>
+							`;
+								document.getElementById("table-data").appendChild(tr);
+							});
+						} else {
+							let tr = document.createElement("tr");
+							tr.innerHTML = `<td colspan='6'><center>Sorry No Data</center></td>`
+							document.getElementById("table-data").appendChild(tr);
+						}
+
+
+					},
+					error: response => {
+						console.log(response.responseText);
+					}
+
+				});
+
+			}
+
+			$("#filter-date,#filter-status,#filter-catagory,#filter-location").on("change", function() {
+				loadTable();
+			});
+
+			$("#btn-reset-filter").on("click", function(e) {
+				e.preventDefault();
+
+				$("#filter-date").val("<?= date('Y-m-d') ?>");
+				$("#filter-status").val("Pending");
+				$("#filter-catagory").val("");
+				$("#filter-location").val("");
+
+				loadTable();
+			});
+		});
 	</script>
 
 

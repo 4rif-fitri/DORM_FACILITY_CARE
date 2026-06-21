@@ -116,44 +116,41 @@ if (isset($_GET["rejectID"])) {
 						<div>
 							<div class="report-detail">
 								<div class="input-control">
-									<label for="category">RepotID: <?= $row["reportID"] ?></label>
+									<label for="category"><b>RepotID: </b> <?= $row["reportID"] ?></label>
 								</div>
 
 								<div class="input-control">
-									<label for="">Reporter Name: <?= $row["name"] ?></label>
+									<label for=""><b>Reporter Name: </b><?= $row["name"] ?></label>
 								</div>
 
 								<div class="input-control">
-									<label for="">Reporter ID: <?= $row["userID"] ?></label>
+									<label for=""><b>Reporter ID: </b><?= $row["userID"] ?></label>
 								</div>
 
 								<div class="input-control">
-									<label for="">Phone Number: <?= $row["numTel"] ?></label>
+									<label for=""><b>Phone Number: </b><?= $row["numTel"] ?></label>
 								</div>
 
 								<div class="input-control">
-									<label for="room">College & Room: <?= trim($row["college"]) ?>, <?= $row["reportRoom"] ?></label>
+									<label for="room"><b>College & Room: </b><?= trim($row["college"]) ?>, <?= $row["reportRoom"] ?></label>
 								</div>
 							</div>
 							<div class="report-detail">
 
-
-
-
 								<div class="input-control">
-									<label for="">Email: <?= $row["email"] ?></label>
+									<label for=""><b>Email: </b><?= $row["email"] ?></label>
 								</div>
 
 								<div class="input-control">
-									<label for="category">Category: <?= $row["reportCategory"] ?></label>
+									<label for="category"><b>Category: </b><?= $row["reportCategory"] ?></label>
 								</div>
 
 								<div class="input-control">
-									<label for="description">Description: <?= $row["reportDesc"] ?></label>
+									<label for="description"><b>Description: </b><?= $row["reportDesc"] ?></label>
 								</div>
 
 								<div class="input-control">
-									<label for="description">Report Date: <?= $row["dateReported"] ?></label>
+									<label for="description"><b>Report Date: </b><?= $row["dateReported"] ?></label>
 								</div>
 							</div>
 

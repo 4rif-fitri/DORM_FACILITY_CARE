@@ -45,7 +45,7 @@ $result = mysqli_query($conn, $sql);
 					<div class="input-control">
 						<label for="filter-status">Status</label>
 						<select name="filter-status" id="filter-status">
-							<option value="">All</option>
+							<option value="">All Status</option>
 							<option value="Pending" selected>Pending</option>
 							<option value="In_Progress">In Progress</option>
 							<option value="Completed">Completed</option>
@@ -56,7 +56,7 @@ $result = mysqli_query($conn, $sql);
 					<div class="input-control">
 						<label for="filter-catagory">Catagory</label>
 						<select name="filter-catagory" id="filter-catagory">
-							<option value="" selected>Select Status</option>
+							<option value="" selected>Select Catagory</option>
 							<option value="Plumbing">Plumbing</option>
 							<option value="Electrical">Electrical</option>
 							<option value="Cleaning">Cleaning</option>
@@ -115,6 +115,10 @@ $result = mysqli_query($conn, $sql);
 			function loadTable() {
 				console.log("Request");
 				document.getElementById("table-data").innerHTML = "";
+
+				let tr = document.createElement("tr");
+				tr.innerHTML = `<td colspan='6'><center>Wait Load the data...</center></td>`
+				document.getElementById("table-data").appendChild(tr);
 				$.ajax({
 					url: "../../api/getReport.php",
 					type: "POST",
@@ -129,6 +133,7 @@ $result = mysqli_query($conn, $sql);
 						console.log(response.data);
 
 						console.log(response.data.length);
+						document.getElementById("table-data").innerHTML = "";
 
 						if (response.data.length > 0) {
 							response.data.forEach(data => {

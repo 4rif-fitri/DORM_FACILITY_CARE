@@ -97,7 +97,8 @@
 .image-container,
 .contractor-container,
 .insert-image-container,
-.mark-container {
+.mark-container,	
+.history-container {
 	display: block;
 	height: auto;
 	width: 100%;
@@ -115,6 +116,7 @@
 .insert-image-container h4,
 .mark-container h4,
 .modal-header h4,
+.history-container h4,
 .purple {
 	margin-bottom: 1rem;
 	width: max-content;
@@ -131,6 +133,7 @@
 .comment-container>section,
 .image-container>section,
 .contractor-container>section,
+.history-container>section,
 .insert-image-container,
 .mark-container {
 	padding: 1rem;
@@ -268,7 +271,7 @@
 .report-detail-container>section>div {
 	display: grid;
 	gap: 1rem;
-	grid-template-columns: repeat(1,1fr);
+	grid-template-columns: repeat(1, 1fr);
 }
 
 
@@ -279,7 +282,8 @@
 	.comment-container,
 	.image-container,
 	.contractor-container,
-	.insert-image-container {
+	.insert-image-container,
+	.history-container {
 		width: 1000px;
 		margin: 0 auto;
 	}

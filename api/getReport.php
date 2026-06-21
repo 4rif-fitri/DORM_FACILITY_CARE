@@ -9,8 +9,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 	$where = [];
 
-	if (!empty($_POST["userID "])) {
-		$userID  = $_POST["userID "];
+	if (!empty($_POST["userID"])) {
+		$userID  = $_POST["userID"];
 		$where[] = "userID='$userID'";
 	}
 

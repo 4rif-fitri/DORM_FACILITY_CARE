@@ -8,12 +8,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 	$filterStatusCollege = $_POST["filterStatusCollege"] ?? "";
 	$filterStatusMonth = $_POST["filterStatusMonth"] ?? "";
-	
+
 	$sql = "
-    SELECT college, status, COUNT(*) AS total
-    FROM report
-    WHERE 1=1
-";
+        SELECT status, COUNT(*) AS total
+        FROM report
+        WHERE 1=1
+    ";
 
 	if (!empty($filterStatusCollege)) {
 		$sql .= " AND college = '$filterStatusCollege'";
@@ -23,14 +23,16 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 		$year = date('Y', strtotime($filterStatusMonth));
 		$month = date('m', strtotime($filterStatusMonth));
 
-		$sql .= " AND YEAR(dateReported) = '$year'
-              AND MONTH(dateReported) = '$month'";
+		$sql .= "
+            AND YEAR(dateReported) = '$year'
+            AND MONTH(dateReported) = '$month'
+        ";
 	}
 
 	$sql .= "
-    GROUP BY college, status
-    ORDER BY total DESC
-";
+        GROUP BY status
+        ORDER BY total DESC
+    ";
 
 	$result = mysqli_query($conn, $sql);
 
@@ -39,8 +41,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 	while ($row = mysqli_fetch_assoc($result)) {
 		$data[] = [
 			$row["status"],
-			(int)$row["total"],
-			$row["college"],
+			(int)$row["total"]
 		];
 	}
 

@@ -3,26 +3,6 @@ require_once __DIR__ . "../../../inc/init.php";
 auth("SAD");
 
 //php code hrre
-function getDataStatus($conn)
-{
-	$sql = "SELECT college,status,dateReported, COUNT(*) AS total
-            FROM report
-            GROUP BY status";
-
-	$result = mysqli_query($conn, $sql);
-
-	$data = [];
-
-	while ($row = mysqli_fetch_assoc($result)) {
-		$data[] = [
-			$row["status"],
-			(int)$row["total"],
-			$row["college"],
-		];
-	}
-
-	return $data;
-}
 function getDataCategory($conn)
 {
 	$sql = "SELECT dateReported,college,reportCategory, COUNT(*) AS total
@@ -299,7 +279,6 @@ function getDatatable($conn)
 
 		let dataBlock = <?= json_encode(getDataCollage($conn)) ?>;
 		let datacategory = <?= json_encode(getDataCategory($conn)) ?>;
-		let dataStatus = <?= json_encode(getDataStatus($conn)) ?>;
 		let datatable = <?= json_encode(getDatatable($conn)) ?>;
 
 		const colors = [
@@ -448,7 +427,7 @@ function getDatatable($conn)
 				complete: () => {}
 			})
 		}
-
+		filterTable()
 		document.getElementById("filter-table-reset").addEventListener('click', e => {
 			tableFilterDate = ""
 			tableFiltercatagory = ""
@@ -471,10 +450,10 @@ function getDatatable($conn)
 
 		let renderTable = (datatable) => {
 			tbody.innerHTML = ""
-
+			let idx = 0
 			datatable.forEach((datas, index) => {
 				// console.log(datas);
-
+				idx = index
 				let tr = document.createElement("tr")
 				tr.innerHTML = `
 					<td>${index+1}</td>
@@ -487,6 +466,16 @@ function getDatatable($conn)
 				`
 				tbody.appendChild(tr)
 			})
+
+			let tr = document.createElement("tr")
+			tr.innerHTML = `
+					<td>${idx+1}</td>
+					<td colspan='2'><b>Total</b></td>
+					<td></td>
+					<td></td>
+					<td></td>
+				`
+			tbody.appendChild(tr)
 		}
 
 		// === table filter ===
