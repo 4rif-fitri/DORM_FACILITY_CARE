@@ -9,12 +9,23 @@ if (isset($_GET["id"])) {
 
 	$sql = "	SELECT *
         		FROM report
-        		INNER JOIN user u ON report.contractorID = u.userID 
-        		INNER JOIN contractor c ON report.contractorID = c.contractorID
+        		INNER JOIN user u ON report.userID  = u.userID 
+        		-- INNER JOIN contractor c ON report.contractorID = c.contractorID
         		WHERE report.reportID = '$reportId'";
 
 	$result = mysqli_query($conn, $sql);
 	$row = mysqli_fetch_assoc($result);
+
+	if ($row == "Assigned") {
+		$sql = "	SELECT *
+        		FROM report
+        		INNER JOIN user u ON report.contractorID = u.userID 
+        		INNER JOIN contractor c ON report.contractorID = c.contractorID
+        		WHERE report.reportID = '$reportId'";
+
+		$result = mysqli_query($conn, $sql);
+		$row = mysqli_fetch_assoc($result);
+	}
 } else {
 	header("Location: myReport.php");
 }
@@ -49,22 +60,30 @@ if (isset($_GET["id"])) {
 						<div class="track-progress">
 							<div>
 								<article>
-									<div class="dot <?= in_array($row["status"], ["Pending", "Assigned", "In_Progress", "Completed"]) ? "active" : "" ?> "></div>
+									<div class="dot <?= in_array($row["status"], ["Pending", "Assigned", "In_Progress", "Completed", "Rejected"]) ? "active" : "" ?> "></div>
 									<div class="desh"></div>
-									<div class="dot <?= in_array($row["status"], ["Assigned", "In_Progress", "Completed"]) ? "active" : "" ?>"></div>
-									<div class="desh"></div>
-									<div class="dot <?= in_array($row["status"], ["In_Progress", "Completed"]) ? "active" : "" ?>"></div>
-									<div class="desh"></div>
-									<div class="dot <?= in_array($row["status"], ["Completed"]) ? "active" : "" ?>"></div>
+									<?php if ($row["status"] == "Rejected") : ?>
+										<div class="dot <?= in_array($row["status"], ["Rejected"]) ? "active" : "" ?>"></div>
+									<?php else : ?>
+										<div class="dot <?= in_array($row["status"], ["Assigned", "In_Progress", "Completed"]) ? "active" : "" ?>"></div>
+										<div class="desh"></div>
+										<div class="dot <?= in_array($row["status"], ["In_Progress", "Completed"]) ? "active" : "" ?>"></div>
+										<div class="desh"></div>
+										<div class="dot <?= in_array($row["status"], ["Completed"]) ? "active" : "" ?>"></div>
+									<?php endif ?>
 								</article>
 								<article>
-									<p class="<?= in_array($row["status"], ["Pending", "Assigned", "In_Progress", "Completed"]) ? "text-active" : "" ?>">Pending</p>
+									<p class="<?= in_array($row["status"], ["Pending", "Assigned", "In_Progress", "Completed", "Rejected"]) ? "text-active" : "" ?>">Pending</p>
 									<p></p>
-									<p class="<?= in_array($row["status"], ["Assigned", "In_Progress", "Completed"]) ? "text-active" : "" ?>">Assigned</p>
-									<p></p>
-									<p class="<?= in_array($row["status"], ["In_Progress", "Completed"]) ? "text-active" : "" ?>">In Progress</p>
-									<p></p>
-									<p class="<?= in_array($row["status"], ["Completed"]) ? "text-active" : "" ?>">Completed</p>
+									<?php if ($row["status"] == "Rejected") : ?>
+										<p class="<?= in_array($row["status"], ["Rejected"]) ? "text-active" : "" ?>">Rejected</p>
+									<?php else : ?>
+										<p class="<?= in_array($row["status"], ["Assigned", "In_Progress", "Completed"]) ? "text-active" : "" ?>">Assigned</p>
+										<p></p>
+										<p class="<?= in_array($row["status"], ["In_Progress", "Completed"]) ? "text-active" : "" ?>">In Progress</p>
+										<p></p>
+										<p class="<?= in_array($row["status"], ["Completed"]) ? "text-active" : "" ?>">Completed</p>
+									<?php endif ?>
 								</article>
 							</div>
 						</div>
@@ -79,29 +98,44 @@ if (isset($_GET["id"])) {
 							<img src="../../images/report.svg" alt="">
 							Report Detail
 						</h4>
-						<div class="report-detail">
+						<div>
+							<div class="report-detail">
+								<div class="input-control">
+									<label for="category">RepotID: <?= $row["reportID"] ?></label>
+								</div>
 
-							<div class="input-control">
-								<label for="category">category</label>
-								<input value="<?= $row["reportCategory"] ?>" readonly type="text" name="category" id="category">
+								<div class="input-control">
+									<label for="">Reporter Name: <?= $row["name"] ?></label>
+								</div>
+
+								<div class="input-control">
+									<label for="">Reporter ID: <?= $row["userID"] ?></label>
+								</div>
+
+								<div class="input-control">
+									<label for="room">College & Room: <?= trim($row["college"]) ?>, <?= $row["reportRoom"] ?></label>
+								</div>
+							</div>
+							<div class="report-detail">
+
+								<div class="input-control">
+									<label for="">Email: <?= $row["email"] ?></label>
+								</div>
+
+								<div class="input-control">
+									<label for="category">Category: <?= $row["reportCategory"] ?></label>
+								</div>
+
+								<div class="input-control">
+									<label for="description">Description: <?= $row["reportDesc"] ?></label>
+								</div>
+
+								<div class="input-control">
+									<label for="description">Report Date: <?= $row["dateReported"] ?></label>
+								</div>
 							</div>
 
-							<div class="input-control">
-								<label for="description">Description</label>
-								<textarea readonly type="text" name="description" id="description"><?= $row["reportDesc"] ?></textarea>
-							</div>
-
-							<div class="input-control">
-								<label for="college">College</label>
-								<input readonly type="text" name="college" value="<?= trim($row["reportCategory"]) ?>" id="college">
-							</div>
-
-							<div class="input-control">
-								<label for="room">Room</label>
-								<input value="<?= $row["reportRoom"] ?>" readonly type="text" name="room" id="room">
-							</div>
 						</div>
-
 					</section>
 
 				</div>
@@ -221,7 +255,7 @@ if (isset($_GET["id"])) {
 									<?php if ($row["status"] == "Rejected") : ?>
 										<tr>
 											<td><?= $row["dateAssigned"] ?></td>
-											<td><span class="completed">Completed</span></td>
+											<td><span class="rejected">Rejected</span></td>
 											<td>System Admin</td>
 											<td>Report has been rejected</td>
 										</tr>

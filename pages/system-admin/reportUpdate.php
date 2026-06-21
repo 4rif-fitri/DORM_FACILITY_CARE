@@ -8,7 +8,7 @@ if (isset($_GET["rejectID"])) {
 	$reportId = $_GET["rejectID"];
 
 	$sql = "UPDATE report
-            SET status='Canceled'
+            SET status='Rejected'
             WHERE reportId='$reportId'";
 
 	if (mysqli_query($conn, $sql)) {
@@ -94,40 +94,48 @@ while ($datas = mysqli_fetch_assoc($resultContractor)) {
 							<div>
 
 								<article>
-									<div class="dot <?= in_array($row["status"], ["Pending", "Assigned", "In_Progress", "Completed"]) ? "active" : "" ?> "></div>
+									<div class="dot <?= in_array($row["status"], ["Pending", "Assigned", "In_Progress", "Completed", "Rejected"]) ? "active" : "" ?> "></div>
 									<div class="desh"></div>
-									<div class="dot <?= in_array($row["status"], ["Assigned", "In_Progress", "Completed"]) ? "active" : "" ?>"></div>
-									<div class="desh"></div>
-									<div class="dot <?= in_array($row["status"], ["In_Progress", "Completed"]) ? "active" : "" ?>"></div>
-									<div class="desh"></div>
-									<div class="dot <?= in_array($row["status"], ["Completed"]) ? "active" : "" ?>"></div>
+									<?php if ($row["status"] == "Rejected") : ?>
+										<div class="dot <?= in_array($row["status"], ["Rejected"]) ? "active" : "" ?>"></div>
+									<?php else : ?>
+										<div class="dot <?= in_array($row["status"], ["Assigned", "In_Progress", "Completed"]) ? "active" : "" ?>"></div>
+										<div class="desh"></div>
+										<div class="dot <?= in_array($row["status"], ["In_Progress", "Completed"]) ? "active" : "" ?>"></div>
+										<div class="desh"></div>
+										<div class="dot <?= in_array($row["status"], ["Completed"]) ? "active" : "" ?>"></div>
+									<?php endif ?>
 								</article>
 								<article>
-									<p class="<?= in_array($row["status"], ["Pending", "Assigned", "In_Progress", "Completed"]) ? "text-active" : "" ?>">Pending</p>
+									<p class="<?= in_array($row["status"], ["Pending", "Assigned", "In_Progress", "Completed", "Rejected"]) ? "text-active" : "" ?>">Pending</p>
 									<p></p>
-									<p class="<?= in_array($row["status"], ["Assigned", "In_Progress", "Completed"]) ? "text-active" : "" ?>">Assigned</p>
-									<p></p>
-									<p class="<?= in_array($row["status"], ["In_Progress", "Completed"]) ? "text-active" : "" ?>">In Progress</p>
-									<p></p>
-									<p class="<?= in_array($row["status"], ["Completed"]) ? "text-active" : "" ?>">Completed</p>
+									<?php if ($row["status"] == "Rejected") : ?>
+										<p class="<?= in_array($row["status"], ["Rejected"]) ? "text-active" : "" ?>">Rejected</p>
+									<?php else : ?>
+										<p class="<?= in_array($row["status"], ["Assigned", "In_Progress", "Completed"]) ? "text-active" : "" ?>">Assigned</p>
+										<p></p>
+										<p class="<?= in_array($row["status"], ["In_Progress", "Completed"]) ? "text-active" : "" ?>">In Progress</p>
+										<p></p>
+										<p class="<?= in_array($row["status"], ["Completed"]) ? "text-active" : "" ?>">Completed</p>
+									<?php endif ?>
 								</article>
 
 							</div>
 						</div>
 
 						<article>
-							<?php if ($row["status"] == "Canceled" || $row["status"] == "Assigned") : ?>
-								<button href="./reportUpdate.php?rejectID=<?= $row["reportID"] ?>" class="btn btn-danger disabled">Reject</button>
-								<button data-bs-toggle="modal" data-bs-target="#modalContraktor" class="btn btn-success">Assign</button>
+							<?php if (in_array($row["status"], ["Assigned", "Rejected"])) : ?>
+								<a href="./reportUpdate.php?rejectID=<?= $row["reportID"] ?>" class="btn btn-danger disabled">Reject</a>
+								<button data-bs-toggle="modal" data-bs-target="#modalContraktor" class="btn btn-success disabled">Assign</button>
 
-							<?php elseif ($row["status"] == "Completed") : ?>
-								<button href="./reportUpdate.php?rejectID=<?= $row["reportID"] ?>" class="btn btn-danger disabled">Reject</button>
+							<?php elseif (in_array($row["status"], ["Completed"])) : ?>
+								<a href="./reportUpdate.php?rejectID=<?= $row["reportID"] ?>" class="btn btn-danger disabled">Reject</a>
 								<article>
 									<button data-bs-toggle="modal" data-bs-target="#modalContraktor" class="btn btn-success disabled">Assign</button>
 									<button class="btn btn-primary mx-1">Ganerate PDF</button>
 								</article>
 							<?php else : ?>
-								<button href="./reportUpdate.php?rejectID=<?= $row["reportID"] ?>" class="btn btn-danger">Reject</button>
+								<a href="./reportUpdate.php?rejectID=<?= $row["reportID"] ?>" class="btn btn-danger">Reject</a>
 								<button data-bs-toggle="modal" data-bs-target="#modalContraktor" class="btn btn-success">Assign</button>
 							<?php endif ?>
 						</article>
@@ -165,9 +173,6 @@ while ($datas = mysqli_fetch_assoc($resultContractor)) {
 								</div>
 							</div>
 							<div class="report-detail">
-
-
-
 
 								<div class="input-control">
 									<label for="">Email: <?= $row["email"] ?></label>
