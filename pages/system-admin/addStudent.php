@@ -161,9 +161,9 @@ auth("SAD");
 									<div class="input-control">
 										<label for="college" class="required">College</label>
 										<select name="college" id="college">
-											<option selected disabled value="">Select Location</option>
-											<option value="location_1">Location 1</option>
-											<option value="location_2">Location 2</option>
+											<option value="Satria">Satria</option>
+											<option value="Lestari">Lestari</option>
+											<option value="Al_Jazari">Al Jazari</option>
 										</select>
 									</div>
 
