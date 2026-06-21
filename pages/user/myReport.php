@@ -106,7 +106,6 @@ $result = mysqli_query($conn, $sql);
 								<td><?= $row["status"] ?></td>
 								<td><a href="./trackReport.php?id=<?= $row["reportID"] ?>" class="updateBtn">Track</a></td>
 							</tr>
-						<?php endwhile ?>
 					</tbody>
 
 				</table>
