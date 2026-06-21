@@ -36,66 +36,65 @@
 	--fs-xxl: 1.75rem;
 }
 
-._content-area{
-    display: flex;
-    flex-direction: column;
+._content-area {
+	display: flex;
+	flex-direction: column;
 }
 
-#filter-box{
-    display: flex;
-    flex-direction: row;
-    gap: 10px;
-    padding: 10px;
+#filter-box {
+	display: flex;
+	flex-direction: row;
+	gap: 10px;
+	padding: 10px;
 }
 
-a{
-    text-decoration: none;
+a {
+	text-decoration: none;
 }
 
-.filterBtn{
-    background-color: var(--primary);
-    color: var(--white);
-    padding: 2px 16px;
-    border-radius: 15px;
+.filterBtn {
+	background-color: var(--primary);
+	color: var(--white);
+	padding: 2px 16px;
+	border-radius: 15px;
 }
 
-.filterBtn:hover{
-    background-color: var(--primary-hover);
+.filterBtn:hover {
+	background-color: var(--primary-hover);
 }
 
-.filterBtn:active{
-    background-color: var(--primary-dark);
+.filterBtn:active {
+	background-color: var(--primary-dark);
 }
 
-#table-container{
-    padding: 20px
+#table-container {
+	padding: 20px
 }
 
-#myReportTbl{
-    width: 100%;
-    border-collapse: separate;
-    border-spacing: 0px 5px;
+#myReportTbl {
+	width: 100%;
+	border-collapse: separate;
+	border-spacing: 0px 5px;
 }
 
-#myReportTbl tr th{
-    text-align: center;
-    border-bottom: 2px solid var(--primary);
-    padding: 5px;
-    
+#myReportTbl tr th {
+	text-align: center;
+	border-bottom: 2px solid var(--primary);
+	padding: 5px;
+
 }
 
-#myReportTbl tr td{
-    /* border-left: 2px solid var(--primary); */
-    padding: 10px;
-    background-color: #ede3fe;
-    border-left: 2px solid #dac8f8;
-    margin: 10px 0px;
+#myReportTbl tr td {
+	/* border-left: 2px solid var(--primary); */
+	padding: 10px;
+	background-color: #ede3fe;
+	border-left: 2px solid #dac8f8;
+	margin: 10px 0px;
 }
 
-.updateBtn{
-    background-color: var(--primary);
-    color: var(--white);
-    padding: 5px 16px;
+.updateBtn {
+	background-color: var(--primary);
+	color: var(--white);
+	padding: 5px 16px;
 }
-
 
