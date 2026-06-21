@@ -89,7 +89,7 @@ $result = mysqli_query($conn, $sql);
 						<tr>
 							<th>Id</th>
 							<th>Category</th>
-							<th>Collage</th>
+							<th>Location</th>
 							<th>Date</th>
 							<th>Status</th>
 							<th>Action</th>
@@ -117,7 +117,7 @@ $result = mysqli_query($conn, $sql);
 						<div id="reportCard-left">
 							<p><strong>Id</strong></p>
 							<p><strong>Category</strong></p>
-							<p><strong>Description</strong></p>
+							<p><strong>Location</strong></p>
 							<p><strong>Date</strong></p>
 							<p><strong>Status</strong></p>
 						</div>

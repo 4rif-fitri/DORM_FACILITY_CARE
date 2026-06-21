@@ -54,11 +54,36 @@ $result = mysqli_query($conn, $sql);
 								<td><?= $row["status"] ?></td>
 								<td><a class="btn btn-primary" href="./updateTasks.php?id=<?= $row["reportID"] ?>">See</a></td>
 							</tr>
-						<?php endwhile ?>
+						
 						</tr>
 					</tbody>
 
 				</table>
+
+				<div class="reportCard">
+					<div id="reportCard-info">
+						<div id="reportCard-left">
+							<p><strong>Id</strong></p>
+							<p><strong>Category</strong></p>
+							<p><strong>Location</strong></p>
+							<p><strong>Date</strong></p>
+							<p><strong>Status</strong></p>
+						</div>
+						
+						<div id="reportCard-right">
+							<p><?= $row['reportID'] ?></p>
+							<p><?=  $row['reportCategory'] ?></p>
+							<p><?= $row['college'] ?></p>
+							<p><?= $row['dateReported'] ?></p>
+							<p><?= $row['status'] ?></p>
+						</div>
+					</div>
+
+					<div id="reportCard-bottom">
+						<a href="./trackReport.php?id=<?= $row['reportID'] ?>" class="updateBtn">Track Report</a>
+					</div>
+					<?php endwhile ?>
+				</div>
 			</section>
 
 

@@ -99,6 +99,33 @@ $result = mysqli_query($conn, $sql);
 					</tbody>
 
 				</table>
+
+				<div class="reportCard">
+					<div id="reportCard-info">
+						<div id="reportCard-left">
+							<p><strong>Id</strong></p>
+							<p><strong>Category</strong></p>
+							<p><strong>College</strong></p>
+							<p><strong>Date</strong></p>
+							<p><strong>Status</strong></p>
+						</div>
+						
+						<!-- TAK DAPAT NAK DISPLAY DATA -->
+						<?php while($row = mysqli_fetch_assoc($result)) : ?>
+						<div id="reportCard-right">
+							<p><?= $row['reportID'] ?></p>
+							<p><?=  $row['reportCategory'] ?></p>
+							<p><?= $row['college'] ?></p>
+							<p><?= $row['dateReported'] ?></p>
+							<p><?= $row['status'] ?></p>
+						</div>
+					</div>
+
+					<div id="reportCard-bottom">
+						<a href="./trackReport.php?id=<?= $row['reportID'] ?>" class="updateBtn">Track Report</a>
+					</div>
+					<?php endwhile ?>
+				</div>
 			</section>
 
 		</main>

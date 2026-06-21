@@ -18,7 +18,7 @@ if (isset($_GET["idDoit"])) {
 $idContractor = $_SESSION["userID"];
 $sql = "	SELECT 	reportID, 
 				reportCategory, 	
-				reportDesc, 
+				college, 
 				dateReported, 
 				status
         	FROM report
@@ -72,15 +72,40 @@ $result = mysqli_query($conn, $sql);
 							<tr>
 								<td><?= $row["reportID"] ?></td>
 								<td><?= $row["reportCategory"] ?></td>
-								<td><?= $row["reportDesc"] ?></td>
+								<td><?= $row["college"] ?></td>
 								<td><?= $row["dateReported"] ?></td>
 								<td><?= $row["status"] ?></td>
 								<td><a href="./assignedTasks.php?idDoit=<?= $row["reportID"] ?>" class="updateBtn">Take</a></td>
 							</tr>
-						<?php endwhile ?>
+					
 					</tbody>
 
 				</table>
+
+				<div class="reportCard">
+					<div id="reportCard-info">
+						<div id="reportCard-left">
+							<p><strong>Id</strong></p>
+							<p><strong>Category</strong></p>
+							<p><strong>Location</strong></p>
+							<p><strong>Date</strong></p>
+							<p><strong>Status</strong></p>
+						</div>
+						
+						<div id="reportCard-right">
+							<p><?= $row['reportID'] ?></p>
+							<p><?=  $row['reportCategory'] ?></p>
+							<p><?= $row['college'] ?></p>
+							<p><?= $row['dateReported'] ?></p>
+							<p><?= $row['status'] ?></p>
+						</div>
+					</div>
+
+					<div id="reportCard-bottom">
+						<a href="./trackReport.php?id=<?= $row['reportID'] ?>" class="updateBtn">Track Report</a>
+					</div>
+					<?php endwhile ?>
+				</div>
 			</section>
 
 
