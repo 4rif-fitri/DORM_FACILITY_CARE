@@ -16,7 +16,7 @@ if (isset($_GET["id"])) {
 	$result = mysqli_query($conn, $sql);
 	$row = mysqli_fetch_assoc($result);
 
-	if ($row == "Assigned") {
+	if (in_array($row["status"], ["Assigned", "In_Progress", "Completed"])) {
 		$sql = "	SELECT *
         		FROM report
         		INNER JOIN user u ON report.contractorID = u.userID 
@@ -236,12 +236,20 @@ if (isset($_GET["id"])) {
 										<td><?= $_SESSION["name"] ?> (You)</td>
 										<td>Report has been Submitted</td>
 									</tr>
-									<?php if (in_array($row["status"], ["Assigned", "Completed"])) : ?>
+									<?php if (in_array($row["status"], ["Assigned", "Completed", "In_Progress"])) : ?>
 										<tr>
 											<td><?= $row["dateAssigned"] ?></td>
 											<td><span class="assigned">Assigned</span></td>
 											<td>System Admin</td>
 											<td>Report Assigned to <?= $row["name"] ?></td>
+										</tr>
+									<?php endif ?>
+									<?php if (in_array($row["status"], ["In_Progress", "Completed"])) : ?>
+										<tr>
+											<td><?= $row["dateAssigned"] ?></td>
+											<td><span class="inProgress">In Progress</span></td>
+											<td><?= $row["name"] ?></td>
+											<td>Working In Progress</td>
 										</tr>
 									<?php endif ?>
 									<?php if ($row["status"] == "Completed") : ?>

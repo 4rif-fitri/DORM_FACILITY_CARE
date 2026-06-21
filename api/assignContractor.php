@@ -12,7 +12,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 	$sql = "	UPDATE report
 			SET 	contractorID = '$contractorID',
-			 	status = 'Assigned' 
+			 	status = 'Assigned',
+				dateAssigned = NOW()
 			WHERE reportID  = '$reportID'";
 
 	$result = mysqli_query($conn,$sql);

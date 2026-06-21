@@ -33,7 +33,8 @@ if (isset($_GET["rejectID"])) {
 			report.college,
 			report.reportImgUrl,
 			report.completedImgUrl,
-			report.dateAssigned
+			report.dateAssigned,
+			report.remarks
 
         	FROM report 
 		INNER JOIN user ON report.userID = user.userID
@@ -263,7 +264,7 @@ if (isset($_GET["rejectID"])) {
 											<td><?= $row["dateAssigned"] ?></td>
 											<td><span class="inProgress">In Progress</span></td>
 											<td><?= $_SESSION["name"] ?>(You)</td>
-											<td>Tengah Repair</td>
+											<td>Working In Progress</td>
 										</tr>
 									<?php endif ?>
 									<?php if (in_array($row["status"], ["Completed"])) : ?>
@@ -271,7 +272,7 @@ if (isset($_GET["rejectID"])) {
 											<td><?= $row["dateAssigned"] ?></td>
 											<td><span class="completed">Completed</span></td>
 											<td><?= $_SESSION["name"] ?>(You)</td>
-											<td>Report has been Close</td>
+											<td><?= $row["remarks"] ?></td>
 										</tr>
 									<?php endif ?>
 									<?php if ($row["status"] == "Rejected") : ?>

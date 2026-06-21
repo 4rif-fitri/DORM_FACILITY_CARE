@@ -39,11 +39,11 @@ $result = mysqli_query($conn, $sql);
 		<main class="_content-area">
 			<nav class="filter-box">
 				<div class="filter-cantainer">
-					<div class="input-control">
+					<div class="input-control hidden">
 						<label for="filter-date">Date</label>
-						<input type="date" name="filter-date" value="<?= date('Y-m-d') ?>" max="<?= date('Y-m-d') ?>" id="filter-date">
+						<input type="date" name="filter-date" value="" max="<?= date('Y-m-d') ?>" id="filter-date">
 					</div>
-					<div class="input-control">
+					<div class="input-control ">
 						<label for="filter-status">Status</label>
 						<select name="filter-status" id="filter-status">
 							<option value="">All Status</option>
@@ -169,7 +169,7 @@ $result = mysqli_query($conn, $sql);
 			function loadTable() {
 				console.log("Request");
 				document.getElementById("table-data").innerHTML = "";
-				
+
 				let tr = document.createElement("tr");
 				tr.innerHTML = `<td colspan='6'><center>Wait Load the data...</center></td>`
 				document.getElementById("table-data").appendChild(tr);
@@ -200,7 +200,7 @@ $result = mysqli_query($conn, $sql);
 								<td>${data.dateReported}</td>
 								<td>${data.status}</td>
 								<td>
-									<a href="./reportUpdate.php?id=${data.reportID}" class="updateBtn">Update</a>
+									<a href="./trackReport.php?id=${data.reportID}" class="updateBtn">Update</a>
 								</td>
 							`;
 								document.getElementById("table-data").appendChild(tr);

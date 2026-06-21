@@ -7,7 +7,8 @@ auth("CTR");
 if (isset($_GET["idDoit"])) {
 	$reportID = $_GET["idDoit"];
 	$sql = "	UPDATE report
-			SET  status = 'In_Progress'
+			SET  status = 'In_Progress',
+				dateAssigned = NOW()
 			WHERE reportID = '$reportID' 
 			";
 	mysqli_query($conn, $sql);
