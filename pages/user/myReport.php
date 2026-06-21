@@ -77,66 +77,36 @@ $result = mysqli_query($conn, $sql);
 								<td><?= $row["status"] ?></td>
 								<td><a href="./trackReport.php?id=<?= $row["reportID"] ?>" class="updateBtn">Track</a></td>
 							</tr>
-						<?php endwhile ?>
 					</tbody>
 
 				</table>
 
-				<table class="reportCard">
-					<tbody>
-						<tr>
-							<th>Id</th>
-							<td>67</td>
-						</tr>
+				
 
-						<tr>
-							<th>Category</th>
-							<td>Plumbing</td>
-						</tr>
+				<div class="reportCard">
+					<div id="reportCard-info">
+						<div id="reportCard-left">
+							<p><strong>Id</strong></p>
+							<p><strong>Category</strong></p>
+							<p><strong>Description</strong></p>
+							<p><strong>Date</strong></p>
+							<p><strong>Status</strong></p>
+						</div>
+						
+						<div id="reportCard-right">
+							<p><?= $row['reportID'] ?></p>
+							<p><?=  $row['reportCategory'] ?></p>
+							<p><?= $row['college'] ?></p>
+							<p><?= $row['dateReported'] ?></p>
+							<p><?= $row['status'] ?></p>
+						</div>
+					</div>
 
-						<tr>
-							<th>Date</th>
-							<td>09/11/2025</td>
-						</tr>
-
-						<tr>
-							<th>Status</th>
-							<td>Pending</td>
-						</tr>
-
-						<tr>
-							<td><a href="#" class="updateBtn">Track</a></td>
-							<td></td>
-						</tr>
-					</tbody>
-
-					<tbody>
-						<tr>
-							<th>Id</th>
-							<td>67</td>
-						</tr>
-
-						<tr>
-							<th>Category</th>
-							<td>Plumbing</td>
-						</tr>
-
-						<tr>
-							<th>Date</th>
-							<td>09/11/2025</td>
-						</tr>
-
-						<tr>
-							<th>Status</th>
-							<td>Pending</td>
-						</tr>
-
-						<tr>
-							<td><a href="#" class="updateBtn">Track</a></td>
-							<td></td>
-						</tr>
-					</tbody>
-				</table>
+					<div id="reportCard-bottom">
+						<a href="./trackReport.php?id=<?= $row['reportID'] ?>" class="updateBtn">Track Report</a>
+					</div>
+					<?php endwhile ?>
+				</div>
 			</section>
 
 		</main>
