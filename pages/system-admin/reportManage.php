@@ -40,33 +40,29 @@ $result = mysqli_query($conn, $sql);
 				<div class="filter-cantainer">
 					<div class="input-control">
 						<label for="filter-date">Date</label>
-						<select name="filter-date" id="filter-date">
-							<option value="Today" selected>Today</option>
-							<option value="This Week">This Week</option>
-							<option value="This Mounth">This Mounth</option>
-						</select>
+						<input type="date" name="filter-date" value="<?= date('Y-m-d') ?>" max="<?= date('Y-m-d') ?>" id="filter-date">
 					</div>
 					<div class="input-control">
 						<label for="filter-status">Status</label>
 						<select name="filter-status" id="filter-status">
-							<option value="" selected>Select Status</option>
+							<option value="">All Status</option>
+							<option value="Pending" selected>Pending</option>
+							<option value="In_Progress">In Progress</option>
+							<option value="Completed">Completed</option>
+							<option value="Rejected">Rejected</option>
+							<option value="Cancelled">cancelled</option>
+						</select>
+					</div>
+					<div class="input-control">
+						<label for="filter-catagory">Catagory</label>
+						<select name="filter-catagory" id="filter-catagory">
+							<option value="" selected>Select Catagory</option>
 							<option value="Plumbing">Plumbing</option>
 							<option value="Electrical">Electrical</option>
 							<option value="Cleaning">Cleaning</option>
 							<option value="Facilities">Facilities</option>
 							<option value="Security">Security</option>
 							<option value="Others">Others</option>
-						</select>
-					</div>
-					<div class="input-control">
-						<label for="filter-catagory">Catagory</label>
-						<select name="filter-catagory" id="filter-catagory">
-							<option value="" selected>Select Status</option>
-							<option value="Pending" selected>Pending</option>
-							<option value="In_Progress">In Progress</option>
-							<option value="Completed">Completed</option>
-							<option value="Rejected">Rejected</option>
-							<option value="Cancelled">cancelled</option>
 						</select>
 					</div>
 					<div class="input-control">
@@ -83,7 +79,7 @@ $result = mysqli_query($conn, $sql);
 						</select>
 					</div>
 				</div>
-				<button class="btn-reset-filter">Reset Filter</button>
+				<button class="btn-reset-filter" id="btn-reset-filter">Reset Filter</button>
 			</nav>
 
 			<section class="table-container" style="width:100%;">
@@ -99,32 +95,10 @@ $result = mysqli_query($conn, $sql);
 						</tr>
 					</thead>
 
-					<tbody>
-						<?php while ($row = mysqli_fetch_assoc($result)) : ?>
-							<tr>
-								<td><?= $row["reportID"] ?></td>
-								<td><?= $row["reportCategory"] ?></td>
-								<td><?= $row["college"] ?></td>
-								<td><?= $row["dateReported"] ?></td>
-								<td><?= $row["status"] ?></td>
-								<td><a href="./reportUpdate.php?id=<?= $row["reportID"] ?>" class="updateBtn">Update</a></td>
-							</tr>
-						<?php endwhile ?>
+					<tbody id="table-data">
 					</tbody>
 
 				</table>
-
-				
-				<div class="pagination">
-					<p>Show 1 to 10 of 100 entries</p>
-					<article>
-						<button class="btn-previous">Previous</button>
-						<button class="btn-number active">1</button>
-						<button class="btn-number">2</button>
-						<button class="btn-number">3</button>
-						<button class="btn-next">Next</button>
-					</article>
-				</div>
 			</section>
 
 		</main>
@@ -134,12 +108,84 @@ $result = mysqli_query($conn, $sql);
 
 	<!-- your script -->
 	<script>
+		$(document).ready(function() {
 
+			loadTable();
+
+			function loadTable() {
+				console.log("Request");
+				document.getElementById("table-data").innerHTML = "";
+
+				let tr = document.createElement("tr");
+				tr.innerHTML = `<td colspan='6'><center>Wait Load the data...</center></td>`
+				document.getElementById("table-data").appendChild(tr);
+				$.ajax({
+					url: "../../api/getReport.php",
+					type: "POST",
+					data: {
+						date: $("#filter-date").val(),
+						status: $("#filter-status").val(),
+						category: $("#filter-catagory").val(),
+						location: $("#filter-location").val()
+					},
+
+					success: response => {
+						console.log(response.data);
+
+						console.log(response.data.length);
+						document.getElementById("table-data").innerHTML = "";
+
+						if (response.data.length > 0) {
+							response.data.forEach(data => {
+								let tr = document.createElement("tr");
+								tr.innerHTML = `
+								<td>${data.reportID}</td>
+								<td>${data.reportCategory}</td>
+								<td>${data.college}</td>
+								<td>${data.dateReported}</td>
+								<td>${data.status}</td>
+								<td>
+									<a href="./reportUpdate.php?id=${data.reportID}" class="updateBtn">Update</a>
+								</td>
+							`;
+								document.getElementById("table-data").appendChild(tr);
+							});
+						} else {
+							let tr = document.createElement("tr");
+							tr.innerHTML = `<td colspan='6'><center>Sorry No Data</center></td>`
+							document.getElementById("table-data").appendChild(tr);
+
+						}
+
+
+					},
+					error: response => {
+						console.log(response.responseText);
+					}
+
+				});
+
+			}
+
+			$("#filter-date,#filter-status,#filter-catagory,#filter-location").on("change", function() {
+				loadTable();
+			});
+
+			$("#btn-reset-filter").on("click", function(e) {
+				e.preventDefault();
+
+				$("#filter-date").val("<?= date('Y-m-d') ?>");
+				$("#filter-status").val("Pending");
+				$("#filter-catagory").val("");
+				$("#filter-location").val("");
+
+				loadTable();
+			});
+		});
 	</script>
 
 
-	<input type="checkbox" hidden style="position: absolute; z-index: 10;" name="_dekstop-sideBar"
-		id="_dekstop-sideBar">
+	<input type="checkbox" hidden style="position: absolute; z-index: 10;" name="_dekstop-sideBar" id="_dekstop-sideBar">
 	<input type="checkbox" hidden style="position: absolute;" name="_mobile-sideBar" id="_mobile-sideBar">
 	<input type="text" name="role" id="role" hidden value="SAD">
 	<input type="text" name="title" id="title" hidden value="Manage Report">

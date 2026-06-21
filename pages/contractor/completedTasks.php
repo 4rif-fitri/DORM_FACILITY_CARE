@@ -4,6 +4,15 @@ auth("CTR");
 
 //php code hrre
 
+$userID = $_SESSION["userID"];
+
+$sql = "	SELECT *
+        	FROM report 
+		WHERE contractorID  = '$userID' AND status = 'Completed'";
+
+$result = mysqli_query($conn, $sql);
+
+
 //php code hrre
 
 ?>
@@ -31,27 +40,23 @@ auth("CTR");
 							<th>Location</th>
 							<th>Date</th>
 							<th>Status</th>
+							<th>Action</th>
 						</tr>
 					</thead>
 
 					<tbody>
-						<tr>
-							<td>067</td>
-							<td>No wifi</td>
-							<td>Al-Jazari A-5-4-B-(2)</td>
-							<td>28/5/2026</td>
-							<td>Completed</td>
-						</tr>
-
-						<tr>
-							<td>067</td>
-							<td>No wifi</td>
-							<td>Al-Jazari A-5-4-B-(1)</td>
-							<td>28/5/2026</td>
-							<td>Completed</td>
+						<?php while ($row = mysqli_fetch_assoc($result)) : ?>
+							<tr>
+								<td><?= $row["reportID"] ?></td>
+								<td><?= $row["reportCategory"] ?></td>
+								<td><?= $row["college"] ?></td>
+								<td><?= $row["dateReported"] ?></td>
+								<td><?= $row["status"] ?></td>
+								<td><a class="btn btn-primary" href="./updateTasks.php?id=<?= $row["reportID"] ?>">See</a></td>
+							</tr>
+						<?php endwhile ?>
 						</tr>
 					</tbody>
-
 
 				</table>
 			</section>

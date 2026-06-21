@@ -23,7 +23,7 @@ auth("SAD");
 
 		<!-- CONTENT HERE -->
 		<main class="_content-area">
-			<nav class="filter-box">
+			<nav class="add-box">
 				<button type="button" class="addBtn" data-bs-toggle="modal" data-bs-target="#Modal">
 					Add Student
 				</button>
@@ -79,10 +79,15 @@ auth("SAD");
 			<div class="modal-content">
 				<form action="" method="post">
 					<div class="modal-header">
-						<h1 class="modal-title fs-5" id="exampleModalLabel">Add Admin</h1>
+						<h1 class="modal-title fs-5" id="exampleModalLabel">Add Student</h1>
 						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 					</div>
 					<div class="modal-body">
+						<div class="input-control">
+							<label for="matrik">Matrik Number</label>
+							<input type="text" name="matrik" id="matrik">
+						</div>
+
 						<div class="input-control">
 							<label for="name">Name</label>
 							<input type="text" name="name" id="name">
@@ -161,9 +166,9 @@ auth("SAD");
 									<div class="input-control">
 										<label for="college" class="required">College</label>
 										<select name="college" id="college">
-											<option selected disabled value="">Select Location</option>
-											<option value="location_1">Location 1</option>
-											<option value="location_2">Location 2</option>
+											<option value="Satria">Satria</option>
+											<option value="Lestari">Lestari</option>
+											<option value="Al_Jazari">Al Jazari</option>
 										</select>
 									</div>
 

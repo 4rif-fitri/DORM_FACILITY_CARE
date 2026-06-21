@@ -38,7 +38,7 @@
 	display: grid;
 	gap: 1rem;
 	grid-template-areas:
-	'table'
+		'table'
 		'pieChart'
 		/* 'barGraphBlock' */
 		'donutBar'
@@ -95,14 +95,11 @@ section+.table table {
 	border-collapse: collapse;
 }
 
-section+.table table th {
-	color: white;
-	background-color: var(--text-main) !important;
-}
-
 section+.table table th,
 section+.table table td {
-	padding: 1rem;
+	text-align: center;
+	padding: 0.5rem;
+	border: 1px solid black;
 }
 
 .filter-control {
@@ -125,6 +122,38 @@ section+.table table td {
 	text-align: center;
 	border-radius: 5px;
 	border: 2px solid black;
+}
+
+.pending {
+	padding: 0.2rem 1rem;
+	border-radius: 4px;
+	color: var(--orange);
+	background-color: var(--orange-light);
+	border: 2px solid var(--orange) !important;
+}
+
+.assigned {
+	padding: 0.2rem 1rem;
+	border-radius: 4px;
+	color: var(--blue);
+	background-color: var(--blue-light);
+	border: 2px solid var(--blue) !important;
+}
+
+.inProgress {
+	padding: 0.2rem 1rem;
+	border-radius: 4px;
+	color: var(--choco);
+	background-color: var(--choco-light);
+	border: 2px solid var(--choco) !important;
+}
+
+.completed {
+	padding: 0.2rem 1rem;
+	border-radius: 4px;
+	color: var(--green);
+	background-color: var(--green-light);
+	border: 2px solid var(--green) !important;
 }
 
 .btn-reset {

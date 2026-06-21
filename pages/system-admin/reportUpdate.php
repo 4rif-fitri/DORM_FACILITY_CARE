@@ -8,13 +8,14 @@ if (isset($_GET["rejectID"])) {
 	$reportId = $_GET["rejectID"];
 
 	$sql = "UPDATE report
-            SET status='Canceled'
+            SET status='Rejected'
             WHERE reportId='$reportId'";
 
 	if (mysqli_query($conn, $sql)) {
 		header("Location: reportUpdate.php?id=$reportId");
 		exit;
 	} else echo mysqli_error($conn);
+
 } else if (isset($_GET["id"])) {
 	$reportId = $_GET["id"];
 
@@ -32,14 +33,44 @@ if (isset($_GET["rejectID"])) {
 			report.dateReported,
 			report.college,
 			report.reportImgUrl,
-			report.completedImgUrl
+			report.completedImgUrl,
+			report.dateAssigned
 
         	FROM report 
-		INNER JOIN user ON report.userID = user.userID
+		INNER JOIN user ON report.userID   = user.userID
 		WHERE reportId = '$reportId'";
 
 	$result = mysqli_query($conn, $sql);
 	$row = mysqli_fetch_assoc($result);
+
+	if ($row["status"] == "Assigned") {
+		$sql = "	SELECT
+			reporter.userID,
+			reporter.name,
+			reporter.numTel,
+			reporter.email,
+
+			contractor.name AS contractorName,
+			contractor.email AS contractorEmail,
+
+			report.reportID,
+			report.reportCategory,
+			report.reportDesc,
+			report.reportRoom,
+			report.status,
+			report.dateReported,
+			report.college,
+			report.reportImgUrl,
+			report.completedImgUrl,
+			report.dateAssigned
+
+        	FROM report 
+		INNER JOIN user reporter ON report.userID = reporter.userID
+		INNER JOIN user contractor ON report.contractorID = contractor.userID
+		WHERE reportId = '$reportId'";
+	$result = mysqli_query($conn, $sql);
+	$row = mysqli_fetch_assoc($result);
+	}
 } else {
 	header("Location: reportManage.php");
 }
@@ -93,33 +124,48 @@ while ($datas = mysqli_fetch_assoc($resultContractor)) {
 							<div>
 
 								<article>
-									<div class="dot <?= in_array($row["status"], ["Pending", "Assigned", "In_Progress", "Completed"]) ? "active" : "" ?> "></div>
+									<div class="dot <?= in_array($row["status"], ["Pending", "Assigned", "In_Progress", "Completed", "Rejected"]) ? "active" : "" ?> "></div>
 									<div class="desh"></div>
-									<div class="dot <?= in_array($row["status"], ["Assigned", "In_Progress", "Completed"]) ? "active" : "" ?>"></div>
-									<div class="desh"></div>
-									<div class="dot <?= in_array($row["status"], ["In_Progress", "Completed"]) ? "active" : "" ?>"></div>
-									<div class="desh"></div>
-									<div class="dot <?= in_array($row["status"], ["Completed"]) ? "active" : "" ?>"></div>
+									<?php if ($row["status"] == "Rejected") : ?>
+										<div class="dot <?= in_array($row["status"], ["Rejected"]) ? "active" : "" ?>"></div>
+									<?php else : ?>
+										<div class="dot <?= in_array($row["status"], ["Assigned", "In_Progress", "Completed"]) ? "active" : "" ?>"></div>
+										<div class="desh"></div>
+										<div class="dot <?= in_array($row["status"], ["In_Progress", "Completed"]) ? "active" : "" ?>"></div>
+										<div class="desh"></div>
+										<div class="dot <?= in_array($row["status"], ["Completed"]) ? "active" : "" ?>"></div>
+									<?php endif ?>
 								</article>
 								<article>
-									<p class="<?= in_array($row["status"], ["Pending", "Assigned", "In_Progress", "Completed"]) ? "text-active" : "" ?>">Pending</p>
+									<p class="<?= in_array($row["status"], ["Pending", "Assigned", "In_Progress", "Completed", "Rejected"]) ? "text-active" : "" ?>">Pending</p>
 									<p></p>
-									<p class="<?= in_array($row["status"], ["Assigned", "In_Progress", "Completed"]) ? "text-active" : "" ?>">Assigned</p>
-									<p></p>
-									<p class="<?= in_array($row["status"], ["In_Progress", "Completed"]) ? "text-active" : "" ?>">In Progress</p>
-									<p></p>
-									<p class="<?= in_array($row["status"], ["Completed"]) ? "text-active" : "" ?>">Completed</p>
+									<?php if ($row["status"] == "Rejected") : ?>
+										<p class="<?= in_array($row["status"], ["Rejected"]) ? "text-active" : "" ?>">Rejected</p>
+									<?php else : ?>
+										<p class="<?= in_array($row["status"], ["Assigned", "In_Progress", "Completed"]) ? "text-active" : "" ?>">Assigned</p>
+										<p></p>
+										<p class="<?= in_array($row["status"], ["In_Progress", "Completed"]) ? "text-active" : "" ?>">In Progress</p>
+										<p></p>
+										<p class="<?= in_array($row["status"], ["Completed"]) ? "text-active" : "" ?>">Completed</p>
+									<?php endif ?>
 								</article>
 
 							</div>
 						</div>
 
 						<article>
-							<?php if ($row["status"] == "Canceled" || $row["status"] == "Assigned" || $row["status"] == "Completed") : ?>
-								<button href="./reportUpdate.php?rejectID=<?= $row["reportID"] ?>" class="btn btn-danger disabled">Reject</button>
+							<?php if (in_array($row["status"], ["Assigned", "Rejected", "In_Progress"])) : ?>
+								<a href="./reportUpdate.php?rejectID=<?= $row["reportID"] ?>" class="btn btn-danger disabled">Reject</a>
 								<button data-bs-toggle="modal" data-bs-target="#modalContraktor" class="btn btn-success disabled">Assign</button>
+
+							<?php elseif (in_array($row["status"], ["Completed"])) : ?>
+								<a href="./reportUpdate.php?rejectID=<?= $row["reportID"] ?>" class="btn btn-danger disabled">Reject</a>
+								<article>
+									<button data-bs-toggle="modal" data-bs-target="#modalContraktor" class="btn btn-success disabled">Assign</button>
+									<!-- <button class="btn btn-primary mx-1">Ganerate PDF</button> -->
+								</article>
 							<?php else : ?>
-								<button href="./reportUpdate.php?rejectID=<?= $row["reportID"] ?>" class="btn btn-danger">Reject</button>
+								<a href="./reportUpdate.php?rejectID=<?= $row["reportID"] ?>" class="btn btn-danger">Reject</a>
 								<button data-bs-toggle="modal" data-bs-target="#modalContraktor" class="btn btn-success">Assign</button>
 							<?php endif ?>
 						</article>
@@ -134,55 +180,45 @@ while ($datas = mysqli_fetch_assoc($resultContractor)) {
 							<img src="../../images/report.svg" alt="">
 							Report Detail
 						</h4>
-						<div class="report-detail">
+						<div>
+							<div class="report-detail">
+								<div class="input-control">
+									<label for="category"><b>RepotID: </b> <?= $row["reportID"] ?></label>
+								</div>
 
-							<div class="input-control">
-								<label for="category">category</label>
-								<input value="<?= $row["reportCategory"] ?>" readonly type="text" name="category" id="category">
+								<div class="input-control">
+									<label for=""><b>Reporter Name: </b><?= $row["name"] ?></label>
+								</div>
+
+								<div class="input-control">
+									<label for=""><b>Reporter ID: </b><?= $row["userID"] ?></label>
+								</div>
+
+								<div class="input-control">
+									<label for=""><b>Phone Number: </b><?= $row["numTel"] ?></label>
+								</div>
+
+								<div class="input-control">
+									<label for="room"><b>College & Room: </b><?= trim($row["college"]) ?>, <?= $row["reportRoom"] ?></label>
+								</div>
 							</div>
+							<div class="report-detail">
 
-							<div class="input-control">
-								<label for="description">Description</label>
-								<textarea readonly type="text" name="description" id="description"><?= $row["reportDesc"] ?></textarea>
-							</div>
+								<div class="input-control">
+									<label for=""><b>Email: </b><?= $row["email"] ?></label>
+								</div>
 
-							<div class="input-control">
-								<label for="college">College</label>
-								<input readonly type="text" name="college" value="<?= trim($row["reportCategory"]) ?>" id="college">
-							</div>
+								<div class="input-control">
+									<label for="category"><b>Category: </b><?= $row["reportCategory"] ?></label>
+								</div>
 
-							<div class="input-control">
-								<label for="room">Room</label>
-								<input value="<?= $row["reportRoom"] ?>" readonly type="text" name="room" id="room">
-							</div>
-						</div>
-					</section>
+								<div class="input-control">
+									<label for="description"><b>Description: </b><?= $row["reportDesc"] ?></label>
+								</div>
 
-					<section>
-						<h4>
-							<img src="../../images/report.svg" alt="">
-							Student Detail
-						</h4>
-						<div class="report-detail">
-
-							<div class="input-control">
-								<label for="">Name</label>
-								<input value="<?= $row["name"] ?>" readonly type="text" name="category" id="category">
-							</div>
-
-							<div class="input-control">
-								<label for="">Matric Number</label>
-								<input value="<?= $row["userID"] ?>" readonly type="text" name="category" id="category">
-							</div>
-
-							<div class="input-control">
-								<label for="">Phone Number</label>
-								<input value="<?= $row["numTel"] ?>" readonly type="text" name="category" id="category">
-							</div>
-
-							<div class="input-control">
-								<label for="">College</label>
-								<input readonly type="text" name="college" value="<?= trim($row["college"]) ?>" id="college">
+								<div class="input-control">
+									<label for="description"><b>Report Date: </b><?= $row["dateReported"] ?></label>
+								</div>
 							</div>
 
 						</div>
@@ -242,19 +278,76 @@ while ($datas = mysqli_fetch_assoc($resultContractor)) {
 							<img src="../../images/report.svg" alt="">
 							Report Image
 						</h4>
-						<?php if($row["completedImgUrl"] != "") : ?>
-						<div class="image imgReportgroup">
-							<div class="imgReport"
-								data-src="<?= $row["completedImgUrl"] ?? "" ?>"
-								style="background-image:url('<?= $row["completedImgUrl"] ?? "" ?>')">
+						<?php if ($row["completedImgUrl"] != "") : ?>
+							<div class="image imgReportgroup">
+								<div class="imgReport"
+									data-src="<?= $row["completedImgUrl"] ?? "" ?>"
+									style="background-image:url('<?= $row["completedImgUrl"] ?? "" ?>')">
+								</div>
 							</div>
-						</div>
 						<?php else : ?>
 							<center>
 								<h2>No Image Yet</h2>
 							</center>
 						<?php endif ?>
 					</section>
+				</div>
+
+				<div class="comment-container">
+
+					<section>
+						<h4>
+							<img src="../../images/report.svg" alt="">
+							Update History
+						</h4>
+						<div class="report-detail">
+
+							<table class="w-100 table">
+								<thead>
+									<tr>
+										<th>Date & Time</th>
+										<th>Status</th>
+										<th>Update By</th>
+										<th>Remarks</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td><?= $row["dateReported"] ?></td>
+										<td><span class="pending">Pending</span></td>
+										<td><?= $row["name"] ?></td>
+										<td>Report has been Submitted</td>
+									</tr>
+									<?php if (in_array($row["status"], ["Assigned", "Completed"])) : ?>
+										<tr>
+											<td><?= $row["dateAssigned"] ?></td>
+											<td><span class="assigned">Assigned</span></td>
+											<td>System Admin(You)</td>
+											<td>Report Assigned to <?= $row["contractorName"] ?></td>
+										</tr>
+									<?php endif ?>
+									<?php if ($row["status"] == "Completed") : ?>
+										<tr>
+											<td><?= $row["dateAssigned"] ?></td>
+											<td><span class="completed">Completed</span></td>
+											<td><?= $row["name"] ?></td>
+											<td>Report has been Close</td>
+										</tr>
+									<?php endif ?>
+									<?php if ($row["status"] == "Rejected") : ?>
+										<tr>
+											<td><?= $row["dateAssigned"] ?></td>
+											<td><span class="completed">Completed</span></td>
+											<td>System Admin</td>
+											<td>Report has been rejected</td>
+										</tr>
+									<?php endif ?>
+								</tbody>
+							</table>
+
+						</div>
+					</section>
+
 				</div>
 			</section>
 

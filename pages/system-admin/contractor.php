@@ -18,16 +18,15 @@ auth("SAD");
 <body>
 
 	<section class="_workspace">
-		<?php $title = "Add Student" ?>
+		<?php $title = "Contractor" ?>
 		<?php include(__DIR__ . "../../../components/system-admin/header.php") ?>
 
 		<!-- CONTENT HERE -->
 		<main class="_content-area">
 			<nav class="add-box">
 				<button type="button" class="addBtn" data-bs-toggle="modal" data-bs-target="#Modal">
-					Add Student
+					Add Contractor
 				</button>
-				<!-- <a href="" class="addBtn">Add Student</a> -->
 			</nav>
 
 			<section class="table-container">
@@ -38,7 +37,7 @@ auth("SAD");
 							<th>Name</th>
 							<th>College</th>
 							<th>Phone No</th>
-							<th>Edit</th>
+							<th>Action</th>
 						</tr>
 					</thead>
 
@@ -79,7 +78,7 @@ auth("SAD");
 			<div class="modal-content">
 				<form action="" method="post">
 					<div class="modal-header">
-						<h1 class="modal-title fs-5" id="exampleModalLabel">Add Admin</h1>
+						<h1 class="modal-title fs-5" id="exampleModalLabel">Add Contractor</h1>
 						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 					</div>
 					<div class="modal-body">
@@ -129,7 +128,7 @@ auth("SAD");
 					<div class="modal-header">
 						<h1 class="modal-title fs-5">
 							<img src="../../images/report.svg" alt="">
-							Update Admin
+							Update Contractor
 						</h1>
 					</div>
 					<div class="modal-body">
@@ -159,15 +158,6 @@ auth("SAD");
 									</div>
 
 									<div class="input-control">
-										<label for="college" class="required">College</label>
-										<select name="college" id="college">
-											<option selected disabled value="">Select Location</option>
-											<option value="location_1">Location 1</option>
-											<option value="location_2">Location 2</option>
-										</select>
-									</div>
-
-									<div class="input-control">
 										<label for="phoneNumber" class="required">Phone Number</label>
 										<input type="number" name="phoneNumber" id="phoneNumber">
 									</div>
@@ -177,8 +167,11 @@ auth("SAD");
 										<input type="email" name="email" id="email">
 									</div>
 
+									<div class="input-control">
+										<label for="cType" class="required">cType</label>
+										<input type="text" name="cType" id="cType">
+									</div>
 								</section>
-
 
 							</form>
 
@@ -187,7 +180,7 @@ auth("SAD");
 					</div>
 					<div class="modal-footer">
 						<button type="reset" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
-						<button type="submit" class="btn btn-success">Assign!</button>
+						<button type="submit" class="btn btn-success">Update</button>
 					</div>
 				</div>
 			</div>
@@ -200,11 +193,10 @@ auth("SAD");
 	</script>
 
 
-	<input type="checkbox" hidden style="position: absolute; z-index: 10;" name="_dekstop-sideBar"
-		id="_dekstop-sideBar">
+	<input type="checkbox" hidden style="position: absolute; z-index: 10;" name="_dekstop-sideBar" id="_dekstop-sideBar">
 	<input type="checkbox" hidden style="position: absolute;" name="_mobile-sideBar" id="_mobile-sideBar">
 	<input type="text" name="role" id="role" hidden value="SAD">
-	<input type="text" name="title" id="title" hidden value="Add Student">
+	<input type="text" name="title" id="title" hidden value="Add Contractor">
 </body>
 
 </html>

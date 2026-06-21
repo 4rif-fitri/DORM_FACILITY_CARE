@@ -39,19 +39,12 @@
 	--border-radius: 10px;
 
 	--fs-xs: 0.75rem;
-	/* Extra Small: Untuk teks paling kecil (error or note) */
 	--fs-sm: 0.875rem;
-	/* Small: Untuk teks kecil (contoh: tulisan hint 'e.g: A-1-2-B(2)') */
 	--fs-base: 1rem;
-	/* Base: Saiz default untuk teks biasa (label, input) */
 	--fs-md: 1.125rem;
-	/* Medium: Besar sikit dari biasa (button) */
 	--fs-lg: 1.25rem;
-	/* Large: Untuk tajuk kecil or sub-heading */
 	--fs-xl: 1.5rem;
-	/* Extra Large: Untuk tajuk sederhana besar (untuk tajuk) */
 	--fs-xxl: 1.75rem;
-	/* Extra Extra Large: Untuk tajuk utama paling besar dlm halaman */
 }
 ._workspace {
 	height: 100vh;
