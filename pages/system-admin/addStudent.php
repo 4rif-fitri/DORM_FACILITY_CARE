@@ -79,10 +79,15 @@ auth("SAD");
 			<div class="modal-content">
 				<form action="" method="post">
 					<div class="modal-header">
-						<h1 class="modal-title fs-5" id="exampleModalLabel">Add Admin</h1>
+						<h1 class="modal-title fs-5" id="exampleModalLabel">Add Student</h1>
 						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 					</div>
 					<div class="modal-body">
+						<div class="input-control">
+							<label for="matrik">Matrik Number</label>
+							<input type="text" name="matrik" id="matrik">
+						</div>
+
 						<div class="input-control">
 							<label for="name">Name</label>
 							<input type="text" name="name" id="name">

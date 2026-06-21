@@ -469,8 +469,8 @@ function getDatatable($conn)
 
 			let tr = document.createElement("tr")
 			tr.innerHTML = `
-					<td>${idx+1}</td>
 					<td colspan='2'><b>Total</b></td>
+					<td></td>
 					<td></td>
 					<td></td>
 					<td></td>
@@ -684,7 +684,7 @@ function getDatatable($conn)
 		drawPieChart(canvas_category, datacategory);
 		// drawPieChart(canvas_Block, dataBlock);
 		// drawLineGraph(canvas_Trand, dataTrand);
-		drawBarChart(canvas_Status, dataStatus);
+		drawBarChart(canvas_Status, []);
 		renderTable(datatable)
 
 		window.addEventListener("resize", () => {
@@ -696,7 +696,7 @@ function getDatatable($conn)
 				drawPieChart(canvas_category, datacategory);
 				// drawPieChart(canvas_Block, dataBlock);
 				// drawLineGraph(canvas_Trand, dataTrand);
-				drawBarChart(canvas_Status, dataStatus);
+				drawBarChart(canvas_Status, []);
 
 			}, 1000);
 

@@ -33,7 +33,15 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 		$where[] = "college='$location'";
 	}
 
-	$sql = "SELECT * FROM report";
+	$sql = "	SELECT 
+			reportID,
+			reportCategory,
+			reportRoom,
+			college,
+			status,
+			dateReported
+			
+			FROM report";
 
 	if (!empty($where)) {
 		$sql .= " WHERE " . implode(" AND ", $where);
