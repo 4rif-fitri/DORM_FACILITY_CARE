@@ -245,7 +245,14 @@ strong{
 	}
 
 }
-
+.deleteBtn.disabled {
+	opacity: 0.5 !important;
+	cursor: not-allowed !important;
+}
+.updateBtn.disabled{
+		opacity: 0.5 !important;
+			cursor: not-allowed !important;
+}
 /* ==============  filter  =============== */
 
 .filter-cantainer {

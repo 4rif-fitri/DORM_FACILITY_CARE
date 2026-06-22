@@ -3,72 +3,69 @@ require_once __DIR__ . "../../../inc/init.php";
 auth("SAD");
 
 //php code hrre
-if (isset($_GET['delete'])) {
+if (isset($_POST['submit'])) {
 
-	$id = mysqli_real_escape_string($conn, $_GET['delete']);
+	try {
 
-	mysqli_query($conn, "DELETE FROM contractor WHERE contractorID='$id'");
-	mysqli_query($conn, "DELETE FROM user WHERE userID='$id'");
+		$userID = $_POST['contractorID'];
+		$name = $_POST['name'];
+		$password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+		$numTel = $_POST['numTel'];
+		$email = $_POST['email'];
+		$expertise = $_POST['expertise'];
 
-	header("Location: contractor.php");
-	exit;
-}
-
-
-$sql = "SELECT 
-		user.userID,
-		user.name,
-		contractor.expertise,
-		user.numTel
-		FROM user
-		JOIN contractor ON user.userID = contractor.contractorID
+		$sqlUser = "
+			INSERT INTO user
+			(userID, name, password, numTel, email)
+			VALUES
+			('$userID', '$name', '$password', '$numTel', '$email')
 		";
 
-$result = mysqli_query($conn, $sql);
-$result2 = mysqli_query($conn, $sql);
+		mysqli_query($conn, $sqlUser);
 
-if (isset($_POST['submit'])) {
-	$userID = $_POST['contractorID'];
-	$name = $_POST['name'];
-	$password = password_hash($_POST['password'], PASSWORD_DEFAULT);
-	$numTel = $_POST['numTel'];
-	$email = $_POST['email'];
-	$expertise = $_POST['expertise'];
+		$sqlContractor = "
+			INSERT INTO contractor
+			(contractorID, expertise)
+			VALUES
+			('$userID', '$expertise')
+		";
 
-	$sqlUser = "INSERT INTO user
-				(userID, name, password, numTel, email)
-				VALUES
-				('$userID', '$name', '$password', '$numTel', '$email')";
+		mysqli_query($conn, $sqlContractor);
 
-	if (mysqli_query($conn, $sqlUser)) {
-		$sqlContractor = "INSERT INTO contractor
-						  (contractorID, expertise)
-						  VALUES
-						  ('$userID', '$expertise')";
+		echo "<script>
+			alert('Contractor Added Successfully');
+			window.location.href='contractor.php';
+		</script>";
+	} catch (mysqli_sql_exception $e) {
 
-		$resultContractor = mysqli_query($conn, $sqlContractor);
+		$msg = ($e->getCode() == 1062) ? "Contractor ID already exists" : $e->getMessage();
 
-		echo "
-        <script>
-            alert('Contractor Added Successfully');
-            window.location.href='';
+		echo "<script>
+			alert('Failed: $msg');
+			window.location.href='contractor.php';
+		</script>";
+	}
+}
+
+if (isset($_GET['cid'])) {
+	$userID = $_GET['cid'];
+
+	$sqlContractor = "DELETE FROM user WHERE userID = '$userID'";
+
+	if (mysqli_query($conn, $sqlContractor)) {
+		echo "<script>
+            alert('Contractor Deleted Successfully');
+            window.location.href='contractor.php';
         </script>";
 	}
 }
 
-if(isset($_GET['cid'])){
-	$userID = $_GET['cid'];
-
-	$sqlContractor = "DELETE FROM user
-					  WHERE userID = '$userID'";
-	
-	if(mysqli_query($conn, $sqlContractor)){
-		echo "<script>
-            alert('Contractor Deleted Successfully');
-            window.location.href='contractor.php';
-        </script>"; 
-	}
-}
+$sql = "	SELECT user.userID,user.name,
+			contractor.expertise,user.numTel
+		FROM user
+		JOIN contractor ON user.userID = contractor.contractorID";
+$result = mysqli_query($conn, $sql);
+$result2 = mysqli_query($conn, $sql);
 //php code hrre
 
 ?>
@@ -83,7 +80,7 @@ if(isset($_GET['cid'])){
 <body>
 
 	<section class="_workspace">
-		<?php $title = "Contractor" ?>
+		<?php $title = "Manage Contractor" ?>
 		<?php include(__DIR__ . "../../../components/system-admin/header.php") ?>
 
 		<!-- CONTENT HERE -->
@@ -114,7 +111,7 @@ if(isset($_GET['cid'])){
 								<td><?= $row['expertise'] ?></td>
 								<td><?= $row['numTel'] ?></td>
 								<td>
-									<button class="updateBtn" data-bs-target="#modalStudent" data-bs-toggle="modal">Update</button>
+									<button onclick="getDetail('<?= $row['userID'] ?>')" class="updateBtn">Update</button>
 									<a href="contractor.php?cid=<?= $row['userID'] ?>"
 										class="deleteBtn"
 										onclick="return confirm('Delete contractor <?= $row['userID'] ?>? This action cannot be undone.')">
@@ -170,27 +167,27 @@ if(isset($_GET['cid'])){
 					<div class="modal-body">
 						<div class="input-control">
 							<label for="contractorID">Id</label>
-							<input type="text" name="contractorID" id="contractorID">
+							<input required type="text" name="contractorID" id="contractorID">
 						</div>
 						<div class="input-control">
 							<label for="name">Name</label>
-							<input type="text" name="name" id="name">
+							<input required type="text" name="name" id="name">
 						</div>
 						<div class="input-control">
 							<label for="password">Password</label>
-							<input type="text" value="abc123" name="password" id="password">
+							<input required type="text" value="abc123" name="password" id="password">
 						</div>
 						<div class="input-control">
 							<label for="numTel">numTel</label>
-							<input type="text" name="numTel" id="numTel">
+							<input required type="text" name="numTel" id="numTel">
 						</div>
 						<div class="input-control">
 							<label for="email">email</label>
-							<input type="text" name="email" id="email">
+							<input required type="text" name="email" id="email">
 						</div>
 						<div class="input-control">
 							<label for="expertise" class="required">Expertise</label>
-							<input type="text" name="expertise" id="expertise">
+							<input required type="text" name="expertise" id="expertise">
 						</div>
 					</div>
 					<div class="modal-footer">
@@ -220,26 +217,26 @@ if(isset($_GET['cid'])){
 								<p class="required">All fields must be filled.</p>
 							</article>
 							<section class="form-detail">
-								<input type="hidden" name="userID" id="userID">
+								<input required type="hidden" name="userID" id="userID">
 
 								<div class="input-control">
 									<label for="uptname" class="required">Name</label>
-									<input type="text" name="uptname" id="uptname">
+									<input required type="text" name="uptname" id="uptname">
 								</div>
 
 								<div class="input-control">
 									<label for="uptphoneNumber" class="required">Phone Number</label>
-									<input type="number" name="uptphoneNumber" id="uptphoneNumber">
+									<input required type="number" name="uptphoneNumber" id="uptphoneNumber">
 								</div>
 
 								<div class="input-control">
 									<label for="uptemail" class="required">Email</label>
-									<input type="email" name="uptemail" id="uptemail">
+									<input required type="email" name="uptemail" id="uptemail">
 								</div>
 
 								<div class="input-control">
 									<label for="uptexpertise" class="required">Expertise</label>
-									<input type="text" name="uptexpertise" id="uptexpertise">
+									<input required type="text" name="uptexpertise" id="uptexpertise">
 								</div>
 							</section>
 						</section>
@@ -252,6 +249,36 @@ if(isset($_GET['cid'])){
 				</div>
 			</div>
 		</form>
+	</div>
+
+	<div class="popUpFail hidden">
+		<div class="card p-3">
+			<h1 class="text-center">🚫</h1>
+			<h2>Fail to Add Report</h2>
+			<a href="" class="btn btn-success">Ok</a>
+		</div>
+	</div>
+	<div class="popUpDone hidden">
+		<div class="card p-3">
+			<h1 class="text-center">✅</h1>
+			<h2>Done Add Report</h2>
+			<a href="./myReport.php" class="btn btn-success">Ok</a>
+		</div>
+	</div>
+	<div class="popUpLoading hidden">
+		<div class="loading-container">
+			<div class="loading-circle"></div>
+			<div class="loading-circle"></div>
+			<div class="loading-circle"></div>
+			<div class="loading-circle"></div>
+		</div>
+		<div class="bulat">
+			<article>
+				<h1 class="text-center">✅</h1>
+				<h2>Done Add Report</h2>
+				<a href="./myReport.php" class="btn btn-success w-100">Ok</a>
+			</article>
+		</div>
 	</div>
 
 	<!-- your script -->

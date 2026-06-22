@@ -3,66 +3,53 @@ require_once __DIR__ . "../../../inc/init.php";
 auth("SAD");
 
 //php code hrre
-if (isset($_GET['delete'])) {
+if (isset($_POST['submit'])) {
+	try {
+		$matricNo = $_POST['matrik'];
+		$name = $_POST['name'];
+		$password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+		$numTel = $_POST['numTel'];
+		$email = $_POST['email'];
+		$college = $_POST['collage'];
+		$studentRoom = $_POST['studentRoom'];
 
-	$id = $_GET['delete'];
-
-	mysqli_query($conn, "DELETE FROM student WHERE userID='$id'");
-	mysqli_query($conn, "DELETE FROM user WHERE userID='$id'");
-
-	header("Location: ../system-admin/addStudent.php");
-	exit;
-}
-
-$sql = "SELECT * FROM user
-		JOIN student ON user.userID = student.userID
-		ORDER BY name ASC
+		$sqlUser = "
+			INSERT INTO user
+			(userID, name, password, numTel, email, type)
+			VALUES
+			('$matricNo', '$name', '$password', '$numTel', '$email', 'STD')
 		";
 
-$result = mysqli_query($conn, $sql);
-$result2 = mysqli_query($conn, $sql);
+		mysqli_query($conn, $sqlUser);
 
+		$sqlStudent = "
+			INSERT INTO student
+			(userID, studentCollege, studentRoom)
+			VALUES
+			('$matricNo', '$college', '$studentRoom')
+		";
 
-if (isset($_POST['submit'])) {
-	$matricNo = $_POST['matrik'];
-	$name = $_POST['name'];
-	$password = password_hash($_POST['password'], PASSWORD_DEFAULT);
-	$numTel = $_POST['numTel'];
-	$email = $_POST['email'];
-	$college = $_POST['collage'];
-	$studentRoom = $_POST['studentRoom'];
+		mysqli_query($conn, $sqlStudent);
 
-	$sqlUser = "INSERT INTO user
-			(userID, name, password, numTel, email, type)
-			VALUES 
-			('$matricNo', '$name', '$password', '$numTel', '$email', 'STD')
-			";
+		echo "<script>
+			alert('Student Added Successfully');
+			window.location.href='addStudent.php';
+		</script>";
+	} catch (mysqli_sql_exception $e) {
+		$msg = ($e->getCode() == 1062) ? "Student ID already exists (duplicate matric number)" : $e->getMessage();
 
-	if (mysqli_query($conn, $sqlUser)) {
-		$sqlStudent = "INSERT INTO student
-				 (userID, studentCollege, studentRoom)
-				 VALUES
-				 ('$matricNo', '$college', '$studentRoom')
-				 ";
-
-		$resultStudent = mysqli_query($conn, $sqlStudent);
-
-		echo "
-        <script>
-            alert('Student Added Successfully');
-            window.location.href='';
-        </script>";
+		echo "<script>alert('Failed: $msg');
+			window.location.href='addStudent.php';
+		</script>";
 	}
 }
 
-if(isset($_GET['sid'])){
+if (isset($_GET['sid'])) {
 	$userID = $_GET['sid'];
-	echo $userID;
 
-	$sqlUser = "DELETE FROM user
-				WHERE userID = '$userID'";
+	$sqlUser = "DELETE FROM user WHERE userID = '$userID'";
 
-	if(mysqli_query($conn, $sqlUser)){
+	if (mysqli_query($conn, $sqlUser)) {
 		echo "
 		<script>
 			alert('Student deleted succesfully');
@@ -70,6 +57,13 @@ if(isset($_GET['sid'])){
 		</script>";
 	}
 }
+
+$sql = "	SELECT * FROM user
+		JOIN student ON user.userID = student.userID
+		ORDER BY name ASC";
+$result = mysqli_query($conn, $sql);
+$result2 = mysqli_query($conn, $sql);
+
 //php code hrre
 
 ?>
@@ -91,7 +85,7 @@ if(isset($_GET['sid'])){
 <body>
 
 	<section class="_workspace">
-		<?php $title = "Add Student" ?>
+		<?php $title = "Manage Student" ?>
 		<?php include(__DIR__ . "../../../components/system-admin/header.php") ?>
 
 		<!-- CONTENT HERE -->
@@ -116,16 +110,21 @@ if(isset($_GET['sid'])){
 
 					<tbody>
 
-						<?php while($row = mysqli_fetch_assoc($result)) : ?> 
-						<tr>
-							<td><?= $row['userID'] ?></td>
-							<td><?= $row['name'] ?></td>
-							<td><?= $row['studentCollege'] ?></td>
-							<td><?= $row['numTel'] ?></td>
-							<td>
-								<button onclick="update(<?= $row['userID'] ?>)" class="updateBtn" data-bs-target="#modalStudent" data-bs-toggle="modal">Update</button>
-							</td>
-						</tr>
+						<?php while ($row = mysqli_fetch_assoc($result)) : ?>
+							<tr>
+								<td><?= $row['userID'] ?></td>
+								<td><?= $row['name'] ?></td>
+								<td><?= $row['studentCollege'] ?></td>
+								<td><?= $row['numTel'] ?></td>
+								<td>
+									<button onclick="getdataStudent('<?= $row['userID'] ?>')" class="updateBtn" data-bs-target="#modalStudent" data-bs-toggle="modal">Update</button>
+									<a href="addStudent.php?sid=<?= $row['userID'] ?>"
+										class="deleteBtn"
+										onclick="return confirm('Delete student <?= $row['userID'] ?>? This action cannot be undone.')">
+										Delete
+									</a>
+								</td>
+							</tr>
 						<?php endwhile ?>
 					</tbody>
 
@@ -150,7 +149,12 @@ if(isset($_GET['sid'])){
 						</div>
 
 						<div id="reportCard-bottom">
-							<button onclick="update('<?= $row['userID'] ?>')" class="updateBtn" data-bs-target="#modalStudent" data-bs-toggle="modal">Update</button>
+							<button onclick="getdataStudent('<?= $row2['userID'] ?>')" class="updateBtn" data-bs-target="#modalStudent" data-bs-toggle="modal">Update</button>
+							<a href="addStudent.php?sid=<?= $row2['userID'] ?>"
+								class="deleteBtn"
+								onclick="return confirm('Delete student <?= $row2['userID'] ?>? This action cannot be undone.')">
+								Delete
+							</a>
 						</div>
 					</div>
 				<?php endwhile ?>
@@ -173,30 +177,30 @@ if(isset($_GET['sid'])){
 					<div class="modal-body">
 						<div class="input-control">
 							<label for="matrik">Matrik Number</label>
-							<input type="text" name="matrik" id="matrik">
+							<input required type="text" name="matrik" id="matrik">
 						</div>
 
 						<div class="input-control">
 							<label for="name">Name</label>
-							<input type="text" name="name" id="name">
+							<input required type="text" name="name" id="name">
 						</div>
 						<div class="input-control">
 							<label for="password">Password</label>
-							<input type="text" value="abc123" name="password" id="password">
+							<input required type="text" value="abc123" name="password" id="password">
 						</div>
 						<div class="input-control">
 							<label for="numTel">numTel</label>
-							<input type="text" name="numTel" id="numTel">
+							<input required type="text" name="numTel" id="numTel">
 						</div>
 						<div class="input-control">
 							<label for="email">email</label>
-							<input type="text" name="email" id="email">
+							<input required type="text" name="email" id="email">
 						</div>
 
 						<div class="input-control col-2">
 							<div class="input-control">
 								<label for="collage">Collage</label>
-								<select name="collage" id="collage">
+								<select required name="collage" id="collage">
 									<option disabled selected value="">Select Collage</option>
 									<option value="Satria">Satria</option>
 									<option value="Al_Jazari">Al_Jazari</option>
@@ -205,41 +209,31 @@ if(isset($_GET['sid'])){
 							</div>
 							<article>
 								<label for="block" class="required">Block</label>
-								<select required id="block">
-
-								</select>
+								<select required id="block"></select>
 							</article>
 
 							<article>
 								<label for="level" class="required">Level</label>
-								<select id="level">
-
-								</select>
+								<select id="level"></select>
 							</article>
 							<article>
 								<label for="rumah" class="required">No Rumah</label>
-								<select id="rumah">
-
-								</select>
+								<select id="rumah"></select>
 							</article>
 
 							<article>
 								<label for="bilik" class="required">Bilik</label>
-								<select id="bilik">
-
-								</select>
+								<select id="bilik"></select>
 							</article>
 
 							<article>
 								<label for="katil" class="required">Katil</label>
-								<select id="katil">
-
-								</select>
+								<select id="katil"></select>
 							</article>
 						</div>
 						<div class="input-control">
 							<label for="studentRoom">Student Room</label>
-							<input type="text" readonly name="studentRoom" id="studentRoom">
+							<input type="text" required readonly name="studentRoom" id="studentRoom">
 						</div>
 					</div>
 					<div class="modal-footer">
@@ -274,23 +268,23 @@ if(isset($_GET['sid'])){
 								<input type="text" hidden name="uptID" id="uptID">
 								<div class="input-control">
 									<label for="uptName" class="required">Name</label>
-									<input type="text" name="name" id="uptName">
+									<input require type="text" name="name" id="uptName">
 								</div>
 
 								<div class="input-control">
 									<label for="uptPhoneNumber" class="required">Phone Number</label>
-									<input type="number" name="phoneNumber" id="uptPhoneNumber">
+									<input require type="number" name="phoneNumber" id="uptPhoneNumber">
 								</div>
 
 								<div class="input-control">
 									<label for="uptEmail" class="required">Email</label>
-									<input type="email" name="email" id="uptEmail">
+									<input require type="email" name="email" id="uptEmail">
 								</div>
 
 								<div class="input-control col-2">
 									<div class="input-control">
 										<label for="uptCollage">Collage</label>
-										<select name="collage" id="uptCollage">
+										<select require name="collage" id="uptCollage">
 											<option disabled selected value="">Select Collage</option>
 											<option value="Satria">Satria</option>
 											<option value="Al_Jazari">Al_Jazari</option>
@@ -299,41 +293,31 @@ if(isset($_GET['sid'])){
 									</div>
 									<article>
 										<label for="uptBlock" class="required">Block</label>
-										<select required id="uptBlock">
-
-										</select>
+										<select required id="uptBlock"></select>
 									</article>
 
 									<article>
 										<label for="uptLevel" class="required">Level</label>
-										<select id="uptLevel">
-
-										</select>
+										<select id="uptLevel"></select>
 									</article>
 									<article>
 										<label for="uptRumah" class="required">No Rumah</label>
-										<select id="uptRumah">
-
-										</select>
+										<select id="uptRumah"></select>
 									</article>
 
 									<article>
 										<label for="uptBilik" class="required">Bilik</label>
-										<select id="uptBilik">
-
-										</select>
+										<select id="uptBilik"></select>
 									</article>
 
 									<article>
 										<label for="uptKatil" class="required">Katil</label>
-										<select id="uptKatil">
-
-										</select>
+										<select id="uptKatil"></select>
 									</article>
 								</div>
 								<div class="input-control">
 									<label for="uptStudentRoom">Student Room</label>
-									<input type="text" readonly name="uptStudentRoom" id="uptStudentRoom">
+									<input type="text" required readonly name="uptStudentRoom" id="uptStudentRoom">
 								</div>
 
 							</section>
@@ -347,6 +331,7 @@ if(isset($_GET['sid'])){
 			</div>
 		</form>
 	</div>
+
 	<!-- update Student -->
 
 	<!-- your script -->
@@ -392,53 +377,52 @@ if(isset($_GET['sid'])){
 			if (asrama === "Satria") {
 
 				optBlock = `
-				<option value="SJ-J">Satria Jebat</option>
-				<option value="ST-T">Satria Tuah</option>
-				<option value="SL-L">Satria Lekir</option>
-				<option value="SE-E">Satria Lekiu</option>
-				<option value="SK-K">Satria Kasturi</option>
-			`;
+					<option value="SJ-J">Satria Jebat</option>
+					<option value="ST-T">Satria Tuah</option>
+					<option value="SL-L">Satria Lekir</option>
+					<option value="SE-E">Satria Lekiu</option>
+					<option value="SK-K">Satria Kasturi</option>
+				`;
 
 				optLevel = `
-				<option value="1">1</option>
-				<option value="2">2</option>
-				<option value="3">3</option>
-				<option value="4">4</option>
-				<option value="5">5</option>
-				<option value="6">6</option>
-				<option value="7">7</option>
-				<option value="8">8</option>
-				<option value="9">9</option>
-			`;
+					<option value="1">1</option>
+					<option value="2">2</option>
+					<option value="3">3</option>
+					<option value="4">4</option>
+					<option value="5">5</option>
+					<option value="6">6</option>
+					<option value="7">7</option>
+					<option value="8">8</option>
+					<option value="9">9</option>
+				`;
 
 				optNoRumah = `
-				<option value="1">1</option>
-				<option value="2">2</option>
-				<option value="3">3</option>
-				<option value="4">4</option>
-				<option value="5">5</option>
-				<option value="6">6</option>
-				<option value="7">7</option>
-				<option value="8">8</option>
-				<option value="9">9</option>
-				<option value="10">10</option>
-				<option value="11">11</option>
-				<option value="12">12</option>
-			`;
+					<option value="1">1</option>
+					<option value="2">2</option>
+					<option value="3">3</option>
+					<option value="4">4</option>
+					<option value="5">5</option>
+					<option value="6">6</option>
+					<option value="7">7</option>
+					<option value="8">8</option>
+					<option value="9">9</option>
+					<option value="10">10</option>
+					<option value="11">11</option>
+					<option value="12">12</option>
+				`;
 
 				optBilik = `
-				<option value="A">A</option>
-				<option value="B">B</option>
-				<option value="C">C</option>
-				<option value="D">D</option>
-				<option value="E">E</option>
-			`;
+					<option value="A">A</option>
+					<option value="B">B</option>
+					<option value="C">C</option>
+					<option value="D">D</option>
+					<option value="E">E</option>
+				`;
 
 				optKatil = `
-				<option value="1">1</option>
-				<option value="2">2</option>
+					<option value="1">1</option>
+					<option value="2">2</option>
 			`;
-
 			}
 
 			// AL JAZARI
@@ -448,38 +432,38 @@ if(isset($_GET['sid'])){
 				<option value="A">Blok A</option>
 				<option value="B">Blok B</option>
 				<option value="C">Blok C</option>
-			`;
+				`;
 
 				optLevel = `
-				<option value="1">1</option>
-				<option value="2">2</option>
-				<option value="3">3</option>
-				<option value="4">4</option>
-				<option value="5">5</option>
-			`;
+					<option value="1">1</option>
+					<option value="2">2</option>
+					<option value="3">3</option>
+					<option value="4">4</option>
+					<option value="5">5</option>
+				`;
 
 				optNoRumah = `
-				<option value="1">1</option>
-				<option value="2">2</option>
-				<option value="3">3</option>
-				<option value="4">4</option>
-				<option value="5">5</option>
-				<option value="6">6</option>
-			`;
+					<option value="1">1</option>
+					<option value="2">2</option>
+					<option value="3">3</option>
+					<option value="4">4</option>
+					<option value="5">5</option>
+					<option value="6">6</option>
+				`;
 
 				optBilik = `
-				<option value="A">A</option>
-				<option value="B">B</option>
-				<option value="C">C</option>
-				<option value="D">D</option>
-				<option value="E">E</option>
-			`;
+					<option value="A">A</option>
+					<option value="B">B</option>
+					<option value="C">C</option>
+					<option value="D">D</option>
+					<option value="E">E</option>
+				`;
 
 				optKatil = `
-				<option value="1">1</option>
-				<option value="2">2</option>
-				<option value="3">3</option>
-			`;
+					<option value="1">1</option>
+					<option value="2">2</option>
+					<option value="3">3</option>
+				`;
 
 			}
 
@@ -489,37 +473,37 @@ if(isset($_GET['sid'])){
 				optBlock = `
 				<option value="B1">B1</option>
 				<option value="B2">B2</option>
-			`;
+				`;
 
 				optLevel = `
-				<option value="G">G</option>
-				<option value="1">1</option>
-				<option value="2">2</option>
-				<option value="3">3</option>
-			`;
+					<option value="G">G</option>
+					<option value="1">1</option>
+					<option value="2">2</option>
+					<option value="3">3</option>
+				`;
 
 				optNoRumah = `
-				<option value="A">A</option>
-				<option value="B">B</option>
-				<option value="C">C</option>
-				<option value="D">D</option>
-				<option value="E">E</option>
-			`;
+					<option value="A">A</option>
+					<option value="B">B</option>
+					<option value="C">C</option>
+					<option value="D">D</option>
+					<option value="E">E</option>
+				`;
 
 				optBilik = `
-				<option value="01">01</option>
-				<option value="02">02</option>
-				<option value="03">03</option>
-				<option value="04">04</option>
-				<option value="05">05</option>
-				<option value="06">06</option>
-				<option value="07">07</option>
-			`;
+					<option value="01">01</option>
+					<option value="02">02</option>
+					<option value="03">03</option>
+					<option value="04">04</option>
+					<option value="05">05</option>
+					<option value="06">06</option>
+					<option value="07">07</option>
+				`;
 
 				optKatil = `
-				<option value="1">1</option>
-				<option value="2">2</option>
-			`;
+					<option value="1">1</option>
+					<option value="2">2</option>
+				`;
 
 			}
 
@@ -557,6 +541,7 @@ if(isset($_GET['sid'])){
 		}
 
 		function getdataStudent(id) {
+			console.log("Request");
 
 			$.ajax({
 				url: "../../api/getStudentDetail.php",
@@ -749,9 +734,11 @@ if(isset($_GET['sid'])){
 			})
 		}
 
-		document.getElementById("formUpdate").addEventListener("submit", e => {
+		document.getElementById("formUpdate").addEventListener("submit", async e => {
 			e.preventDefault()
-
+			getModal().hide()
+			showLoading()
+			await delay(1000)
 			$.ajax({
 				url: "../../api/updateDataStudent.php",
 				method: "POST",
@@ -765,17 +752,15 @@ if(isset($_GET['sid'])){
 				},
 				success: res => {
 					console.log(res);
-					alert("Student updated");
-					getModal().hide()
-					location.reload()
+					HideLoading()
 				},
 				error: err => {
 					console.log(err.responseText);
+					showError()
 				}
 			});
 
 		})
-
 	</script>
 
 

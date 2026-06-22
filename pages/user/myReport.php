@@ -16,20 +16,21 @@ $sql = "	SELECT 	reportID,
 		ORDER BY dateReported DESC
 		";
 
-if(isset($_GET['rid'])){
+if (isset($_GET['rid'])) {
 	$reportID = $_GET['rid'];
 
-	$sql = "DELETE FROM report
-			WHERE reportID = '$reportID'";
-	
-	if(mysqli_query($conn, $sql)){
+	$sql = "UPDATE report
+            SET status = 'Cancelled'
+            WHERE reportID = $reportID AND userID = '$userID'
+		  ";
+
+	if (mysqli_query($conn, $sql)) {
 		echo "
 		<script>
-			alert('data deleted succesfully');
+			alert('Report Cancelled succesfully');
 			window.location.href = 'myReport.php';
 		</script>";
 	}
-	
 }
 // $result = mysqli_query($conn, $sql);
 // $result2 = mysqli_query($conn, $sql);
@@ -162,8 +163,8 @@ if(isset($_GET['rid'])){
 								<td>${data.dateReported}</td>
 								<td>${data.status}</td>
 								<td>
-									<a href="./trackReport.php?id=${data.reportID}" class="updateBtn">Update</a>
-									<a href="myReport.php?rid=${data.reportID}" class="deleteBtn">Delete</a>
+									${data.status === "Cancelled" ? `<span disabled class="updateBtn disabled">Track</span>` : `<a href="./trackReport.php?id=${data.reportID}" class="updateBtn">Track</a>`} 
+									${data.status == "Pending" ? `<a href="myReport.php?rid=${data.reportID}" class="deleteBtn">Cancel</a>` : `<span class="deleteBtn disabled">Cancel</span>` }
 								</td>
 								`;
 
@@ -189,7 +190,8 @@ if(isset($_GET['rid'])){
 									</div>
 
 									<div id="reportCard-bottom">
-										<a href="./trackReport.php?id=${data.reportID}" class="updateBtn">Track Report</a>
+										${data.status === "Cancelled" ? `<span disabled class="updateBtn disabled">Track</span>` : `<a href="./trackReport.php?id=${data.reportID}" class="updateBtn">Track</a>`} 
+										${data.status == "Pending" ? `<a href="myReport.php?rid=${data.reportID}" class="deleteBtn">Cancel</a>` : `<span class="deleteBtn disabled">Cancel</span>` }
 									</div>`
 
 								document.querySelector(".table-container").appendChild(div)

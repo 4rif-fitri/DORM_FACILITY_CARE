@@ -349,7 +349,7 @@ function getDatatable($conn)
 
 		let filterStatusCollege = ""
 		let filterStatusMonth = ""
-
+		let dataStatus
 		let filterStatus = () => {
 			$.ajax({
 				url: "../../api/getFilterdStatus.php",
@@ -359,6 +359,7 @@ function getDatatable($conn)
 					filterStatusMonth: filterStatusMonth
 				},
 				success: response => {
+					dataStatus = response.datas
 					console.log(response)
 					drawBarChart(canvas_Status, response.datas);
 
@@ -506,7 +507,7 @@ function getDatatable($conn)
 			let radius = 150
 			let startAngle = 0
 
-			let lagendX = 550
+			let lagendX = 400
 			let lagendY = 50
 
 			datas.forEach((data, index) => {
@@ -579,6 +580,7 @@ function getDatatable($conn)
 				ctx.fillRect(x, y, barWidth, barHeight);
 
 				ctx.fillStyle = "#000";
+				ctx.font = "15px Arial";
 				ctx.fillText(value, x, y - 10);
 				ctx.fillText(label, x, startY + 20);
 			});
@@ -706,7 +708,7 @@ function getDatatable($conn)
 				drawPieChart(canvas_category, datacategory);
 				// drawPieChart(canvas_Block, dataBlock);
 				// drawLineGraph(canvas_Trand, dataTrand);
-				drawBarChart(canvas_Status, []);
+				drawBarChart(canvas_Status, dataStatus);
 
 			}, 1000);
 
