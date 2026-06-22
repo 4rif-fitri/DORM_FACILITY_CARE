@@ -4,7 +4,35 @@ auth("STD");
 		// send("ariffitrimohdjamil@gmail.com", "LOREM", "LOREM");
 
 		//php code hrre
+		$userID = $_SESSION["userID"]; //retrieve guna userID (no matrik)
 
+		$sql = " SELECT
+			COUNT(*) AS totalReport,
+
+			SUM(CASE WHEN status='Pending' THEN 1 ELSE 0 END) AS pendingReport,
+			SUM(CASE WHEN status='Assigned' THEN 1 ELSE 0 END) AS assignedReport,
+			SUM(CASE WHEN status='In Progress' THEN 1 ELSE 0 END) AS progressReport,
+			SUM(CASE WHEN status='Completed' THEN 1 ELSE 0 END) AS completedReport
+
+		FROM report
+
+		WHERE userID = ? ";
+
+		$stmt = mysqli_prepare($conn, $sql);
+
+		mysqli_stmt_bind_param($stmt, "s", $userID);
+
+		mysqli_stmt_execute($stmt);
+
+		$result = mysqli_stmt_get_result($stmt);
+
+		$data = mysqli_fetch_assoc($result);
+
+		$totalReport = $data["totalReport"] ?? 0;
+		$pendingReport = $data["pendingReport"] ?? 0;
+		$assignedReport = $data["assignedReport"] ?? 0;
+		$progressReport = $data["progressReport"] ?? 0;
+		$completedReport = $data["completedReport"] ?? 0;
 		//php code hrre
 
 		?>
@@ -34,7 +62,7 @@ auth("STD");
 							<h2>Total Reports</h2>
 						</div>
 
-						<p id="totalReport">2</p>
+						<p id="totalReport"><?= $totalReport ?></p>
 					</div>
 				</a>
 
@@ -46,7 +74,7 @@ auth("STD");
 							<h2>Pending</h2>
 						</div>
 
-						<p id="pendingReport">0</p>
+						<p id="pendingReport"><?= $pendingReport ?></p>
 					</div>
 
 					<div class="dashboard-box">
@@ -55,7 +83,7 @@ auth("STD");
 							<h2>Assigned</h2>
 						</div>
 
-						<p id="assignedReport">1</p>
+						<p id="assignedReport"><?= $assignedReport ?></p>
 					</div>
 
 					<div class="dashboard-box">
@@ -64,7 +92,7 @@ auth("STD");
 							<h2>In Progress</h2>
 						</div>
 
-						<p id="progressReport">0</p>
+						<p id="progressReport"><?= $progressReport ?></p>
 					</div>
 
 					<div class="dashboard-box">
@@ -73,7 +101,7 @@ auth("STD");
 							<h2>Completed</h2>
 						</div>
 
-						<p id="completedReport">1</p>
+						<p id="completedReport"><?= $completedReport ?></p>
 					</div>
 
 				</div>
