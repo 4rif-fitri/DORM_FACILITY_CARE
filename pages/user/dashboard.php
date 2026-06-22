@@ -1,6 +1,7 @@
 <?php
 require_once __DIR__ . "../../../inc/init.php";
-auth("STD");
+auth("STD,STF", $_SESSION["type"] ?? null);
+		// send("ariffitrimohdjamil@gmail.com", "LOREM", "LOREM");
 
 // send("ariffitrimohdjamil@gmail.com", "LOREM", "LOREM");
 //php code hrre

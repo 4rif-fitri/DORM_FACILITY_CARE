@@ -1,6 +1,6 @@
 <?php
 require_once __DIR__ . "../../../inc/init.php";
-auth("SAD");
+auth("SAD", $_SESSION["type"] ?? null);
 
 //php code hrre
 if (isset($_GET["rejectID"])) {
@@ -70,6 +70,13 @@ if (isset($_GET["rejectID"])) {
 		$result = mysqli_query($conn, $sql);
 		$row = mysqli_fetch_assoc($result);
 	}
+
+	// fetch comments
+	$sql = "	SELECT *
+	    		FROM comments
+    			INNER JOIN user u ON comments.userID  = u.userID
+    			WHERE comments.reportID = '$reportId'";
+	$comments = mysqli_query($conn, $sql);
 } else {
 	header("Location: reportManage.php");
 }
@@ -92,6 +99,49 @@ while ($datas = mysqli_fetch_assoc($resultContractor)) {
 		"expertise" => $datas["expertise"]
 	];
 }
+
+// comment posting
+if (isset($_POST['submit'])) {
+	try {
+		$desc = $_POST["description"];
+		$userID = $_SESSION["userID"];
+		$sqlComment = "INSERT INTO comments
+					(theComment, reportID, userID)
+					VALUES
+					('$desc', $reportId, '$userID')
+		";
+		mysqli_query($conn, $sqlComment);
+
+		header("Location: reportUpdate.php?id=$reportId");
+	} catch (mysqli_sql_exception $e) {
+		$msg = $e->getMessage();
+
+		echo "<script>alert('Failed: $msg');
+			window.location.href='reportUpdate.php?id=$reportId';
+		</script>";
+	}
+}
+
+// comment deleting
+if (isset($_GET['cid'])) {
+	try {
+		$commentID = $_GET['cid'];
+
+		$sql = "DELETE FROM comments
+        	    WHERE commentsID = $commentID
+				";
+		mysqli_query($conn, $sql);
+
+		header("Location: reportUpdate.php?id=$reportId");
+	} catch (mysqli_sql_exception $e) {
+		$msg = $e->getMessage();
+
+		echo "<script>alert('Failed: $msg');
+			window.location.href='reportUpdate.php?id=$reportId';
+		</script>";
+	}
+}
+
 //php code hrre
 
 ?>
@@ -232,26 +282,45 @@ while ($datas = mysqli_fetch_assoc($resultContractor)) {
 							Comment
 						</h4>
 						<div class="chat">
-							<div class="other">
-								<p>USer</p>
-								Mana Wifi
-							</div>
-							<div class="me">
-								<p>Me</p>
-								Sabo
-							</div>
+							<?php
+							while($comment = mysqli_fetch_assoc($comments)){
+								if($comment["userID"] == $_SESSION["userID"]){
+									echo '<div class="me">
+										<p>Me</p>';
+								}
+								else{
+									echo '<div class="other">';
+									switch ($comment["type"]){
+										case "SAD": echo '<p>Admin</p>';
+											break;
+										case "STD": echo '<p>Student</p>';
+											break;
+										case "STF": echo '<p>Staff</p>';
+											break;
+										case "CTR": echo '<p>Contractor</p>';
+											break;
+									}
+								}
+								echo "<p>$comment[theComment]</p>";
+								if($comment["userID"] == $_SESSION["userID"]) // deletable if user's own comment
+									echo "<a href='reportUpdate.php?id=$reportId&cid=$comment[commentsID]' class='deleteBtn'>Delete</a>";
+								echo '</div>';
+							}
+							?>
 						</div>
 
-						<div class="comment">
-							<div class="input-control">
-								<label for="description">Comment</label>
-								<textarea type="text" name="description" id="description"></textarea>
+						<form action="" method="POST">
+							<div class="comment">
+								<div class="input-control">
+									<label for="description">Comment</label>
+									<textarea type="text" name="description" id="description" required></textarea>
+								</div>
 							</div>
-						</div>
 
-						<article>
-							<button class="btn btn-success">Submit</button>
-						</article>
+							<article>
+								<button name="submit" class="btn btn-success">Submit</button>
+							</article>
+						</form>
 					</section>
 				</div>
 
