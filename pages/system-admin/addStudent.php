@@ -10,6 +10,38 @@ $sql = "SELECT * FROM user
 
 $result = mysqli_query($conn, $sql);
 $result2 = mysqli_query($conn, $sql);
+
+if(isset($_POST['submit'])){
+	$matricNo = $_POST['matrik'];
+	$name = $_POST['name'];
+	$password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+	$numTel = $_POST['numTel'];
+	$email = $_POST['email'];
+	$college = $_POST['collage'];
+	$studentRoom = $_POST['studentRoom'];
+
+	$sqlUser = "INSERT INTO user
+			(userID, name, password, numTel, email, type)
+			VALUES 
+			('$matricNo', '$name', '$password', '$numTel', '$email', 'STD')
+			";
+	
+	if(mysqli_query($conn, $sqlUser)){
+		$sqlStudent = "INSERT INTO student
+				 (userID, studentCollege, studentRoom)
+				 VALUES
+				 ('$matricNo', '$college', '$studentRoom')
+				 ";
+
+		$resultStudent = mysqli_query($conn, $sqlStudent);
+
+		echo "
+        <script>
+            alert('Student Added Successfully');
+            window.location.href='';
+        </script>";
+	}
+}
 //php code hrre
 
 ?>
@@ -56,16 +88,17 @@ $result2 = mysqli_query($conn, $sql);
 					</thead>
 
 					<tbody>
-						<?php while ($row = mysqli_fetch_assoc($result)) : ?>
-							<tr>
-								<td><?= $row['userID'] ?></td>
-								<td><?= $row['name'] ?></td>
-								<td><?= $row['studentCollege'] ?></td>
-								<td><?= $row['numTel'] ?></td>
-								<td>
-									<button onclick="update('<?= $row['userID'] ?>')" class="updateBtn" data-bs-target="#modalStudent" data-bs-toggle="modal">Update</button>
-								</td>
-							</tr>
+
+						<?php while($row = mysqli_fetch_assoc($result)) : ?> 
+						<tr>
+							<td><?= $row['userID'] ?></td>
+							<td><?= $row['name'] ?></td>
+							<td><?= $row['studentCollege'] ?></td>
+							<td><?= $row['numTel'] ?></td>
+							<td>
+								<button onclick="update(<?= $row['userID'] ?>)" class="updateBtn" data-bs-target="#modalStudent" data-bs-toggle="modal">Update</button>
+							</td>
+						</tr>
 						<?php endwhile ?>
 
 					</tbody>
@@ -180,12 +213,12 @@ $result2 = mysqli_query($conn, $sql);
 						</div>
 						<div class="input-control">
 							<label for="studentRoom">Student Room</label>
-							<input type="text" disabled name="studentRoom" id="studentRoom">
+							<input type="text" readonly name="studentRoom" id="studentRoom">
 						</div>
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
-						<button type="submit" class="btn btn-primary">Save changes</button>
+						<button type="submit"  name="submit" class="btn btn-primary">Add Student</button>
 					</div>
 				</form>
 			</div>

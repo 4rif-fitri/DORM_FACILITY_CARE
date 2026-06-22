@@ -14,6 +14,35 @@ $sql = "SELECT
 
 $result = mysqli_query($conn, $sql);
 $result2 = mysqli_query($conn, $sql);
+
+if(isset($_POST['submit'])){
+	$userID = $_POST['contractorID'];
+	$name = $_POST['name'];
+	$password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+	$numTel = $_POST['numTel'];
+	$email = $_POST['email'];
+	$expertise = $_POST['expertise'];
+
+	$sqlUser = "INSERT INTO user
+				(userID, name, password, numTel, email)
+				VALUES
+				('$userID', '$name', '$password', '$numTel', '$email')";
+
+	if(mysqli_query($conn, $sqlUser)){
+		$sqlContractor = "INSERT INTO contractor
+						  (contractorID, expertise)
+						  VALUES
+						  ('$userID', '$expertise')";
+		
+		$resultContractor = mysqli_query($conn, $sqlContractor);
+
+		echo "
+        <script>
+            alert('Contractor Added Successfully');
+            window.location.href='';
+        </script>"; 
+	}
+}
 //php code hrre
 
 ?>
@@ -106,6 +135,10 @@ $result2 = mysqli_query($conn, $sql);
 					</div>
 					<div class="modal-body">
 						<div class="input-control">
+							<label for="contractorID">Id</label>
+							<input type="text" name="contractorID" id="contractorID">
+						</div>
+						<div class="input-control">
 							<label for="name">Name</label>
 							<input type="text" name="name" id="name">
 						</div>
@@ -128,7 +161,7 @@ $result2 = mysqli_query($conn, $sql);
 					</div>
 					<div class="modal-footer">
 						<button type="reset" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
-						<button type="submit" class="btn btn-primary">Save changes</button>
+						<button type="submit" name="submit" class="btn btn-primary">Save changes</button>
 					</div>
 				</form>
 			</div>
