@@ -7,7 +7,7 @@ auth("STD");
 
 //php code hrre
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+if ($_SERVER["REQUEST_METHOD"] == "POST" || isset($_POST["submit"])) {
 	$email = $_POST["email"];
 	$password = $_POST["password"];
 
@@ -25,7 +25,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 			$password === $user["password"]
 		) {
 
-			// Jika password masih plaintext, terus tukar kepada hash
 			if ($password === $user["password"]) {
 				$hash = password_hash($password, PASSWORD_DEFAULT);
 
@@ -70,6 +69,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 	<title>Dorm Facility Care</title>
 	<script src="./lib/jquery.js"></script>
 	<link rel="stylesheet" href="./style/index.css">
+	<link rel="stylesheet" href="./lib/bootstrap.css">
+	<script src="./lib/bootstrap.js"></script>
 </head>
 
 <body>
@@ -95,10 +96,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 				<section class="right _dekstop">
 					<img class="logo" src="./images/logo2.svg" alt="">
 					<div>
-						<form action="" method="post" id="form">
+						<form action="" id="form" method="post" id="form">
 							<article>
-								<h1 class="bg-primary">Welcome Back !</h1>
-								<p>Lorem, ipsum dolor</p>
+								<h1>Welcome Back !</h1>
 							</article>
 
 							<div class="input-control">
@@ -108,26 +108,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 							<div class="input-control">
 								<label for="password">Password</label>
-								<input required placeholder="Your password" type="password" name="password"
-									id="password">
+								<input required placeholder="Your password" type="password" name="password" id="password">
 							</div>
 
+							<!-- <button type="button" class="btn text-primary" data-bs-toggle="modal" data-bs-target="#forgotPasswordModal">
+								Forgot Password
+							</button> -->
+
 							<div class="input-control">
-								<button type="submit" class="btn">Log in</button>
+								<button type="submit" name="submit" class="btn">Log in</button>
 							</div>
 						</form>
 						<div class="input-control">
-							<form method="POST" action=""><input hidden value="ADMIN@utem.edu.my" type="text" name="email"><input hidden value="abc123" type="text" name="password"><button name="submit" type="submit">System Admin</button></form>
-							<form method="POST" action=""><input hidden value="MIRZA@utem.edu.my" type="text" name="email"><input hidden value="abc123" type="text" name="password"><button name="submit" type="submit">Contractor</button></form>
+							<form method="POST" id="form" action=""><input hidden value="ADMIN@utem.edu.my" type="text" name="email"><input hidden value="abc123" type="text" name="password"><button name="submit" type="submit" name="submit">System Admin</button></form>
+							<form method="POST" id="form" action=""><input hidden value="MIRZA@utem.edu.my" type="text" name="email"><input hidden value="abc123" type="text" name="password"><button name="submit" type="submit" name="submit">Contractor</button></form>
 
-							<form method="POST" action=""><input hidden value="D032410018@student.utem.edu.my" type="text" name="email"><input hidden value="abc123" type="text" name="password"><button name="submit" type="submit">User AIMAN </button></form>
-							<form method="POST" action=""><input hidden value="D032410021@student.utem.edu.my" type="text" name="email"><input hidden value="abc123" type="text" name="password"><button name="submit" type="submit">User ALYA </button></form>
-							<form method="POST" action=""><input hidden value="D032410297@student.utem.edu.my" type="text" name="email"><input hidden value="abc123" type="text" name="password"><button name="submit" type="submit">User FARHAN </button></form>
-
-							<!-- <form method="POST" action=""><input hidden value="TUAH@utem.edu.my" type="text" name="email"><input hidden value="abc123" type="text" name="password"><button name="submit" type="submit">Admin TUAH</button></form> -->
-							<!-- <form method="POST" action=""><input hidden value="JEBAT@utem.edu.my" type="text" name="email"><input hidden value="abc123" type="text" name="password"><button name="submit" type="submit">Admin JEBAT</button></form> -->
-							<!-- <form method="POST" action=""><input hidden value="JAZARI@utem.edu.my" type="text" name="email"><input hidden value="abc123" type="text" name="password"><button name="submit" type="submit">Admin AJ</button></form> -->
-							<!-- <form method="POST" action=""><input hidden value="LESTARI@utem.edu.my" type="text" name="email"><input hidden value="abc123" type="text" name="password"><button name="submit" type="submit">Admin Lestari</button></form> -->
+							<form method="POST" id="form" action=""><input hidden value="D032410018@student.utem.edu.my" type="text" name="email"><input hidden value="abc123" type="text" name="password"><button name="submit" type="submit" name="submit">User AIMAN </button></form>
+							<form method="POST" id="form" action=""><input hidden value="D032410321@student.utem.edu.my" type="text" name="email"><input hidden value="abc123" type="text" name="password"><button name="submit" type="submit" name="submit">User ARIF </button></form>
+							<form method="POST" id="form" action=""><input hidden value="D032410297@student.utem.edu.my" type="text" name="email"><input hidden value="abc123" type="text" name="password"><button name="submit" type="submit" name="submit">User FARHAN </button></form>
 						</div>
 					</div>
 
@@ -142,11 +140,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 						<img class="img1" src="./images/Jla3P43tx11.png" alt="">
 						<img class="img2" src="./images/mdm4r8ExUV8.png" alt="">
 					</div>
-
-					<!-- <div class="headline">
-						<h1 class="text">Lorem ipsum dolor</h1>
-						<h1 class="text2">Lorem ipsum</h1>
-					</div> -->
 
 				</section>
 			</div>
@@ -167,10 +160,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 			<div class="index-container">
 				<section class="right">
 					<div>
-						<form action="" method="post">
+						<form action="" method="post" id="form">
 							<article>
 								<h1>Welcome Back !</h1>
-								<p>Lorem, ipsum dolor</p>
 							</article>
 
 							<div class="input-control">
@@ -183,15 +175,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 								<input required placeholder="Your password" type="password" name="password" id="password">
 							</div>
 
+							<!-- <button type="button" class="btn text-primary" data-bs-toggle="modal" data-bs-target="#forgotPasswordModal">
+								Forgot Password
+							</button> -->
+
 							<div class="input-control">
-								<button type="submit" class="btn">Log in</button>
+								<button type="submit" name="submit" class="btn">Log in</button>
 							</div>
-							<!-- <div class="input-control">
-								<a href="./pages/user/dashboard.php">user</a>
-								<a href="./pages/system-admin/dashboard.php">system admin</a>
-								<a href="./pages/contractor/dashboard.php">contractor</a>
-								<a href="./pages/college-admin/dashboard.php">college admin</a>
-							</div> -->
 						</form>
 					</div>
 
@@ -202,6 +192,30 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 		<!-- CONTENT HERE -->
 
 	</aside>
+
+	<div class="modal fade" id="forgotPasswordModal">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h1 class="modal-title fs-5" id="exampleModalLabel">Forgot Password</h1>
+				</div>
+				<div class="modal-body">
+					<div class="input-control">
+						<label for="forgot-email">Email</label>
+						<input value="D032410321@student.uetm.edu.my" type="email" name="forgot-email" id="forgot-email">
+					</div>
+					<div class="input-control">
+						<label for="forgot-phone">Phone Number</label>
+						<input value="0197231577" type="tel" name="forgot-phone" id="forgot-phone">
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button id="close" type="reset" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+					<button id="submit-forgot" type="submit" name="Forgot" class="btn btn-primary">Submit</button>
+				</div>
+			</div>
+		</div>
+	</div>
 
 	<script>
 		let loading = `<div class="_loading-container"><img width="200" src="./images/Loading_icon.gif" alt=""></div>`;
@@ -214,7 +228,45 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 			$("._loading-container").remove();
 		})
 
-		document.querySelectorAll("form").forEach(form => {
+		let emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+		document.getElementById("submit-forgot").addEventListener("click", e => {
+			let forgotEmail = document.getElementById("forgot-email");
+			let forgotPhone = document.getElementById("forgot-phone");
+
+			if (forgotEmail.value.trim() == "") {
+				forgotEmail.focus();
+			} else if (forgotPhone.value.trim() == "") {
+				forgotPhone.focus();
+			} else if (!emailRegex.test(forgotEmail.value.trim())) {
+				forgotEmail.focus();
+				alert("Invalid Email Format");
+			} else {
+				$.ajax({
+					url: "./api/forgotPassword.php",
+					method: "POST",
+					data: {
+						email: forgotEmail.value.trim().toLowerCase(),
+						phone: forgotPhone.value.trim()
+					},
+					success: response => {
+						console.log(response);
+
+					},
+					error: response => {
+						console.log(response);
+
+					}
+				})
+			}
+		})
+
+		document.getElementById("close").addEventListener("click", e => {
+			document.getElementById("forgot-email").value = ""
+			document.getElementById("forgot-phone").value = ""
+		})
+
+		document.querySelectorAll("#form").forEach(form => {
 			form.addEventListener("submit", e => {
 				let inputs = form.querySelectorAll("input");
 

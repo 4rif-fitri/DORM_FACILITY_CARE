@@ -32,7 +32,7 @@ auth("CTR");
 							<h2>Total Reports</h2>
 						</div>
 
-						<p id="totalReport">2</p>
+						<p id="totalReport">0</p>
 					</div>
 				</a>
 
@@ -41,20 +41,11 @@ auth("CTR");
 
 					<div class="dashboard-box">
 						<div class="dashboard-header">
-							<img class="dashboard-icon" src="../../images/pending.svg" alt="">
-							<h2>Pending</h2>
-						</div>
-
-						<p id="pendingReport">0</p>
-					</div>
-
-					<div class="dashboard-box">
-						<div class="dashboard-header">
 							<img class="dashboard-icon" src="../../images/assigned.svg" alt="">
 							<h2>Assigned</h2>
 						</div>
 
-						<p id="assignedReport">1</p>
+						<p id="assignedReport">0</p>
 					</div>
 
 					<div class="dashboard-box">
@@ -72,7 +63,7 @@ auth("CTR");
 							<h2>Completed</h2>
 						</div>
 
-						<p id="completedReport">1</p>
+						<p id="completedReport">0</p>
 					</div>
 
 				</div>

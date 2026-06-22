@@ -7,7 +7,8 @@ auth("CTR");
 if (isset($_GET["idDoit"])) {
 	$reportID = $_GET["idDoit"];
 	$sql = "	UPDATE report
-			SET  status = 'In_Progress'
+			SET  status = 'In_Progress',
+				dateAssigned = NOW()
 			WHERE reportID = '$reportID' 
 			";
 	mysqli_query($conn, $sql);
@@ -17,7 +18,7 @@ if (isset($_GET["idDoit"])) {
 $idContractor = $_SESSION["userID"];
 $sql = "	SELECT 	reportID, 
 				reportCategory, 	
-				reportDesc, 
+				college, 
 				dateReported, 
 				status
         	FROM report
@@ -25,6 +26,7 @@ $sql = "	SELECT 	reportID,
 		ORDER BY dateReported DESC
 		";
 $result = mysqli_query($conn, $sql);
+$result2 = mysqli_query($conn, $sql);
 
 //php code hrre
 
@@ -71,7 +73,7 @@ $result = mysqli_query($conn, $sql);
 							<tr>
 								<td><?= $row["reportID"] ?></td>
 								<td><?= $row["reportCategory"] ?></td>
-								<td><?= $row["reportDesc"] ?></td>
+								<td><?= $row["college"] ?></td>
 								<td><?= $row["dateReported"] ?></td>
 								<td><?= $row["status"] ?></td>
 								<td><a href="./assignedTasks.php?idDoit=<?= $row["reportID"] ?>" class="updateBtn">Take</a></td>
@@ -80,6 +82,32 @@ $result = mysqli_query($conn, $sql);
 					</tbody>
 
 				</table>
+
+				<?php while ($row2 = mysqli_fetch_assoc($result2)) : ?>
+					<div class="reportCard">
+						<div id="reportCard-info">
+							<div id="reportCard-left">
+								<p><strong>Id</strong></p>
+								<p><strong>Category</strong></p>
+								<p><strong>Location</strong></p>
+								<p><strong>Date</strong></p>
+								<p><strong>Status</strong></p>
+							</div>
+
+							<div id="reportCard-right">
+								<p><?= $row2['reportID'] ?></p>
+								<p><?= $row2['reportCategory'] ?></p>
+								<p><?= $row2['college'] ?></p>
+								<p><?= $row2['dateReported'] ?></p>
+								<p><?= $row2['status'] ?></p>
+							</div>
+						</div>
+
+						<div id="reportCard-bottom">
+							<a href="./trackReport.php?id=<?= $row2['reportID'] ?>" class="updateBtn">Take</a>
+						</div>
+					</div>
+				<?php endwhile ?>
 			</section>
 
 
