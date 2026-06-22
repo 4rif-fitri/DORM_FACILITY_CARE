@@ -11,7 +11,7 @@ auth("STD");
 
 			SUM(CASE WHEN status='Pending' THEN 1 ELSE 0 END) AS pendingReport,
 			SUM(CASE WHEN status='Assigned' THEN 1 ELSE 0 END) AS assignedReport,
-			SUM(CASE WHEN status='In Progress' THEN 1 ELSE 0 END) AS progressReport,
+			SUM(CASE WHEN status='In_Progress' THEN 1 ELSE 0 END) AS progressReport,
 			SUM(CASE WHEN status='Completed' THEN 1 ELSE 0 END) AS completedReport
 
 		FROM report
