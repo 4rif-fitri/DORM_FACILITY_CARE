@@ -107,7 +107,7 @@ section+.table table td {
 	width: 100%;
 	display: grid;
 	gap: 0.5rem;
-	grid-template-columns: 2fr 2fr;
+	grid-template-columns: 1fr;
 }
 
 .filter-control select {
@@ -178,7 +178,7 @@ section+.table table td {
 
 @media screen and (min-width:1000px) {
 	.filter-control {
-		grid-template-columns: 2fr 2fr 1fr 1fr;
+		grid-template-columns: 2fr 2fr 1fr;
 	}
 }
 

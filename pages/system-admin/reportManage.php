@@ -92,7 +92,7 @@ $result2 = mysqli_query($conn, $sql);
 							<th>Location</th>
 							<th>Date</th>
 							<th>Status</th>
-							<th>Edit</th>
+							<th>Action</th>
 						</tr>
 					</thead>
 
@@ -149,7 +149,7 @@ $result2 = mysqli_query($conn, $sql);
 								<td>${(data.dateReported).split(" ")[0]}</td>
 								<td>${data.status}</td>
 								<td>
-									<a href="./reportUpdate.php?id=${data.reportID}" class="updateBtn">Update</a>
+									${data.status === "Cancelled" ? `<span disabled class="updateBtn disabled">Track Report</span>` : `<a href="./reportUpdate.php?id=${data.reportID}" class="updateBtn">Track Report</a>`}
 								</td>
 							`;
 
@@ -175,7 +175,7 @@ $result2 = mysqli_query($conn, $sql);
 									</div>
 
 									<div id="reportCard-bottom">
-										<a href="./trackReport.php?id=${data.reportID}" class="updateBtn">Track Report</a>
+										${data.status === "Cancelled" ? `<span disabled class="updateBtn disabled">Track Report</span>` : `<a href="./reportUpdate.php?id=${data.reportID}" class="updateBtn">Track Report</a>`}
 									</div>`
 
 								document.querySelector(".table-container").appendChild(div)

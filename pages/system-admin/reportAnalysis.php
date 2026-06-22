@@ -137,7 +137,7 @@ function getDatatable($conn)
 						</select>
 
 						<button class="btn-reset" id="filter-college-reset">Reset</button>
-						<button class="btn-export" id="filter-college-export">Export cvs</button>
+						<!-- <button class="btn-export" id="filter-college-export">Export cvs</button> -->
 					</div>
 				</section>
 				<!-- <section class="barGraphBlock">
@@ -219,8 +219,7 @@ function getDatatable($conn)
 							<option value="Al_Jazari">Al Jazari</option>
 						</select>
 						<button class="btn-reset" id="filter-status-reset">Reset</button>
-						<button class="btn-export" id="filter-status-export">Export cvs</button>
-
+						<!-- <button class="btn-export" id="filter-status-export">Export cvs</button> -->
 					</div>
 				</section>
 				<section class="table" id="table">
@@ -254,7 +253,7 @@ function getDatatable($conn)
 							<option value="Others">Others</option>
 						</select>
 						<button class="btn-reset" id="filter-table-reset">Reset</button>
-						<button class="btn-export" id="filter-table-export">Export cvs</button>
+						<!-- <button class="btn-export" id="filter-table-export">Export cvs</button> -->
 
 					</div>
 				</section>
@@ -349,7 +348,7 @@ function getDatatable($conn)
 
 		let filterStatusCollege = ""
 		let filterStatusMonth = ""
-
+		let dataStatus
 		let filterStatus = () => {
 			$.ajax({
 				url: "../../api/getFilterdStatus.php",
@@ -359,6 +358,7 @@ function getDatatable($conn)
 					filterStatusMonth: filterStatusMonth
 				},
 				success: response => {
+					dataStatus = response.datas
 					console.log(response)
 					drawBarChart(canvas_Status, response.datas);
 
@@ -506,7 +506,7 @@ function getDatatable($conn)
 			let radius = 150
 			let startAngle = 0
 
-			let lagendX = 550
+			let lagendX = 400
 			let lagendY = 50
 
 			datas.forEach((data, index) => {
@@ -579,6 +579,7 @@ function getDatatable($conn)
 				ctx.fillRect(x, y, barWidth, barHeight);
 
 				ctx.fillStyle = "#000";
+				ctx.font = "15px Arial";
 				ctx.fillText(value, x, y - 10);
 				ctx.fillText(label, x, startY + 20);
 			});
@@ -706,7 +707,7 @@ function getDatatable($conn)
 				drawPieChart(canvas_category, datacategory);
 				// drawPieChart(canvas_Block, dataBlock);
 				// drawLineGraph(canvas_Trand, dataTrand);
-				drawBarChart(canvas_Status, []);
+				drawBarChart(canvas_Status, dataStatus);
 
 			}, 1000);
 

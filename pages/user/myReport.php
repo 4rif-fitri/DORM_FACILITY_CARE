@@ -16,6 +16,22 @@ $sql = "	SELECT 	reportID,
 		ORDER BY dateReported DESC
 		";
 
+if (isset($_GET['rid'])) {
+	$reportID = $_GET['rid'];
+
+	$sql = "UPDATE report
+            SET status = 'Cancelled'
+            WHERE reportID = $reportID AND userID = '$userID'
+		  ";
+
+	if (mysqli_query($conn, $sql)) {
+		echo "
+		<script>
+			alert('Report Cancelled succesfully');
+			window.location.href = 'myReport.php';
+		</script>";
+	}
+}
 // $result = mysqli_query($conn, $sql);
 // $result2 = mysqli_query($conn, $sql);
 // php code hrre
@@ -147,9 +163,10 @@ $sql = "	SELECT 	reportID,
 								<td>${data.dateReported}</td>
 								<td>${data.status}</td>
 								<td>
-									<a href="./trackReport.php?id=${data.reportID}" class="updateBtn">Update</a>
+									${data.status === "Cancelled" ? `<span disabled class="updateBtn disabled">Track</span>` : `<a href="./trackReport.php?id=${data.reportID}" class="updateBtn">Track</a>`} 
+									${data.status == "Pending" ? `<a href="myReport.php?rid=${data.reportID}" class="deleteBtn">Cancel</a>` : `<span class="deleteBtn disabled">Cancel</span>` }
 								</td>
-							`;
+								`;
 
 								let div = document.createElement("div")
 								div.classList.add("reportCard")
@@ -173,7 +190,8 @@ $sql = "	SELECT 	reportID,
 									</div>
 
 									<div id="reportCard-bottom">
-										<a href="./trackReport.php?id=${data.reportID}" class="updateBtn">Track Report</a>
+										${data.status === "Cancelled" ? `<span disabled class="updateBtn disabled">Track</span>` : `<a href="./trackReport.php?id=${data.reportID}" class="updateBtn">Track</a>`} 
+										${data.status == "Pending" ? `<a href="myReport.php?rid=${data.reportID}" class="deleteBtn">Cancel</a>` : `<span class="deleteBtn disabled">Cancel</span>` }
 									</div>`
 
 								document.querySelector(".table-container").appendChild(div)

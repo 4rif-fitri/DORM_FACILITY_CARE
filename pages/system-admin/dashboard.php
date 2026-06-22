@@ -3,7 +3,25 @@ require_once __DIR__ . "../../../inc/init.php";
 auth("SAD");
 
 //php code hrre
+$sql = "SELECT
+    COUNT(*) AS totalReport,
 
+    SUM(CASE WHEN status = 'Pending' THEN 1 ELSE 0 END) AS pendingReport,
+    SUM(CASE WHEN status = 'Assigned' THEN 1 ELSE 0 END) AS assignedReport,
+    SUM(CASE WHEN status = 'In Progress' THEN 1 ELSE 0 END) AS progressReport,
+    SUM(CASE WHEN status = 'Completed' THEN 1 ELSE 0 END) AS completedReport
+
+FROM report ";
+
+$result = mysqli_query($conn, $sql);
+
+$data = mysqli_fetch_assoc($result);
+
+$totalReport = $data['totalReport'];
+$pendingReport = $data['pendingReport'];
+$assignedReport = $data['assignedReport'];
+$progressReport = $data['progressReport'];
+$completedReport = $data['completedReport'];
 //php code hrre
 
 ?>
@@ -33,7 +51,7 @@ auth("SAD");
 							<h2>Total Reports</h2>
 						</div>
 
-						<p id="totalReport">2</p>
+						<p id="totalReport"><?= $totalReport ?></p>
 					</div>
 				</a>
 
@@ -47,7 +65,7 @@ auth("SAD");
 							<h2>Pending</h2>
 						</div>
 
-						<p id="pendingReport">0</p>
+						<p id="pendingReport"><?= $pendingReport ?></p>
 					</div>
 
 					<div class="dashboard-box">
@@ -56,7 +74,7 @@ auth("SAD");
 							<h2>Assigned</h2>
 						</div>
 
-						<p id="assignedReport">1</p>
+						<p id="assignedReport"><?= $assignedReport ?></p>
 					</div>
 
 					<div class="dashboard-box">
@@ -65,7 +83,7 @@ auth("SAD");
 							<h2>In Progress</h2>
 						</div>
 
-						<p id="progressReport">0</p>
+						<p id="progressReport"><?= $progressReport ?></p>
 					</div>
 
 					<div class="dashboard-box">
@@ -74,7 +92,7 @@ auth("SAD");
 							<h2>Completed</h2>
 						</div>
 
-						<p id="completedReport">1</p>
+						<p id="completedReport"><?= $completedReport ?></p>
 					</div>
 
 				</div>

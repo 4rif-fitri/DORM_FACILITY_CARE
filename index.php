@@ -8,8 +8,24 @@ auth("STD");
 //php code hrre
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" || isset($_POST["submit"])) {
-	$email = $_POST["email"];
-	$password = $_POST["password"];
+	$email = trim($_POST["email"] ?? "");
+	$password = trim($_POST["password"] ?? "");
+
+	if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+		echo "<script>
+				alert('Invalid email format');
+				window.location.href = './index.php';
+			</script>";
+		exit;
+	}
+
+	if ($email === "" || $password === "") {
+		echo "<script>
+				alert('Email and password are required');
+				window.location.href = './index.php';
+			</script>";
+		exit;
+	}
 
 	$stmt = mysqli_prepare($conn, "SELECT * FROM user WHERE email = ?");
 	mysqli_stmt_bind_param($stmt, "s", $email);
@@ -48,12 +64,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" || isset($_POST["submit"])) {
 			} else if ($user["type"] == "CAD") {
 				header("Location: ./pages/college-admin/dashboard.php");
 			}
-
 			exit;
 		}
 	}
 
-	echo "<script>alert('Invalid Credential')</script>";
+	echo "<script>
+			alert('User not found');
+			window.location.href = './index.php';
+		</script>";
 }
 //php code hrre
 
@@ -153,7 +171,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" || isset($_POST["submit"])) {
 
 	<aside class="_sidebar-_mobile _sidebar _mobile">
 
-
 		<!-- CONTENT HERE -->
 		<main class="_content-area">
 
@@ -218,17 +235,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" || isset($_POST["submit"])) {
 	</div>
 
 	<script>
-		let loading = `<div class="_loading-container"><img width="200" src="./images/Loading_icon.gif" alt=""></div>`;
-		$("body").prepend(loading);
+		let delay = time => new Promise(resolve => setTimeout(resolve, time))
 
-		let delay = time => new Promise(resolve => setTimeout(resolve, time));
+		let loading = `<div class="_loading-container"><img width="200" src="./images/Loading_icon.gif" alt=""></div>`;
+		
+		$("body").prepend(loading);
 
 		$(document).ready(async () => {
 			await delay(1000);
 			$("._loading-container").remove();
 		})
-
-		let emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
 		document.getElementById("submit-forgot").addEventListener("click", e => {
 			let forgotEmail = document.getElementById("forgot-email");
@@ -238,10 +254,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" || isset($_POST["submit"])) {
 				forgotEmail.focus();
 			} else if (forgotPhone.value.trim() == "") {
 				forgotPhone.focus();
-			} else if (!emailRegex.test(forgotEmail.value.trim())) {
-				forgotEmail.focus();
-				alert("Invalid Email Format");
-			} else {
+			}else {
 				$.ajax({
 					url: "./api/forgotPassword.php",
 					method: "POST",

@@ -203,7 +203,6 @@ if (!$row) {
 	</div>
 	<div class="popUpDone hidden">
 		<div class="card p-3">
-			<!-- <img id="asd" src="" alt=""> -->
 			<h1 class="text-center">✅</h1>
 			<h2>Done Add Report</h2>
 			<a href="./myReport.php" class="btn btn-success">Ok</a>
@@ -540,53 +539,6 @@ if (!$row) {
 		}
 		run()
 
-		// inpLocation.addEventListener("change", e => {
-		// 	let kolej = e.target.value
-		// 	console.log("Location selected: " + kolej);
-
-		// 	if (kolej == "") return
-
-		// 	inpLevel.setAttribute("disabled", "true")
-		// 	inpLevel.innerHTML = `
-		// 		<option selected disabled value="">Select Level</option>
-		// 	`
-
-		// 	inpBlock.removeAttribute("disabled")
-		// 	inpBlock.innerHTML = ""
-		// 	if (kolej == "Satria") {
-		// 		inpBlock.innerHTML = blokStaria
-
-		// 	} else if (kolej == "Al_Jazari") {
-		// 		inpBlock.innerHTML = blokAj
-
-		// 	} else if (kolej == "Lestari") {
-		// 		inpBlock.innerHTML = blokLestari
-		// 	}
-
-		// })
-
-		// inpBlock.addEventListener("change", e => {
-		// 	let blok = e.target.value
-		// 	let kolej = inpLocation.value
-		// 	console.log("Block selected: " + kolej + " " + blok);
-
-
-		// 	// WARN: assuming all blocks of a college have the same levels
-		// 	// unconfirmed for Lestari
-		// 	inpLevel.removeAttribute("disabled")
-		// 	inpLevel.innerHTML = ""
-		// 	if (kolej == "Satria") {
-		// 		inpLevel.innerHTML = levelStaria
-
-		// 	} else if (kolej == "Al_Jazari") {
-		// 		inpLevel.innerHTML = levelAj
-
-		// 	} else if (kolej == "Lestari") {
-		// 		inpLevel.innerHTML = levelLestari
-		// 	}
-
-		// })
-
 		let delay = time => new Promise(resolve => setTimeout(resolve, time))
 
 		let form = document.querySelector("form")
@@ -649,7 +601,6 @@ if (!$row) {
 
 				showLogin()
 
-				// document.querySelector(".popUpLoading").classList.remove("hidden");
 				await delay(2000)
 				$.ajax({
 					url: "../../api/submitReport.php",
@@ -663,9 +614,6 @@ if (!$row) {
 					},
 					success: response => {
 						console.log(response)
-						// document.getElementById("asd").src = response[0][7]
-						// document.querySelector(".popUpLoading").classList.add("hidden");
-						// document.querySelector(".popUpDone").classList.remove("hidden");
 						document.querySelector(".popUpLoading .bulat").style.animation = "fadeIN 0.2s forwards"
 						document.querySelector(".popUpLoading .bulat > *").style.animation = "show 0.3s forwards"
 					},
@@ -701,7 +649,6 @@ if (!$row) {
 		})
 
 		// handle image 
-
 		function addPhoto(file) {
 			if (!file) return;
 
@@ -744,8 +691,6 @@ if (!$row) {
 			imageAreaIcon.classList.add("hidden");
 			nameFile.classList.remove("hidden");
 			btnClose.classList.remove("hidden");
-
-
 		}
 
 		function removePhoto() {
