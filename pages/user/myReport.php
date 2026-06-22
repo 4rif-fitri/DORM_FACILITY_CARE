@@ -16,6 +16,21 @@ $sql = "	SELECT 	reportID,
 		ORDER BY dateReported DESC
 		";
 
+if(isset($_GET['rid'])){
+	$reportID = $_GET['rid'];
+
+	$sql = "DELETE FROM report
+			WHERE reportID = '$reportID'";
+	
+	if(mysqli_query($conn, $sql)){
+		echo "
+		<script>
+			alert('data deleted succesfully');
+			window.location.href = 'myReport.php';
+		</script>";
+	}
+	
+}
 // $result = mysqli_query($conn, $sql);
 // $result2 = mysqli_query($conn, $sql);
 // php code hrre
@@ -148,6 +163,7 @@ $sql = "	SELECT 	reportID,
 								<td>${data.status}</td>
 								<td>
 									<a href="./trackReport.php?id=${data.reportID}" class="updateBtn">Update</a>
+									<a href="myReport.php?rid=${data.reportID}" class="deleteBtn">Delete</a>
 								</td>
 							`;
 
