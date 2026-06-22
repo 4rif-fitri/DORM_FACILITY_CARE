@@ -3,7 +3,7 @@ session_start();
 require_once "./inc/conn.php";
 require_once "./inc/auth.php";
 require_once "./inc/mail.php";
-auth("STD");
+// auth("STD,STF", $_SESSION["type"] ?? null);
 
 //php code hrre
 
