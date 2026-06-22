@@ -151,69 +151,32 @@ a {
 	border-bottom: 1px solid var(--primary-md);
 }
 
-.reportCard {
-	width: 400px;
-	border-collapse: separate;
-	border-spacing: 0;
+strong{
+	color: var(--primary-dark);
+}
+
+.reportCard{
+	background-color: var(--primary-light);
+	border-radius: 15px;
+	border: 1px solid var(--primary-md);
 	display: none;
+	margin: 20px;
 }
 
-.reportCard tbody {
-	display: block;
-	margin-bottom: 10px;
+#reportCard-info{
+	display: flex;
+	flex-direction: row;
+	margin-top: 8px;
 }
 
-.reportCard tbody tr th,
-.reportCard tbody tr td {
-	padding: 12px 20px;
-	background-color: #F5F2F2;
+#reportCard-info div p{
+	padding: 8px 20px;
 }
 
-.reportCard tbody tr th {
-	width: 100px;
+#reportCard-bottom{
+	margin: 16px;
 }
 
-.reportCard tbody tr:first-child th {
-	border-radius: 12px 0px 0px 0px;
-	border-left: 1px solid #e8e6f5;
-	border-top: 1px solid #e8e6f5;
-}
-
-.reportCard tbody tr:not(:first-child):not(:last-child) th {
-	border-left: 1px solid #e8e6f5;
-}
-
-.reportCard tbody tr:last-child td:first-child {
-	border-radius: 0px 0px 0px 12px;
-	border-left: 1px solid #e8e6f5;
-	border-bottom: 1px solid #e8e6f5;
-}
-
-.reportCard tbody tr:first-child td {
-	border-radius: 0px 12px 0px 0px;
-	border-top: 1px solid #e8e6f5;
-	border-right: 1px solid #e8e6f5;
-}
-
-.reportCard tbody tr:not(:first-child):not(:last-child) td {
-	border-right: 1px solid #e8e6f5;
-}
-
-.reportCard tbody tr:last-child td:last-child {
-	border-radius: 0px 0px 12px 0px;
-	border-right: 1px solid #e8e6f5;
-	border-bottom: 1px solid #e8e6f5;
-}
-
-
-
-/* .trackingReportTbl tbody tr{
-    cursor: pointer;
-}
-
-.trackingReportTbl tbody tr:hover td{
-    background-color: #e6e4e4;
-} */
 
 /* ------------------REPORT TABLE END ------------------------ */
 
@@ -257,6 +220,12 @@ a {
 	.myReportTbl {
 		display: none;
 	}
+
+	#reportCard-bottom{
+		display: flex;
+		justify-content: end;
+	}
+
 }
 
 /* ==============  filter  =============== */

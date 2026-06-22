@@ -3,7 +3,13 @@ require_once __DIR__ . "../../../inc/init.php";
 auth("SAD");
 
 //php code hrre
+$sql = "SELECT * FROM user
+		JOIN student ON user.userID = student.userID
+		ORDER BY name ASC
+		";
 
+$result = mysqli_query($conn, $sql);
+$result2 = mysqli_query($conn, $sql);
 //php code hrre
 
 ?>
@@ -50,28 +56,45 @@ auth("SAD");
 					</thead>
 
 					<tbody>
+						<?php while($row = mysqli_fetch_assoc($result)) : ?> 
 						<tr>
-							<td>D032410321</td>
-							<td>Arif Fitri bin Mohd Jamil</td>
-							<td>Al-Jazari</td>
-							<td>011 167 6767</td>
+							<td><?= $row['userID'] ?></td>
+							<td><?= $row['name'] ?></td>
+							<td><?= $row['studentCollege'] ?></td>
+							<td><?= $row['numTel'] ?></td>
 							<td>
 								<button onclick="update(0)" class="updateBtn" data-bs-target="#modalStudent" data-bs-toggle="modal">Update</button>
 							</td>
 						</tr>
+						<?php endwhile ?>
 
-						<tr>
-							<td>D032410396</td>
-							<td>Muhammad Imran Danial</td>
-							<td>Satria</td>
-							<td>013 145 7816</td>
-							<td>
-								<button onclick="update(1)" class="updateBtn" data-bs-target="#modalStudent" data-bs-toggle="modal">Update</button>
-							</td>
-						</tr>
 					</tbody>
 
 				</table>
+				
+				<?php while($row2 = mysqli_fetch_assoc($result2)) :?>
+				<div class="reportCard">
+					<div id="reportCard-info">
+						<div id="reportCard-left">
+							<p><strong>Id</strong></p>
+							<p><strong>Name</strong></p>
+							<p><strong>College</strong></p>
+							<p><strong>Phone No</strong></p>
+						</div>
+						
+						<div id="reportCard-right">
+							<p><?= $row2['userID'] ?></p>
+							<p><?=  $row2['name'] ?></p>
+							<p><?= $row2['studentCollege'] ?></p>
+							<p><?= $row2['numTel'] ?></p>
+						</div>
+					</div>
+
+					<div id="reportCard-bottom">
+						<button class="updateBtn" data-bs-target="#modalStudent" data-bs-toggle="modal">Update</button>
+					</div>
+				</div>
+				<?php endwhile ?>
 			</section>
 
 

@@ -17,7 +17,7 @@ $sql = "	SELECT 	reportID,
 		";
 
 $result = mysqli_query($conn, $sql);
-
+$result2 = mysqli_query($conn, $sql);
 // php code hrre
 
 ?>
@@ -89,72 +89,54 @@ $result = mysqli_query($conn, $sql);
 						<tr>
 							<th>Id</th>
 							<th>Category</th>
-							<th>Collage</th>
+							<th>Location</th>
 							<th>Date</th>
 							<th>Status</th>
 							<th>Action</th>
 						</tr>
 					</thead>
 
-					<tbody id="table-data"></tbody>
+					<tbody>
+						<?php while ($row = mysqli_fetch_assoc($result)) : ?>
+							<tr>
+								<td><?= $row["reportID"] ?></td>
+								<td><?= $row["reportCategory"] ?></td>
+								<td><?= $row["college"] ?></td>
+								<td><?= $row["dateReported"] ?></td>
+								<td><?= $row["status"] ?></td>
+								<td><a href="./trackReport.php?id=<?= $row["reportID"] ?>" class="updateBtn">Track</a></td>
+							</tr>
+						<?php endwhile ?>
+					</tbody>
 
 				</table>
 
-				<table class="reportCard">
-					<tbody>
-						<tr>
-							<th>Id</th>
-							<td>67</td>
-						</tr>
+				
+				<?php while($row2 = mysqli_fetch_assoc($result2)) : ?>
+				<div class="reportCard">
+					<div id="reportCard-info">
+						<div id="reportCard-left">
+							<p><strong>Id</strong></p>
+							<p><strong>Category</strong></p>
+							<p><strong>Location</strong></p>
+							<p><strong>Date</strong></p>
+							<p><strong>Status</strong></p>
+						</div>
+						
+						<div id="reportCard-right">
+							<p><?= $row2['reportID'] ?></p>
+							<p><?=  $row2['reportCategory'] ?></p>
+							<p><?= $row2['college'] ?></p>
+							<p><?= $row2['dateReported'] ?></p>
+							<p><?= $row2['status'] ?></p>
+						</div>
+					</div>
 
-						<tr>
-							<th>Category</th>
-							<td>Plumbing</td>
-						</tr>
-
-						<tr>
-							<th>Date</th>
-							<td>09/11/2025</td>
-						</tr>
-
-						<tr>
-							<th>Status</th>
-							<td>Pending</td>
-						</tr>
-
-						<tr>
-							<td><a href="#" class="updateBtn">Track</a></td>
-							<td></td>
-						</tr>
-					</tbody>
-
-					<tbody>
-						<tr>
-							<th>Id</th>
-							<td>67</td>
-						</tr>
-
-						<tr>
-							<th>Category</th>
-							<td>Plumbing</td>
-						</tr>
-
-						<tr>
-							<th>Date</th>
-							<td>09/11/2025</td>
-						</tr>
-
-						<tr>
-							<th>Status</th>
-							<td>Pending</td>
-						</tr>
-
-						<tr>
-							<td><a href="#" class="updateBtn">Track</a></td>
-							<td></td>
-						</tr>
-					</tbody>
-				</table>
+					<div id="reportCard-bottom">
+						<a href="./trackReport.php?id=<?= $row2['reportID'] ?>" class="updateBtn">Track Report</a>
+					</div>
+				</div>
+				<?php endwhile ?>
 			</section>
 
 		</main>
