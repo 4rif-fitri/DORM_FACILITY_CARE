@@ -56,44 +56,44 @@ $result2 = mysqli_query($conn, $sql);
 					</thead>
 
 					<tbody>
-						<?php while($row = mysqli_fetch_assoc($result)) : ?> 
-						<tr>
-							<td><?= $row['userID'] ?></td>
-							<td><?= $row['name'] ?></td>
-							<td><?= $row['studentCollege'] ?></td>
-							<td><?= $row['numTel'] ?></td>
-							<td>
-								<button onclick="update(0)" class="updateBtn" data-bs-target="#modalStudent" data-bs-toggle="modal">Update</button>
-							</td>
-						</tr>
+						<?php while ($row = mysqli_fetch_assoc($result)) : ?>
+							<tr>
+								<td><?= $row['userID'] ?></td>
+								<td><?= $row['name'] ?></td>
+								<td><?= $row['studentCollege'] ?></td>
+								<td><?= $row['numTel'] ?></td>
+								<td>
+									<button onclick="update('<?= $row['userID'] ?>')" class="updateBtn" data-bs-target="#modalStudent" data-bs-toggle="modal">Update</button>
+								</td>
+							</tr>
 						<?php endwhile ?>
 
 					</tbody>
 
 				</table>
-				
-				<?php while($row2 = mysqli_fetch_assoc($result2)) :?>
-				<div class="reportCard">
-					<div id="reportCard-info">
-						<div id="reportCard-left">
-							<p><strong>Id</strong></p>
-							<p><strong>Name</strong></p>
-							<p><strong>College</strong></p>
-							<p><strong>Phone No</strong></p>
-						</div>
-						
-						<div id="reportCard-right">
-							<p><?= $row2['userID'] ?></p>
-							<p><?=  $row2['name'] ?></p>
-							<p><?= $row2['studentCollege'] ?></p>
-							<p><?= $row2['numTel'] ?></p>
-						</div>
-					</div>
 
-					<div id="reportCard-bottom">
-						<button class="updateBtn" data-bs-target="#modalStudent" data-bs-toggle="modal">Update</button>
+				<?php while ($row2 = mysqli_fetch_assoc($result2)) : ?>
+					<div class="reportCard">
+						<div id="reportCard-info">
+							<div id="reportCard-left">
+								<p><strong>Id</strong></p>
+								<p><strong>Name</strong></p>
+								<p><strong>College</strong></p>
+								<p><strong>Phone No</strong></p>
+							</div>
+
+							<div id="reportCard-right">
+								<p><?= $row2['userID'] ?></p>
+								<p><?= $row2['name'] ?></p>
+								<p><?= $row2['studentCollege'] ?></p>
+								<p><?= $row2['numTel'] ?></p>
+							</div>
+						</div>
+
+						<div id="reportCard-bottom">
+							<button onclick="update('<?= $row['userID'] ?>')" class="updateBtn" data-bs-target="#modalStudent" data-bs-toggle="modal">Update</button>
+						</div>
 					</div>
-				</div>
 				<?php endwhile ?>
 			</section>
 
@@ -494,7 +494,6 @@ $result2 = mysqli_query($conn, $sql);
 		}
 
 		function update(id) {
-			console.log(id);
 
 			$.ajax({
 				url: "../../api/getStudentDetail.php",
@@ -503,10 +502,10 @@ $result2 = mysqli_query($conn, $sql);
 					userID: id
 				},
 				success: response => {
-					console.log(response);
+					console.log(response[0]);
 
-					let kolej = "Al_Jazari"
-					let alamat = "C-4-4-C(1)"
+					let kolej = response[0].studentCollege
+					let alamat = response[0].studentRoom
 
 					let blok, floor, rumah, BILIK, bilik, katil
 					alamat = alamat.split("-")
@@ -546,6 +545,12 @@ $result2 = mysqli_query($conn, $sql);
 					});
 
 					let optBlock, optLevel, optNo_Rumah, optBilik, optKatil
+
+					optCollege = `
+						<option ${kolej == "Satria" ? "selected" : ""} value="A">Satria</option>
+						<option ${kolej == "Al_Jazari" ? "selected" : ""} value="B">Al Jazari</option>
+						<option ${kolej == "Lestari" ? "selected" : ""} value="C">Lestari</option>
+					`
 
 					if (kolej == "Al_Jazari") {
 
@@ -658,7 +663,7 @@ $result2 = mysqli_query($conn, $sql);
 							<option  ${katil == "2" ? "selected" : ""} value="2">2</option>
 						`
 					}
-
+					uptselectCollege.innerHTML = optCollege
 					uptselectBlock.innerHTML = optBlock
 					uptselectLevel.innerHTML = optLevel
 					uptselectRumah.innerHTML = optNo_Rumah
