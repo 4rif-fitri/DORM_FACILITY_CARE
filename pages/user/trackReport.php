@@ -212,6 +212,8 @@ if (isset($_GET['cid'])) {
 											break;
 										case "STF": echo '<p>Staff</p>';
 											break;
+										case "CTR": echo '<p>Contractor</p>';
+											break;
 									}
 								}
 								echo "<p>$comment[theComment]</p>";

@@ -70,6 +70,13 @@ if (isset($_GET["rejectID"])) {
 		$result = mysqli_query($conn, $sql);
 		$row = mysqli_fetch_assoc($result);
 	}
+
+	// fetch comments
+	$sql = "	SELECT *
+	    		FROM comments
+    			INNER JOIN user u ON comments.userID  = u.userID
+    			WHERE comments.reportID = '$reportId'";
+	$comments = mysqli_query($conn, $sql);
 } else {
 	header("Location: reportManage.php");
 }
@@ -103,7 +110,6 @@ if (isset($_POST['submit'])) {
 					VALUES
 					('$desc', $reportId, '$userID')
 		";
-
 		mysqli_query($conn, $sqlComment);
 
 		header("Location: reportUpdate.php?id=$reportId");
@@ -116,12 +122,25 @@ if (isset($_POST['submit'])) {
 	}
 }
 
-// fetch comments
-$sql = "	SELECT *
-    		FROM comments
-    		INNER JOIN user u ON comments.userID  = u.userID
-    		WHERE comments.reportID = '$reportId'";
-$comments = mysqli_query($conn, $sql);
+// comment deleting
+if (isset($_GET['cid'])) {
+	try {
+		$commentID = $_GET['cid'];
+
+		$sql = "DELETE FROM comments
+        	    WHERE commentsID = $commentID
+				";
+		mysqli_query($conn, $sql);
+
+		header("Location: reportUpdate.php?id=$reportId");
+	} catch (mysqli_sql_exception $e) {
+		$msg = $e->getMessage();
+
+		echo "<script>alert('Failed: $msg');
+			window.location.href='reportUpdate.php?id=$reportId';
+		</script>";
+	}
+}
 
 //php code hrre
 
@@ -278,11 +297,13 @@ $comments = mysqli_query($conn, $sql);
 											break;
 										case "STF": echo '<p>Staff</p>';
 											break;
+										case "CTR": echo '<p>Contractor</p>';
+											break;
 									}
 								}
 								echo "<p>$comment[theComment]</p>";
 								if($comment["userID"] == $_SESSION["userID"]) // deletable if user's own comment
-									echo "<a href='trackReport.php?id=$reportId&cid=$comment[commentsID]' class='deleteBtn'>Delete</a>";
+									echo "<a href='reportUpdate.php?id=$reportId&cid=$comment[commentsID]' class='deleteBtn'>Delete</a>";
 								echo '</div>';
 							}
 							?>

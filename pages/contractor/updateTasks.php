@@ -30,9 +30,59 @@ if (isset($_GET["id"])) {
 
 	$result = mysqli_query($conn, $sql);
 	$row = mysqli_fetch_assoc($result);
+
+	// fetch comments
+	$sql = "	SELECT *
+	    		FROM comments
+    			INNER JOIN user u ON comments.userID  = u.userID
+    			WHERE comments.reportID = '$reportId'";
+	$comments = mysqli_query($conn, $sql);
 } else {
-	header("Location: reportManage.php");
+	header("Location: assignedTasks.php");
 }
+
+// comment posting
+if (isset($_POST['submit'])) {
+	try {
+		$desc = $_POST["description"];
+		$userID = $_SESSION["userID"];
+		$sql = "INSERT INTO comments
+					(theComment, reportID, userID)
+					VALUES
+					('$desc', $reportId, '$userID')
+		";
+		mysqli_query($conn, $sql);
+
+		header("Location: updateTasks.php?id=$reportId");
+	} catch (mysqli_sql_exception $e) {
+		$msg = $e->getMessage();
+
+		echo "<script>alert('Failed: $msg');
+			window.location.href='updateTasks.php?id=$reportId';
+		</script>";
+	}
+}
+
+// comment deleting
+if (isset($_GET['cid'])) {
+	try {
+		$commentID = $_GET['cid'];
+
+		$sql = "DELETE FROM comments
+        	    WHERE commentsID = $commentID
+				";
+		mysqli_query($conn, $sql);
+
+		header("Location: updateTasks.php?id=$reportId");
+	} catch (mysqli_sql_exception $e) {
+		$msg = $e->getMessage();
+
+		echo "<script>alert('Failed: $msg');
+			window.location.href='updateTasks.php?id=$reportId';
+		</script>";
+	}
+}
+
 //php code hrre
 
 ?>
@@ -154,26 +204,45 @@ if (isset($_GET["id"])) {
 							Comment
 						</h4>
 						<div class="chat">
-							<div class="other">
-								<p>USer</p>
-								Mana Wifi
-							</div>
-							<div class="me">
-								<p>Me</p>
-								Sabo
-							</div>
+							<?php
+							while($comment = mysqli_fetch_assoc($comments)){
+								if($comment["userID"] == $_SESSION["userID"]){
+									echo '<div class="me">
+										<p>Me</p>';
+								}
+								else{
+									echo '<div class="other">';
+									switch ($comment["type"]){
+										case "SAD": echo '<p>Admin</p>';
+											break;
+										case "STD": echo '<p>Student</p>';
+											break;
+										case "STF": echo '<p>Staff</p>';
+											break;
+										case "CTR": echo '<p>Contractor</p>';
+											break;
+									}
+								}
+								echo "<p>$comment[theComment]</p>";
+								if($comment["userID"] == $_SESSION["userID"]) // deletable if user's own comment
+									echo "<a href='updateTasks.php?id=$reportId&cid=$comment[commentsID]' class='deleteBtn'>Delete</a>";
+								echo '</div>';
+							}
+							?>
 						</div>
 
-						<div class="comment">
-							<div class="input-control">
-								<label for="description">Comment</label>
-								<textarea type="text" name="description" id="description"></textarea>
+						<form action="" method="POST">
+							<div class="comment">
+								<div class="input-control">
+									<label for="description">Comment</label>
+									<textarea type="text" name="description" id="description" required></textarea>
+								</div>
 							</div>
-						</div>
 
-						<article>
-							<button class="btn btn-success">Submit</button>
-						</article>
+							<article>
+								<button name="submit" class="btn btn-success">Submit</button>
+							</article>
+						</form>
 					</section>
 				</div>
 
