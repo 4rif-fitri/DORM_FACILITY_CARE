@@ -15,6 +15,7 @@ if (isset($_GET["rejectID"])) {
 		header("Location: reportUpdate.php?id=$reportId");
 		exit;
 	} else echo mysqli_error($conn);
+	
 } else if (isset($_GET["id"])) {
 	$reportId = $_GET["id"];
 

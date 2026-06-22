@@ -15,7 +15,6 @@ if (isset($_GET["rejectID"])) {
 		header("Location: reportUpdate.php?id=$reportId");
 		exit;
 	} else echo mysqli_error($conn);
-
 } else if (isset($_GET["id"])) {
 	$reportId = $_GET["id"];
 
@@ -43,7 +42,7 @@ if (isset($_GET["rejectID"])) {
 	$result = mysqli_query($conn, $sql);
 	$row = mysqli_fetch_assoc($result);
 
-	if ($row["status"] == "Assigned") {
+	if (in_array($row["status"], ["Assigned", "In_Progress","Completed"])) {
 		$sql = "	SELECT
 			reporter.userID,
 			reporter.name,
@@ -68,8 +67,8 @@ if (isset($_GET["rejectID"])) {
 		INNER JOIN user reporter ON report.userID = reporter.userID
 		INNER JOIN user contractor ON report.contractorID = contractor.userID
 		WHERE reportId = '$reportId'";
-	$result = mysqli_query($conn, $sql);
-	$row = mysqli_fetch_assoc($result);
+		$result = mysqli_query($conn, $sql);
+		$row = mysqli_fetch_assoc($result);
 	}
 } else {
 	header("Location: reportManage.php");
@@ -318,12 +317,20 @@ while ($datas = mysqli_fetch_assoc($resultContractor)) {
 										<td><?= $row["name"] ?></td>
 										<td>Report has been Submitted</td>
 									</tr>
-									<?php if (in_array($row["status"], ["Assigned", "Completed"])) : ?>
+									<?php if (in_array($row["status"], ["Assigned", "Completed", "In_Progress"])) : ?>
 										<tr>
 											<td><?= $row["dateAssigned"] ?></td>
 											<td><span class="assigned">Assigned</span></td>
 											<td>System Admin(You)</td>
 											<td>Report Assigned to <?= $row["contractorName"] ?></td>
+										</tr>
+									<?php endif ?>
+									<?php if (in_array($row["status"], ["Completed", "In_Progress"])) : ?>
+										<tr>
+											<td><?= $row["dateAssigned"] ?></td>
+											<td><span class="completed">In Progress</span></td>
+											<td><?= $row["name"] ?></td>
+											<td>Working In Progress</td>
 										</tr>
 									<?php endif ?>
 									<?php if ($row["status"] == "Completed") : ?>

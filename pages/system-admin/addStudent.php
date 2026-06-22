@@ -13,6 +13,13 @@ auth("SAD");
 <head>
 	<!-- your styling -->
 	<link rel="stylesheet" href="../../style/reportDisplay.css">
+	<style>
+		.col-2 {
+			display: grid;
+			grid-template-columns: repeat(2, 1fr);
+			gap: 0.5rem;
+		}
+	</style>
 </head>
 
 <body>
@@ -38,7 +45,7 @@ auth("SAD");
 							<th>Name</th>
 							<th>College</th>
 							<th>Phone No</th>
-							<th>Edit</th>
+							<!-- <th>Edit</th> -->
 						</tr>
 					</thead>
 
@@ -48,10 +55,9 @@ auth("SAD");
 							<td>Arif Fitri bin Mohd Jamil</td>
 							<td>Al-Jazari</td>
 							<td>011 167 6767</td>
-							<td>
+							<!-- <td>
 								<button class="updateBtn" data-bs-target="#modalStudent" data-bs-toggle="modal">Update</button>
-								<!-- <a href="./studentUpdate.php" class="updateBtn">Update</a> -->
-							</td>
+							</td> -->
 						</tr>
 
 						<tr>
@@ -59,10 +65,9 @@ auth("SAD");
 							<td>Muhammad Imran Danial</td>
 							<td>Satria</td>
 							<td>013 145 7816</td>
-							<td>
+							<!-- <td>
 								<button class="updateBtn" data-bs-target="#modalStudent" data-bs-toggle="modal">Update</button>
-								<!-- <a href="./studentUpdate.php" class="updateBtn">Update</a> -->
-							</td>
+							</td> -->
 						</tr>
 					</tbody>
 
@@ -74,6 +79,7 @@ auth("SAD");
 		<!-- CONTENT HERE -->
 
 	</section>
+
 	<div class="modal fade" id="Modal">
 		<div class="modal-dialog modal-dialog-centered">
 			<div class="modal-content">
@@ -94,7 +100,7 @@ auth("SAD");
 						</div>
 						<div class="input-control">
 							<label for="password">Password</label>
-							<input type="password" name="password" id="password">
+							<input type="text" value="abc123" name="password" id="password">
 						</div>
 						<div class="input-control">
 							<label for="numTel">numTel</label>
@@ -104,18 +110,54 @@ auth("SAD");
 							<label for="email">email</label>
 							<input type="text" name="email" id="email">
 						</div>
-						<div class="input-control">
-							<label for="collage">Collage</label>
-							<select name="collage" id="collage">
-								<option disabled selected value="">Select Collage</option>
-								<option value="Satria">Satria</option>
-								<option value="Al_Jazari">Al_Jazari</option>
-								<option value="Lestari">Lestari</option>
-							</select>
+
+						<div class="input-control col-2">
+							<div class="input-control">
+								<label for="collage">Collage</label>
+								<select name="collage" id="collage">
+									<option disabled selected value="">Select Collage</option>
+									<option value="Satria">Satria</option>
+									<option value="Al_Jazari">Al_Jazari</option>
+									<option value="Lestari">Lestari</option>
+								</select>
+							</div>
+							<article>
+								<label for="block" class="required">Block</label>
+								<select required id="block">
+
+								</select>
+							</article>
+
+							<article>
+								<label for="level" class="required">Level</label>
+								<select id="level">
+
+								</select>
+							</article>
+							<article>
+								<label for="rumah" class="required">No Rumah</label>
+								<select id="rumah">
+
+								</select>
+							</article>
+
+							<article>
+								<label for="bilik" class="required">Bilik</label>
+								<select id="bilik">
+
+								</select>
+							</article>
+
+							<article>
+								<label for="katil" class="required">Katil</label>
+								<select id="katil">
+
+								</select>
+							</article>
 						</div>
 						<div class="input-control">
 							<label for="studentRoom">Student Room</label>
-							<input type="text" name="studentRoom" id="studentRoom">
+							<input type="text" disabled name="studentRoom" id="studentRoom">
 						</div>
 					</div>
 					<div class="modal-footer">
@@ -127,14 +169,14 @@ auth("SAD");
 		</div>
 	</div>
 
-	<div class="modal fade" id="modalStudent">
+	<!-- <div class="modal fade" id="modalStudent">
 		<form method="POST" action="">
 			<div class="modal-dialog modal-dialog-centered">
 				<div class="modal-content">
 					<div class="modal-header">
 						<h1 class="modal-title fs-5">
 							<img src="../../images/report.svg" alt="">
-							Update Admin
+							Update Student
 						</h1>
 					</div>
 					<div class="modal-body">
@@ -149,37 +191,72 @@ auth("SAD");
 								<section class="form-detail">
 
 									<div class="input-control">
-										<label for="name" class="required">Name</label>
-										<input type="text" name="name" id="name">
+										<label for="uptName" class="required">Name</label>
+										<input type="text" name="name" id="uptName">
 									</div>
 
 									<div class="input-control">
-										<label for="name" class="required">Password</label>
-										<input type="password" name="password" id="password">
+										<label for="uptPassword" class="required">Password</label>
+										<input type="password" name="password" id="uptPassword">
 									</div>
 
 									<div class="input-control">
-										<label for="cPassword" class="required">Confirm Password</label>
-										<input type="password" name="cPassword" id="cPassword">
+										<label for="uptPhoneNumber" class="required">Phone Number</label>
+										<input type="number" name="phoneNumber" id="uptPhoneNumber">
 									</div>
 
 									<div class="input-control">
-										<label for="college" class="required">College</label>
-										<select name="college" id="college">
-											<option value="Satria">Satria</option>
-											<option value="Lestari">Lestari</option>
-											<option value="Al_Jazari">Al Jazari</option>
-										</select>
+										<label for="uptEmail" class="required">Email</label>
+										<input type="email" name="email" id="uptEmail">
 									</div>
 
-									<div class="input-control">
-										<label for="phoneNumber" class="required">Phone Number</label>
-										<input type="number" name="phoneNumber" id="phoneNumber">
-									</div>
+									<div class="input-control col-2">
+										<div class="input-control">
+											<label for="uptCollage">Collage</label>
+											<select name="collage" id="uptCollage">
+												<option disabled selected value="">Select Collage</option>
+												<option value="Satria">Satria</option>
+												<option value="Al_Jazari">Al_Jazari</option>
+												<option value="Lestari">Lestari</option>
+											</select>
+										</div>
+										<article>
+											<label for="uptBlock" class="required">Block</label>
+											<select required id="uptBlock">
 
+											</select>
+										</article>
+
+										<article>
+											<label for="uptLevel" class="required">Level</label>
+											<select id="uptLevel">
+
+											</select>
+										</article>
+										<article>
+											<label for="uptRumah" class="required">No Rumah</label>
+											<select id="uptRumah">
+
+											</select>
+										</article>
+
+										<article>
+											<label for="uptBilik" class="required">Bilik</label>
+											<select id="uptBilik">
+
+											</select>
+										</article>
+
+										<article>
+											<label for="uptKatil" class="required">Katil</label>
+											<select id="uptKatil">
+
+											</select>
+										</article>
+									</div>
 									<div class="input-control">
-										<label for="email" class="required">Email</label>
-										<input type="email" name="email" id="email">
+										<label for="uptStudentRoom">Student Room</label>
+										<input type="text" disabled name="studentRoom" id="uptStudentRoom">
 									</div>
 
 								</section>
@@ -197,11 +274,188 @@ auth("SAD");
 				</div>
 			</div>
 		</form>
-	</div>
+	</div> -->
 
 	<!-- your script -->
-	<script>
 
+
+	<script>
+		let selectCollege = document.getElementById("collage");
+		let selectBlock = document.getElementById("block");
+		let selectLevel = document.getElementById("level");
+		let selectRumah = document.getElementById("rumah");
+		let selectBilik = document.getElementById("bilik");
+		let selectKatil = document.getElementById("katil");
+		let studentRoom = document.getElementById("studentRoom");
+
+		selectCollege.addEventListener("change", e => {
+
+			let asrama = e.target.value;
+
+			let optBlock = "";
+			let optLevel = "";
+			let optNoRumah = "";
+			let optBilik = "";
+			let optKatil = "";
+
+			// SATRIA
+			if (asrama === "Satria") {
+
+				optBlock = `
+				<option value="SJ-J">Satria Jebat</option>
+				<option value="ST-T">Satria Tuah</option>
+				<option value="SL-L">Satria Lekir</option>
+				<option value="SE-E">Satria Lekiu</option>
+				<option value="SK-K">Satria Kasturi</option>
+			`;
+
+				optLevel = `
+				<option value="1">1</option>
+				<option value="2">2</option>
+				<option value="3">3</option>
+				<option value="4">4</option>
+				<option value="5">5</option>
+				<option value="6">6</option>
+				<option value="7">7</option>
+				<option value="8">8</option>
+				<option value="9">9</option>
+			`;
+
+				optNoRumah = `
+				<option value="1">1</option>
+				<option value="2">2</option>
+				<option value="3">3</option>
+				<option value="4">4</option>
+				<option value="5">5</option>
+				<option value="6">6</option>
+				<option value="7">7</option>
+				<option value="8">8</option>
+				<option value="9">9</option>
+				<option value="10">10</option>
+				<option value="11">11</option>
+				<option value="12">12</option>
+			`;
+
+				optBilik = `
+				<option value="A">A</option>
+				<option value="B">B</option>
+				<option value="C">C</option>
+				<option value="D">D</option>
+				<option value="E">E</option>
+			`;
+
+				optKatil = `
+				<option value="1">1</option>
+				<option value="2">2</option>
+			`;
+
+			}
+
+			// AL JAZARI
+			else if (asrama === "Al_Jazari") {
+
+				optBlock = `
+				<option value="A">Blok A</option>
+				<option value="B">Blok B</option>
+				<option value="C">Blok C</option>
+			`;
+
+				optLevel = `
+				<option value="1">1</option>
+				<option value="2">2</option>
+				<option value="3">3</option>
+				<option value="4">4</option>
+				<option value="5">5</option>
+			`;
+
+				optNoRumah = `
+				<option value="1">1</option>
+				<option value="2">2</option>
+				<option value="3">3</option>
+				<option value="4">4</option>
+				<option value="5">5</option>
+				<option value="6">6</option>
+			`;
+
+				optBilik = `
+				<option value="A">A</option>
+				<option value="B">B</option>
+				<option value="C">C</option>
+				<option value="D">D</option>
+				<option value="E">E</option>
+			`;
+
+				optKatil = `
+				<option value="1">1</option>
+				<option value="2">2</option>
+				<option value="3">3</option>
+			`;
+
+			}
+
+			// LESTARI
+			else if (asrama === "Lestari") {
+
+				optBlock = `
+				<option value="B1">B1</option>
+				<option value="B2">B2</option>
+			`;
+
+				optLevel = `
+				<option value="G">G</option>
+				<option value="1">1</option>
+				<option value="2">2</option>
+				<option value="3">3</option>
+			`;
+
+				optNoRumah = `
+				<option value="A">A</option>
+				<option value="B">B</option>
+				<option value="C">C</option>
+				<option value="D">D</option>
+				<option value="E">E</option>
+			`;
+
+				optBilik = `
+				<option value="01">01</option>
+				<option value="02">02</option>
+				<option value="03">03</option>
+				<option value="04">04</option>
+				<option value="05">05</option>
+				<option value="06">06</option>
+				<option value="07">07</option>
+			`;
+
+				optKatil = `
+				<option value="1">1</option>
+				<option value="2">2</option>
+			`;
+
+			}
+
+			selectBlock.innerHTML = optBlock;
+			selectLevel.innerHTML = optLevel;
+			selectRumah.innerHTML = optNoRumah;
+			selectBilik.innerHTML = optBilik;
+			selectKatil.innerHTML = optKatil;
+
+			updateAddress();
+		});
+
+		document.querySelectorAll(".col-2 select").forEach(select => {
+			select.addEventListener("change", updateAddress);
+		});
+
+		function updateAddress() {
+
+			let block = selectBlock.value || "";
+			let level = selectLevel.value || "";
+			let rumah = selectRumah.value || "";
+			let bilik = selectBilik.value || "";
+			let katil = selectKatil.value || "";
+
+			studentRoom.value = `${block}-${level}-${rumah}-${bilik}(${katil})`;
+		}
 	</script>
 
 

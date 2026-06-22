@@ -37,7 +37,7 @@ auth("SAD");
 							<th>Name</th>
 							<th>College</th>
 							<th>Phone No</th>
-							<th>Action</th>
+							<!-- <th>Action</th> -->
 						</tr>
 					</thead>
 
@@ -47,10 +47,10 @@ auth("SAD");
 							<td>Arif Fitri bin Mohd Jamil</td>
 							<td>Al-Jazari</td>
 							<td>011 167 6767</td>
-							<td>
-								<button class="updateBtn" data-bs-target="#modalStudent" data-bs-toggle="modal">Update</button>
-								<!-- <a href="./studentUpdate.php" class="updateBtn">Update</a> -->
-							</td>
+							<!-- <td> -->
+							<!-- <button class="updateBtn" data-bs-target="#modalStudent" data-bs-toggle="modal">Update</button> -->
+							<!-- <a href="./studentUpdate.php" class="updateBtn">Update</a> -->
+							<!-- </td> -->
 						</tr>
 
 						<tr>
@@ -58,10 +58,10 @@ auth("SAD");
 							<td>Muhammad Imran Danial</td>
 							<td>Satria</td>
 							<td>013 145 7816</td>
-							<td>
-								<button class="updateBtn" data-bs-target="#modalStudent" data-bs-toggle="modal">Update</button>
-								<!-- <a href="./studentUpdate.php" class="updateBtn">Update</a> -->
-							</td>
+							<!-- <td> -->
+							<!-- <button class="updateBtn" data-bs-target="#modalStudent" data-bs-toggle="modal">Update</button> -->
+							<!-- <a href="./studentUpdate.php" class="updateBtn">Update</a> -->
+							<!-- </td> -->
 						</tr>
 					</tbody>
 
@@ -88,7 +88,7 @@ auth("SAD");
 						</div>
 						<div class="input-control">
 							<label for="password">Password</label>
-							<input type="password" name="password" id="password">
+							<input type="text" value="abc123" name="password" id="password">
 						</div>
 						<div class="input-control">
 							<label for="numTel">numTel</label>
@@ -99,21 +99,12 @@ auth("SAD");
 							<input type="text" name="email" id="email">
 						</div>
 						<div class="input-control">
-							<label for="collage">Collage</label>
-							<select name="collage" id="collage">
-								<option disabled selected value="">Select Collage</option>
-								<option value="Satria">Satria</option>
-								<option value="Al_Jazari">Al_Jazari</option>
-								<option value="Lestari">Lestari</option>
-							</select>
-						</div>
-						<div class="input-control">
-							<label for="studentRoom">Student Room</label>
-							<input type="text" name="studentRoom" id="studentRoom">
+							<label for="cType" class="required">cType</label>
+							<input type="text" name="cType" id="cType">
 						</div>
 					</div>
 					<div class="modal-footer">
-						<button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+						<button type="reset" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
 						<button type="submit" class="btn btn-primary">Save changes</button>
 					</div>
 				</form>
