@@ -117,7 +117,7 @@ function getDatatable($conn)
 
 			<section class="analisis-conainer">
 				<section class="pieChart">
-					<h2>Reports by Category</h2>
+					<h2 id="textReportCategory">Reports by Category</h2>
 					<canvas id="canvas_pieChart">
 
 					</canvas>
@@ -201,7 +201,7 @@ function getDatatable($conn)
 					</div>
 				</section> -->
 				<section class="donutBar">
-					<h2>Report Status</h2>
+					<h2 id="textReportStatus">Report Status</h2>
 					<canvas id="canvas_donutBar">
 
 					</canvas>
@@ -307,7 +307,11 @@ function getDatatable($conn)
 				},
 				success: response => {
 					console.log(response);
-
+					if (filterCollegeCategory == "") {
+						document.getElementById("textReportCategory").textContent = `Reports by Category`
+					} else {
+						document.getElementById("textReportCategory").textContent = `Reports by Category for ${filterCollegeCategory}`
+					}
 					let datas = response.datas.map(item => [
 						item.reportCategory,
 						parseInt(item.total)
@@ -350,6 +354,11 @@ function getDatatable($conn)
 		let filterStatusMonth = ""
 		let dataStatus
 		let filterStatus = () => {
+			console.log({
+				filterStatusCollege,
+				filterStatusMonth
+			});
+
 			$.ajax({
 				url: "../../api/getFilterdStatus.php",
 				method: "POST",
@@ -358,8 +367,16 @@ function getDatatable($conn)
 					filterStatusMonth: filterStatusMonth
 				},
 				success: response => {
+					console.log(filterStatusCollege);
+
+					if (filterStatusCollege == "") {
+						document.getElementById("textReportStatus").textContent = `Report Status`
+					} else {
+						document.getElementById("textReportStatus").textContent = `Report Status for ${filterStatusCollege}`
+					}
 					dataStatus = response.datas
 					console.log(response)
+
 					drawBarChart(canvas_Status, response.datas);
 
 				},
@@ -506,7 +523,7 @@ function getDatatable($conn)
 			let radius = 150
 			let startAngle = 0
 
-			let lagendX = 400
+			let lagendX = 500
 			let lagendY = 50
 
 			datas.forEach((data, index) => {

@@ -71,9 +71,9 @@ if (isset($_GET['rid'])) {
 						</select>
 					</div>
 					<div class="input-control">
-						<label for="filter-catagory">Catagory</label>
+						<label for="filter-catagory">Category</label>
 						<select name="filter-catagory" id="filter-catagory">
-							<option value="" selected>All Catagory</option>
+							<option value="" selected>All Category</option>
 							<option value="Plumbing">Plumbing</option>
 							<option value="Electrical">Electrical</option>
 							<option value="Cleaning">Cleaning</option>

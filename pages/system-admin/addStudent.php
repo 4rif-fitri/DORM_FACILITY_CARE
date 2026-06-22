@@ -331,7 +331,35 @@ $result2 = mysqli_query($conn, $sql);
 			</div>
 		</form>
 	</div>
-
+	<div class="popUpFail hidden">
+		<div class="card p-3">
+			<h1 class="text-center">🚫</h1>
+			<h2>Fail to Add Report</h2>
+			<a href="./addStudent.php" class="btn btn-success">Ok</a>
+		</div>
+	</div>
+	<div class="popUpDone hidden">
+		<div class="card p-3">
+			<h1 class="text-center">✅</h1>
+			<h2>Done Add Report</h2>
+			<a href="./addStudent.php" class="btn btn-success">Ok</a>
+		</div>
+	</div>
+	<div class="popUpLoading hidden">
+		<div class="loading-container">
+			<div class="loading-circle"></div>
+			<div class="loading-circle"></div>
+			<div class="loading-circle"></div>
+			<div class="loading-circle"></div>
+		</div>
+		<div class="bulat">
+			<article>
+				<h1 class="text-center">✅</h1>
+				<h2>Done Update Student</h2>
+				<a href="./addStudent.php" class="btn btn-success w-100">Ok</a>
+			</article>
+		</div>
+	</div>
 	<!-- update Student -->
 
 	<!-- your script -->
@@ -358,6 +386,20 @@ $result2 = mysqli_query($conn, $sql);
 		let uptstudentRoom = document.getElementById("uptStudentRoom");
 		let uptID = document.getElementById("uptID")
 		let textID = document.getElementById("textID")
+
+		let delay = time => new Promise(resolve => setTimeout(resolve, time))
+
+		let showLoading = () => {
+			document.querySelector(".popUpLoading").classList.remove("hidden")
+		}
+		let HideLoading = () => {
+			document.querySelector(".popUpLoading .bulat").style.animation = "fadeIN 0.2s forwards"
+			document.querySelector(".popUpLoading .bulat > *").style.animation = "show 0.3s forwards"
+		}
+		let showError = () => {
+			document.querySelector(".popUpLoading").classList.add("hidden");
+			document.querySelector(".popUpFail").classList.remove("hidden");
+		}
 
 		function getModal() {
 			return bootstrap.Modal.getOrCreateInstance(document.getElementById('modalStudent'));
@@ -714,7 +756,7 @@ $result2 = mysqli_query($conn, $sql);
 					}
 
 					uptID.value = response[0].userID
-					textID.value = response[0].userID
+					textID.textContent = response[0].userID
 					uptName.value = response[0].name
 					uptPhoneNumber.value = response[0].numTel
 					uptEmail.value = response[0].email

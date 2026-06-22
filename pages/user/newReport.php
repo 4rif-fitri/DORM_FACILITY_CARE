@@ -48,9 +48,9 @@ if (!$row) {
 					<section class="form-detail">
 
 						<div class="input-control">
-							<label for="categories" class="required">Categories</label>
+							<label for="categories" class="required">Category</label>
 							<select name="categories" id="categories">
-								<option disabled selected value="">Select Categories</option>
+								<option disabled selected value="">Select Category</option>
 								<option value="Plumbing">Plumbing</option>
 								<option value="Electrical">Electrical</option>
 								<option value="Furniture">Cleaning</option>

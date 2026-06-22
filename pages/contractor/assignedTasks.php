@@ -28,6 +28,26 @@ $sql = "	SELECT 	reportID,
 $result = mysqli_query($conn, $sql);
 $result2 = mysqli_query($conn, $sql);
 
+
+if(isset($_GET['tid'])){
+	$reportID = $_GET['tid'];
+
+	$sqlTask = "UPDATE report
+				SET
+				contractorID = null,
+				dateAssigned = null,
+				status = 'Pending'
+				WHERE reportID = '$reportID'";
+	
+	if(mysqli_query($conn, $sqlTask)){
+		echo "
+		<script>
+			alert('Task declined succsesfully');
+			window.location.href='assignedTasks.php';
+		</script>";
+	}
+}
+
 //php code hrre
 
 ?>
@@ -76,7 +96,14 @@ $result2 = mysqli_query($conn, $sql);
 								<td><?= $row["college"] ?></td>
 								<td><?= $row["dateReported"] ?></td>
 								<td><?= $row["status"] ?></td>
-								<td><a href="./assignedTasks.php?idDoit=<?= $row["reportID"] ?>" class="updateBtn">Take</a></td>
+								<td>
+									<a href="./assignedTasks.php?idDoit=<?= $row["reportID"] ?>" class="updateBtn">Take</a>
+									<a href="assignedTasks.php?tid=<?= $row['reportID'] ?>" 
+										class="deleteBtn" 
+										onclick="return confirm('Decline task <?= $row['reportID'] ?>? This action cannot be undone.')">
+										Decline
+									</a>
+								</td>
 							</tr>
 						<?php endwhile ?>
 					</tbody>
@@ -105,6 +132,11 @@ $result2 = mysqli_query($conn, $sql);
 
 						<div id="reportCard-bottom">
 							<a href="./trackReport.php?id=<?= $row2['reportID'] ?>" class="updateBtn">Take</a>
+							<a href="assignedTasks.php?tid=<?= $row2['reportID'] ?>" 
+								class="deleteBtn" 
+								onclick="return confirm('Decline task <?= $row2['reportID'] ?>? This action cannot be undone.')">
+								Decline
+							</a>
 						</div>
 					</div>
 				<?php endwhile ?>

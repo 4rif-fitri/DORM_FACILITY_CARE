@@ -41,7 +41,7 @@ $result2 = mysqli_query($conn, $sql);
 				<div class="filter-cantainer">
 					<div class="input-control">
 						<label for="filter-date">Date</label>
-						<input type="date" name="filter-date" value="<?= date('Y-m-d') ?>" max="<?= date('Y-m-d') ?>" id="filter-date">
+						<input type="date" name="filter-date" id="filter-date">
 					</div>
 					<div class="input-control">
 						<label for="filter-status">Status</label>
@@ -55,9 +55,9 @@ $result2 = mysqli_query($conn, $sql);
 						</select>
 					</div>
 					<div class="input-control">
-						<label for="filter-catagory">Catagory</label>
+						<label for="filter-catagory">Category</label>
 						<select name="filter-catagory" id="filter-catagory">
-							<option value="" selected>Select Catagory</option>
+							<option value="" selected>All Category</option>
 							<option value="Plumbing">Plumbing</option>
 							<option value="Electrical">Electrical</option>
 							<option value="Cleaning">Cleaning</option>

@@ -151,7 +151,7 @@ if (isset($_GET['cid'])) {
 						<div>
 							<div class="report-detail">
 								<div class="input-control">
-									<label for="category"><b>RepotID: </b><?= $row["reportID"] ?></label>
+									<label for=""><b>RepotID: </b><?= $row["reportID"] ?></label>
 								</div>
 
 								<div class="input-control">
