@@ -160,6 +160,7 @@ strong{
 	border-radius: 15px;
 	border: 1px solid var(--primary-md);
 	display: none;
+	margin: 20px;
 }
 
 #reportCard-info{

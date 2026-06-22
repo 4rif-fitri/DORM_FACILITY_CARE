@@ -3,7 +3,17 @@ require_once __DIR__ . "../../../inc/init.php";
 auth("SAD");
 
 //php code hrre
+$sql = "SELECT 
+		user.userID,
+		user.name,
+		contractor.expertise,
+		user.numTel
+		FROM user
+		JOIN contractor ON user.userID = contractor.contractorID
+		";
 
+$result = mysqli_query($conn, $sql);
+$result2 = mysqli_query($conn, $sql);
 //php code hrre
 
 ?>
@@ -35,37 +45,51 @@ auth("SAD");
 						<tr>
 							<th>Id</th>
 							<th>Name</th>
-							<th>College</th>
+							<th>Expertise</th>
 							<th>Phone No</th>
 							<th>Action</th>
 						</tr>
 					</thead>
 
 					<tbody>
+						<?php while($row = mysqli_fetch_assoc($result)) : ?>
 						<tr>
-							<td>D032410321</td>
-							<td>Arif Fitri bin Mohd Jamil</td>
-							<td>Al-Jazari</td>
-							<td>011 167 6767</td>
+							<td><?= $row['userID'] ?></td>
+							<td><?= $row['name'] ?></td>
+							<td><?= $row['expertise'] ?></td>
+							<td><?= $row['numTel'] ?></td>
 							<td>
 								<button class="updateBtn" data-bs-target="#modalStudent" data-bs-toggle="modal">Update</button>
 								<!-- <a href="./studentUpdate.php" class="updateBtn">Update</a> -->
 							</td>
 						</tr>
-
-						<tr>
-							<td>D032410396</td>
-							<td>Muhammad Imran Danial</td>
-							<td>Satria</td>
-							<td>013 145 7816</td>
-							<td>
-								<button class="updateBtn" data-bs-target="#modalStudent" data-bs-toggle="modal">Update</button>
-								<!-- <a href="./studentUpdate.php" class="updateBtn">Update</a> -->
-							</td>
-						</tr>
+						<?php endwhile ?>
 					</tbody>
-
 				</table>
+
+				<?php while($row2 = mysqli_fetch_assoc($result2)) : ?>
+				<div class="reportCard">
+					<div id="reportCard-info">
+						<div id="reportCard-left">
+							<p><strong>Id</strong></p>
+							<p><strong>Name</strong></p>
+							<p><strong>Expertise</strong></p>
+							<p><strong>Phone No</strong></p>
+						</div>
+						
+						<div id="reportCard-right">
+							<p><?= $row2['userID'] ?></p>
+							<p><?=  $row2['name'] ?></p>
+							<p><?= $row2['expertise'] ?></p>
+							<p><?= $row2['numTel'] ?></p>
+						</div>
+					</div>
+
+					<div id="reportCard-bottom">
+						<button class="updateBtn" data-bs-target="#modalStudent" data-bs-toggle="modal">Update</button>
+					</div>
+				</div>
+				<?php endwhile ?>
 			</section>
 
 

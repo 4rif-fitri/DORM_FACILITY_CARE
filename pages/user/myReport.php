@@ -17,7 +17,7 @@ $sql = "	SELECT 	reportID,
 		";
 
 $result = mysqli_query($conn, $sql);
-
+$result2 = mysqli_query($conn, $sql);
 // php code hrre
 
 ?>
@@ -106,12 +106,13 @@ $result = mysqli_query($conn, $sql);
 								<td><?= $row["status"] ?></td>
 								<td><a href="./trackReport.php?id=<?= $row["reportID"] ?>" class="updateBtn">Track</a></td>
 							</tr>
+						<?php endwhile ?>
 					</tbody>
 
 				</table>
 
 				
-
+				<?php while($row2 = mysqli_fetch_assoc($result2)) : ?>
 				<div class="reportCard">
 					<div id="reportCard-info">
 						<div id="reportCard-left">
@@ -123,19 +124,19 @@ $result = mysqli_query($conn, $sql);
 						</div>
 						
 						<div id="reportCard-right">
-							<p><?= $row['reportID'] ?></p>
-							<p><?=  $row['reportCategory'] ?></p>
-							<p><?= $row['college'] ?></p>
-							<p><?= $row['dateReported'] ?></p>
-							<p><?= $row['status'] ?></p>
+							<p><?= $row2['reportID'] ?></p>
+							<p><?=  $row2['reportCategory'] ?></p>
+							<p><?= $row2['college'] ?></p>
+							<p><?= $row2['dateReported'] ?></p>
+							<p><?= $row2['status'] ?></p>
 						</div>
 					</div>
 
 					<div id="reportCard-bottom">
-						<a href="./trackReport.php?id=<?= $row['reportID'] ?>" class="updateBtn">Track Report</a>
+						<a href="./trackReport.php?id=<?= $row2['reportID'] ?>" class="updateBtn">Track Report</a>
 					</div>
-					<?php endwhile ?>
 				</div>
+				<?php endwhile ?>
 			</section>
 
 		</main>
