@@ -11,6 +11,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 	$message = $_POST["message"];
 	$completedImgUrl = $_POST["url"];
 
+	
+
 	$sql = "	UPDATE report
 			SET status = 'Completed', completedImgUrl = '$completedImgUrl', remarks = '$message'
 			WHERE reportID  = '$reportID'";

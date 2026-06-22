@@ -3,20 +3,7 @@ require_once __DIR__ . "../../../inc/init.php";
 auth("CTR");
 
 //php code hrre
-if (isset($_GET["rejectID"])) {
-
-	$reportId = $_GET["rejectID"];
-
-	$sql = "UPDATE report
-            SET status='Canceled'
-            WHERE reportId='$reportId'";
-
-	if (mysqli_query($conn, $sql)) {
-		header("Location: reportUpdate.php?id=$reportId");
-		exit;
-	} else echo mysqli_error($conn);
-	
-} else if (isset($_GET["id"])) {
+if (isset($_GET["id"])) {
 	$reportId = $_GET["id"];
 
 	$sql = "	SELECT

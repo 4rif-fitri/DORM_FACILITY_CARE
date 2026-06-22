@@ -42,7 +42,7 @@ if (isset($_GET["rejectID"])) {
 	$result = mysqli_query($conn, $sql);
 	$row = mysqli_fetch_assoc($result);
 
-	if (in_array($row["status"], ["Assigned", "In_Progress","Completed"])) {
+	if (in_array($row["status"], ["Assigned", "In_Progress", "Completed"])) {
 		$sql = "	SELECT
 			reporter.userID,
 			reporter.name,
@@ -75,7 +75,7 @@ if (isset($_GET["rejectID"])) {
 }
 
 $sql = " SELECT u.userID, u.name, u.email,
-    			 u.numTel, c.cType
+    			 u.numTel, c.expertise
 		FROM user u
 		JOIN contractor c
 		ON u.userID = c.contractorID
@@ -89,7 +89,7 @@ while ($datas = mysqli_fetch_assoc($resultContractor)) {
 		"name" => $datas["name"],
 		"email" => $datas["email"],
 		"no" => $datas["numTel"],
-		"cType" => $datas["cType"]
+		"expertise" => $datas["expertise"]
 	];
 }
 //php code hrre
@@ -293,7 +293,6 @@ while ($datas = mysqli_fetch_assoc($resultContractor)) {
 				</div>
 
 				<div class="comment-container">
-
 					<section>
 						<h4>
 							<img src="../../images/report.svg" alt="">
@@ -384,13 +383,13 @@ while ($datas = mysqli_fetch_assoc($resultContractor)) {
 										<option disabled selected value="">Select contractor</option>
 										<?php foreach ($dataContractor as $contractor): ?>
 											<option value="<?= $contractor['id'] ?>">
-												<?= $contractor['name'] ?>
+												<?= $contractor['name'] ?> (<?= $contractor['expertise'] ?>)
 											</option>
 										<?php endforeach; ?>
 									</select>
 									<p class="hidden my-2" id="emailContractor">lorem@gamail.com</p>
 									<p class="hidden mb-2" id="phoneContractor">0197231577</p>
-									<p class="hidden mb-2" id="cTypeContractor">IT technician</p>
+									<p class="hidden mb-2" id="expertiseContractor">IT technician</p>
 								</div>
 							</div>
 
@@ -443,7 +442,7 @@ while ($datas = mysqli_fetch_assoc($resultContractor)) {
 		let selectContractor = document.querySelector("#selectContractor")
 		let textEmailContractor = document.getElementById("emailContractor")
 		let textphoneContractor = document.getElementById("phoneContractor")
-		let textcTypeContractor = document.getElementById("cTypeContractor")
+		let textExpertiseContractor = document.getElementById("expertiseContractor")
 
 		let model = document.getElementById("model")
 		let myModal = new bootstrap.Modal(model)
@@ -477,11 +476,11 @@ while ($datas = mysqli_fetch_assoc($resultContractor)) {
 
 			textEmailContractor.classList.remove("hidden")
 			textphoneContractor.classList.remove("hidden")
-			textcTypeContractor.classList.remove("hidden")
+			textExpertiseContractor.classList.remove("hidden")
 
-			textEmailContractor.textContent = orang.email
-			textphoneContractor.textContent = orang.no
-			textcTypeContractor.textContent = orang.cType
+			textEmailContractor.innerHTML = `<b>Email: </b> ${orang.email}`
+			textphoneContractor.innerHTML = `<b>Phone Number: </b> ${orang.no}`
+			textExpertiseContractor.innerHTML = `<b>Expertise: </b> ${orang.expertise}`
 		})
 
 		async function handleSubmit(e) {

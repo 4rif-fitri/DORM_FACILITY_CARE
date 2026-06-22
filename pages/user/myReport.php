@@ -16,8 +16,8 @@ $sql = "	SELECT 	reportID,
 		ORDER BY dateReported DESC
 		";
 
-$result = mysqli_query($conn, $sql);
-$result2 = mysqli_query($conn, $sql);
+// $result = mysqli_query($conn, $sql);
+// $result2 = mysqli_query($conn, $sql);
 // php code hrre
 
 ?>
@@ -96,47 +96,12 @@ $result2 = mysqli_query($conn, $sql);
 						</tr>
 					</thead>
 
-					<tbody>
-						<?php while ($row = mysqli_fetch_assoc($result)) : ?>
-							<tr>
-								<td><?= $row["reportID"] ?></td>
-								<td><?= $row["reportCategory"] ?></td>
-								<td><?= $row["college"] ?></td>
-								<td><?= $row["dateReported"] ?></td>
-								<td><?= $row["status"] ?></td>
-								<td><a href="./trackReport.php?id=<?= $row["reportID"] ?>" class="updateBtn">Track</a></td>
-							</tr>
-						<?php endwhile ?>
-					</tbody>
+					<tbody id="table-data"></tbody>
 
 				</table>
 
-				
-				<?php while($row2 = mysqli_fetch_assoc($result2)) : ?>
-				<div class="reportCard">
-					<div id="reportCard-info">
-						<div id="reportCard-left">
-							<p><strong>Id</strong></p>
-							<p><strong>Category</strong></p>
-							<p><strong>Location</strong></p>
-							<p><strong>Date</strong></p>
-							<p><strong>Status</strong></p>
-						</div>
-						
-						<div id="reportCard-right">
-							<p><?= $row2['reportID'] ?></p>
-							<p><?=  $row2['reportCategory'] ?></p>
-							<p><?= $row2['college'] ?></p>
-							<p><?= $row2['dateReported'] ?></p>
-							<p><?= $row2['status'] ?></p>
-						</div>
-					</div>
 
-					<div id="reportCard-bottom">
-						<a href="./trackReport.php?id=<?= $row2['reportID'] ?>" class="updateBtn">Track Report</a>
-					</div>
-				</div>
-				<?php endwhile ?>
+
 			</section>
 
 		</main>
@@ -145,8 +110,6 @@ $result2 = mysqli_query($conn, $sql);
 	<!-- your script -->
 	<script>
 		$(document).ready(function() {
-
-			loadTable();
 
 			function loadTable() {
 				console.log("Request");
@@ -170,7 +133,9 @@ $result2 = mysqli_query($conn, $sql);
 					success: response => {
 						console.log(response.data);
 						console.log(response.data.length);
+
 						document.getElementById("table-data").innerHTML = ""
+						document.querySelector(".table-container").querySelectorAll(".reportCard").forEach(card => card.remove())
 
 						if (response.data.length > 0) {
 							response.data.forEach(data => {
@@ -185,12 +150,47 @@ $result2 = mysqli_query($conn, $sql);
 									<a href="./trackReport.php?id=${data.reportID}" class="updateBtn">Update</a>
 								</td>
 							`;
+
+								let div = document.createElement("div")
+								div.classList.add("reportCard")
+								div.innerHTML = `
+									<div id="reportCard-info">
+										<div id="reportCard-left">
+											<p><strong>Id</strong></p>
+											<p><strong>Category</strong></p>
+											<p><strong>Location</strong></p>
+											<p><strong>Date</strong></p>
+											<p><strong>Status</strong></p>
+										</div>
+
+										<div id="reportCard-right">
+											<p>${data.reportID}</p>
+											<p>${data.reportCategory}</p>
+											<p>${data.college}</p>
+											<td>${(data.dateReported).split(" ")[0]}</td>
+											<p>${data.status}</p>
+										</div>
+									</div>
+
+									<div id="reportCard-bottom">
+										<a href="./trackReport.php?id=${data.reportID}" class="updateBtn">Track Report</a>
+									</div>`
+
+								document.querySelector(".table-container").appendChild(div)
 								document.getElementById("table-data").appendChild(tr);
 							});
+
 						} else {
 							let tr = document.createElement("tr");
 							tr.innerHTML = `<td colspan='6'><center>Sorry No Data</center></td>`
 							document.getElementById("table-data").appendChild(tr);
+
+							let div = document.createElement("div")
+							div.classList.add("reportCard")
+							div.innerHTML = `
+								<p style="padding:0.5rem;  text-align:center; width:100%">Sorry No Data</p>
+								`
+							document.querySelector(".table-container").appendChild(div)
 						}
 
 
@@ -202,6 +202,8 @@ $result2 = mysqli_query($conn, $sql);
 				});
 
 			}
+
+			loadTable();
 
 			$("#filter-date,#filter-status,#filter-catagory,#filter-location").on("change", function() {
 				loadTable();

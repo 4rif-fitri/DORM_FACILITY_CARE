@@ -52,42 +52,42 @@ $result2 = mysqli_query($conn, $sql);
 					</thead>
 
 					<tbody>
-						<?php while($row = mysqli_fetch_assoc($result)) : ?>
-						<tr>
-							<td><?= $row['userID'] ?></td>
-							<td><?= $row['name'] ?></td>
-							<td><?= $row['expertise'] ?></td>
-							<td><?= $row['numTel'] ?></td>
-							<td>
-							<button class="updateBtn" data-bs-target="#modalStudent" data-bs-toggle="modal">Update</button>
-							</td>
-						</tr>
+						<?php while ($row = mysqli_fetch_assoc($result)) : ?>
+							<tr>
+								<td><?= $row['userID'] ?></td>
+								<td><?= $row['name'] ?></td>
+								<td><?= $row['expertise'] ?></td>
+								<td><?= $row['numTel'] ?></td>
+								<td>
+									<button class="updateBtn" data-bs-target="#modalStudent" data-bs-toggle="modal">Update</button>
+								</td>
+							</tr>
 						<?php endwhile ?>
 					</tbody>
 				</table>
 
-				<?php while($row2 = mysqli_fetch_assoc($result2)) : ?>
-				<div class="reportCard">
-					<div id="reportCard-info">
-						<div id="reportCard-left">
-							<p><strong>Id</strong></p>
-							<p><strong>Name</strong></p>
-							<p><strong>Expertise</strong></p>
-							<p><strong>Phone No</strong></p>
-						</div>
-						
-						<div id="reportCard-right">
-							<p><?= $row2['userID'] ?></p>
-							<p><?=  $row2['name'] ?></p>
-							<p><?= $row2['expertise'] ?></p>
-							<p><?= $row2['numTel'] ?></p>
-						</div>
-					</div>
+				<?php while ($row2 = mysqli_fetch_assoc($result2)) : ?>
+					<div class="reportCard">
+						<div id="reportCard-info">
+							<div id="reportCard-left">
+								<p><strong>Id</strong></p>
+								<p><strong>Name</strong></p>
+								<p><strong>Expertise</strong></p>
+								<p><strong>Phone No</strong></p>
+							</div>
 
-					<div id="reportCard-bottom">
-						<button class="updateBtn" data-bs-target="#modalStudent" data-bs-toggle="modal">Update</button>
+							<div id="reportCard-right">
+								<p><?= $row2['userID'] ?></p>
+								<p><?= $row2['name'] ?></p>
+								<p><?= $row2['expertise'] ?></p>
+								<p><?= $row2['numTel'] ?></p>
+							</div>
+						</div>
+
+						<div id="reportCard-bottom">
+							<button class="updateBtn" data-bs-target="#modalStudent" data-bs-toggle="modal">Update</button>
+						</div>
 					</div>
-				</div>
 				<?php endwhile ?>
 			</section>
 
@@ -122,8 +122,8 @@ $result2 = mysqli_query($conn, $sql);
 							<input type="text" name="email" id="email">
 						</div>
 						<div class="input-control">
-							<label for="cType" class="required">cType</label>
-							<input type="text" name="cType" id="cType">
+							<label for="expertise" class="required">Expertise</label>
+							<input type="text" name="expertise" id="expertise">
 						</div>
 					</div>
 					<div class="modal-footer">
@@ -162,16 +162,6 @@ $result2 = mysqli_query($conn, $sql);
 									</div>
 
 									<div class="input-control">
-										<label for="name" class="required">Password</label>
-										<input type="password" name="password" id="password">
-									</div>
-
-									<div class="input-control">
-										<label for="cPassword" class="required">Confirm Password</label>
-										<input type="password" name="cPassword" id="cPassword">
-									</div>
-
-									<div class="input-control">
 										<label for="phoneNumber" class="required">Phone Number</label>
 										<input type="number" name="phoneNumber" id="phoneNumber">
 									</div>
@@ -182,8 +172,8 @@ $result2 = mysqli_query($conn, $sql);
 									</div>
 
 									<div class="input-control">
-										<label for="cType" class="required">cType</label>
-										<input type="text" name="cType" id="cType">
+										<label for="expertise" class="required">Expertise</label>
+										<input type="text" name="expertise" id="expertise">
 									</div>
 								</section>
 
