@@ -3,6 +3,17 @@ require_once __DIR__ . "../../../inc/init.php";
 auth("SAD");
 
 //php code hrre
+if (isset($_GET['delete'])) {
+
+	$id = $_GET['delete'];
+
+	mysqli_query($conn, "DELETE FROM student WHERE userID='$id'");
+	mysqli_query($conn, "DELETE FROM user WHERE userID='$id'");
+
+	header("Location: ../system-admin/addStudent.php");
+	exit;
+}
+
 $sql = "SELECT * FROM user
 		JOIN student ON user.userID = student.userID
 		ORDER BY name ASC
@@ -11,7 +22,8 @@ $sql = "SELECT * FROM user
 $result = mysqli_query($conn, $sql);
 $result2 = mysqli_query($conn, $sql);
 
-if(isset($_POST['submit'])){
+
+if (isset($_POST['submit'])) {
 	$matricNo = $_POST['matrik'];
 	$name = $_POST['name'];
 	$password = password_hash($_POST['password'], PASSWORD_DEFAULT);
@@ -25,8 +37,8 @@ if(isset($_POST['submit'])){
 			VALUES 
 			('$matricNo', '$name', '$password', '$numTel', '$email', 'STD')
 			";
-	
-	if(mysqli_query($conn, $sqlUser)){
+
+	if (mysqli_query($conn, $sqlUser)) {
 		$sqlStudent = "INSERT INTO student
 				 (userID, studentCollege, studentRoom)
 				 VALUES
@@ -69,10 +81,9 @@ if(isset($_POST['submit'])){
 		<!-- CONTENT HERE -->
 		<main class="_content-area">
 			<nav class="add-box">
-				<button type="button" class="addBtn" data-bs-toggle="modal" data-bs-target="#Modal">
+				<button type="button" class="updateBtn" data-bs-toggle="modal" data-bs-target="#Modal">
 					Add Student
 				</button>
-				<!-- <a href="" class="addBtn">Add Student</a> -->
 			</nav>
 
 			<section class="table-container">
@@ -83,24 +94,22 @@ if(isset($_POST['submit'])){
 							<th>Name</th>
 							<th>College</th>
 							<th>Phone No</th>
-							<th>Edit</th>
+							<th>Action</th>
 						</tr>
 					</thead>
 
 					<tbody>
-
-						<?php while($row = mysqli_fetch_assoc($result)) : ?> 
-						<tr>
-							<td><?= $row['userID'] ?></td>
-							<td><?= $row['name'] ?></td>
-							<td><?= $row['studentCollege'] ?></td>
-							<td><?= $row['numTel'] ?></td>
-							<td>
-								<button onclick="update(<?= $row['userID'] ?>)" class="updateBtn" data-bs-target="#modalStudent" data-bs-toggle="modal">Update</button>
-							</td>
-						</tr>
+						<?php while ($row = mysqli_fetch_assoc($result)) : ?>
+							<tr>
+								<td><?= $row['userID'] ?></td>
+								<td><?= $row['name'] ?></td>
+								<td><?= $row['studentCollege'] ?></td>
+								<td><?= $row['numTel'] ?></td>
+								<td>
+									<button onclick="getdataStudent('<?= $row['userID'] ?>')" class="updateBtn">Update</button>
+								</td>
+							</tr>
 						<?php endwhile ?>
-
 					</tbody>
 
 				</table>
@@ -124,7 +133,7 @@ if(isset($_POST['submit'])){
 						</div>
 
 						<div id="reportCard-bottom">
-							<button onclick="update('<?= $row['userID'] ?>')" class="updateBtn" data-bs-target="#modalStudent" data-bs-toggle="modal">Update</button>
+							<button onclick="getdataStudent('<?= $row2['userID'] ?>')" class="updateBtn">Update</button>
 						</div>
 					</div>
 				<?php endwhile ?>
@@ -133,9 +142,9 @@ if(isset($_POST['submit'])){
 
 		</main>
 		<!-- CONTENT HERE -->
-
 	</section>
 
+	<!-- Add Student -->
 	<div class="modal fade" id="Modal">
 		<div class="modal-dialog modal-dialog-centered">
 			<div class="modal-content">
@@ -218,15 +227,17 @@ if(isset($_POST['submit'])){
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
-						<button type="submit"  name="submit" class="btn btn-primary">Add Student</button>
+						<button type="submit" name="submit" class="btn btn-primary">Add Student</button>
 					</div>
 				</form>
 			</div>
 		</div>
 	</div>
+	<!-- Add Student -->
 
+	<!-- update Student -->
 	<div class="modal fade" id="modalStudent">
-		<form method="POST" action="">
+		<form method="POST" action="" id="formUpdate">
 			<div class="modal-dialog modal-dialog-centered">
 				<div class="modal-content">
 					<div class="modal-header">
@@ -236,100 +247,92 @@ if(isset($_POST['submit'])){
 						</h1>
 					</div>
 					<div class="modal-body">
-
 						<section>
 							<article>
-								<h3>ID: 001</h3>
+								<h3 id="textID">ID: 001</h3>
 								<p class="required">All fields must be filled.</p>
 							</article>
-							<form action="" method="post">
 
-								<section class="form-detail">
+							<section class="form-detail">
+								<input type="text" hidden name="uptID" id="uptID">
+								<div class="input-control">
+									<label for="uptName" class="required">Name</label>
+									<input type="text" name="name" id="uptName">
+								</div>
 
+								<div class="input-control">
+									<label for="uptPhoneNumber" class="required">Phone Number</label>
+									<input type="number" name="phoneNumber" id="uptPhoneNumber">
+								</div>
+
+								<div class="input-control">
+									<label for="uptEmail" class="required">Email</label>
+									<input type="email" name="email" id="uptEmail">
+								</div>
+
+								<div class="input-control col-2">
 									<div class="input-control">
-										<label for="uptName" class="required">Name</label>
-										<input type="text" name="name" id="uptName">
+										<label for="uptCollage">Collage</label>
+										<select name="collage" id="uptCollage">
+											<option disabled selected value="">Select Collage</option>
+											<option value="Satria">Satria</option>
+											<option value="Al_Jazari">Al_Jazari</option>
+											<option value="Lestari">Lestari</option>
+										</select>
 									</div>
+									<article>
+										<label for="uptBlock" class="required">Block</label>
+										<select required id="uptBlock">
 
-									<div class="input-control">
-										<label for="uptPhoneNumber" class="required">Phone Number</label>
-										<input type="number" name="phoneNumber" id="uptPhoneNumber">
-									</div>
+										</select>
+									</article>
 
-									<div class="input-control">
-										<label for="uptEmail" class="required">Email</label>
-										<input type="email" name="email" id="uptEmail">
-									</div>
+									<article>
+										<label for="uptLevel" class="required">Level</label>
+										<select id="uptLevel">
 
-									<div class="input-control col-2">
-										<div class="input-control">
-											<label for="uptCollage">Collage</label>
-											<select name="collage" id="uptCollage">
-												<option disabled selected value="">Select Collage</option>
-												<option value="Satria">Satria</option>
-												<option value="Al_Jazari">Al_Jazari</option>
-												<option value="Lestari">Lestari</option>
-											</select>
-										</div>
-										<article>
-											<label for="uptBlock" class="required">Block</label>
-											<select required id="uptBlock">
+										</select>
+									</article>
+									<article>
+										<label for="uptRumah" class="required">No Rumah</label>
+										<select id="uptRumah">
 
-											</select>
-										</article>
+										</select>
+									</article>
 
-										<article>
-											<label for="uptLevel" class="required">Level</label>
-											<select id="uptLevel">
+									<article>
+										<label for="uptBilik" class="required">Bilik</label>
+										<select id="uptBilik">
 
-											</select>
-										</article>
-										<article>
-											<label for="uptRumah" class="required">No Rumah</label>
-											<select id="uptRumah">
+										</select>
+									</article>
 
-											</select>
-										</article>
+									<article>
+										<label for="uptKatil" class="required">Katil</label>
+										<select id="uptKatil">
 
-										<article>
-											<label for="uptBilik" class="required">Bilik</label>
-											<select id="uptBilik">
+										</select>
+									</article>
+								</div>
+								<div class="input-control">
+									<label for="uptStudentRoom">Student Room</label>
+									<input type="text" readonly name="uptStudentRoom" id="uptStudentRoom">
+								</div>
 
-											</select>
-										</article>
-
-										<article>
-											<label for="uptKatil" class="required">Katil</label>
-											<select id="uptKatil">
-
-											</select>
-										</article>
-									</div>
-									<div class="input-control">
-										<label for="uptStudentRoom">Student Room</label>
-										<input type="text" disabled name="studentRoom" id="uptStudentRoom">
-									</div>
-
-								</section>
-
-
-							</form>
-
+							</section>
 						</section>
-
 					</div>
 					<div class="modal-footer">
 						<button type="reset" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
-						<button type="submit" class="btn btn-success">Assign!</button>
+						<button type="submit" class="btn btn-success">Update</button>
 					</div>
 				</div>
 			</div>
 		</form>
 	</div>
+	<!-- update Student -->
 
 	<!-- your script -->
-
-
 	<script>
 		let selectCollege = document.getElementById("collage");
 		let selectBlock = document.getElementById("block");
@@ -339,6 +342,10 @@ if(isset($_POST['submit'])){
 		let selectKatil = document.getElementById("katil");
 		let studentRoom = document.getElementById("studentRoom");
 
+		let uptName = document.getElementById("uptName")
+		let uptPhoneNumber = document.getElementById("uptPhoneNumber")
+		let uptEmail = document.getElementById("uptEmail")
+		let uptStudentRoom = document.getElementById("uptStudentRoom")
 
 		let uptselectCollege = document.getElementById("uptCollage");
 		let uptselectBlock = document.getElementById("uptBlock");
@@ -347,6 +354,12 @@ if(isset($_POST['submit'])){
 		let uptselectBilik = document.getElementById("uptBilik");
 		let uptselectKatil = document.getElementById("uptKatil");
 		let uptstudentRoom = document.getElementById("uptStudentRoom");
+		let uptID = document.getElementById("uptID")
+		let textID = document.getElementById("textID")
+
+		function getModal() {
+			return bootstrap.Modal.getOrCreateInstance(document.getElementById('modalStudent'));
+		}
 
 		selectCollege.addEventListener("change", e => {
 
@@ -526,7 +539,7 @@ if(isset($_POST['submit'])){
 			uptstudentRoom.value = `${block}-${level}-${rumah}-${bilik}(${katil})`;
 		}
 
-		function update(id) {
+		function getdataStudent(id) {
 
 			$.ajax({
 				url: "../../api/getStudentDetail.php",
@@ -536,6 +549,7 @@ if(isset($_POST['submit'])){
 				},
 				success: response => {
 					console.log(response[0]);
+					getModal().show();
 
 					let kolej = response[0].studentCollege
 					let alamat = response[0].studentRoom
@@ -580,9 +594,9 @@ if(isset($_POST['submit'])){
 					let optBlock, optLevel, optNo_Rumah, optBilik, optKatil
 
 					optCollege = `
-						<option ${kolej == "Satria" ? "selected" : ""} value="A">Satria</option>
-						<option ${kolej == "Al_Jazari" ? "selected" : ""} value="B">Al Jazari</option>
-						<option ${kolej == "Lestari" ? "selected" : ""} value="C">Lestari</option>
+						<option ${kolej == "Satria" ? "selected" : ""} value="Satria">Satria</option>
+						<option ${kolej == "Al_Jazari" ? "selected" : ""} value="Al_Jazari">Al Jazari</option>
+						<option ${kolej == "Lestari" ? "selected" : ""} value="Lestari">Lestari</option>
 					`
 
 					if (kolej == "Al_Jazari") {
@@ -696,12 +710,20 @@ if(isset($_POST['submit'])){
 							<option  ${katil == "2" ? "selected" : ""} value="2">2</option>
 						`
 					}
+
+					uptID.value = response[0].userID
+					textID.value = response[0].userID
+					uptName.value = response[0].name
+					uptPhoneNumber.value = response[0].numTel
+					uptEmail.value = response[0].email
+
 					uptselectCollege.innerHTML = optCollege
 					uptselectBlock.innerHTML = optBlock
 					uptselectLevel.innerHTML = optLevel
 					uptselectRumah.innerHTML = optNo_Rumah
 					uptselectBilik.innerHTML = optBilik
 					uptselectKatil.innerHTML = optKatil
+
 					getFullAddreddToUpdate()
 				},
 				errors: response => {
@@ -709,6 +731,34 @@ if(isset($_POST['submit'])){
 				}
 			})
 		}
+
+		document.getElementById("formUpdate").addEventListener("submit", e => {
+			e.preventDefault()
+
+			$.ajax({
+				url: "../../api/updateDataStudent.php",
+				method: "POST",
+				data: {
+					uptuserID: document.getElementById("uptID").value,
+					uptname: uptName.value,
+					uptphoneNumber: uptPhoneNumber.value,
+					uptemail: uptEmail.value,
+					uptcollage: document.getElementById("uptCollage").value,
+					uptstudentRoom: uptstudentRoom.value
+				},
+				success: res => {
+					console.log(res);
+					alert("Student updated");
+					getModal().hide()
+					location.reload()
+				},
+				error: err => {
+					console.log(err.responseText);
+				}
+			});
+
+		})
+
 	</script>
 
 

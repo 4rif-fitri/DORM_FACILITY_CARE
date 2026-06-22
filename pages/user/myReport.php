@@ -149,7 +149,7 @@ $sql = "	SELECT 	reportID,
 								<td>
 									<a href="./trackReport.php?id=${data.reportID}" class="updateBtn">Update</a>
 								</td>
-							`;
+								`;
 
 								let div = document.createElement("div")
 								div.classList.add("reportCard")
