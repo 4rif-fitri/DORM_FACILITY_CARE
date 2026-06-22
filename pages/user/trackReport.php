@@ -19,15 +19,65 @@ if (isset($_GET["id"])) {
 	if (in_array($row["status"], ["Assigned", "In_Progress", "Completed"])) {
 		$sql = "	SELECT *
         		FROM report
-        		INNER JOIN user u ON report.contractorID = u.userID 
+        		INNER JOIN user u ON report.userID = u.userID 
         		INNER JOIN contractor c ON report.contractorID = c.contractorID
         		WHERE report.reportID = '$reportId'";
 
 		$result = mysqli_query($conn, $sql);
 		$row = mysqli_fetch_assoc($result);
 	}
+
+	// fetch comments
+	$sql = "	SELECT *
+        		FROM comments
+        		INNER JOIN user u ON comments.userID  = u.userID
+        		WHERE comments.reportID = '$reportId'";
+	
+	$comments = mysqli_query($conn, $sql);
 } else {
 	header("Location: myReport.php");
+}
+
+// comment posting
+if (isset($_POST['submit'])) {
+	try {
+		$desc = $_POST["description"];
+		$userID = $_SESSION["userID"];
+		$sql = "INSERT INTO comments
+					(theComment, reportID, userID)
+					VALUES
+					('$desc', $reportId, '$userID')
+		";
+		mysqli_query($conn, $sql);
+
+		header("Location: trackReport.php?id=$reportId");
+	} catch (mysqli_sql_exception $e) {
+		$msg = $e->getMessage();
+
+		echo "<script>alert('Failed: $msg');
+			window.location.href='trackReport.php?id=$reportId';
+		</script>";
+	}
+}
+
+// comment deleting
+if (isset($_GET['cid'])) {
+	try {
+		$commentID = $_GET['cid'];
+
+		$sql = "DELETE FROM comments
+        	    WHERE commentsID = $commentID
+				";
+		mysqli_query($conn, $sql);
+
+		header("Location: trackReport.php?id=$reportId");
+	} catch (mysqli_sql_exception $e) {
+		$msg = $e->getMessage();
+
+		echo "<script>alert('Failed: $msg');
+			window.location.href='trackReport.php?id=$reportId';
+		</script>";
+	}
 }
 
 //php code hrre
@@ -147,29 +197,45 @@ if (isset($_GET["id"])) {
 							Comment
 						</h4>
 						<div class="chat">
-							<div class="me">
-								<p>Me</p>
-								Mana Wifi Lorem, ipsum dolor sit amet consectetur adipisicing elit. Recusandae,
-								dolorum.
-							</div>
-							<div class="other">
-								<p>Admin</p>
-								Sabo
-							</div>
+							<?php
+							while($comment = mysqli_fetch_assoc($comments)){
+								if($comment["userID"] == $_SESSION["userID"]){
+									echo '<div class="me">
+										<p>Me</p>';
+								}
+								else{
+									echo '<div class="other">';
+									switch ($comment["type"]){
+										case "SAD": echo '<p>Admin</p>';
+											break;
+										case "STD": echo '<p>Student</p>';
+											break;
+										case "STF": echo '<p>Staff</p>';
+											break;
+									}
+								}
+								echo "<p>$comment[theComment]</p>";
+								if($comment["userID"] == $_SESSION["userID"]) // deletable if user's own comment
+									echo "<a href='trackReport.php?id=$reportId&cid=$comment[commentsID]' class='deleteBtn'>Delete</a>";
+								echo '</div>';
+							}
+							?>
 						</div>
 
-						<div class="comment">
-							<div class="input-control">
-								<label for="description">
-									Comment
-								</label>
-								<textarea type="text" name="description" id="comment-description"></textarea>
+						<form action="" method="POST">
+							<div class="comment">
+								<div class="input-control">
+									<label for="comment-description">
+										Comment
+									</label>
+									<textarea type="text" name="description" id="comment-description" required></textarea>
+								</div>
 							</div>
-						</div>
 
-						<article>
-							<button id="btn_submit-comment" class="btn btn-success">Submit</button>
-						</article>
+							<article>
+								<button name="submit" class="btn btn-success">Submit</button>
+							</article>
+						</form>
 					</section>
 				</div>
 
@@ -292,12 +358,6 @@ if (isset($_GET["id"])) {
 
 	<!-- your script -->
 	<script>
-		$("#btn_submit-comment").click(() => {
-			let desc = $("#comment-description").val();
-			$(".chat").append('<div class="me"><p>Me</p>' + desc + '</div>');
-			$("#comment-description").val("");
-		});
-
 		let model = document.getElementById("model")
 		let myModal = new bootstrap.Modal(model)
 

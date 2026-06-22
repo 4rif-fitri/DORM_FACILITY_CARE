@@ -92,6 +92,37 @@ while ($datas = mysqli_fetch_assoc($resultContractor)) {
 		"expertise" => $datas["expertise"]
 	];
 }
+
+// comment posting
+if (isset($_POST['submit'])) {
+	try {
+		$desc = $_POST["description"];
+		$userID = $_SESSION["userID"];
+		$sqlComment = "INSERT INTO comments
+					(theComment, reportID, userID)
+					VALUES
+					('$desc', $reportId, '$userID')
+		";
+
+		mysqli_query($conn, $sqlComment);
+
+		header("Location: reportUpdate.php?id=$reportId");
+	} catch (mysqli_sql_exception $e) {
+		$msg = $e->getMessage();
+
+		echo "<script>alert('Failed: $msg');
+			window.location.href='reportUpdate.php?id=$reportId';
+		</script>";
+	}
+}
+
+// fetch comments
+$sql = "	SELECT *
+    		FROM comments
+    		INNER JOIN user u ON comments.userID  = u.userID
+    		WHERE comments.reportID = '$reportId'";
+$comments = mysqli_query($conn, $sql);
+
 //php code hrre
 
 ?>
@@ -232,26 +263,43 @@ while ($datas = mysqli_fetch_assoc($resultContractor)) {
 							Comment
 						</h4>
 						<div class="chat">
-							<div class="other">
-								<p>USer</p>
-								Mana Wifi
-							</div>
-							<div class="me">
-								<p>Me</p>
-								Sabo
-							</div>
+							<?php
+							while($comment = mysqli_fetch_assoc($comments)){
+								if($comment["userID"] == $_SESSION["userID"]){
+									echo '<div class="me">
+										<p>Me</p>';
+								}
+								else{
+									echo '<div class="other">';
+									switch ($comment["type"]){
+										case "SAD": echo '<p>Admin</p>';
+											break;
+										case "STD": echo '<p>Student</p>';
+											break;
+										case "STF": echo '<p>Staff</p>';
+											break;
+									}
+								}
+								echo "<p>$comment[theComment]</p>";
+								if($comment["userID"] == $_SESSION["userID"]) // deletable if user's own comment
+									echo "<a href='trackReport.php?id=$reportId&cid=$comment[commentsID]' class='deleteBtn'>Delete</a>";
+								echo '</div>';
+							}
+							?>
 						</div>
 
-						<div class="comment">
-							<div class="input-control">
-								<label for="description">Comment</label>
-								<textarea type="text" name="description" id="description"></textarea>
+						<form action="" method="POST">
+							<div class="comment">
+								<div class="input-control">
+									<label for="description">Comment</label>
+									<textarea type="text" name="description" id="description" required></textarea>
+								</div>
 							</div>
-						</div>
 
-						<article>
-							<button class="btn btn-success">Submit</button>
-						</article>
+							<article>
+								<button name="submit" class="btn btn-success">Submit</button>
+							</article>
+						</form>
 					</section>
 				</div>
 
