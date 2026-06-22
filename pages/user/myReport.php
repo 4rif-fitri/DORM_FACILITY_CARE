@@ -1,6 +1,6 @@
 <?php
 require_once __DIR__ . "../../../inc/init.php";
-auth("STD");
+auth("STD,STF", $_SESSION["type"] ?? null);
 
 //php code hrre
 $userID = $_SESSION["userID"];
