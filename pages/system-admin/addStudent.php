@@ -45,7 +45,7 @@ auth("SAD");
 							<th>Name</th>
 							<th>College</th>
 							<th>Phone No</th>
-							<!-- <th>Edit</th> -->
+							<th>Edit</th>
 						</tr>
 					</thead>
 
@@ -55,9 +55,9 @@ auth("SAD");
 							<td>Arif Fitri bin Mohd Jamil</td>
 							<td>Al-Jazari</td>
 							<td>011 167 6767</td>
-							<!-- <td>
-								<button class="updateBtn" data-bs-target="#modalStudent" data-bs-toggle="modal">Update</button>
-							</td> -->
+							<td>
+								<button onclick="update(0)" class="updateBtn" data-bs-target="#modalStudent" data-bs-toggle="modal">Update</button>
+							</td>
 						</tr>
 
 						<tr>
@@ -65,9 +65,9 @@ auth("SAD");
 							<td>Muhammad Imran Danial</td>
 							<td>Satria</td>
 							<td>013 145 7816</td>
-							<!-- <td>
-								<button class="updateBtn" data-bs-target="#modalStudent" data-bs-toggle="modal">Update</button>
-							</td> -->
+							<td>
+								<button onclick="update(1)" class="updateBtn" data-bs-target="#modalStudent" data-bs-toggle="modal">Update</button>
+							</td>
 						</tr>
 					</tbody>
 
@@ -169,7 +169,7 @@ auth("SAD");
 		</div>
 	</div>
 
-	<!-- <div class="modal fade" id="modalStudent">
+	<div class="modal fade" id="modalStudent">
 		<form method="POST" action="">
 			<div class="modal-dialog modal-dialog-centered">
 				<div class="modal-content">
@@ -193,11 +193,6 @@ auth("SAD");
 									<div class="input-control">
 										<label for="uptName" class="required">Name</label>
 										<input type="text" name="name" id="uptName">
-									</div>
-
-									<div class="input-control">
-										<label for="uptPassword" class="required">Password</label>
-										<input type="password" name="password" id="uptPassword">
 									</div>
 
 									<div class="input-control">
@@ -274,7 +269,7 @@ auth("SAD");
 				</div>
 			</div>
 		</form>
-	</div> -->
+	</div>
 
 	<!-- your script -->
 
@@ -287,6 +282,15 @@ auth("SAD");
 		let selectBilik = document.getElementById("bilik");
 		let selectKatil = document.getElementById("katil");
 		let studentRoom = document.getElementById("studentRoom");
+
+
+		let uptselectCollege = document.getElementById("uptCollage");
+		let uptselectBlock = document.getElementById("uptBlock");
+		let uptselectLevel = document.getElementById("uptLevel");
+		let uptselectRumah = document.getElementById("uptRumah");
+		let uptselectBilik = document.getElementById("uptBilik");
+		let uptselectKatil = document.getElementById("uptKatil");
+		let uptstudentRoom = document.getElementById("uptStudentRoom");
 
 		selectCollege.addEventListener("change", e => {
 
@@ -447,14 +451,202 @@ auth("SAD");
 		});
 
 		function updateAddress() {
-
 			let block = selectBlock.value || "";
 			let level = selectLevel.value || "";
 			let rumah = selectRumah.value || "";
 			let bilik = selectBilik.value || "";
 			let katil = selectKatil.value || "";
-
 			studentRoom.value = `${block}-${level}-${rumah}-${bilik}(${katil})`;
+		}
+
+		// ========
+
+		let getFullAddreddToUpdate = () => {
+			let block = uptselectBlock.value || "";
+			let level = uptselectLevel.value || "";
+			let rumah = uptselectRumah.value || "";
+			let bilik = uptselectBilik.value || "";
+			let katil = uptselectKatil.value || "";
+			uptstudentRoom.value = `${block}-${level}-${rumah}-${bilik}(${katil})`;
+		}
+
+		function update(id) {
+			console.log(id);
+
+			$.ajax({
+				url: "../../api/getStudentDetail.php",
+				method: "POST",
+				data: {
+					userID: id
+				},
+				success: response => {
+					console.log(response);
+
+					let kolej = "Al_Jazari"
+					let alamat = "C-4-4-C(1)"
+
+					let blok, floor, rumah, BILIK, bilik, katil
+					alamat = alamat.split("-")
+
+					if (kolej == "Al_Jazari") {
+						blok = alamat[0]
+						floor = alamat[1]
+						rumah = alamat[2]
+						BILIK = alamat[3]
+						bilik = BILIK.split("(")[0]
+						katil = BILIK.split("(")[1].replaceAll(")", "")
+
+					} else if (kolej == "Lestari") {
+						blok = alamat[0]
+						rumah = alamat[1]
+						floor = alamat[2]
+						BILIK = alamat[3]
+						bilik = BILIK.split("(")[0]
+						katil = BILIK.split("(")[1].replaceAll(")", "")
+
+					} else if (kolej == "Satria") {
+						blok = alamat[1]
+						floor = alamat[2]
+						rumah = alamat[3]
+						BILIK = alamat[4]
+						bilik = BILIK.split("(")[0]
+						katil = BILIK.split("(")[1].replace(")", "")
+					}
+
+					console.log({
+						alamat,
+						blok,
+						floor,
+						rumah,
+						bilik,
+						katil
+					});
+
+					let optBlock, optLevel, optNo_Rumah, optBilik, optKatil
+
+					if (kolej == "Al_Jazari") {
+
+						optBlock = `
+						<option ${blok == "A" ? "selected" : ""} value="A">Blok A</option>
+						<option ${blok == "B" ? "selected" : ""} value="B">Blok B</option>
+						<option ${blok == "C" ? "selected" : ""} value="C">Blok C</option>
+						`
+						optLevel = `
+						<option ${floor == "1" ? "selected" : ""} value="1">1</option>
+						<option ${floor == "2" ? "selected" : ""} value="2">2</option>
+						<option ${floor == "3" ? "selected" : ""} value="3">3</option>
+						<option ${floor == "4" ? "selected" : ""} value="4">4</option>
+						<option ${floor == "5" ? "selected" : ""} value="5">5</option>
+						`
+						optNo_Rumah = `
+						<option ${rumah == "1" ? "selected" : ""} value="1">1</option>
+						<option ${rumah == "2" ? "selected" : ""} value="2">2</option>
+						<option ${rumah == "3" ? "selected" : ""} value="3">3</option>
+						<option ${rumah == "4" ? "selected" : ""} value="4">4</option>
+						<option ${rumah == "5" ? "selected" : ""} value="5">5</option>
+						<option ${rumah == "6" ? "selected" : ""} value="6">6</option>
+						`
+						optBilik = `
+						<option ${bilik == "A" ? "selected" : ""} value="A">A</option>
+						<option ${bilik == "B" ? "selected" : ""} value="B">B</option>
+						<option ${bilik == "C" ? "selected" : ""} value="C">C</option>
+						<option ${bilik == "D" ? "selected" : ""} value="D">D</option>
+						<option ${bilik == "E" ? "selected" : ""} value="E">E</option>
+						`
+						optKatil = `
+						<option ${katil == "1" ? "selected" : ""} value="1">1</option>
+						<option ${katil == "2" ? "selected" : ""} value="2">2</option>
+						<option ${katil == "3" ? "selected" : ""} value="3">3</option>
+						`
+
+					} else if (kolej == "Satria") {
+						optBlock = `
+							<option ${blok == "J" ? "selected" : ""} value="SJ-J">Satria Jebat</option>
+							<option ${blok == "T" ? "selected" : ""} value="ST-T">Satria Tuah</option>
+							<option ${blok == "L" ? "selected" : ""} value="SL-L">Satria Lekir</option>
+							<option ${blok == "E" ? "selected" : ""} value="SE-E">Satria Lekiu</option>
+							<option ${blok == "K" ? "selected" : ""} value="SK-K">Satria Kasturi</option>
+							`
+						optLevel = `
+							<option  ${floor == "1" ? "selected" : ""} value="1">1</option>
+							<option  ${floor == "2" ? "selected" : ""} value="2">2</option>
+							<option  ${floor == "3" ? "selected" : ""} value="3">3</option>
+							<option  ${floor == "4" ? "selected" : ""} value="4">4</option>
+							<option  ${floor == "5" ? "selected" : ""} value="5">5</option>
+							<option  ${floor == "6" ? "selected" : ""} value="6">6</option>
+							<option  ${floor == "7" ? "selected" : ""} value="7">7</option>
+							<option  ${floor == "8" ? "selected" : ""} value="8">8</option>
+							<option  ${floor == "9" ? "selected" : ""} value="9">9</option>
+							`
+						optNo_Rumah = `
+							<option  ${rumah == "1" ? "selected" : ""} value="1">1</option>
+							<option  ${rumah == "2" ? "selected" : ""} value="2">2</option>
+							<option  ${rumah == "3" ? "selected" : ""} value="3">3</option>
+							<option  ${rumah == "4" ? "selected" : ""} value="4">4</option>
+							<option  ${rumah == "5" ? "selected" : ""} value="5">5</option>
+							<option  ${rumah == "6" ? "selected" : ""} value="6">6</option>
+							<option  ${rumah == "7" ? "selected" : ""} value="7">7</option>
+							<option  ${rumah == "8" ? "selected" : ""} value="8">8</option>
+							<option  ${rumah == "9" ? "selected" : ""} value="9">9</option>
+							<option  ${rumah == "10" ? "selected" : ""} value="10">10</option>
+							<option  ${rumah == "11" ? "selected" : ""} value="11">11</option>
+							<option  ${rumah == "12" ? "selected" : ""} value="12">12</option>
+							`
+						optBilik = `
+							<option  ${bilik == "A" ? "selected" : ""} value="A">A</option>
+							<option  ${bilik == "B" ? "selected" : ""} value="B">B</option>
+							<option  ${bilik == "C" ? "selected" : ""} value="C">C</option>
+							<option  ${bilik == "D" ? "selected" : ""} value="D">D</option>
+							<option  ${bilik == "E" ? "selected" : ""} value="E">E</option>
+						`
+						optKatil = `
+							<option  ${katil == "1" ? "selected" : ""} value="1">1</option>
+							<option  ${katil == "2" ? "selected" : ""} value="2">2</option>
+						`
+					} else if (kolej == "Lestari") {
+						optBlock = `
+							<option  ${blok == "B1" ? "selected" : ""} value="B1">B1</option>
+							<option  ${blok == "B2" ? "selected" : ""} value="B2">B2</option>
+						`
+						optNo_Rumah = `
+							<option  ${rumah == "A" ? "selected" : ""} value="A">A</option>
+							<option  ${rumah == "B" ? "selected" : ""} value="B">B</option>
+							<option  ${rumah == "C" ? "selected" : ""} value="C">C</option>
+							<option  ${rumah == "D" ? "selected" : ""} value="D">D</option>
+							<option  ${rumah == "E" ? "selected" : ""} value="E">E</option>
+						`
+						optLevel = `
+							<option  ${floor == "G" ? "selected" : ""} value="G">G</option>
+							<option  ${floor == "1" ? "selected" : ""} value="1">1</option>
+							<option  ${floor == "2" ? "selected" : ""} value="2">2</option>
+							<option  ${floor == "3" ? "selected" : ""} value="3">3</option>
+						`
+						optBilik = `
+							<option  ${bilik == "01" ? "selected" : ""} value="01">01</option>
+							<option  ${bilik == "02" ? "selected" : ""} value="02">02</option>
+							<option  ${bilik == "03" ? "selected" : ""} value="03">03</option>
+							<option  ${floor == "04" ? "selected" : ""} value="04">04</option>
+							<option  ${floor == "05" ? "selected" : ""} value="05">05</option>
+							<option  ${bilik == "06" ? "selected" : ""} value="06">06</option>
+							<option  ${bilik == "07" ? "selected" : ""} value="07">07</option>
+						`
+						optKatil = `
+							<option  ${katil == "1" ? "selected" : ""} value="1">1</option>
+							<option  ${katil == "2" ? "selected" : ""} value="2">2</option>
+						`
+					}
+
+					uptselectBlock.innerHTML = optBlock
+					uptselectLevel.innerHTML = optLevel
+					uptselectRumah.innerHTML = optNo_Rumah
+					uptselectBilik.innerHTML = optBilik
+					uptselectKatil.innerHTML = optKatil
+					getFullAddreddToUpdate()
+				},
+				errors: response => {
+					console.log(response);
+				}
+			})
 		}
 	</script>
 

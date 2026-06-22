@@ -47,10 +47,9 @@ auth("SAD");
 							<td>Arif Fitri bin Mohd Jamil</td>
 							<td>Al-Jazari</td>
 							<td>011 167 6767</td>
-							<!-- <td> -->
-							<!-- <button class="updateBtn" data-bs-target="#modalStudent" data-bs-toggle="modal">Update</button> -->
-							<!-- <a href="./studentUpdate.php" class="updateBtn">Update</a> -->
-							<!-- </td> -->
+							<td>
+							<button class="updateBtn" data-bs-target="#modalStudent" data-bs-toggle="modal">Update</button>
+							</td>
 						</tr>
 
 						<tr>
@@ -58,10 +57,9 @@ auth("SAD");
 							<td>Muhammad Imran Danial</td>
 							<td>Satria</td>
 							<td>013 145 7816</td>
-							<!-- <td> -->
-							<!-- <button class="updateBtn" data-bs-target="#modalStudent" data-bs-toggle="modal">Update</button> -->
-							<!-- <a href="./studentUpdate.php" class="updateBtn">Update</a> -->
-							<!-- </td> -->
+							<td>
+							<button class="updateBtn" data-bs-target="#modalStudent" data-bs-toggle="modal">Update</button>
+							</td>
 						</tr>
 					</tbody>
 
