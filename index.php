@@ -141,9 +141,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" || isset($_POST["submit"])) {
 							<form method="POST" id="form" action=""><input hidden value="ADMIN@utem.edu.my" type="text" name="email"><input hidden value="abc123" type="text" name="password"><button name="submit" type="submit" name="submit">System Admin</button></form>
 							<form method="POST" id="form" action=""><input hidden value="MIRZA@utem.edu.my" type="text" name="email"><input hidden value="abc123" type="text" name="password"><button name="submit" type="submit" name="submit">Contractor</button></form>
 
-							<form method="POST" id="form" action=""><input hidden value="D032410018@student.utem.edu.my" type="text" name="email"><input hidden value="abc123" type="text" name="password"><button name="submit" type="submit" name="submit">User AIMAN </button></form>
-							<form method="POST" id="form" action=""><input hidden value="D032410321@student.utem.edu.my" type="text" name="email"><input hidden value="abc123" type="text" name="password"><button name="submit" type="submit" name="submit">User ARIF </button></form>
-							<form method="POST" id="form" action=""><input hidden value="D032410297@student.utem.edu.my" type="text" name="email"><input hidden value="abc123" type="text" name="password"><button name="submit" type="submit" name="submit">User FARHAN </button></form>
+							<form method="POST" id="form" action=""><input hidden value="d032410001@student.utem.edu.my" type="text" name="email"><input hidden value="abc123" type="text" name="password"><button name="submit" type="submit" name="submit">User AMMAR</button></form>
+							<form method="POST" id="form" action=""><input hidden value="d032410170@student.utem.edu.my" type="text" name="email"><input hidden value="abc123" type="text" name="password"><button name="submit" type="submit" name="submit">User AMIRA</button></form>
+							<form method="POST" id="form" action=""><input hidden value="d032410321@student.utem.edu.my" type="text" name="email"><input hidden value="abc123" type="text" name="password"><button name="submit" type="submit" name="submit">User ARIF</button></form>
+							<form method="POST" id="form" action=""><input hidden value="d032410396@student.utem.edu.my" type="text" name="email"><input hidden value="abc123" type="text" name="password"><button name="submit" type="submit" name="submit">User IMRAN</button></form>
+							<form method="POST" id="form" action=""><input hidden value="d032410418@student.utem.edu.my" type="text" name="email"><input hidden value="abc123" type="text" name="password"><button name="submit" type="submit" name="submit">User AHMAD</button></form>
+
+							<form method="POST" id="form" action=""><input hidden value="MIRZA@utem.edu.my" type="text" name="email"><input hidden value="abc123" type="text" name="password"><button name="submit" type="submit" name="submit">CTR MIRZA</button></form>
+							<form method="POST" id="form" action=""><input hidden value="AMIR@utem.edu.my" type="text" name="email"><input hidden value="abc123" type="text" name="password"><button name="submit" type="submit" name="submit">CTR AMIR</button></form>
+							<form method="POST" id="form" action=""><input hidden value="ABU@utem.edu.my" type="text" name="email"><input hidden value="abc123" type="text" name="password"><button name="submit" type="submit" name="submit">CTR ABU</button></form>
+
+
 						</div>
 					</div>
 
@@ -238,7 +246,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" || isset($_POST["submit"])) {
 		let delay = time => new Promise(resolve => setTimeout(resolve, time))
 
 		let loading = `<div class="_loading-container"><img width="200" src="./images/Loading_icon.gif" alt=""></div>`;
-		
+
 		$("body").prepend(loading);
 
 		$(document).ready(async () => {
@@ -254,7 +262,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" || isset($_POST["submit"])) {
 				forgotEmail.focus();
 			} else if (forgotPhone.value.trim() == "") {
 				forgotPhone.focus();
-			}else {
+			} else {
 				$.ajax({
 					url: "./api/forgotPassword.php",
 					method: "POST",

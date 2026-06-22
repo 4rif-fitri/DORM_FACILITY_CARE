@@ -166,7 +166,7 @@ $result2 = mysqli_query($conn, $sql);
 					</div>
 					<div class="modal-body">
 						<div class="input-control">
-							<label for="contractorID">Id</label>
+							<label for="contractorID">Contractor Id</label>
 							<input required type="text" name="contractorID" id="contractorID">
 						</div>
 						<div class="input-control">
