@@ -54,6 +54,22 @@ if (isset($_POST['submit'])) {
         </script>";
 	}
 }
+
+if(isset($_GET['sid'])){
+	$userID = $_GET['sid'];
+	echo $userID;
+
+	$sqlUser = "DELETE FROM user
+				WHERE userID = '$userID'";
+
+	if(mysqli_query($conn, $sqlUser)){
+		echo "
+		<script>
+			alert('Student deleted succesfully');
+			window.location.href='addStudent.php';
+		</script>";
+	}
+}
 //php code hrre
 
 ?>
@@ -99,16 +115,17 @@ if (isset($_POST['submit'])) {
 					</thead>
 
 					<tbody>
-						<?php while ($row = mysqli_fetch_assoc($result)) : ?>
-							<tr>
-								<td><?= $row['userID'] ?></td>
-								<td><?= $row['name'] ?></td>
-								<td><?= $row['studentCollege'] ?></td>
-								<td><?= $row['numTel'] ?></td>
-								<td>
-									<button onclick="getdataStudent('<?= $row['userID'] ?>')" class="updateBtn">Update</button>
-								</td>
-							</tr>
+
+						<?php while($row = mysqli_fetch_assoc($result)) : ?> 
+						<tr>
+							<td><?= $row['userID'] ?></td>
+							<td><?= $row['name'] ?></td>
+							<td><?= $row['studentCollege'] ?></td>
+							<td><?= $row['numTel'] ?></td>
+							<td>
+								<button onclick="update(<?= $row['userID'] ?>)" class="updateBtn" data-bs-target="#modalStudent" data-bs-toggle="modal">Update</button>
+							</td>
+						</tr>
 						<?php endwhile ?>
 					</tbody>
 
@@ -133,7 +150,7 @@ if (isset($_POST['submit'])) {
 						</div>
 
 						<div id="reportCard-bottom">
-							<button onclick="getdataStudent('<?= $row2['userID'] ?>')" class="updateBtn">Update</button>
+							<button onclick="update('<?= $row['userID'] ?>')" class="updateBtn" data-bs-target="#modalStudent" data-bs-toggle="modal">Update</button>
 						</div>
 					</div>
 				<?php endwhile ?>

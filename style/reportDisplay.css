@@ -202,6 +202,24 @@ strong{
 	transform: scale(0.92);
 }
 
+.deleteBtn{
+	display: inline-block;
+	background-color: var(--danger);
+	color: var(--white);
+	padding: 5px 24px;
+	transition: all 0.18s ease;
+	border-radius: 5px;
+}
+
+.deleteBtn:hover{
+	background-color: var(--danger-hover);
+}
+
+.deleteBtn:active{
+	background: var(--primary-active);
+	transform: scale(0.92);
+}
+
 .input-control {
 	width: 100%;
 }
