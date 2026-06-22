@@ -7,16 +7,26 @@ ob_clean();
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
-	// $reportID = $_POST["reportID"];
-	// $message = $_POST["message"];
-	// $completedImgUrl = $_POST["url"];
+	$userID = $_POST["userID"];
 
-	// $sql = "";
+	$sql = "	SELECT 
+			user.userID,
+			user.name,
+			user.numTel,
+			user.email,
 
-	// $result = mysqli_query($conn, $sql);
+			student.studentCollege,
+			student.studentRoom
+
+        		FROM user 
+        		INNER JOIN student ON user.userID = student.userID
+        		WHERE user.userID = '$userID'";
+
+	$result = mysqli_fetch_assoc(mysqli_query($conn, $sql));
 
 	echo json_encode([
 		"status" => "success",
+		$result
 	]);
 
 	// if ($result) {
