@@ -3,39 +3,38 @@ require_once __DIR__ . "../../../inc/init.php";
 auth("STD,STF", $_SESSION["type"] ?? null);
 		// send("ariffitrimohdjamil@gmail.com", "LOREM", "LOREM");
 
-		//php code hrre
-		$userID = $_SESSION["userID"]; //retrieve guna userID (no matrik)
+// send("ariffitrimohdjamil@gmail.com", "LOREM", "LOREM");
+//php code hrre
 
-		$sql = " SELECT
-			COUNT(*) AS totalReport,
+$userID = $_SESSION["userID"]; //retrieve guna userID (no matrik)
 
-			SUM(CASE WHEN status='Pending' THEN 1 ELSE 0 END) AS pendingReport,
-			SUM(CASE WHEN status='Assigned' THEN 1 ELSE 0 END) AS assignedReport,
-			SUM(CASE WHEN status='In Progress' THEN 1 ELSE 0 END) AS progressReport,
-			SUM(CASE WHEN status='Completed' THEN 1 ELSE 0 END) AS completedReport
+$sql = " SELECT
+    COUNT(*) AS totalReport,
+    COALESCE(SUM(CASE WHEN status='Pending' THEN 1 ELSE 0 END),0) AS pendingReport,
+    COALESCE(SUM(CASE WHEN status='Assigned' THEN 1 ELSE 0 END),0) AS assignedReport,
+    COALESCE(SUM(CASE WHEN status='In_Progress' THEN 1 ELSE 0 END),0) AS progressReport,
+    COALESCE(SUM(CASE WHEN status='Completed' THEN 1 ELSE 0 END),0) AS completedReport,
+    COALESCE(SUM(CASE WHEN status='Rejected' THEN 1 ELSE 0 END),0) AS rejectedReport,
+    COALESCE(SUM(CASE WHEN status='Cancelled' THEN 1 ELSE 0 END),0) AS cancelledReport
 
-		FROM report
+FROM report
+WHERE userID = ? ";
 
-		WHERE userID = ? ";
+$stmt = mysqli_prepare($conn, $sql);
+mysqli_stmt_bind_param($stmt, "s", $userID);
+mysqli_stmt_execute($stmt);
+$result = mysqli_stmt_get_result($stmt);
+$data = mysqli_fetch_assoc($result);
+$totalReport = $data["totalReport"] ?? 0;
+$pendingReport = $data["pendingReport"] ?? 0;
+$assignedReport = $data["assignedReport"] ?? 0;
+$progressReport = $data["progressReport"] ?? 0;
+$completedReport = $data["completedReport"] ?? 0;
+$rejectedReport = $data["rejectedReport"] ?? 0;
+$cancelledReport = $data["cancelledReport"] ?? 0;
+//php code hrre
+?>
 
-		$stmt = mysqli_prepare($conn, $sql);
-
-		mysqli_stmt_bind_param($stmt, "s", $userID);
-
-		mysqli_stmt_execute($stmt);
-
-		$result = mysqli_stmt_get_result($stmt);
-
-		$data = mysqli_fetch_assoc($result);
-
-		$totalReport = $data["totalReport"] ?? 0;
-		$pendingReport = $data["pendingReport"] ?? 0;
-		$assignedReport = $data["assignedReport"] ?? 0;
-		$progressReport = $data["progressReport"] ?? 0;
-		$completedReport = $data["completedReport"] ?? 0;
-		//php code hrre
-
-		?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -102,6 +101,24 @@ auth("STD,STF", $_SESSION["type"] ?? null);
 						</div>
 
 						<p id="completedReport"><?= $completedReport ?></p>
+					</div>
+
+					<div class="dashboard-box">
+						<div class="dashboard-header">
+							<img class="dashboard-icon" src="../../images/rejected.svg" alt="">
+							<h2>Rejected</h2>
+						</div>
+
+						<p id="rejectedReport"><?= $rejectedReport ?></p>
+					</div>
+
+					<div class="dashboard-box">
+						<div class="dashboard-header">
+							<img class="dashboard-icon" src="../../images/cancelled.svg" alt="">
+							<h2>Cancelled</h2>
+						</div>
+
+						<p id="cancelledReport"><?= $cancelledReport ?></p>
 					</div>
 
 				</div>
