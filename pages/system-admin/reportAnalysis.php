@@ -1,28 +1,8 @@
 <?php
 require_once __DIR__ . "../../../inc/init.php";
-auth("SAD");
+auth("SAD", $_SESSION["type"] ?? null);
 
 //php code hrre
-function getDataStatus($conn)
-{
-	$sql = "SELECT college,status,dateReported, COUNT(*) AS total
-            FROM report
-            GROUP BY status";
-
-	$result = mysqli_query($conn, $sql);
-
-	$data = [];
-
-	while ($row = mysqli_fetch_assoc($result)) {
-		$data[] = [
-			$row["status"],
-			(int)$row["total"],
-			$row["college"],
-		];
-	}
-
-	return $data;
-}
 function getDataCategory($conn)
 {
 	$sql = "SELECT dateReported,college,reportCategory, COUNT(*) AS total
@@ -64,7 +44,6 @@ function getDataCollage($conn)
 
 	return $data;
 }
-
 function getDatatable($conn)
 {
 	$sql = "	SELECT college,reportCategory,dateReported,
@@ -138,30 +117,30 @@ function getDatatable($conn)
 
 			<section class="analisis-conainer">
 				<section class="pieChart">
-					<h2>Reports by Category</h2>
+					<h2 id="textReportCategory">Reports by Category for All Category</h2>
 					<canvas id="canvas_pieChart">
 
 					</canvas>
 
 					<div class="filter-control">
-						<input type="month" name="month" id="month">
+						<input type="month" name="month" id="filter-month-category">
 
-						<select name="college" id="college">
+						<select name="college" id="filter-college-category">
 							<option selected value="">All College</option>
-							<option value="">Satria Jebat</option>
-							<option value="">Satria Tuah</option>
-							<option value="">Satria Kasturi</option>
-							<option value="">Satria Lekir</option>
-							<option value="">Satria Lekiu</option>
-							<option value="">Lestari</option>
-							<option value="">Al Jazari</option>
+							<option value="Satria_Jebat">Satria Jebat</option>
+							<option value="Satria_Tuah">Satria Tuah</option>
+							<option value="Satria_Kasturi">Satria Kasturi</option>
+							<option value="Satria_Lekir">Satria Lekir</option>
+							<option value="Satria_Lekiu">Satria Lekiu</option>
+							<option value="Lestari">Lestari</option>
+							<option value="Al_Jazari">Al Jazari</option>
 						</select>
 
-						<button class="btn-reset">Reset</button>
-						<button class="btn-export">Export cvs</button>
+						<button class="btn-reset" id="filter-college-reset">Reset</button>
+						<!-- <button class="btn-export" id="filter-college-export">Export cvs</button> -->
 					</div>
 				</section>
-				<section class="barGraphBlock">
+				<!-- <section class="barGraphBlock">
 					<h2>Reports by Block</h2>
 					<canvas id="canvas_barGraphBlock">
 
@@ -191,7 +170,7 @@ function getDatatable($conn)
 						<button class="btn-export">Export cvs</button>
 
 					</div>
-				</section>
+				</section> -->
 				<!-- <section class="barGraphTrand">
 					<h2>Monthly Report Trend</h2>
 					<canvas id="canvas_barGraphTrand">
@@ -222,25 +201,25 @@ function getDatatable($conn)
 					</div>
 				</section> -->
 				<section class="donutBar">
-					<h2>Report Status</h2>
+					<h2 id="textReportStatus">Report Status for All Collage</h2>
 					<canvas id="canvas_donutBar">
 
 					</canvas>
 
 					<div class="filter-control">
-						<input type="month" name="month" id="month">
-						<select name="college" id="college">
-							<option value="">Satria Jebat</option>
-							<option value="">Satria Tuah</option>
-							<option value="">Satria Kasturi</option>
-							<option value="">Satria Lekir</option>
-							<option value="">Satria Lekiu</option>
-							<option value="">Lestari</option>
-							<option value="">Al Jazari</option>
+						<input type="month" name="month" id="filter-status-month">
+						<select name="college" id="filter-status-college">
+							<option value="">All Collage</option>
+							<option value="Satria_Jebat">Satria Jebat</option>
+							<option value="Satria_Tuah">Satria Tuah</option>
+							<option value="Satria_Kasturi">Satria Kasturi</option>
+							<option value="Satria_Lekir">Satria Lekir</option>
+							<option value="Satria_Lekiu">Satria Lekiu</option>
+							<option value="Lestari">Lestari</option>
+							<option value="Al_Jazari">Al Jazari</option>
 						</select>
-						<button class="btn-reset">Reset</button>
-						<button class="btn-export">Export cvs</button>
-
+						<button class="btn-reset" id="filter-status-reset">Reset</button>
+						<!-- <button class="btn-export" id="filter-status-export">Export cvs</button> -->
 					</div>
 				</section>
 				<section class="table" id="table">
@@ -253,10 +232,10 @@ function getDatatable($conn)
 									<th>Rank</th>
 									<th>Collage</th>
 									<th>Total Report</th>
-									<th>Pending</th>
-									<th>Assigned</th>
-									<th>In Progress</th>
-									<th>Completed</th>
+									<th><span class="pending">Pending</span></th>
+									<th><span class="assigned">Assigned</span></th>
+									<th><span class="inProgress">In Progress</span></th>
+									<th><span class="completed">Completed</span></th>
 								</tr>
 							</thead>
 							<tbody>
@@ -266,15 +245,15 @@ function getDatatable($conn)
 					<div class="filter-control">
 						<input type="month" name="month" id="filter-month-table">
 						<select name="category" id="filter-category-table">
-							<option value="All category">All category</option>
+							<option value="">All category</option>
 							<option value="Electrical">Electrical</option>
 							<option value="Plumbing">Plumbing</option>
 							<option value="Furniture">Furniture</option>
 							<option value="Internet">Internet</option>
 							<option value="Others">Others</option>
 						</select>
-						<button class="btn-reset">Reset</button>
-						<button class="btn-export">Export cvs</button>
+						<button class="btn-reset" id="filter-table-reset">Reset</button>
+						<!-- <button class="btn-export" id="filter-table-export">Export cvs</button> -->
 
 					</div>
 				</section>
@@ -291,22 +270,15 @@ function getDatatable($conn)
 		let tbody = table.querySelector("tbody")
 
 		let canvas_category = document.getElementById("canvas_pieChart");
-		let canvas_Block = document.getElementById("canvas_barGraphBlock");
+		// let canvas_Block = document.getElementById("canvas_barGraphBlock");
 		// let canvas_Trand = document.getElementById("canvas_barGraphTrand");
 		let canvas_Status = document.getElementById("canvas_donutBar");
 		let resizeTimer;
 		let rect = canvas_category.getBoundingClientRect();
 
-
 		let dataBlock = <?= json_encode(getDataCollage($conn)) ?>;
-
 		let datacategory = <?= json_encode(getDataCategory($conn)) ?>;
-
-		let dataStatus = <?= json_encode(getDataStatus($conn)) ?>;
-
-
 		let datatable = <?= json_encode(getDatatable($conn)) ?>;
-
 
 		const colors = [
 			"#2563EB", // Blue
@@ -321,36 +293,31 @@ function getDatatable($conn)
 			"#64748B" // Slate
 		];
 
-		let filterTable = (date,catagory) => {
 
-		}
+		let filterMonthCategory = ""
+		let filterCollegeCategory = ""
 
-		document.getElementById("filter-month-table").addEventListener("change", e => {
-			console.log(e.target.value);
-			
-		})
-
-		document.getElementById("filter-category-table").addEventListener("change", e => {
-			let filter = e.target.value
-			console.log({
-				filter
-			});
-
+		let filterCategory = () => {
 			$.ajax({
-				url: "../../api/getFilterdDatatable.php",
+				url: "../../api/filterReportsbyCategory.php",
 				method: "POST",
 				data: {
-					filter: filter
+					filterMonthCategory: filterMonthCategory,
+					filterCollegeCategory: filterCollegeCategory
 				},
 				success: response => {
-					console.log(response.datas)
-
-					if (filter == "All category") {
-						table.querySelector("h2").textContent = `Top Problem Locations`
+					console.log(response);
+					if (filterCollegeCategory == "") {
+						document.getElementById("textReportCategory").textContent = `Reports by Category for All Category`
 					} else {
-						table.querySelector("h2").textContent = `Top Problem Locations for ${filter}`
+						document.getElementById("textReportCategory").textContent = `Reports by Category for ${filterCollegeCategory}`
 					}
-					renderTable(response.datas)
+					let datas = response.datas.map(item => [
+						item.reportCategory,
+						parseInt(item.total)
+					]);
+
+					drawPieChart(canvas_category, datas);
 
 				},
 				error: response => {
@@ -358,14 +325,158 @@ function getDatatable($conn)
 				},
 				complete: () => {}
 			})
+		}
 
+		document.getElementById("filter-college-reset").addEventListener('click', () => {
+
+			filterMonthCategory = "";
+			filterCollegeCategory = "";
+
+			document.getElementById("filter-month-category").value = "";
+			document.getElementById("filter-college-category").value = "";
+
+			filterCategory();
+		});
+
+		document.getElementById("filter-month-category").addEventListener("change", e => {
+			filterMonthCategory = e.target.value
+			filterCategory()
+		})
+		document.getElementById("filter-college-category").addEventListener("change", e => {
+			filterCollegeCategory = e.target.value
+			filterCategory()
+		})
+
+
+		// === Status filter ===
+
+		let filterStatusCollege = ""
+		let filterStatusMonth = ""
+		let dataStatus
+		let filterStatus = () => {
+			console.log({
+				filterStatusCollege,
+				filterStatusMonth
+			});
+
+			$.ajax({
+				url: "../../api/getFilterdStatus.php",
+				method: "POST",
+				data: {
+					filterStatusCollege: filterStatusCollege,
+					filterStatusMonth: filterStatusMonth
+				},
+				success: response => {
+					console.log(filterStatusCollege);
+
+					if (filterStatusCollege == "") {
+						document.getElementById("textReportStatus").textContent = `Report Status for All Collage`
+					} else {
+						document.getElementById("textReportStatus").textContent = `Report Status for ${filterStatusCollege}`
+					}
+					dataStatus = response.datas
+					console.log(response)
+
+					drawBarChart(canvas_Status, response.datas);
+
+				},
+				error: response => {
+					console.log(response.responseText);
+				},
+				complete: () => {}
+			})
+		}
+		filterStatus()
+		document.getElementById("filter-status-reset").addEventListener('click', e => {
+			filterStatusCollege = ""
+			filterStatusMonth = ""
+
+			document.getElementById("filter-status-month").value = ""
+			document.getElementById("filter-status-college").value = ""
+
+			filterStatus()
+		})
+
+		document.getElementById("filter-status-college").addEventListener("change", e => {
+			filterStatusCollege = e.target.value
+			filterStatus()
+
+		})
+		document.getElementById("filter-status-month").addEventListener("change", e => {
+			filterStatusMonth = e.target.value
+			filterStatus()
+		})
+
+		// === Status filter ===
+
+
+		// === table filter ===
+
+		let tableFilterDate = ""
+		let tableFiltercatagory = ""
+
+		let filterTable = () => {
+
+			$.ajax({
+				url: "../../api/getFilterdDatatable.php",
+				method: "POST",
+				data: {
+					tableFilterDate: tableFilterDate,
+					tableFiltercatagory: tableFiltercatagory
+				},
+				success: response => {
+					// console.log(response)
+
+					if (tableFiltercatagory == "") {
+						table.querySelector("h2").textContent = `Top Problem Locations`
+					} else {
+						table.querySelector("h2").textContent = `Top Problem Locations for ${tableFiltercatagory}`
+					}
+					renderTable(response.datas)
+				},
+				error: response => {
+					console.log(response.responseText);
+				},
+				complete: () => {}
+			})
+		}
+		filterTable()
+		document.getElementById("filter-table-reset").addEventListener('click', e => {
+			tableFilterDate = ""
+			tableFiltercatagory = ""
+
+			document.getElementById('filter-month-table').value = ""
+			document.getElementById('filter-category-table').value = ""
+
+			filterTable()
+		})
+
+		document.getElementById("filter-month-table").addEventListener("change", e => {
+			tableFilterDate = e.target.value
+			filterTable()
+		})
+
+		document.getElementById("filter-category-table").addEventListener("change", e => {
+			tableFiltercatagory = e.target.value
+			filterTable()
 		})
 
 		let renderTable = (datatable) => {
 			tbody.innerHTML = ""
+			let totalReport = 0;
+			let totalPending = 0;
+			let totalAssigned = 0;
+			let totalInProgress = 0;
+			let totalCompleted = 0;
 
 			datatable.forEach((datas, index) => {
 				// console.log(datas);
+
+				totalReport += Number(datas[1]);
+				totalPending += Number(datas[2]);
+				totalAssigned += Number(datas[3]);
+				totalInProgress += Number(datas[4]);
+				totalCompleted += Number(datas[5]);
 
 				let tr = document.createElement("tr")
 				tr.innerHTML = `
@@ -379,7 +490,22 @@ function getDatatable($conn)
 				`
 				tbody.appendChild(tr)
 			})
+
+			let totalRow = document.createElement("tr")
+			totalRow.style.backgroundColor = "lightyellow"
+			totalRow.innerHTML = `
+						<td colspan="2"><b>Total</b></td>
+						<td><b>${totalReport}</b></td>
+						<td><b>${totalPending}</b></td>
+						<td><b>${totalAssigned}</b></td>
+						<td><b>${totalInProgress}</b></td>
+						<td><b>${totalCompleted}</b></td>
+					`;
+
+			tbody.appendChild(totalRow)
 		}
+
+		// === table filter ===
 
 		let drawPieChart = (canvas, datas) => {
 
@@ -397,7 +523,7 @@ function getDatatable($conn)
 			let radius = 150
 			let startAngle = 0
 
-			let lagendX = 550
+			let lagendX = 500
 			let lagendY = 50
 
 			datas.forEach((data, index) => {
@@ -428,11 +554,14 @@ function getDatatable($conn)
 				ctx.fillStyle = "#000"
 				ctx.fillText(percentage, x - 10, y + 5)
 
-				ctx.fillStyle = colors[index]
-				ctx.fillRect(lagendX, lagendY, 30, 30)
 
-				ctx.font = "bold 1rem arial"
-				ctx.fillText(datas[index][0], lagendX + 40, lagendY + 20)
+				ctx.fillStyle = colors[index];
+				ctx.fillRect(lagendX, lagendY + 30, 30, 30);
+
+				ctx.fillStyle = "#000";
+				ctx.fillText(`${data[0]} (${data[1]})`, lagendX + 40, lagendY + 50);
+
+
 
 				lagendY += 50
 			})
@@ -470,6 +599,7 @@ function getDatatable($conn)
 				ctx.fillRect(x, y, barWidth, barHeight);
 
 				ctx.fillStyle = "#000";
+				ctx.font = "15px Arial";
 				ctx.fillText(value, x, y - 10);
 				ctx.fillText(label, x, startY + 20);
 			});
@@ -583,9 +713,9 @@ function getDatatable($conn)
 		// }
 
 		drawPieChart(canvas_category, datacategory);
-		drawPieChart(canvas_Block, dataBlock);
+		// drawPieChart(canvas_Block, dataBlock);
 		// drawLineGraph(canvas_Trand, dataTrand);
-		drawBarChart(canvas_Status, dataStatus);
+		drawBarChart(canvas_Status, []);
 		renderTable(datatable)
 
 		window.addEventListener("resize", () => {
@@ -595,7 +725,7 @@ function getDatatable($conn)
 			resizeTimer = setTimeout(() => {
 
 				drawPieChart(canvas_category, datacategory);
-				drawPieChart(canvas_Block, dataBlock);
+				// drawPieChart(canvas_Block, dataBlock);
 				// drawLineGraph(canvas_Trand, dataTrand);
 				drawBarChart(canvas_Status, dataStatus);
 

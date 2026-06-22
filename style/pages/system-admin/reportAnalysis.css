@@ -38,10 +38,11 @@
 	display: grid;
 	gap: 1rem;
 	grid-template-areas:
-		'pieChart'
-		'barGraphBlock'
-		'donutBar'
 		'table'
+		'pieChart'
+		/* 'barGraphBlock' */
+		'donutBar'
+		/* 'barGraphTrand' */
 	;
 	padding: 1rem;
 }
@@ -94,14 +95,11 @@ section+.table table {
 	border-collapse: collapse;
 }
 
-section+.table table th {
-	color: white;
-	background-color: var(--text-main) !important;
-}
-
 section+.table table th,
 section+.table table td {
-	padding: 1rem;
+	text-align: center;
+	padding: 0.5rem;
+	border: 1px solid black;
 }
 
 .filter-control {
@@ -109,7 +107,7 @@ section+.table table td {
 	width: 100%;
 	display: grid;
 	gap: 0.5rem;
-	grid-template-columns: 2fr 2fr;
+	grid-template-columns: 1fr;
 }
 
 .filter-control select {
@@ -124,6 +122,38 @@ section+.table table td {
 	text-align: center;
 	border-radius: 5px;
 	border: 2px solid black;
+}
+
+.pending {
+	padding: 0.2rem 1rem;
+	border-radius: 4px;
+	color: var(--orange);
+	background-color: var(--orange-light);
+	border: 2px solid var(--orange) !important;
+}
+
+.assigned {
+	padding: 0.2rem 1rem;
+	border-radius: 4px;
+	color: var(--blue);
+	background-color: var(--blue-light);
+	border: 2px solid var(--blue) !important;
+}
+
+.inProgress {
+	padding: 0.2rem 1rem;
+	border-radius: 4px;
+	color: var(--choco);
+	background-color: var(--choco-light);
+	border: 2px solid var(--choco) !important;
+}
+
+.completed {
+	padding: 0.2rem 1rem;
+	border-radius: 4px;
+	color: var(--green);
+	background-color: var(--green-light);
+	border: 2px solid var(--green) !important;
 }
 
 .btn-reset {
@@ -148,7 +178,7 @@ section+.table table td {
 
 @media screen and (min-width:1000px) {
 	.filter-control {
-		grid-template-columns: 2fr 2fr 1fr 1fr;
+		grid-template-columns: 2fr 2fr 1fr;
 	}
 }
 
@@ -161,9 +191,8 @@ section+.table table td {
 
 	.analisis-conainer {
 		grid-template-areas:
-			'pieChart 		barGraphBlock'
-			'donutBar 	donutBar'
-			'table  			table'
+			'table table'
+			'pieChart donutBar'
 		;
 	}
 

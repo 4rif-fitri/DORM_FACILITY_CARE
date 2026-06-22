@@ -32,7 +32,15 @@
 	--fs-xxl: 1.75rem;
 }
 ._content-area {
-	padding: 2rem;
+	padding: 1rem;
+}
+._content-area > div{
+	width: 100%;
+	background-color: #fff;
+	padding: 1rem;
+	border-radius: 14px;
+	box-sizing: var(--shadow);
+	height: max-content;
 }
 ._content-area article h3{
 	font-weight: bolder;
@@ -173,6 +181,23 @@ select:focus {
 	height: 4rem !important;
 }
 
+.btn-reset,.btn-submit{
+	all: unset;
+	padding: 0.5rem 1rem; 
+	box-shadow: var(--shadow);
+	border: 1px solid black;
+	border-radius: 4px;
+	color: #fff;
+	font-weight: bold;
+}
+.btn-submit{
+	text-align: center;
+	width: 6rem;
+	background-color: var(--blue);
+}
+.btn-reset{
+	background-color: red;
+}
 @media screen and (min-width:1000px) {
 	form {
 		grid-template-rows: unset;

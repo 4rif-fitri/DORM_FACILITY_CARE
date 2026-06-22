@@ -1,6 +1,6 @@
 <?php
 require_once __DIR__ . "../../../inc/init.php";
-auth("STD", $_SESSION["type"]);
+auth("STD,STF", $_SESSION["type"] ?? null);
 
 //php code hrre
 $id = $_SESSION["userID"];
@@ -38,161 +38,160 @@ if (!$row) {
 		<?php include(__DIR__ . "../../../components/user/header.php") ?>
 
 		<main class="_content-area">
+			<div>
+				<article>
+					<h3>Details</h3>
+					<p class="required">All fields must be filled.</p>
+				</article>
+				<form action="" method="post">
 
-			<article>
-				<h3>Details</h3>
-				<p class="required">All fields must be filled.</p>
-			</article>
-			<form action="" method="post">
+					<section class="form-detail">
 
-				<section class="form-detail">
-
-					<div class="input-control">
-						<label for="categories" class="required">Categories</label>
-						<select name="categories" id="categories">
-							<option disabled selected value="">Select Categories</option>
-							<option value="Plumbing">Plumbing</option>
-							<option value="Electrical">Electrical</option>
-							<option value="Furniture">Cleaning</option>
-							<option value="Internet">Facilities</option>
-							<option value="Others">Security</option>
-							<option value="Others">Others</option>
-						</select>
-					</div>
-
-					<div class="input-control">
-						<label for="description" class="required">Description</label>
-						<textarea rows="10" name="description" id="description" rows="10"></textarea>
-					</div>
-					<div class="input-control col-3">
-						<article>
-							<label for="location" class="required">Location</label>
-							<select disabled required name="location" id="location">
-								<option value="Satria" <?= (trim($row["studentCollege"]) == "Satria") ? "selected" : "" ?>>Satria</option>
-
-								<option value="Al_Jazari" <?= (trim($row["studentCollege"]) == "Al_Jazari") ? "selected" : "" ?>>Al Jazari</option>
-
-								<option value="Lestari" <?= (trim($row["studentCollege"]) == "Lestari") ? "selected" : "" ?>>Lestari</option>
+						<div class="input-control">
+							<label for="categories" class="required">Category</label>
+							<select name="categories" id="categories">
+								<option disabled selected value="">Select Category</option>
+								<option value="Plumbing">Plumbing</option>
+								<option value="Electrical">Electrical</option>
+								<option value="Furniture">Cleaning</option>
+								<option value="Internet">Facilities</option>
+								<option value="Security">Security</option>
+								<option value="Others">Others</option>
 							</select>
-						</article>
+						</div>
 
-						<article>
-							<label for="block" class="required">Block</label>
-							<select required name="block" id="block">
-
-							</select>
-						</article>
-
-						<article>
-							<label for="level" class="required">Level</label>
-							<select name="level" id="level">
-
-							</select>
-						</article>
-
-						<article>
-							<label for="rumah" class="required">No Rumah</label>
-							<select name="rumah" id="rumah">
-
-							</select>
-						</article>
-
-						<article>
-							<label for="bilik" class="required">Bilik</label>
-							<select name="bilik" id="bilik">
-
-							</select>
-						</article>
-
-						<article>
-							<label for="katil" class="required">Katil</label>
-							<select name="katil" id="katil">
-
-							</select>
-						</article>
-
-
-
-					</div>
-
-					<div class="input-control">
-						<p for="room_no">Full Alamat</p>
-						<input disabled type="text" name="room_no" id="room_no">
-					</div>
-					<button type="button" id="reset-alamat" class="btn btn-secondary w-25">Reset Alamat</button>
-				</section>
-
-				<!-- problem (duplicate form-photo) -->
-				<!-- <section class="form-photo">
-
-					<div class="input-control">
-						<label for="image" class="required">Upload Image</label>
-						<input hidden type="file" accept="image/*" name="image" id="image">
-						<label for="image" class="image-area">
-							<button type="button" class="btn btn-close hidden"></button>
-
+						<div class="input-control">
+							<label for="description" class="required">Description</label>
+							<textarea rows="10" name="description" id="description" rows="10"></textarea>
+						</div>
+						<div class="input-control col-3">
 							<article>
 								<label for="location" class="required">Location</label>
-								<select name="location" id="location">
-									<option selected disabled value="">Select Location</option>
-									<option value="location_1">Location 1</option>
-									<option value="location_2">Location 2</option>
+								<select disabled required name="location" id="location">
+									<option value="Satria" <?= (trim($row["studentCollege"]) == "Satria") ? "selected" : "" ?>>Satria</option>
+
+									<option value="Al_Jazari" <?= (trim($row["studentCollege"]) == "Al_Jazari") ? "selected" : "" ?>>Al Jazari</option>
+
+									<option value="Lestari" <?= (trim($row["studentCollege"]) == "Lestari") ? "selected" : "" ?>>Lestari</option>
 								</select>
 							</article>
-	
+
 							<article>
 								<label for="block" class="required">Block</label>
-								<select name="block" id="block">
-									<option selected disabled value="">Select Block</option>
-									<option value="block_1">Block 1</option>
-									<option value="block_2">Block 2</option>
+								<select required name="block" id="block">
+
 								</select>
 							</article>
-	
+
 							<article>
 								<label for="level" class="required">Level</label>
 								<select name="level" id="level">
-									<option selected disabled value="">Select Level</option>
-									<option value="level_1">Level 1</option>
-									<option value="level_2">Level 2</option>
+
 								</select>
 							</article>
-						</div>
-	
-						<div class="input-control">
-							<label for="room_no" class="required">Room no.</label>
-							<p class="text-danger hidden" style="margin-bottom: 0;">Errors</p>
-							<input type="text" name="room_no" id="room_no" placeholder="A-1-2-B(2)">
-							<p class="hint">e.g: A-1-2-B(2)</p>
-						</div>
-					</section> -->
-
-				<section class="form-photo">
-
-					<div class="input-control">
-						<label for="image" class="required">Upload Image</label>
-						<input hidden type="file" accept="image/*" name="image" id="image">
-						<label for="image" class="image-area">
-							<button type="button" class="btn btn-close hidden"></button>
 
 							<article>
-								<i class="fa-solid fa-file-arrow-up"></i>
-								<h5 class="text-drop">Click or Drop Image Here!</h5>
+								<label for="rumah" class="required">No Rumah</label>
+								<select name="rumah" id="rumah">
+
+								</select>
 							</article>
 
-						</label>
-						<p class="hidden name-file">asd.png</p>
-					</div>
+							<article>
+								<label for="bilik" class="required">Bilik</label>
+								<select name="bilik" id="bilik">
 
-					<div class="btn-group">
-						<button type="reset" class="btn btn-dark clear">Clear</button>
-						<button type="submit" class="btn btn-primary submit">Submit</button>
-					</div>
+								</select>
+							</article>
 
-				</section>
+							<article>
+								<label for="katil" class="required">Katil</label>
+								<select name="katil" id="katil">
 
-			</form>
+								</select>
+							</article>
 
+
+
+						</div>
+
+						<div class="input-control">
+							<p for="room_no">Full Alamat</p>
+							<input disabled type="text" name="room_no" id="room_no">
+						</div>
+						<button type="button" id="reset-alamat" class="btn btn-secondary w-25">Reset Alamat</button>
+					</section>
+
+					<!-- problem (duplicate form-photo) -->
+					<!-- <section class="form-photo">
+		
+							<div class="input-control">
+								<label for="image" class="required">Upload Image</label>
+								<input hidden type="file" accept="image/*" name="image" id="image">
+								<label for="image" class="image-area">
+									<button type="button" class="btn btn-close hidden"></button>
+		
+									<article>
+										<label for="location" class="required">Location</label>
+										<select name="location" id="location">
+											<option selected disabled value="">Select Location</option>
+											<option value="location_1">Location 1</option>
+											<option value="location_2">Location 2</option>
+										</select>
+									</article>
+			
+									<article>
+										<label for="block" class="required">Block</label>
+										<select name="block" id="block">
+											<option selected disabled value="">Select Block</option>
+											<option value="block_1">Block 1</option>
+											<option value="block_2">Block 2</option>
+										</select>
+									</article>
+			
+									<article>
+										<label for="level" class="required">Level</label>
+										<select name="level" id="level">
+											<option selected disabled value="">Select Level</option>
+											<option value="level_1">Level 1</option>
+											<option value="level_2">Level 2</option>
+										</select>
+									</article>
+								</div>
+			
+								<div class="input-control">
+									<label for="room_no" class="required">Room no.</label>
+									<p class="text-danger hidden" style="margin-bottom: 0;">Errors</p>
+									<input type="text" name="room_no" id="room_no" placeholder="A-1-2-B(2)">
+									<p class="hint">e.g: A-1-2-B(2)</p>
+								</div>
+							</section> -->
+
+					<section class="form-photo">
+
+						<div class="input-control">
+							<label for="image" class="required">Upload Image</label>
+							<input hidden type="file" accept="image/*" name="image" id="image">
+							<label for="image" class="image-area">
+								<button type="button" class="btn btn-close hidden"></button>
+
+								<article>
+									<i class="fa-solid fa-file-arrow-up"></i>
+									<h5 class="text-drop">Click or Drop Image Here!</h5>
+								</article>
+
+							</label>
+							<p class="hidden name-file">asd.png</p>
+						</div>
+
+						<div>
+							<button type="reset" class="btn-reset clear">Reset</button>
+							<button type="submit" class="btn-submit submit">Submit</button>
+						</div>
+					</section>
+
+				</form>
+			</div>
 		</main>
 	</section>
 	<div class="popUpFail hidden">
@@ -204,7 +203,6 @@ if (!$row) {
 	</div>
 	<div class="popUpDone hidden">
 		<div class="card p-3">
-			<!-- <img id="asd" src="" alt=""> -->
 			<h1 class="text-center">✅</h1>
 			<h2>Done Add Report</h2>
 			<a href="./myReport.php" class="btn btn-success">Ok</a>
@@ -541,53 +539,6 @@ if (!$row) {
 		}
 		run()
 
-		// inpLocation.addEventListener("change", e => {
-		// 	let kolej = e.target.value
-		// 	console.log("Location selected: " + kolej);
-
-		// 	if (kolej == "") return
-
-		// 	inpLevel.setAttribute("disabled", "true")
-		// 	inpLevel.innerHTML = `
-		// 		<option selected disabled value="">Select Level</option>
-		// 	`
-
-		// 	inpBlock.removeAttribute("disabled")
-		// 	inpBlock.innerHTML = ""
-		// 	if (kolej == "Satria") {
-		// 		inpBlock.innerHTML = blokStaria
-
-		// 	} else if (kolej == "Al_Jazari") {
-		// 		inpBlock.innerHTML = blokAj
-
-		// 	} else if (kolej == "Lestari") {
-		// 		inpBlock.innerHTML = blokLestari
-		// 	}
-
-		// })
-
-		// inpBlock.addEventListener("change", e => {
-		// 	let blok = e.target.value
-		// 	let kolej = inpLocation.value
-		// 	console.log("Block selected: " + kolej + " " + blok);
-
-
-		// 	// WARN: assuming all blocks of a college have the same levels
-		// 	// unconfirmed for Lestari
-		// 	inpLevel.removeAttribute("disabled")
-		// 	inpLevel.innerHTML = ""
-		// 	if (kolej == "Satria") {
-		// 		inpLevel.innerHTML = levelStaria
-
-		// 	} else if (kolej == "Al_Jazari") {
-		// 		inpLevel.innerHTML = levelAj
-
-		// 	} else if (kolej == "Lestari") {
-		// 		inpLevel.innerHTML = levelLestari
-		// 	}
-
-		// })
-
 		let delay = time => new Promise(resolve => setTimeout(resolve, time))
 
 		let form = document.querySelector("form")
@@ -650,7 +601,6 @@ if (!$row) {
 
 				showLogin()
 
-				// document.querySelector(".popUpLoading").classList.remove("hidden");
 				await delay(2000)
 				$.ajax({
 					url: "../../api/submitReport.php",
@@ -664,9 +614,6 @@ if (!$row) {
 					},
 					success: response => {
 						console.log(response)
-						// document.getElementById("asd").src = response[0][7]
-						// document.querySelector(".popUpLoading").classList.add("hidden");
-						// document.querySelector(".popUpDone").classList.remove("hidden");
 						document.querySelector(".popUpLoading .bulat").style.animation = "fadeIN 0.2s forwards"
 						document.querySelector(".popUpLoading .bulat > *").style.animation = "show 0.3s forwards"
 					},
@@ -702,7 +649,6 @@ if (!$row) {
 		})
 
 		// handle image 
-
 		function addPhoto(file) {
 			if (!file) return;
 
@@ -745,8 +691,6 @@ if (!$row) {
 			imageAreaIcon.classList.add("hidden");
 			nameFile.classList.remove("hidden");
 			btnClose.classList.remove("hidden");
-
-
 		}
 
 		function removePhoto() {

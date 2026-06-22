@@ -1,10 +1,132 @@
 <?php
+
+ob_start();
+
 require_once __DIR__ . "../../../inc/init.php";
-auth("SAD");
+auth("SAD", $_SESSION["type"] ?? null);
 
-//php code hrre
+if (!isset($_SESSION["userID"])) {
+	header("Location: ../../index.php");
+	exit;
+}
 
-//php code hrre
+$userID = $_SESSION["userID"];
+
+
+$stmt = mysqli_prepare($conn, "SELECT * FROM user WHERE userID = ?");
+mysqli_stmt_bind_param($stmt, "s", $userID);
+mysqli_stmt_execute($stmt);
+$result = mysqli_stmt_get_result($stmt);
+$user = mysqli_fetch_assoc($result);
+
+function mapType($type)
+{
+	$labels = [
+		"STD" => "STUDENT",
+		"STF" => "STAFF",
+		"CTR" => "CONTRACTOR",
+		"CAD" => "COLLEGE ADMIN",
+		"SAD" => "SYSTEM ADMIN"
+	];
+	return $labels[$type] ?? $type;
+}
+
+function bindParams($stmt, $types, $params)
+{
+	$args = array_merge([$types], $params);
+	$refs = [];
+	foreach ($args as $key => $value) {
+		$refs[$key] = &$args[$key];
+	}
+	call_user_func_array("mysqli_stmt_bind_param", array_merge([$stmt], $refs));
+}
+
+function sendJson($data)
+{
+	ob_end_clean();
+	header("Content-Type: application/json");
+	echo json_encode($data);
+	exit;
+}
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+	if (($_POST["action"] ?? "") == "update_profile") {
+
+		$email  = trim($_POST["email"] ?? "");
+		$phone  = trim($_POST["phone"] ?? "");
+		$avatar = $_POST["avatar"] ?? "";
+
+		$fields = [];
+		$types  = "";
+		$params = [];
+
+		if ($email !== "") {
+			$fields[] = "email = ?";
+			$types   .= "s";
+			$params[] = $email;
+		}
+		if ($phone !== "") {
+			$fields[] = "numTel = ?";
+			$types   .= "s";
+			$params[] = $phone;
+		}
+		if ($avatar !== "") {
+			$fields[] = "imgProfileUrl = ?";
+			$types   .= "s";
+			$params[] = $avatar;
+		}
+
+		if (empty($fields)) {
+			sendJson(["success" => false, "message" => "Nothing to update."]);
+		}
+
+		$types   .= "s";
+		$params[] = $userID;
+
+		$sql    = "UPDATE user SET " . implode(", ", $fields) . " WHERE userID = ?";
+		$update = mysqli_prepare($conn, $sql);
+		bindParams($update, $types, $params);
+		mysqli_stmt_execute($update);
+
+		// Keep the session copy in sync with what's now in the DB.
+		if ($email !== "")  $_SESSION["email"] = $email;
+		if ($avatar !== "") $_SESSION["url"]   = $avatar;
+
+		sendJson(["success" => true, "message" => "Profile updated."]);
+	}
+
+	if (($_POST["action"] ?? "") == "change_password") {
+
+		$currentPassword = $_POST["current_password"] ?? "";
+		$newPassword     = $_POST["new_password"] ?? "";
+		$confirmPassword = $_POST["confirm_password"] ?? "";
+
+		if (!$currentPassword || !$newPassword || !$confirmPassword) {
+			sendJson(["success" => false, "field" => "current", "message" => "Please fill in all password fields."]);
+		}
+
+		$strongPassword = '/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/';
+		if (!preg_match($strongPassword, $newPassword)) {
+			sendJson(["success" => false, "field" => "new", "message" => "Password does not meet the requirements."]);
+		}
+
+		if ($newPassword !== $confirmPassword) {
+			sendJson(["success" => false, "field" => "confirm", "message" => "New password and confirm password do not match."]);
+		}
+
+		if (!password_verify($currentPassword, $user["password"])) {
+			sendJson(["success" => false, "field" => "current", "message" => "Current password is incorrect."]);
+		}
+
+		$newHash = password_hash($newPassword, PASSWORD_DEFAULT);
+		$update  = mysqli_prepare($conn, "UPDATE user SET password = ? WHERE userID = ?");
+		mysqli_stmt_bind_param($update, "ss", $newHash, $userID);
+		mysqli_stmt_execute($update);
+
+		sendJson(["success" => true, "message" => "Password changed successfully!"]);
+	}
+}
 
 ?>
 <!DOCTYPE html>
@@ -17,10 +139,9 @@ auth("SAD");
 
 <body>
 
-
 	<section class="_workspace">
 		<?php $title = "My Profile" ?>
-		<?php include(__DIR__ . "../../../components/system-admin/header.php") ?>
+		<?php include(__DIR__ . "../../../components/user/header.php") ?>
 
 		<!-- CONTENT HERE -->
 		<main class="_content-area">
@@ -29,16 +150,23 @@ auth("SAD");
 
 			<div class="profile-card">
 				<div id="profile-avatar" class="profile-avatar">
-					<i class="fa-solid fa-user"></i>
+					<?php if (!empty($user["imgProfileUrl"])): ?>
+						<img
+							src="<?= htmlspecialchars($user["imgProfileUrl"]) ?>"
+							alt="Avatar"
+							style="width:100%;height:100%;object-fit:cover;border-radius:50%;">
+					<?php else: ?>
+						<i class="fa-solid fa-user"></i>
+					<?php endif; ?>
 				</div>
 				<div class="profile-header">
-					<h2 class="profile-name">Name</h2>
+					<h2 class="profile-name"><?= htmlspecialchars($user["name"]) ?></h2>
 					<button onclick="hidContent()" class="btn btn-primary">Edit Profile</button>
 				</div>
 				<div class="profile-info">
-					<p class="info-line" id="email-info">email@example.com</p>
-					<p class="info-line" id="phone-info">123-456-7890</p>
-					<p class="info-line" id="role-info">SYSTEM ADMIN</p>
+					<p class="info-line" id="email-info"><?= htmlspecialchars($user["email"]) ?></p>
+					<p class="info-line" id="phone-info"><?= htmlspecialchars($user["numTel"] ?? "") ?></p>
+					<p class="info-line" id="role-info"><?= htmlspecialchars(mapType($user["type"])) ?></p>
 				</div>
 			</div>
 
@@ -49,7 +177,7 @@ auth("SAD");
 				<form>
 					<div class="mb-3">
 						<label for="photo" class="form-label">Avatar</label>
-						<input type="file" class="form-control" id="photo">
+						<input type="file" class="form-control" id="photo" accept="image/*">
 					</div>
 					<div class="mb-3">
 						<label for="email" class="form-label">Email</label>
@@ -59,6 +187,7 @@ auth("SAD");
 						<label for="phone" class="form-label">Phone Number</label>
 						<input type="text" class="form-control" id="phone" placeholder="Enter your phone number">
 					</div>
+					<p id="profile-error" class="text-danger"></p>
 					<button type="button" onclick="hidChangePass()" class="btn btn-warning">Change
 						Password</button>
 					<button type="button" onclick="cancelChange()" class="btn btn-secondary">Cancel</button>
@@ -73,10 +202,7 @@ auth("SAD");
 				<form>
 					<div class="mb-3">
 						<label for="current-password" class="form-label">Current Password</label>
-						<input type="password" class="form-control" id="current-password"
-							pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
-							title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters"
-							required">
+						<input type="password" class="form-control" id="current-password">
 						<input type="checkbox" id="show-password" class="form-check-input"
 							style="margin-top: 10px;">
 						<label for="show-password" class="form-check-label">Show Password</label>
@@ -123,6 +249,7 @@ auth("SAD");
 		function hidContent() {
 			$("#email").val($("#email-info").text());
 			$("#phone").val($("#phone-info").text());
+			$("#profile-error").text("");
 
 			$("._content-area").hide();
 			$("._edit-form").show();
@@ -134,9 +261,28 @@ auth("SAD");
 		}
 
 		function cancelChangePass() {
+			$("#current-password").val("").attr("type", "password");
+			$("#new-password").val("").attr("type", "password");
+			$("#confirm-password").val("").attr("type", "password");
+			$("#show-password, #show-new-password, #show-confirm-password").prop("checked", false);
+			$("#password-error").text("");
+			$("#new-password-error").text("");
+			$("#confirm-password-error").text("");
+
 			$("._edit-password-form").hide();
 			$("._edit-form").show();
 		}
+
+
+		function wireShowPasswordToggle(checkboxId, inputId) {
+			$(checkboxId).on("change", function() {
+				const type = $(this).is(":checked") ? "text" : "password";
+				$(inputId).attr("type", type);
+			});
+		}
+		wireShowPasswordToggle("#show-password", "#current-password");
+		wireShowPasswordToggle("#show-new-password", "#new-password");
+		wireShowPasswordToggle("#show-confirm-password", "#confirm-password");
 
 		var passLength = $("#password-length");
 		var passUpper = $("#password-uppercase");
@@ -179,89 +325,94 @@ auth("SAD");
 			$("#new-password-error").text("");
 			$("#confirm-password-error").text("");
 
-			if (!currentPassword || !newPassword || !confirmPassword) {
-				$("#password-error").text("Please fill in all password fields.");
-				return;
-			}
-
-			const strongPassword = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/;
-			if (!strongPassword.test(newPassword)) {
-				$("#new-password-error").text("Password does not meet the requirements.");
-				return;
-			}
-
-			if (newPassword !== confirmPassword) {
-				$("#confirm-password-error").text("New password and confirm password do not match.");
-				return;
-			}
-
-			alert("Password changed successfully!");
-			cancelChangePass();
+			$.ajax({
+				url: "",
+				method: "POST",
+				dataType: "json",
+				data: {
+					action: "change_password",
+					current_password: currentPassword,
+					new_password: newPassword,
+					confirm_password: confirmPassword
+				},
+				success: function(res) {
+					if (res.success) {
+						alert(res.message);
+						cancelChangePass();
+					} else {
+						if (res.field === "current") {
+							$("#password-error").text(res.message);
+						} else if (res.field === "confirm") {
+							$("#confirm-password-error").text(res.message);
+						} else {
+							$("#new-password-error").text(res.message);
+						}
+					}
+				},
+				error: function() {
+					$("#password-error").text("Something went wrong. Please try again.");
+				}
+			});
 		}
-
-		let avatarUrl = null;
 
 		function saveChanges() {
 			const file = $("#photo")[0].files[0];
 			const email = $("#email").val();
 			const phone = $("#phone").val();
 
-			$("#email-info").text(email);
-			$("#phone-info").text(phone);
+			$("#profile-error").text("");
 
-			sessionStorage.setItem("email", email);
-			sessionStorage.setItem("phone", phone);
+			function sendUpdate(avatarData) {
+				$.ajax({
+					url: "",
+					method: "POST",
+					dataType: "json",
+					data: {
+						action: "update_profile",
+						email: email,
+						phone: phone,
+						avatar: avatarData || ""
+					},
+					success: function(res) {
+						if (res.success) {
+							$("#email-info").text(email);
+							$("#phone-info").text(phone);
+
+							if (avatarData) {
+								$("#profile-avatar").html(`
+									<img
+										src="${avatarData}"
+										alt="Avatar"
+										style="width:100%;height:100%;object-fit:cover;border-radius:50%;"
+									>
+								`);
+							}
+
+							$("._edit-form").hide();
+							$("._content-area").show();
+						} else {
+							$("#profile-error").text(res.message);
+						}
+					},
+					error: function() {
+						$("#profile-error").text("Could not save changes. Please try again.");
+					}
+				});
+			}
 
 			if (file) {
 				const reader = new FileReader();
-
 				reader.onload = function(e) {
-					const imageData = e.target.result;
-
-					$("#profile-avatar").php(`
-						<img
-							src="${imageData}"
-							alt="Avatar"
-							style="width:100%;height:100%;object-fit:cover;border-radius:50%;"
-						>
-					`);
-
-					sessionStorage.setItem("avatar", imageData);
+					sendUpdate(e.target.result);
 				};
-
 				reader.readAsDataURL(file);
+			} else {
+				sendUpdate(null);
 			}
-
-			$("._edit-form").hide();
-			$("._content-area").show();
 		}
-		$(document).ready(function() {
-
-			const email = sessionStorage.getItem("email");
-			const phone = sessionStorage.getItem("phone");
-			const avatar = sessionStorage.getItem("avatar");
-
-			if (email) {
-				$("#email-info").text(email);
-			}
-
-			if (phone) {
-				$("#phone-info").text(phone);
-			}
-
-			if (avatar) {
-				$("#profile-avatar").php(`
-					<img
-						src="${avatar}"
-						alt="Avatar"
-						style="width:100%;height:100%;object-fit:cover;border-radius:50%;"
-					>
-				`);
-			}
-
-		});
 
 		function cancelChange() {
+			$("#profile-error").text("");
 			$("._edit-form").hide();
 			$("._content-area").show();
 		}
