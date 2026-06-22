@@ -47,7 +47,7 @@ $result2 = mysqli_query($conn, $sql);
 							<th>Name</th>
 							<th>Expertise</th>
 							<th>Phone No</th>
-							<th>Action</th>
+							<!-- <th>Action</th> -->
 						</tr>
 					</thead>
 
@@ -59,8 +59,7 @@ $result2 = mysqli_query($conn, $sql);
 							<td><?= $row['expertise'] ?></td>
 							<td><?= $row['numTel'] ?></td>
 							<td>
-								<button class="updateBtn" data-bs-target="#modalStudent" data-bs-toggle="modal">Update</button>
-								<!-- <a href="./studentUpdate.php" class="updateBtn">Update</a> -->
+							<button class="updateBtn" data-bs-target="#modalStudent" data-bs-toggle="modal">Update</button>
 							</td>
 						</tr>
 						<?php endwhile ?>
@@ -112,7 +111,7 @@ $result2 = mysqli_query($conn, $sql);
 						</div>
 						<div class="input-control">
 							<label for="password">Password</label>
-							<input type="password" name="password" id="password">
+							<input type="text" value="abc123" name="password" id="password">
 						</div>
 						<div class="input-control">
 							<label for="numTel">numTel</label>
@@ -123,21 +122,12 @@ $result2 = mysqli_query($conn, $sql);
 							<input type="text" name="email" id="email">
 						</div>
 						<div class="input-control">
-							<label for="collage">Collage</label>
-							<select name="collage" id="collage">
-								<option disabled selected value="">Select Collage</option>
-								<option value="Satria">Satria</option>
-								<option value="Al_Jazari">Al_Jazari</option>
-								<option value="Lestari">Lestari</option>
-							</select>
-						</div>
-						<div class="input-control">
-							<label for="studentRoom">Student Room</label>
-							<input type="text" name="studentRoom" id="studentRoom">
+							<label for="cType" class="required">cType</label>
+							<input type="text" name="cType" id="cType">
 						</div>
 					</div>
 					<div class="modal-footer">
-						<button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+						<button type="reset" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
 						<button type="submit" class="btn btn-primary">Save changes</button>
 					</div>
 				</form>

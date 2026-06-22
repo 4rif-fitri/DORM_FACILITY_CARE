@@ -55,7 +55,7 @@ if (!$row) {
 								<option value="Electrical">Electrical</option>
 								<option value="Furniture">Cleaning</option>
 								<option value="Internet">Facilities</option>
-								<option value="Others">Security</option>
+								<option value="Security">Security</option>
 								<option value="Others">Others</option>
 							</select>
 						</div>

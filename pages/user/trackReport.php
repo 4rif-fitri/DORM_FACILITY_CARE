@@ -257,7 +257,7 @@ if (isset($_GET["id"])) {
 											<td><?= $row["dateAssigned"] ?></td>
 											<td><span class="completed">Completed</span></td>
 											<td><?= $row["name"] ?></td>
-											<td>Report has been Close</td>
+											<td><?= $row["remarks"] ?></td>
 										</tr>
 									<?php endif ?>
 									<?php if ($row["status"] == "Rejected") : ?>

@@ -399,10 +399,6 @@ function getDatatable($conn)
 		let tableFiltercatagory = ""
 
 		let filterTable = () => {
-			console.log({
-				tableFilterDate,
-				tableFiltercatagory
-			});
 
 			$.ajax({
 				url: "../../api/getFilterdDatatable.php",
@@ -450,10 +446,21 @@ function getDatatable($conn)
 
 		let renderTable = (datatable) => {
 			tbody.innerHTML = ""
-			let idx = 0
+			let totalReport = 0;
+			let totalPending = 0;
+			let totalAssigned = 0;
+			let totalInProgress = 0;
+			let totalCompleted = 0;
+
 			datatable.forEach((datas, index) => {
 				// console.log(datas);
-				idx = index
+
+				totalReport += Number(datas[1]);
+				totalPending += Number(datas[2]);
+				totalAssigned += Number(datas[3]);
+				totalInProgress += Number(datas[4]);
+				totalCompleted += Number(datas[5]);
+
 				let tr = document.createElement("tr")
 				tr.innerHTML = `
 					<td>${index+1}</td>
@@ -467,15 +474,18 @@ function getDatatable($conn)
 				tbody.appendChild(tr)
 			})
 
-			let tr = document.createElement("tr")
-			tr.innerHTML = `
-					<td colspan='2'><b>Total</b></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-				`
-			tbody.appendChild(tr)
+			let totalRow = document.createElement("tr")
+			totalRow.style.backgroundColor = "lightyellow"
+			totalRow.innerHTML = `
+						<td colspan="2"><b>Total</b></td>
+						<td><b>${totalReport}</b></td>
+						<td><b>${totalPending}</b></td>
+						<td><b>${totalAssigned}</b></td>
+						<td><b>${totalInProgress}</b></td>
+						<td><b>${totalCompleted}</b></td>
+					`;
+
+			tbody.appendChild(totalRow)
 		}
 
 		// === table filter ===
