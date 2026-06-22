@@ -137,7 +137,7 @@ function getDatatable($conn)
 						</select>
 
 						<button class="btn-reset" id="filter-college-reset">Reset</button>
-						<button class="btn-export" id="filter-college-export">Export cvs</button>
+						<!-- <button class="btn-export" id="filter-college-export">Export cvs</button> -->
 					</div>
 				</section>
 				<!-- <section class="barGraphBlock">
@@ -219,8 +219,7 @@ function getDatatable($conn)
 							<option value="Al_Jazari">Al Jazari</option>
 						</select>
 						<button class="btn-reset" id="filter-status-reset">Reset</button>
-						<button class="btn-export" id="filter-status-export">Export cvs</button>
-
+						<!-- <button class="btn-export" id="filter-status-export">Export cvs</button> -->
 					</div>
 				</section>
 				<section class="table" id="table">
@@ -254,7 +253,7 @@ function getDatatable($conn)
 							<option value="Others">Others</option>
 						</select>
 						<button class="btn-reset" id="filter-table-reset">Reset</button>
-						<button class="btn-export" id="filter-table-export">Export cvs</button>
+						<!-- <button class="btn-export" id="filter-table-export">Export cvs</button> -->
 
 					</div>
 				</section>
