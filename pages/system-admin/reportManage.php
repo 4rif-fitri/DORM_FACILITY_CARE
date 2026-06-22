@@ -41,8 +41,7 @@ $result2 = mysqli_query($conn, $sql);
 				<div class="filter-cantainer">
 					<div class="input-control">
 						<label for="filter-date">Date</label>
-						<input type="date" name="filter-date" id="filter-date">
-					</div>
+						<input type="date" value="<?= date("Y-m-d") ?>" name="filter-date" id="filter-date">
 					<div class="input-control">
 						<label for="filter-status">Status</label>
 						<select name="filter-status" id="filter-status">

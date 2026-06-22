@@ -117,7 +117,7 @@ function getDatatable($conn)
 
 			<section class="analisis-conainer">
 				<section class="pieChart">
-					<h2 id="textReportCategory">Reports by Category</h2>
+					<h2 id="textReportCategory">Reports by Category for All Category</h2>
 					<canvas id="canvas_pieChart">
 
 					</canvas>
@@ -201,7 +201,7 @@ function getDatatable($conn)
 					</div>
 				</section> -->
 				<section class="donutBar">
-					<h2 id="textReportStatus">Report Status</h2>
+					<h2 id="textReportStatus">Report Status for All Collage</h2>
 					<canvas id="canvas_donutBar">
 
 					</canvas>
@@ -308,7 +308,7 @@ function getDatatable($conn)
 				success: response => {
 					console.log(response);
 					if (filterCollegeCategory == "") {
-						document.getElementById("textReportCategory").textContent = `Reports by Category`
+						document.getElementById("textReportCategory").textContent = `Reports by Category for All Category`
 					} else {
 						document.getElementById("textReportCategory").textContent = `Reports by Category for ${filterCollegeCategory}`
 					}
@@ -370,7 +370,7 @@ function getDatatable($conn)
 					console.log(filterStatusCollege);
 
 					if (filterStatusCollege == "") {
-						document.getElementById("textReportStatus").textContent = `Report Status`
+						document.getElementById("textReportStatus").textContent = `Report Status for All Collage`
 					} else {
 						document.getElementById("textReportStatus").textContent = `Report Status for ${filterStatusCollege}`
 					}
@@ -554,11 +554,14 @@ function getDatatable($conn)
 				ctx.fillStyle = "#000"
 				ctx.fillText(percentage, x - 10, y + 5)
 
-				ctx.fillStyle = colors[index]
-				ctx.fillRect(lagendX, lagendY, 30, 30)
 
-				ctx.font = "bold 1rem arial"
-				ctx.fillText(datas[index][0], lagendX + 40, lagendY + 20)
+				ctx.fillStyle = colors[index];
+				ctx.fillRect(lagendX, lagendY + 30, 30, 30);
+
+				ctx.fillStyle = "#000";
+				ctx.fillText(`${data[0]} (${data[1]})`, lagendX + 40, lagendY + 50);
+
+
 
 				lagendY += 50
 			})
