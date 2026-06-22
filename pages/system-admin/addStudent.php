@@ -42,6 +42,22 @@ if(isset($_POST['submit'])){
         </script>";
 	}
 }
+
+if(isset($_GET['sid'])){
+	$userID = $_GET['sid'];
+	echo $userID;
+
+	$sqlUser = "DELETE FROM user
+				WHERE userID = '$userID'";
+
+	if(mysqli_query($conn, $sqlUser)){
+		echo "
+		<script>
+			alert('Student deleted succesfully');
+			window.location.href='addStudent.php';
+		</script>";
+	}
+}
 //php code hrre
 
 ?>
@@ -96,7 +112,11 @@ if(isset($_POST['submit'])){
 							<td><?= $row['numTel'] ?></td>
 							<td>
 								<button onclick="update(<?= $row['userID'] ?>)" class="updateBtn" data-bs-target="#modalStudent" data-bs-toggle="modal">Update</button>
-							</td>
+								<a href="addStudent.php?sid=<?= $row['userID'] ?>"
+									class="deleteBtn"
+									onclick="return confirm('Delete student <?= $row['userID'] ?>? This action cannot be undone.')">
+									Delete
+								</a>
 						</tr>
 						<?php endwhile ?>
 
@@ -124,6 +144,7 @@ if(isset($_POST['submit'])){
 
 					<div id="reportCard-bottom">
 						<button onclick="update(<?= $row['userID'] ?>)" class="updateBtn" data-bs-target="#modalStudent" data-bs-toggle="modal">Update</button>
+						<a href="addStudent.php?sid=<?= $row['userID'] ?>" class="deleteBtn">Delete</a>
 					</div>
 				</div>
 				<?php endwhile ?>

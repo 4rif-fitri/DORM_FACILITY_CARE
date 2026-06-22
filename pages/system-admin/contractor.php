@@ -43,6 +43,20 @@ if(isset($_POST['submit'])){
         </script>"; 
 	}
 }
+
+if(isset($_GET['cid'])){
+	$userID = $_GET['cid'];
+
+	$sqlContractor = "DELETE FROM user
+					  WHERE userID = '$userID'";
+	
+	if(mysqli_query($conn, $sqlContractor)){
+		echo "<script>
+            alert('Contractor Deleted Successfully');
+            window.location.href='contractor.php';
+        </script>"; 
+	}
+}
 //php code hrre
 
 ?>
@@ -89,6 +103,11 @@ if(isset($_POST['submit'])){
 								<td><?= $row['numTel'] ?></td>
 								<td>
 									<button class="updateBtn" data-bs-target="#modalStudent" data-bs-toggle="modal">Update</button>
+									<a href="contractor.php?cid=<?= $row['userID'] ?>"
+										class="deleteBtn"
+										onclick="return confirm('Delete contractor <?= $row['userID'] ?>? This action cannot be undone.')">
+										Delete
+									</a>
 								</td>
 							</tr>
 						<?php endwhile ?>
