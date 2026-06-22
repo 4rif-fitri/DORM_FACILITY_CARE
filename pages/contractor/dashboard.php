@@ -3,15 +3,19 @@ require_once __DIR__ . "../../../inc/init.php";
 auth("CTR");
 
 //php code hrre
+$contractorID = $_SESSION["userID"];
+
 $sql = "SELECT
 
 COUNT(*) AS totalReport,
 
-SUM(CASE WHEN status='Assigned'THEN 1 ELSE 0 END) AS assignedReport,
-SUM(CASE WHEN status='In Progress' THEN 1 ELSE 0 END) AS progressReport,
-SUM(CASE WHEN status='Completed' THEN 1 ELSE 0 END) AS completedReport
+COALESCE(SUM(CASE WHEN status='Assigned' THEN 1 ELSE 0 END),0) AS assignedReport,
+COALESCE(SUM(CASE WHEN status='In_Progress' THEN 1 ELSE 0 END),0) AS progressReport,
+COALESCE(SUM(CASE WHEN status='Completed' THEN 1 ELSE 0 END),0) AS completedReport
 
-FROM report ";
+FROM report
+
+WHERE contractorID = '$contractorID'";
 
 $result = mysqli_query($conn, $sql);
 
@@ -47,7 +51,7 @@ $completedReport = $data['completedReport'];
 					<div class="dashboard-total-card">
 						<div class="dashboard-header">
 							<img class="dashboard-icon" src="../../images/total.svg" alt="">
-							<h2>Total Reports</h2>
+							<h2>Total Tasks</h2>
 						</div>
 
 						<p id="totalReport"><?= $totalReport ?></p>
