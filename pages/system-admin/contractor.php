@@ -16,9 +16,9 @@ if (isset($_POST['submit'])) {
 
 		$sqlUser = "
 			INSERT INTO user
-			(userID, name, password, numTel, email)
+			(userID, name, password, numTel, email,type)
 			VALUES
-			('$userID', '$name', '$password', '$numTel', '$email')
+			('$userID', '$name', '$password', '$numTel', '$email','CTR')
 		";
 
 		mysqli_query($conn, $sqlUser);
@@ -64,6 +64,19 @@ $sql = "	SELECT user.userID,user.name,
 			contractor.expertise,user.numTel
 		FROM user
 		JOIN contractor ON user.userID = contractor.contractorID";
+
+if (isset($_POST["search"])) {
+	$text = trim($_POST["filter-orang"]);
+	
+	$sql = " SELECT user.userID, user.name, contractor.expertise, user.numTel
+        FROM user
+        JOIN contractor ON user.userID = contractor.contractorID
+        WHERE user.name LIKE '%$text%'
+        OR user.userID LIKE '%$text%'
+        ORDER BY user.name ASC
+    ";
+}
+
 $result = mysqli_query($conn, $sql);
 $result2 = mysqli_query($conn, $sql);
 //php code hrre
@@ -85,6 +98,17 @@ $result2 = mysqli_query($conn, $sql);
 
 		<!-- CONTENT HERE -->
 		<main class="_content-area">
+			<nav class="filter-box">
+				<form action="" method="post">
+					<div class="filter-cantainer">
+						<div class="input-control">
+							<label for="filter-orang">Search Name/Id</label>
+							<input type="text" name="filter-orang" id="filter-orang">
+						</div>
+					</div>
+					<button type="submit" name="search" class="updateBtn" id="btn-search-filter" style="width: 10rem !important;">Search</button>
+				</form>
+			</nav>
 			<nav class="add-box">
 				<button type="button" class="updateBtn" data-bs-toggle="modal" data-bs-target="#Modal">
 					Add Contractor
@@ -104,50 +128,72 @@ $result2 = mysqli_query($conn, $sql);
 					</thead>
 
 					<tbody id="contractorTable">
-						<?php while ($row = mysqli_fetch_assoc($result)) : ?>
+
+						<?php if (mysqli_num_rows($result) > 0): ?>
+
+							<?php while ($row = mysqli_fetch_assoc($result)) : ?>
+								<tr>
+									<td><?= $row['userID'] ?></td>
+									<td><?= $row['name'] ?></td>
+									<td><?= $row['expertise'] ?></td>
+									<td><?= $row['numTel'] ?></td>
+									<td>
+										<button onclick="getDetail('<?= $row['userID'] ?>')" class="updateBtn">
+											Update
+										</button>
+
+										<a href="contractor.php?cid=<?= $row['userID'] ?>"
+											class="deleteBtn"
+											onclick="return confirm('Delete contractor <?= $row['userID'] ?>? This action cannot be undone.')">
+											Delete
+										</a>
+									</td>
+								</tr>
+							<?php endwhile; ?>
+
+						<?php else: ?>
 							<tr>
-								<td><?= $row['userID'] ?></td>
-								<td><?= $row['name'] ?></td>
-								<td><?= $row['expertise'] ?></td>
-								<td><?= $row['numTel'] ?></td>
-								<td>
-									<button onclick="getDetail('<?= $row['userID'] ?>')" class="updateBtn">Update</button>
-									<a href="contractor.php?cid=<?= $row['userID'] ?>"
-										class="deleteBtn"
-										onclick="return confirm('Delete contractor <?= $row['userID'] ?>? This action cannot be undone.')">
-										Delete
-									</a>
+								<td colspan="5" style="text-align:center; padding:20px;">
+									No data found
 								</td>
 							</tr>
-						<?php endwhile ?>
+						<?php endif; ?>
 
 					</tbody>
 				</table>
 
-				<?php while ($row2 = mysqli_fetch_assoc($result2)) : ?>
-					<div class="reportCard">
-						<div id="reportCard-info">
-							<div id="reportCard-left">
-								<p><strong>Id</strong></p>
-								<p><strong>Name</strong></p>
-								<p><strong>Expertise</strong></p>
-								<p><strong>Phone No</strong></p>
+				<?php if (mysqli_num_rows($result2) > 0): ?>
+
+					<?php while ($row2 = mysqli_fetch_assoc($result2)) : ?>
+						<div class="reportCard">
+							<div id="reportCard-info">
+								<div id="reportCard-left">
+									<p><strong>Id</strong></p>
+									<p><strong>Name</strong></p>
+									<p><strong>Expertise</strong></p>
+									<p><strong>Phone No</strong></p>
+								</div>
+
+								<div id="reportCard-right">
+									<p><?= $row2['userID'] ?></p>
+									<p><?= $row2['name'] ?></p>
+									<p><?= $row2['expertise'] ?></p>
+									<p><?= $row2['numTel'] ?></p>
+								</div>
 							</div>
 
-							<div id="reportCard-right">
-								<p><?= $row2['userID'] ?></p>
-								<p><?= $row2['name'] ?></p>
-								<p><?= $row2['expertise'] ?></p>
-								<p><?= $row2['numTel'] ?></p>
+							<div id="reportCard-bottom">
+								<button onclick="getDetail('<?= $row2['userID'] ?>')" class="updateBtn">Update</button>
+								<a href="contractor.php?cid=<?= $row2['userID'] ?>" class="btn btn-danger">Delete</a>
 							</div>
 						</div>
+					<?php endwhile ?>
 
-						<div id="reportCard-bottom">
-							<button onclick="getDetail('<?= $row2['userID'] ?>')" class="updateBtn">Update</button>
-							<a href="contractor.php?delete=<?= $row2['userID'] ?>" class="btn btn-danger">Delete</a>
-						</div>
+				<?php else: ?>
+					<div class="reportCard" style="text-align:center; padding:20px;">
+						No data found
 					</div>
-				<?php endwhile ?>
+				<?php endif; ?>
 			</section>
 
 

@@ -34,12 +34,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 		$where[] = "college='$location'";
 	}
 
-	$sql = "	SELECT reportID, reportCategory,
-    				reportDesc, reportRoom, college,
-    				status, userID, dateReported,
-				dateForwarded, dateAssigned, dateCompleted,
-    				remarks, contractorID
-			FROM report";
+	$sql = "SELECT * FROM report";
 
 	if (count($where) > 0) {
 

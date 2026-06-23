@@ -61,6 +61,19 @@ if (isset($_GET['sid'])) {
 $sql = "	SELECT * FROM user
 		JOIN student ON user.userID = student.userID
 		ORDER BY name ASC";
+
+if (isset($_POST["search"])) {
+	$text = trim($_POST["filter-orang"]);
+
+	$sql = " SELECT * FROM user
+        JOIN student ON user.userID = student.userID
+        WHERE user.name LIKE '%$text%'
+        OR user.userID LIKE '%$text%'
+        ORDER BY name ASC
+    ";
+}
+
+
 $result = mysqli_query($conn, $sql);
 $result2 = mysqli_query($conn, $sql);
 
@@ -90,6 +103,17 @@ $result2 = mysqli_query($conn, $sql);
 
 		<!-- CONTENT HERE -->
 		<main class="_content-area">
+			<nav class="filter-box">
+				<form action="" method="post">
+					<div class="filter-cantainer">
+						<div class="input-control">
+							<label for="filter-orang">Search Name/Matric Number</label>
+							<input type="text" name="filter-orang" id="filter-orang">
+						</div>
+					</div>
+					<button type="submit" name="search" class="updateBtn" id="btn-search-filter" style="width: 10rem !important;">Search</button>
+				</form>
+			</nav>
 			<nav class="add-box">
 				<button type="button" class="updateBtn" data-bs-toggle="modal" data-bs-target="#Modal">
 					Add Student
@@ -109,55 +133,67 @@ $result2 = mysqli_query($conn, $sql);
 					</thead>
 
 					<tbody>
+						<?php if (mysqli_num_rows($result) > 0): ?>
 
-						<?php while ($row = mysqli_fetch_assoc($result)) : ?>
+							<?php while ($row = mysqli_fetch_assoc($result)) : ?>
+								<tr>
+									<td><?= $row['userID'] ?></td>
+									<td><?= $row['name'] ?></td>
+									<td><?= $row['studentCollege'] ?></td>
+									<td><?= $row['numTel'] ?></td>
+									<td>
+										<button onclick="getdataStudent('<?= $row['userID'] ?>')" class="updateBtn" data-bs-target="#modalStudent" data-bs-toggle="modal">Update</button>
+										<a href="addStudent.php?sid=<?= $row['userID'] ?>"
+											class="deleteBtn"
+											onclick="return confirm('Delete student <?= $row['userID'] ?>? This action cannot be undone.')">
+											Delete
+										</a>
+									</td>
+								</tr>
+							<?php endwhile ?>
+						<?php else: ?>
 							<tr>
-								<td><?= $row['userID'] ?></td>
-								<td><?= $row['name'] ?></td>
-								<td><?= $row['studentCollege'] ?></td>
-								<td><?= $row['numTel'] ?></td>
-								<td>
-									<button onclick="getdataStudent('<?= $row['userID'] ?>')" class="updateBtn" data-bs-target="#modalStudent" data-bs-toggle="modal">Update</button>
-									<a href="addStudent.php?sid=<?= $row['userID'] ?>"
-										class="deleteBtn"
-										onclick="return confirm('Delete student <?= $row['userID'] ?>? This action cannot be undone.')">
-										Delete
-									</a>
+								<td colspan="5" style="text-align:center; padding:20px;">
+									No data found
 								</td>
 							</tr>
-						<?php endwhile ?>
+						<?php endif; ?>
+
 					</tbody>
 
 				</table>
-
-				<?php while ($row2 = mysqli_fetch_assoc($result2)) : ?>
-					<div class="reportCard">
-						<div id="reportCard-info">
-							<div id="reportCard-left">
-								<p><strong>Id</strong></p>
-								<p><strong>Name</strong></p>
-								<p><strong>College</strong></p>
-								<p><strong>Phone No</strong></p>
+				<?php if (mysqli_num_rows($result2) > 0): ?>
+					<?php while ($row2 = mysqli_fetch_assoc($result2)) : ?>
+						<div class="reportCard">
+							<div id="reportCard-info">
+								<div id="reportCard-left">
+									<p><strong>Id</strong></p>
+									<p><strong>Name</strong></p>
+									<p><strong>College</strong></p>
+									<p><strong>Phone No</strong></p>
+								</div>
+								<div id="reportCard-right">
+									<p><?= $row2['userID'] ?></p>
+									<p><?= $row2['name'] ?></p>
+									<p><?= $row2['studentCollege'] ?></p>
+									<p><?= $row2['numTel'] ?></p>
+								</div>
 							</div>
-
-							<div id="reportCard-right">
-								<p><?= $row2['userID'] ?></p>
-								<p><?= $row2['name'] ?></p>
-								<p><?= $row2['studentCollege'] ?></p>
-								<p><?= $row2['numTel'] ?></p>
+							<div id="reportCard-bottom">
+								<button onclick="getdataStudent('<?= $row2['userID'] ?>')" class="updateBtn" data-bs-target="#modalStudent" data-bs-toggle="modal">Update</button>
+								<a href="addStudent.php?sid=<?= $row2['userID'] ?>"
+									class="deleteBtn"
+									onclick="return confirm('Delete student <?= $row2['userID'] ?>? This action cannot be undone.')">
+									Delete
+								</a>
 							</div>
 						</div>
-
-						<div id="reportCard-bottom">
-							<button onclick="getdataStudent('<?= $row2['userID'] ?>')" class="updateBtn" data-bs-target="#modalStudent" data-bs-toggle="modal">Update</button>
-							<a href="addStudent.php?sid=<?= $row2['userID'] ?>"
-								class="deleteBtn"
-								onclick="return confirm('Delete student <?= $row2['userID'] ?>? This action cannot be undone.')">
-								Delete
-							</a>
-						</div>
+					<?php endwhile ?>
+				<?php else: ?>
+					<div class="reportCard" style="text-align:center; padding:20px;">
+						No data found
 					</div>
-				<?php endwhile ?>
+				<?php endif; ?>
 			</section>
 
 
@@ -282,7 +318,7 @@ $result2 = mysqli_query($conn, $sql);
 								</div>
 
 								<div class="input-control col-2">
-									<div class="input-control">
+									<div class="input-control hidden">
 										<label for="uptCollage">Collage</label>
 										<select require name="collage" id="uptCollage">
 											<option disabled selected value="">Select Collage</option>
@@ -291,26 +327,26 @@ $result2 = mysqli_query($conn, $sql);
 											<option value="Lestari">Lestari</option>
 										</select>
 									</div>
-									<article>
+									<article class="hidden">
 										<label for="uptBlock" class="required">Block</label>
 										<select required id="uptBlock"></select>
 									</article>
 
-									<article>
+									<article class="hidden">
 										<label for="uptLevel" class="required">Level</label>
 										<select id="uptLevel"></select>
 									</article>
-									<article>
+									<article class="hidden">
 										<label for="uptRumah" class="required">No Rumah</label>
 										<select id="uptRumah"></select>
 									</article>
 
-									<article>
+									<article class="hidden">
 										<label for="uptBilik" class="required">Bilik</label>
 										<select id="uptBilik"></select>
 									</article>
 
-									<article>
+									<article class="hidden">
 										<label for="uptKatil" class="required">Katil</label>
 										<select id="uptKatil"></select>
 									</article>
