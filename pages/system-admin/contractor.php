@@ -16,9 +16,9 @@ if (isset($_POST['submit'])) {
 
 		$sqlUser = "
 			INSERT INTO user
-			(userID, name, password, numTel, email)
+			(userID, name, password, numTel, email,type)
 			VALUES
-			('$userID', '$name', '$password', '$numTel', '$email')
+			('$userID', '$name', '$password', '$numTel', '$email','CTR')
 		";
 
 		mysqli_query($conn, $sqlUser);

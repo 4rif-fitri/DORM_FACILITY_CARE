@@ -49,6 +49,7 @@ $result2 = mysqli_query($conn, $sql);
 							<option value="">All Status</option>
 							<option value="Pending" selected>Pending</option>
 							<option value="In_Progress">In Progress</option>
+							<option value="Assigned">Assigned</option>
 							<option value="Completed">Completed</option>
 							<option value="Rejected">Rejected</option>
 							<option value="Cancelled">cancelled</option>
