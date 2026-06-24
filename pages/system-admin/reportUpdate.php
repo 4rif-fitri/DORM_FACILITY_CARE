@@ -8,7 +8,8 @@ if (isset($_GET["rejectID"])) {
 	$reportId = $_GET["rejectID"];
 
 	$sql = "UPDATE report
-            SET status='Rejected'
+            SET status='Rejected',
+		  dateRejected = NOW()
             WHERE reportId='$reportId'";
 
 	if (mysqli_query($conn, $sql)) {
@@ -24,16 +25,7 @@ if (isset($_GET["rejectID"])) {
 			user.numTel, 
 			user.email,
 
-			report.reportID,
-			report.reportCategory,
-			report.reportDesc,
-			report.reportRoom,
-			report.status,
-			report.dateReported,
-			report.college,
-			report.reportImgUrl,
-			report.completedImgUrl,
-			report.dateAssigned
+			report.*
 
         	FROM report 
 		INNER JOIN user ON report.userID   = user.userID
@@ -52,16 +44,7 @@ if (isset($_GET["rejectID"])) {
 			contractor.name AS contractorName,
 			contractor.email AS contractorEmail,
 
-			report.reportID,
-			report.reportCategory,
-			report.reportDesc,
-			report.reportRoom,
-			report.status,
-			report.dateReported,
-			report.college,
-			report.reportImgUrl,
-			report.completedImgUrl,
-			report.dateAssigned
+			report.*
 
         	FROM report 
 		INNER JOIN user reporter ON report.userID = reporter.userID
@@ -283,26 +266,29 @@ if (isset($_GET['cid'])) {
 						</h4>
 						<div class="chat">
 							<?php
-							while($comment = mysqli_fetch_assoc($comments)){
-								if($comment["userID"] == $_SESSION["userID"]){
+							while ($comment = mysqli_fetch_assoc($comments)) {
+								if ($comment["userID"] == $_SESSION["userID"]) {
 									echo '<div class="me">
 										<p>Me</p>';
-								}
-								else{
+								} else {
 									echo '<div class="other">';
-									switch ($comment["type"]){
-										case "SAD": echo '<p>Admin</p>';
+									switch ($comment["type"]) {
+										case "SAD":
+											echo '<p>Admin</p>';
 											break;
-										case "STD": echo '<p>Student</p>';
+										case "STD":
+											echo '<p>Student</p>';
 											break;
-										case "STF": echo '<p>Staff</p>';
+										case "STF":
+											echo '<p>Staff</p>';
 											break;
-										case "CTR": echo '<p>Contractor</p>';
+										case "CTR":
+											echo '<p>Contractor</p>';
 											break;
 									}
 								}
 								echo "<p>$comment[theComment]</p>";
-								if($comment["userID"] == $_SESSION["userID"]) // deletable if user's own comment
+								if ($comment["userID"] == $_SESSION["userID"]) // deletable if user's own comment
 									echo "<a href='reportUpdate.php?id=$reportId&cid=$comment[commentsID]' class='deleteBtn'>Delete</a>";
 								echo '</div>';
 							}
@@ -344,7 +330,7 @@ if (isset($_GET['cid'])) {
 					<section>
 						<h4>
 							<img src="../../images/report.svg" alt="">
-							Report Image
+							Image from Contractor
 						</h4>
 						<?php if ($row["completedImgUrl"] != "") : ?>
 							<div class="image imgReportgroup">
@@ -395,7 +381,7 @@ if (isset($_GET['cid'])) {
 									<?php endif ?>
 									<?php if (in_array($row["status"], ["Completed", "In_Progress"])) : ?>
 										<tr>
-											<td><?= $row["dateAssigned"] ?></td>
+											<td><?= $row["dateInProgress"] ?></td>
 											<td><span class="completed">In Progress</span></td>
 											<td><?= $row["name"] ?></td>
 											<td>Working In Progress</td>
@@ -403,7 +389,7 @@ if (isset($_GET['cid'])) {
 									<?php endif ?>
 									<?php if ($row["status"] == "Completed") : ?>
 										<tr>
-											<td><?= $row["dateAssigned"] ?></td>
+											<td><?= $row["dateCompleted"] ?></td>
 											<td><span class="completed">Completed</span></td>
 											<td><?= $row["name"] ?></td>
 											<td>Report has been Close</td>
@@ -411,8 +397,8 @@ if (isset($_GET['cid'])) {
 									<?php endif ?>
 									<?php if ($row["status"] == "Rejected") : ?>
 										<tr>
-											<td><?= $row["dateAssigned"] ?></td>
-											<td><span class="completed">Completed</span></td>
+											<td><?= $row["dateRejected"] ?></td>
+											<td><span class="completed">Rejected</span></td>
 											<td>System Admin</td>
 											<td>Report has been rejected</td>
 										</tr>
@@ -442,11 +428,12 @@ if (isset($_GET['cid'])) {
 						</h1>
 					</div>
 					<div class="modal-body">
-
 						<section>
-
 							<div class="comment">
 								<div class="input-control">
+									<p class="hidden my-2" id="emailContractor">lorem@gamail.com</p>
+									<p class="hidden mb-2" id="phoneContractor">0197231577</p>
+									<p class="hidden mb-2" id="expertiseContractor">IT technician</p>
 									<label for="selectContractor">Select contractor</label>
 									<select name="selectContractor" id="selectContractor">
 										<option disabled selected value="">Select contractor</option>
@@ -456,9 +443,6 @@ if (isset($_GET['cid'])) {
 											</option>
 										<?php endforeach; ?>
 									</select>
-									<p class="hidden my-2" id="emailContractor">lorem@gamail.com</p>
-									<p class="hidden mb-2" id="phoneContractor">0197231577</p>
-									<p class="hidden mb-2" id="expertiseContractor">IT technician</p>
 								</div>
 							</div>
 

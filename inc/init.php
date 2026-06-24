@@ -1,4 +1,5 @@
 <?php
+date_default_timezone_set('Asia/Kuala_Lumpur');
 
 require_once __DIR__ . "/conn.php";
 require_once __DIR__ . "/auth.php";
@@ -6,7 +7,6 @@ require_once __DIR__ . "/mail.php";
 require_once __DIR__ . "/util.php";
 
 session_start();
-
 ?>
 
 

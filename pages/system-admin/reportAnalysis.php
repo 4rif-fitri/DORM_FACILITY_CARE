@@ -136,8 +136,9 @@ function getDatatable($conn)
 							<option value="Al_Jazari">Al Jazari</option>
 						</select>
 
-						<button class="btn-reset" id="filter-college-reset">Reset</button>
-						<!-- <button class="btn-export" id="filter-college-export">Export cvs</button> -->
+						<button class="rejected" id="filter-college-reset">Reset</button>
+						<button class="assigned" id="filter-college-cvs">Export cvs</button>
+						<button class="completed" id="filter-college-png">Export PNG</button>
 					</div>
 				</section>
 				<!-- <section class="barGraphBlock">
@@ -218,8 +219,9 @@ function getDatatable($conn)
 							<option value="Lestari">Lestari</option>
 							<option value="Al_Jazari">Al Jazari</option>
 						</select>
-						<button class="btn-reset" id="filter-status-reset">Reset</button>
-						<!-- <button class="btn-export" id="filter-status-export">Export cvs</button> -->
+						<button class="rejected" id="filter-status-reset">Reset</button>
+						<button class="completed" id="filter-status-cvs">Export cvs</button>
+						<button class="assigned" id="filter-status-png">Export PNG</button>
 					</div>
 				</section>
 				<section class="table" id="table">
@@ -252,9 +254,8 @@ function getDatatable($conn)
 							<option value="Internet">Internet</option>
 							<option value="Others">Others</option>
 						</select>
-						<button class="btn-reset" id="filter-table-reset">Reset</button>
-						<!-- <button class="btn-export" id="filter-table-export">Export cvs</button> -->
-
+						<button class="rejected" id="filter-table-reset">Reset</button>
+						<button class="completed" id="filter-table-cvs">Export cvs</button>
 					</div>
 				</section>
 			</section>
@@ -347,6 +348,53 @@ function getDatatable($conn)
 			filterCategory()
 		})
 
+		document.getElementById("filter-college-cvs").addEventListener("click", () => {
+			$.ajax({
+				url: "../../api/filterReportsbyCategory.php",
+				method: "POST",
+				data: {
+					filterMonthCategory: filterMonthCategory,
+					filterCollegeCategory: filterCollegeCategory
+				},
+				success: response => {
+					let rows = [
+						["Category", "Total"]
+					];
+
+					response.datas.forEach(item => {
+						rows.push([item.reportCategory, item.total]);
+					});
+
+					let csvContent = rows.map(row => row.join(",")).join("\n");
+
+					let blob = new Blob([csvContent], {
+						type: "text/csv;charset=utf-8;"
+					});
+					let link = document.createElement("a");
+					let url = URL.createObjectURL(blob);
+
+					link.setAttribute("href", url);
+					link.setAttribute("download", "report_category.csv");
+					link.style.display = "none";
+
+					document.body.appendChild(link);
+					link.click();
+					document.body.removeChild(link);
+				},
+				error: response => {
+					console.log(response.responseText);
+				}
+			});
+		});
+		document.getElementById("filter-college-png").addEventListener("click", () => {
+			const canvas = document.getElementById("canvas_pieChart");
+			const pngUrl = canvas.toDataURL("image/png");
+
+			const a = document.createElement("a");
+			a.href = pngUrl;
+			a.download = "piechart.png";
+			a.click();
+		});
 
 		// === Status filter ===
 
@@ -406,7 +454,63 @@ function getDatatable($conn)
 			filterStatusMonth = e.target.value
 			filterStatus()
 		})
+		document.getElementById("filter-status-cvs").addEventListener("click", () => {
+			$.ajax({
+				url: "../../api/getFilterdStatus.php",
+				method: "POST",
+				data: {
+					filterStatusCollege: filterStatusCollege,
+					filterStatusMonth: filterStatusMonth
+				},
+				success: response => {
+					let rows = [
+						["Status", "Total"]
+					];
 
+					response.datas.forEach(item => {
+						rows.push([item[0], item[1]]);
+					});
+
+					let csvContent = rows.map(row => row.join(",")).join("\n");
+
+					let blob = new Blob([csvContent], {
+						type: "text/csv;charset=utf-8;"
+					});
+
+					let url = URL.createObjectURL(blob);
+					let link = document.createElement("a");
+
+					link.href = url;
+					link.download = "report_status.csv";
+					document.body.appendChild(link);
+					link.click();
+					document.body.removeChild(link);
+
+					URL.revokeObjectURL(url);
+				},
+				error: xhr => {
+					console.log(xhr.responseText);
+				}
+			});
+		});
+
+		document.getElementById("filter-status-png").addEventListener("click", () => {
+			const canvas = document.getElementById("canvas_donutBar");
+
+			if (!canvas) {
+				alert("Canvas status chart tidak dijumpai");
+				return;
+			}
+
+			const pngUrl = canvas.toDataURL("image/png");
+
+			const a = document.createElement("a");
+			a.href = pngUrl;
+			a.download = "report_status_chart.png";
+			document.body.appendChild(a);
+			a.click();
+			document.body.removeChild(a);
+		});
 		// === Status filter ===
 
 
@@ -504,6 +608,83 @@ function getDatatable($conn)
 
 			tbody.appendChild(totalRow)
 		}
+		document.getElementById("filter-table-cvs").addEventListener("click", () => {
+			$.ajax({
+				url: "../../api/getFilterdDatatable.php",
+				method: "POST",
+				data: {
+					tableFilterDate: tableFilterDate,
+					tableFiltercatagory: tableFiltercatagory
+				},
+				success: response => {
+					let rows = [
+						[
+							"Rank",
+							"College",
+							"Total Report",
+							"Pending",
+							"Assigned",
+							"In Progress",
+							"Completed"
+						]
+					];
+
+					let totalReport = 0;
+					let totalPending = 0;
+					let totalAssigned = 0;
+					let totalInProgress = 0;
+					let totalCompleted = 0;
+
+					response.datas.forEach((item, index) => {
+						totalReport += Number(item[1]);
+						totalPending += Number(item[2]);
+						totalAssigned += Number(item[3]);
+						totalInProgress += Number(item[4]);
+						totalCompleted += Number(item[5]);
+
+						rows.push([
+							index + 1,
+							item[0],
+							item[1],
+							item[2],
+							item[3],
+							item[4],
+							item[5]
+						]);
+					});
+
+					rows.push([
+						"",
+						"Total",
+						totalReport,
+						totalPending,
+						totalAssigned,
+						totalInProgress,
+						totalCompleted
+					]);
+
+					let csvContent = rows.map(row => row.join(",")).join("\n");
+
+					let blob = new Blob([csvContent], {
+						type: "text/csv;charset=utf-8;"
+					});
+
+					let url = URL.createObjectURL(blob);
+					let link = document.createElement("a");
+
+					link.href = url;
+					link.download = "top_problem_locations.csv";
+					document.body.appendChild(link);
+					link.click();
+					document.body.removeChild(link);
+
+					URL.revokeObjectURL(url);
+				},
+				error: xhr => {
+					console.log(xhr.responseText);
+				}
+			});
+		});
 
 		// === table filter ===
 

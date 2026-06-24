@@ -62,12 +62,13 @@ if (isset($_GET['rid'])) {
 					<div class="input-control ">
 						<label for="filter-status">Status</label>
 						<select name="filter-status" id="filter-status">
-							<option value="">All Status</option>
-							<option value="Pending" selected>Pending</option>
+							<option value="" selected>All Status</option>
+							<option value="Pending">Pending</option>
+                            		<option value="Assigned">Assigned</option>
 							<option value="In_Progress">In Progress</option>
 							<option value="Completed">Completed</option>
 							<option value="Rejected">Rejected</option>
-							<option value="Cancelled">cancelled</option>
+							<option value="Cancelled">Cancelled</option>
 						</select>
 					</div>
 					<div class="input-control">

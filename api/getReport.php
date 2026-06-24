@@ -8,6 +8,11 @@ ob_clean();
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 	$where = [];
+	
+	if (!empty($_POST["reportID"])) {
+		$reportID  = $_POST["reportID"];
+		$where[] = "reportID='$reportID'";
+	}
 
 	if (!empty($_POST["userID"])) {
 		$userID  = $_POST["userID"];
@@ -37,7 +42,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 	$sql = "	SELECT reportID, reportCategory,
     				reportDesc, reportRoom, college,
     				status, userID, dateReported,
-				dateForwarded, dateAssigned, dateCompleted,
     				remarks, contractorID
 			FROM report";
 

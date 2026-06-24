@@ -137,8 +137,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" || isset($_POST["submit"])) {
 								<button type="submit" name="submit" class="btn">Log in</button>
 							</div>
 						</form>
-						<!-- <div class="input-control">
-							<form method="POST" id="form" action=""><input hidden value="ADMIN@utem.edu.my" type="text" name="email"><input hidden value="abc123" type="text" name="password"><button name="submit" type="submit" name="submit">System Admin</button></form>
+						<div class="input-control">
+							<!--<form method="POST" id="form" action=""><input hidden value="ADMIN@utem.edu.my" type="text" name="email"><input hidden value="abc123" type="text" name="password"><button name="submit" type="submit" name="submit">System Admin</button></form>
 							<form method="POST" id="form" action=""><input hidden value="MIRZA@utem.edu.my" type="text" name="email"><input hidden value="abc123" type="text" name="password"><button name="submit" type="submit" name="submit">Contractor</button></form>
 
 							<form method="POST" id="form" action=""><input hidden value="d032410001@student.utem.edu.my" type="text" name="email"><input hidden value="abc123" type="text" name="password"><button name="submit" type="submit" name="submit">User AMMAR</button></form>
@@ -149,10 +149,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" || isset($_POST["submit"])) {
 
 							<form method="POST" id="form" action=""><input hidden value="MIRZA@utem.edu.my" type="text" name="email"><input hidden value="abc123" type="text" name="password"><button name="submit" type="submit" name="submit">CTR MIRZA</button></form>
 							<form method="POST" id="form" action=""><input hidden value="AMIR@utem.edu.my" type="text" name="email"><input hidden value="abc123" type="text" name="password"><button name="submit" type="submit" name="submit">CTR AMIR</button></form>
-							<form method="POST" id="form" action=""><input hidden value="ABU@utem.edu.my" type="text" name="email"><input hidden value="abc123" type="text" name="password"><button name="submit" type="submit" name="submit">CTR ABU</button></form>
+							<form method="POST" id="form" action=""><input hidden value="ABU@utem.edu.my" type="text" name="email"><input hidden value="abc123" type="text" name="password"><button name="submit" type="submit" name="submit">CTR ABU</button></form> -->
 
 
-						</div> -->
+						</div>
 					</div>
 
 				</section>

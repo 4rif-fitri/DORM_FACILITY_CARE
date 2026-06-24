@@ -25,9 +25,9 @@ if (isset($_POST['submit'])) {
 
 		$sqlContractor = "
 			INSERT INTO contractor
-			(contractorID, expertise)
+			(contractorID, expertise,statuss)
 			VALUES
-			('$userID', '$expertise')
+			('$userID', '$expertise','Available')
 		";
 
 		mysqli_query($conn, $sqlContractor);
@@ -50,9 +50,11 @@ if (isset($_POST['submit'])) {
 if (isset($_GET['cid'])) {
 	$userID = $_GET['cid'];
 
-	$sqlContractor = "DELETE FROM user WHERE userID = '$userID'";
 
-	if (mysqli_query($conn, $sqlContractor)) {
+	if (
+		mysqli_query($conn, "DELETE FROM contractor WHERE contractorID = '$userID'") &&
+		mysqli_query($conn, "DELETE FROM user WHERE userID = '$userID'")
+	) {
 		echo "<script>
             alert('Contractor Deleted Successfully');
             window.location.href='contractor.php';
@@ -61,14 +63,15 @@ if (isset($_GET['cid'])) {
 }
 
 $sql = "	SELECT user.userID,user.name,
-			contractor.expertise,user.numTel
+			contractor.expertise,user.numTel,
+			contractor.statuss
 		FROM user
 		JOIN contractor ON user.userID = contractor.contractorID";
 
 if (isset($_POST["search"])) {
 	$text = trim($_POST["filter-orang"]);
-	
-	$sql = " SELECT user.userID, user.name, contractor.expertise, user.numTel
+
+	$sql = " SELECT user.userID, user.name, contractor.expertise, user.numTel,  contractor.statuss
         FROM user
         JOIN contractor ON user.userID = contractor.contractorID
         WHERE user.name LIKE '%$text%'
@@ -79,6 +82,28 @@ if (isset($_POST["search"])) {
 
 $result = mysqli_query($conn, $sql);
 $result2 = mysqli_query($conn, $sql);
+
+$newContractorID = "C0001";
+
+$sqlLastID = "
+	SELECT userID
+	FROM user
+	WHERE userID LIKE 'C%'
+	ORDER BY CAST(SUBSTRING(userID, 2) AS UNSIGNED) DESC
+	LIMIT 1
+";
+
+$resultLastID = mysqli_query($conn, $sqlLastID);
+
+if ($resultLastID && mysqli_num_rows($resultLastID) > 0) {
+	$rowLastID = mysqli_fetch_assoc($resultLastID);
+	$lastID = $rowLastID['userID'];
+
+	$num = (int) substr($lastID, 1);
+	$num++;
+
+	$newContractorID = "C" . str_pad($num, 4, "0", STR_PAD_LEFT);
+}
 //php code hrre
 
 ?>
@@ -102,7 +127,7 @@ $result2 = mysqli_query($conn, $sql);
 				<form action="" method="post">
 					<div class="filter-cantainer">
 						<div class="input-control">
-							<label for="filter-orang">Search Name/Id</label>
+							<label for="filter-orang">Search By Name or Id</label>
 							<input type="text" name="filter-orang" id="filter-orang">
 						</div>
 					</div>
@@ -121,8 +146,9 @@ $result2 = mysqli_query($conn, $sql);
 						<tr>
 							<th>Id</th>
 							<th>Name</th>
-							<th>Expertise</th>
 							<th>Phone No</th>
+							<th>Expertise</th>
+							<th>Status</th>
 							<th>Action</th>
 						</tr>
 					</thead>
@@ -135,8 +161,9 @@ $result2 = mysqli_query($conn, $sql);
 								<tr>
 									<td><?= $row['userID'] ?></td>
 									<td><?= $row['name'] ?></td>
-									<td><?= $row['expertise'] ?></td>
 									<td><?= $row['numTel'] ?></td>
+									<td><?= $row['expertise'] ?></td>
+									<td><?= $row['statuss'] ?></td>
 									<td>
 										<button onclick="getDetail('<?= $row['userID'] ?>')" class="updateBtn">
 											Update
@@ -170,15 +197,17 @@ $result2 = mysqli_query($conn, $sql);
 								<div id="reportCard-left">
 									<p><strong>Id</strong></p>
 									<p><strong>Name</strong></p>
-									<p><strong>Expertise</strong></p>
 									<p><strong>Phone No</strong></p>
+									<p><strong>Expertise</strong></p>
+									<p><strong>Status</strong></p>
 								</div>
 
 								<div id="reportCard-right">
 									<p><?= $row2['userID'] ?></p>
 									<p><?= $row2['name'] ?></p>
-									<p><?= $row2['expertise'] ?></p>
 									<p><?= $row2['numTel'] ?></p>
+									<p><?= $row2['expertise'] ?></p>
+									<p><?= $row2['statuss'] ?></p>
 								</div>
 							</div>
 
@@ -213,7 +242,7 @@ $result2 = mysqli_query($conn, $sql);
 					<div class="modal-body">
 						<div class="input-control">
 							<label for="contractorID">Contractor Id</label>
-							<input required type="text" name="contractorID" id="contractorID">
+							<input required readonly type="text" name="contractorID" id="contractorID" value="<?= $newContractorID ?>">
 						</div>
 						<div class="input-control">
 							<label for="name">Name</label>
@@ -221,7 +250,7 @@ $result2 = mysqli_query($conn, $sql);
 						</div>
 						<div class="input-control">
 							<label for="password">Password</label>
-							<input required type="text" value="abc123" name="password" id="password">
+							<input required readonly type="text" value="abc123" name="password" id="password">
 						</div>
 						<div class="input-control">
 							<label for="numTel">numTel</label>
@@ -233,7 +262,15 @@ $result2 = mysqli_query($conn, $sql);
 						</div>
 						<div class="input-control">
 							<label for="expertise" class="required">Expertise</label>
-							<input required type="text" name="expertise" id="expertise">
+							<select name="expertise" id="expertise">
+								<option disabled selected value="">Select Expertise</option>
+								<option value="Plumbing">Plumbing</option>
+								<option value="Electrical">Electrical</option>
+								<option value="Cleaning">Cleaning</option>
+								<option value="Facilities">Facilities</option>
+								<option value="Security">Security</option>
+								<option value="Others">Others</option>
+							</select>
 						</div>
 					</div>
 					<div class="modal-footer">
@@ -282,7 +319,8 @@ $result2 = mysqli_query($conn, $sql);
 
 								<div class="input-control">
 									<label for="uptexpertise" class="required">Expertise</label>
-									<input required type="text" name="uptexpertise" id="uptexpertise">
+									<select name="uptexpertise" id="uptexpertise">
+									</select>
 								</div>
 							</section>
 						</section>
@@ -344,7 +382,7 @@ $result2 = mysqli_query($conn, $sql);
 
 		function getDetail(id) {
 			console.log(id);
-
+			document.getElementById("uptexpertise").innerHTML = ""
 			$.ajax({
 				url: "../../api/getDataContractor.php",
 				method: "POST",
@@ -360,7 +398,14 @@ $result2 = mysqli_query($conn, $sql);
 					uptname.value = response.datas.name
 					uptphoneNumber.value = response.datas.numTel
 					uptemail.value = response.datas.email
-					uptexpertise.value = response.datas.expertise
+					uptexpertise.innerHTML = `
+						<option value="Plumbing" ${response.datas.expertise == "Plumbing" ? "selected" : ""}>Plumbing</option>
+						<option value="Electrical" ${response.datas.expertise == "Electrical" ? "selected" : ""}>Electrical</option>
+						<option value="Cleaning" ${response.datas.expertise == "Cleaning" ? "selected" : ""}>Cleaning</option>
+						<option value="Facilities" ${response.datas.expertise == "Facilities" ? "selected" : ""}>Facilities</option>
+						<option value="Security" ${response.datas.expertise == "Security" ? "selected" : ""}>Security</option>
+						<option value="Others" ${response.datas.expertise == "Others" ? "selected" : ""}>Others</option>
+					`;
 				},
 				error: response => {
 					console.log(response.responseText);
