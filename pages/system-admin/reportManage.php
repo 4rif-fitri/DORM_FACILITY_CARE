@@ -41,15 +41,19 @@ $result2 = mysqli_query($conn, $sql);
 			<nav class="filter-box">
 				<div class="filter-cantainer">
 					<div class="input-control">
+						<label for="ReportID">ReportID</label>
+						<input type="text" name="ReportID" id="ReportID">
+					</div>
+					<div class="input-control">
 						<label for="filter-date">Date</label>
-						<input type="date" value="<?= date("Y-m-d") ?>" name="filter-date" id="filter-date">
+						<input type="date" name="filter-date" id="filter-date">
 					</div>
 					<div class="input-control">
 						<label for="filter-status">Status</label>
 						<select name="filter-status" id="filter-status">
 							<option value="">All Status</option>
-							<option value="Pending" selected>Pending</option>
-                            <option value="Assigned">Assigned</option>
+							<option value="Pending">Pending</option>
+							<option value="Assigned">Assigned</option>
 							<option value="In_Progress">In Progress</option>
 							<option value="Completed">Completed</option>
 							<option value="Rejected">Rejected</option>
@@ -92,7 +96,7 @@ $result2 = mysqli_query($conn, $sql);
 							<th>Id</th>
 							<th>Category</th>
 							<th>Location</th>
-							<th>Date</th>
+							<th>Date Reported</th>
 							<th>Status</th>
 							<th>Action</th>
 						</tr>
@@ -128,6 +132,7 @@ $result2 = mysqli_query($conn, $sql);
 					url: "../../api/getReport.php",
 					type: "POST",
 					data: {
+						reportID: $("#ReportID").val(),
 						date: $("#filter-date").val(),
 						status: $("#filter-status").val(),
 						category: $("#filter-catagory").val(),
@@ -206,6 +211,10 @@ $result2 = mysqli_query($conn, $sql);
 
 			}
 
+			$("#ReportID").on("input", function() {
+				loadTable();
+			});
+
 			$("#filter-date,#filter-status,#filter-catagory,#filter-location").on("change", function() {
 				loadTable();
 			});
@@ -213,10 +222,11 @@ $result2 = mysqli_query($conn, $sql);
 			$("#btn-reset-filter").on("click", function(e) {
 				e.preventDefault();
 
-				$("#filter-date").val("<?= date('Y-m-d') ?>");
-				$("#filter-status").val("Pending");
+				$("#filter-date").val("");
+				$("#filter-status").val("");
 				$("#filter-catagory").val("");
 				$("#filter-location").val("");
+				$("#ReportID").val("");
 
 				loadTable();
 			});

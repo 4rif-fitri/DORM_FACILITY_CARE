@@ -32,7 +32,7 @@ if (isset($_GET["id"])) {
         		FROM comments
         		INNER JOIN user u ON comments.userID  = u.userID
         		WHERE comments.reportID = '$reportId'";
-	
+
 	$comments = mysqli_query($conn, $sql);
 } else {
 	header("Location: myReport.php");
@@ -109,6 +109,7 @@ if (isset($_GET['cid'])) {
 						</h4>
 						<div class="track-progress">
 							<div>
+
 								<article>
 									<div class="dot <?= in_array($row["status"], ["Pending", "Assigned", "In_Progress", "Completed", "Rejected"]) ? "active" : "" ?> "></div>
 									<div class="desh"></div>
@@ -135,6 +136,7 @@ if (isset($_GET['cid'])) {
 										<p class="<?= in_array($row["status"], ["Completed"]) ? "text-active" : "" ?>">Completed</p>
 									<?php endif ?>
 								</article>
+
 							</div>
 						</div>
 					</section>
@@ -198,26 +200,29 @@ if (isset($_GET['cid'])) {
 						</h4>
 						<div class="chat">
 							<?php
-							while($comment = mysqli_fetch_assoc($comments)){
-								if($comment["userID"] == $_SESSION["userID"]){
+							while ($comment = mysqli_fetch_assoc($comments)) {
+								if ($comment["userID"] == $_SESSION["userID"]) {
 									echo '<div class="me">
 										<p>Me</p>';
-								}
-								else{
+								} else {
 									echo '<div class="other">';
-									switch ($comment["type"]){
-										case "SAD": echo '<p>Admin</p>';
+									switch ($comment["type"]) {
+										case "SAD":
+											echo '<p>Admin</p>';
 											break;
-										case "STD": echo '<p>Student</p>';
+										case "STD":
+											echo '<p>Student</p>';
 											break;
-										case "STF": echo '<p>Staff</p>';
+										case "STF":
+											echo '<p>Staff</p>';
 											break;
-										case "CTR": echo '<p>Contractor</p>';
+										case "CTR":
+											echo '<p>Contractor</p>';
 											break;
 									}
 								}
 								echo "<p>$comment[theComment]</p>";
-								if($comment["userID"] == $_SESSION["userID"]) // deletable if user's own comment
+								if ($comment["userID"] == $_SESSION["userID"]) // deletable if user's own comment
 									echo "<a href='trackReport.php?id=$reportId&cid=$comment[commentsID]' class='deleteBtn'>Delete</a>";
 								echo '</div>';
 							}
@@ -261,7 +266,7 @@ if (isset($_GET['cid'])) {
 					<section>
 						<h4>
 							<img src="../../images/report.svg" alt="">
-							Image from Contractor 
+							Image from Contractor
 						</h4>
 						<?php if ($row["completedImgUrl"] != "") : ?>
 							<div class="image imgReportgroup">
@@ -314,7 +319,7 @@ if (isset($_GET['cid'])) {
 									<?php endif ?>
 									<?php if (in_array($row["status"], ["In_Progress", "Completed"])) : ?>
 										<tr>
-											<td><?= $row["dateAssigned"] ?></td>
+											<td><?= $row["dateInProgress"] ?></td>
 											<td><span class="inProgress">In Progress</span></td>
 											<td><?= $row["name"] ?></td>
 											<td>Working In Progress</td>
@@ -322,7 +327,7 @@ if (isset($_GET['cid'])) {
 									<?php endif ?>
 									<?php if ($row["status"] == "Completed") : ?>
 										<tr>
-											<td><?= $row["dateAssigned"] ?></td>
+											<td><?= $row["dateCompleted"] ?></td>
 											<td><span class="completed">Completed</span></td>
 											<td><?= $row["name"] ?></td>
 											<td><?= $row["remarks"] ?></td>
@@ -330,7 +335,7 @@ if (isset($_GET['cid'])) {
 									<?php endif ?>
 									<?php if ($row["status"] == "Rejected") : ?>
 										<tr>
-											<td><?= $row["dateAssigned"] ?></td>
+											<td><?= $row["dateRejected"] ?></td>
 											<td><span class="rejected">Rejected</span></td>
 											<td>System Admin</td>
 											<td>Report has been rejected</td>

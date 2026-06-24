@@ -25,9 +25,9 @@ if (isset($_POST['submit'])) {
 
 		$sqlContractor = "
 			INSERT INTO contractor
-			(contractorID, expertise)
+			(contractorID, expertise,statuss)
 			VALUES
-			('$userID', '$expertise')
+			('$userID', '$expertise','Available')
 		";
 
 		mysqli_query($conn, $sqlContractor);
@@ -67,7 +67,7 @@ $sql = "	SELECT user.userID,user.name,
 
 if (isset($_POST["search"])) {
 	$text = trim($_POST["filter-orang"]);
-	
+
 	$sql = " SELECT user.userID, user.name, contractor.expertise, user.numTel
         FROM user
         JOIN contractor ON user.userID = contractor.contractorID
@@ -221,7 +221,7 @@ $result2 = mysqli_query($conn, $sql);
 						</div>
 						<div class="input-control">
 							<label for="password">Password</label>
-							<input required type="text" value="abc123" name="password" id="password">
+							<input required readonly type="text" value="abc123" name="password" id="password">
 						</div>
 						<div class="input-control">
 							<label for="numTel">numTel</label>

@@ -4,17 +4,6 @@ auth("CTR", $_SESSION["type"] ?? null);
 
 //php code hrre
 
-if (isset($_GET["idDoit"])) {
-	$reportID = $_GET["idDoit"];
-	$sql = "	UPDATE report
-			SET  status = 'In_Progress',
-				dateAssigned = NOW()
-			WHERE reportID = '$reportID' 
-			";
-	mysqli_query($conn, $sql);
-	header("Location: updateTasks.php?id=$reportID");
-}
-
 $idContractor = $_SESSION["userID"];
 $sql = "	SELECT 	reportID, 
 				reportCategory, 	
@@ -26,27 +15,7 @@ $sql = "	SELECT 	reportID,
 		ORDER BY dateReported DESC
 		";
 $result = mysqli_query($conn, $sql);
-$result2 = mysqli_query($conn, $sql);
 
-
-if(isset($_GET['tid'])){
-	$reportID = $_GET['tid'];
-
-	$sqlTask = "UPDATE report
-				SET
-				contractorID = null,
-				dateAssigned = null,
-				status = 'Pending'
-				WHERE reportID = '$reportID'";
-	
-	if(mysqli_query($conn, $sqlTask)){
-		echo "
-		<script>
-			alert('Task declined succsesfully');
-			window.location.href='assignedTasks.php';
-		</script>";
-	}
-}
 
 //php code hrre
 
@@ -66,14 +35,6 @@ if(isset($_GET['tid'])){
 		<?php include(__DIR__ . "../../../components/contractor/header.php") ?>
 		<!-- CONTENT HERE -->
 		<main class="_content-area">
-			<!-- <nav class="filter-box">
-				<a href="" class="filterBtn">all</a>
-				<a href="" class="filterBtn">canceled</a>
-				<a href="" class="filterBtn">pending</a>
-				<a href="" class="filterBtn">assigned</a>
-				<a href="" class="filterBtn">in progress</a>
-				<a href="" class="filterBtn">completed</a>
-			</nav> -->
 
 			<section class="table-container">
 				<table class="myReportTbl">
@@ -84,7 +45,7 @@ if(isset($_GET['tid'])){
 							<th>Location</th>
 							<th>Date</th>
 							<th>Status</th>
-							<th>Edit</th>
+							<th>Action</th>
 						</tr>
 					</thead>
 
@@ -97,20 +58,21 @@ if(isset($_GET['tid'])){
 								<td><?= $row["dateReported"] ?></td>
 								<td><?= $row["status"] ?></td>
 								<td>
-									<a href="./assignedTasks.php?idDoit=<?= $row["reportID"] ?>" class="updateBtn">Update</a>
-									<a href="assignedTasks.php?tid=<?= $row['reportID'] ?>" 
+									<a href="./updateTasks.php?id=<?= $row["reportID"] ?>" class="updateBtn">View</a>
+									<!-- <a href="assignedTasks.php?tid=<?= $row['reportID'] ?>" 
 										class="deleteBtn" 
 										onclick="return confirm('Decline task <?= $row['reportID'] ?>? This action cannot be undone.')">
 										Decline
-									</a>
+									</a> -->
 								</td>
 							</tr>
 						<?php endwhile ?>
 					</tbody>
 
 				</table>
+				<?php mysqli_data_seek($result, 0); ?>
 
-				<?php while ($row2 = mysqli_fetch_assoc($result2)) : ?>
+				<?php while ($row = mysqli_fetch_assoc($result)) : ?>
 					<div class="reportCard">
 						<div id="reportCard-info">
 							<div id="reportCard-left">
@@ -122,21 +84,21 @@ if(isset($_GET['tid'])){
 							</div>
 
 							<div id="reportCard-right">
-								<p><?= $row2['reportID'] ?></p>
-								<p><?= $row2['reportCategory'] ?></p>
-								<p><?= $row2['college'] ?></p>
-								<p><?= $row2['dateReported'] ?></p>
-								<p><?= $row2['status'] ?></p>
+								<p><?= $row['reportID'] ?></p>
+								<p><?= $row['reportCategory'] ?></p>
+								<p><?= $row['college'] ?></p>
+								<p><?= $row['dateReported'] ?></p>
+								<p><?= $row['status'] ?></p>
 							</div>
 						</div>
 
 						<div id="reportCard-bottom">
-							<a href="./trackReport.php?id=<?= $row2['reportID'] ?>" class="updateBtn">Take</a>
-							<a href="assignedTasks.php?tid=<?= $row2['reportID'] ?>" 
+							<a href="./trackReport.php?id=<?= $row2['reportID'] ?>" class="updateBtn">View</a>
+							<!-- <a href="assignedTasks.php?tid=<?= $row2['reportID'] ?>" 
 								class="deleteBtn" 
 								onclick="return confirm('Decline task <?= $row2['reportID'] ?>? This action cannot be undone.')">
 								Decline
-							</a>
+							</a> -->
 						</div>
 					</div>
 				<?php endwhile ?>
@@ -145,7 +107,6 @@ if(isset($_GET['tid'])){
 
 		</main>
 		<!-- CONTENT HERE -->
-
 	</section>
 
 	<!-- your script -->

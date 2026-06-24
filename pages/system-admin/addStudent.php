@@ -222,7 +222,7 @@ $result2 = mysqli_query($conn, $sql);
 						</div>
 						<div class="input-control">
 							<label for="password">Password</label>
-							<input required type="text" value="abc123" name="password" id="password">
+							<input required readonly type="text" value="abc123" name="password" id="password">
 						</div>
 						<div class="input-control">
 							<label for="numTel">numTel</label>
@@ -312,7 +312,7 @@ $result2 = mysqli_query($conn, $sql);
 									<input require type="number" name="phoneNumber" id="uptPhoneNumber">
 								</div>
 
-								<div class="input-control">
+								<div class="input-control hidden">
 									<label for="uptEmail" class="required">Email</label>
 									<input require type="email" name="email" id="uptEmail">
 								</div>

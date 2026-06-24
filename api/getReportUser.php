@@ -33,21 +33,30 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 		$where[] = "college='$location'";
 	}
 
-	$sql = "	SELECT 
-			reportID,
-			reportCategory,
-			reportRoom,
-			college,
-			status,
-			dateReported
-			
+	$sql = "SELECT 
+				reportID,
+				reportCategory,
+				reportRoom,
+				college,
+				status,
+				dateReported,
+				dateInProgress,
+				dateAssigned,
+				dateCompleted,
+				dateRejected
 			FROM report";
 
 	if (!empty($where)) {
 		$sql .= " WHERE " . implode(" AND ", $where);
 	}
 
-	$sql .= " ORDER BY dateReported DESC";
+	$sql .= " ORDER BY GREATEST(
+				IFNULL(dateReported, '0000-00-00 00:00:00'),
+				IFNULL(dateInProgress, '0000-00-00 00:00:00'),
+				IFNULL(dateAssigned, '0000-00-00 00:00:00'),
+				IFNULL(dateCompleted, '0000-00-00 00:00:00'),
+				IFNULL(dateRejected, '0000-00-00 00:00:00')
+			) DESC";
 
 	$result = mysqli_query($conn, $sql);
 
@@ -59,7 +68,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 	echo json_encode([
 		"status" => "success",
-		"sql" => $sql, // debug
+		"sql" => $sql,
 		"data" => $data
 	]);
 }
