@@ -3,7 +3,7 @@
 ob_start();
 
 require_once __DIR__ . "../../../inc/init.php";
-auth("STD");
+auth("CAD");
 
 if (!isset($_SESSION["userID"])) {
 	header("Location: ../../index.php");
@@ -138,7 +138,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 	<section class="_workspace">
 		<?php $title = "My Profile" ?>
-		<?php include(__DIR__ . "../../../components/user/header.php") ?>
+		<?php include(__DIR__ . "../../../components/system-admin/header.php") ?>
 
 		<!-- CONTENT HERE -->
 		<main class="_content-area">

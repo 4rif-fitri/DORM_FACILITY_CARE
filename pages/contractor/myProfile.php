@@ -3,7 +3,7 @@
 ob_start();
 
 require_once __DIR__ . "../../../inc/init.php";
-auth("STD");
+auth("CTR");
 
 if (!isset($_SESSION["userID"])) {
 	header("Location: ../../index.php");
@@ -81,7 +81,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 			$params[] = $avatar;
 		}
 		if ($status !== "") {
-			$fields[] = "status = ?";
+			$fields[] = "statuss = ?";
 			$types   .= "s";
 			$params[] = $status;
 		}
@@ -151,7 +151,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 	<section class="_workspace">
 		<?php $title = "My Profile" ?>
-		<?php include(__DIR__ . "../../../components/user/header.php") ?>
+		<?php include(__DIR__ . "../../../components/contractor/header.php") ?>
 
 		<!-- CONTENT HERE -->
 		<main class="_content-area">
@@ -179,7 +179,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 					<p class="info-line" id="phone-info"><?= htmlspecialchars($user["numTel"] ?? "") ?></p>
 					<p class="info-line" id="role-info"><?= htmlspecialchars(mapType($user["type"])) ?></p>
 					<?php if ($user["type"] === "CTR"): ?>
-						<p class="info-line" id="status-info"><?= htmlspecialchars($user["status"] ?? "Not Available") ?></p>
+						<p class="info-line" id="status-info"><?= htmlspecialchars($user["statuss"] ?? "Not Available") ?></p>
 					<?php endif; ?>
 				</div>
 			</div>
@@ -452,7 +452,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 	<input type="checkbox" hidden style="position: absolute; z-index: 10;" name="_dekstop-sideBar"
 		id="_dekstop-sideBar">
 	<input type="checkbox" hidden style="position: absolute;" name="_mobile-sideBar" id="_mobile-sideBar">
-	<input type="text" name="role" id="role" hidden value="USER">
+	<input type="text" name="role" id="role" hidden value="CTR">
 	<input type="text" name="title" id="title" hidden value="My Profile">
 </body>
 
