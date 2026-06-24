@@ -41,7 +41,7 @@ $result2 = mysqli_query($conn, $sql);
 			<nav class="filter-box">
 				<div class="filter-cantainer">
 					<div class="input-control">
-						<label for="ReportID">ReportID</label>
+						<label for="ReportID">Search  ReportID</label>
 						<input type="text" name="ReportID" id="ReportID">
 					</div>
 					<div class="input-control">
@@ -156,7 +156,7 @@ $result2 = mysqli_query($conn, $sql);
 								<td>${(data.dateReported).split(" ")[0]}</td>
 								<td>${data.status}</td>
 								<td>
-									${data.status === "Cancelled" ? `<span disabled class="updateBtn disabled">Track Report</span>` : `<a href="./reportUpdate.php?id=${data.reportID}" class="updateBtn">Track Report</a>`}
+									${data.status === "Cancelled" ? `<span disabled class="updateBtn disabled">View</span>` : `<a href="./reportUpdate.php?id=${data.reportID}" class="updateBtn">View</a>`}
 								</td>
 							`;
 
@@ -182,7 +182,7 @@ $result2 = mysqli_query($conn, $sql);
 									</div>
 
 									<div id="reportCard-bottom">
-										${data.status === "Cancelled" ? `<span disabled class="updateBtn disabled">Track Report</span>` : `<a href="./reportUpdate.php?id=${data.reportID}" class="updateBtn">Track Report</a>`}
+										${data.status === "Cancelled" ? `<span disabled class="updateBtn disabled">View</span>` : `<a href="./reportUpdate.php?id=${data.reportID}" class="updateBtn">View</a>`}
 									</div>`
 
 								document.querySelector(".table-container").appendChild(div)
