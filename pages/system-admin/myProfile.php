@@ -3,7 +3,7 @@
 ob_start();
 
 require_once __DIR__ . "../../../inc/init.php";
-auth("CAD");
+auth("SAD", $_SESSION["type"] ?? null);
 
 if (!isset($_SESSION["userID"])) {
 	header("Location: ../../index.php");
@@ -19,7 +19,8 @@ mysqli_stmt_execute($stmt);
 $result = mysqli_stmt_get_result($stmt);
 $user = mysqli_fetch_assoc($result);
 
-function mapType($type) {
+function mapType($type)
+{
 	$labels = [
 		"STD" => "STUDENT",
 		"STF" => "STAFF",
@@ -30,7 +31,8 @@ function mapType($type) {
 	return $labels[$type] ?? $type;
 }
 
-function bindParams($stmt, $types, $params) {
+function bindParams($stmt, $types, $params)
+{
 	$args = array_merge([$types], $params);
 	$refs = [];
 	foreach ($args as $key => $value) {
@@ -39,7 +41,8 @@ function bindParams($stmt, $types, $params) {
 	call_user_func_array("mysqli_stmt_bind_param", array_merge([$stmt], $refs));
 }
 
-function sendJson($data) {
+function sendJson($data)
+{
 	ob_end_clean();
 	header("Content-Type: application/json");
 	echo json_encode($data);
@@ -151,8 +154,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 						<img
 							src="<?= htmlspecialchars($user["imgProfileUrl"]) ?>"
 							alt="Avatar"
-							style="width:100%;height:100%;object-fit:cover;border-radius:50%;"
-						>
+							style="width:100%;height:100%;object-fit:cover;border-radius:50%;">
 					<?php else: ?>
 						<i class="fa-solid fa-user"></i>
 					<?php endif; ?>
@@ -401,7 +403,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 			if (file) {
 				const reader = new FileReader();
 				reader.onload = function(e) {
-					sendUpdate(e.target.result); 
+					sendUpdate(e.target.result);
 				};
 				reader.readAsDataURL(file);
 			} else {
@@ -419,7 +421,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 	<input type="checkbox" hidden style="position: absolute; z-index: 10;" name="_dekstop-sideBar"
 		id="_dekstop-sideBar">
 	<input type="checkbox" hidden style="position: absolute;" name="_mobile-sideBar" id="_mobile-sideBar">
-	<input type="text" name="role" id="role" hidden value="USER">
+	<input type="text" name="role" id="role" hidden value="SAD">
 	<input type="text" name="title" id="title" hidden value="My Profile">
 </body>
 

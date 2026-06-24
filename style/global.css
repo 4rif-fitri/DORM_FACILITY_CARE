@@ -334,3 +334,35 @@ span.rejected{
 	background-color: var(--danger-light) !important;
 	border: 2px solid var(--danger) !important;
 }
+
+.assigned {
+	padding: 0.2rem 1rem;
+	border-radius: 4px;
+	color: var(--blue) !important;
+	background-color: var(--blue-light) !important;
+	border: 2px solid var(--blue) !important;
+}
+
+.inProgress {
+	padding: 0.2rem 1rem;
+	border-radius: 4px;
+	color: var(--choco) !important;
+	background-color: var(--choco-light) !important;
+	border: 2px solid var(--choco) !important;
+}
+
+.completed {
+	padding: 0.2rem 1rem;
+	border-radius: 4px;
+	color: var(--green) !important;
+	background-color: var(--green-light) !important;
+	border: 2px solid var(--green) !important;
+}
+
+.rejected {
+	padding: 0.2rem 1rem;
+	border-radius: 4px;
+	color: var(--danger) !important;
+	background-color: var(--danger-light) !important;
+	border: 2px solid var(--danger) !important;
+}

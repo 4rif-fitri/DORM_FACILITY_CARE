@@ -1,6 +1,6 @@
 <?php
 require_once __DIR__ . "../../../inc/init.php";
-auth("STD");
+auth("STD,STF", $_SESSION["type"] ?? null);
 
 //php code hrre
 $userID = $_SESSION["userID"];
@@ -16,8 +16,24 @@ $sql = "	SELECT 	reportID,
 		ORDER BY dateReported DESC
 		";
 
-$result = mysqli_query($conn, $sql);
+if (isset($_GET['rid'])) {
+	$reportID = $_GET['rid'];
 
+	$sql = "UPDATE report
+            SET status = 'Cancelled'
+            WHERE reportID = $reportID AND userID = '$userID'
+		  ";
+
+	if (mysqli_query($conn, $sql)) {
+		echo "
+		<script>
+			alert('Report Cancelled succesfully');
+			window.location.href = 'myReport.php';
+		</script>";
+	}
+}
+// $result = mysqli_query($conn, $sql);
+// $result2 = mysqli_query($conn, $sql);
 // php code hrre
 
 ?>
@@ -46,18 +62,19 @@ $result = mysqli_query($conn, $sql);
 					<div class="input-control ">
 						<label for="filter-status">Status</label>
 						<select name="filter-status" id="filter-status">
-							<option value="">All Status</option>
-							<option value="Pending" selected>Pending</option>
+							<option value="" selected>All Status</option>
+							<option value="Pending">Pending</option>
+                            		<option value="Assigned">Assigned</option>
 							<option value="In_Progress">In Progress</option>
 							<option value="Completed">Completed</option>
 							<option value="Rejected">Rejected</option>
-							<option value="Cancelled">cancelled</option>
+							<option value="Cancelled">Cancelled</option>
 						</select>
 					</div>
 					<div class="input-control">
-						<label for="filter-catagory">Catagory</label>
+						<label for="filter-catagory">Category</label>
 						<select name="filter-catagory" id="filter-catagory">
-							<option value="" selected>All Catagory</option>
+							<option value="" selected>All Category</option>
 							<option value="Plumbing">Plumbing</option>
 							<option value="Electrical">Electrical</option>
 							<option value="Cleaning">Cleaning</option>
@@ -89,7 +106,7 @@ $result = mysqli_query($conn, $sql);
 						<tr>
 							<th>Id</th>
 							<th>Category</th>
-							<th>Collage</th>
+							<th>Location</th>
 							<th>Date</th>
 							<th>Status</th>
 							<th>Action</th>
@@ -100,61 +117,8 @@ $result = mysqli_query($conn, $sql);
 
 				</table>
 
-				<table class="reportCard">
-					<tbody>
-						<tr>
-							<th>Id</th>
-							<td>67</td>
-						</tr>
 
-						<tr>
-							<th>Category</th>
-							<td>Plumbing</td>
-						</tr>
 
-						<tr>
-							<th>Date</th>
-							<td>09/11/2025</td>
-						</tr>
-
-						<tr>
-							<th>Status</th>
-							<td>Pending</td>
-						</tr>
-
-						<tr>
-							<td><a href="#" class="updateBtn">Track</a></td>
-							<td></td>
-						</tr>
-					</tbody>
-
-					<tbody>
-						<tr>
-							<th>Id</th>
-							<td>67</td>
-						</tr>
-
-						<tr>
-							<th>Category</th>
-							<td>Plumbing</td>
-						</tr>
-
-						<tr>
-							<th>Date</th>
-							<td>09/11/2025</td>
-						</tr>
-
-						<tr>
-							<th>Status</th>
-							<td>Pending</td>
-						</tr>
-
-						<tr>
-							<td><a href="#" class="updateBtn">Track</a></td>
-							<td></td>
-						</tr>
-					</tbody>
-				</table>
 			</section>
 
 		</main>
@@ -163,8 +127,6 @@ $result = mysqli_query($conn, $sql);
 	<!-- your script -->
 	<script>
 		$(document).ready(function() {
-
-			loadTable();
 
 			function loadTable() {
 				console.log("Request");
@@ -188,7 +150,9 @@ $result = mysqli_query($conn, $sql);
 					success: response => {
 						console.log(response.data);
 						console.log(response.data.length);
+
 						document.getElementById("table-data").innerHTML = ""
+						document.querySelector(".table-container").querySelectorAll(".reportCard").forEach(card => card.remove())
 
 						if (response.data.length > 0) {
 							response.data.forEach(data => {
@@ -200,15 +164,52 @@ $result = mysqli_query($conn, $sql);
 								<td>${data.dateReported}</td>
 								<td>${data.status}</td>
 								<td>
-									<a href="./trackReport.php?id=${data.reportID}" class="updateBtn">Update</a>
+									${data.status === "Cancelled" ? `<span disabled class="updateBtn disabled">Track</span>` : `<a href="./trackReport.php?id=${data.reportID}" class="updateBtn">Track</a>`} 
+									${data.status == "Pending" ? `<a href="myReport.php?rid=${data.reportID}" class="deleteBtn">Cancel</a>` : `<span class="deleteBtn disabled">Cancel</span>` }
 								</td>
-							`;
+								`;
+
+								let div = document.createElement("div")
+								div.classList.add("reportCard")
+								div.innerHTML = `
+									<div id="reportCard-info">
+										<div id="reportCard-left">
+											<p><strong>Id</strong></p>
+											<p><strong>Category</strong></p>
+											<p><strong>Location</strong></p>
+											<p><strong>Date</strong></p>
+											<p><strong>Status</strong></p>
+										</div>
+
+										<div id="reportCard-right">
+											<p>${data.reportID}</p>
+											<p>${data.reportCategory}</p>
+											<p>${data.college}</p>
+											<td>${(data.dateReported).split(" ")[0]}</td>
+											<p>${data.status}</p>
+										</div>
+									</div>
+
+									<div id="reportCard-bottom">
+										${data.status === "Cancelled" ? `<span disabled class="updateBtn disabled">Track</span>` : `<a href="./trackReport.php?id=${data.reportID}" class="updateBtn">Track</a>`} 
+										${data.status == "Pending" ? `<a href="myReport.php?rid=${data.reportID}" class="deleteBtn">Cancel</a>` : `<span class="deleteBtn disabled">Cancel</span>` }
+									</div>`
+
+								document.querySelector(".table-container").appendChild(div)
 								document.getElementById("table-data").appendChild(tr);
 							});
+
 						} else {
 							let tr = document.createElement("tr");
 							tr.innerHTML = `<td colspan='6'><center>Sorry No Data</center></td>`
 							document.getElementById("table-data").appendChild(tr);
+
+							let div = document.createElement("div")
+							div.classList.add("reportCard")
+							div.innerHTML = `
+								<p style="padding:0.5rem;  text-align:center; width:100%">Sorry No Data</p>
+								`
+							document.querySelector(".table-container").appendChild(div)
 						}
 
 
@@ -220,6 +221,8 @@ $result = mysqli_query($conn, $sql);
 				});
 
 			}
+
+			loadTable();
 
 			$("#filter-date,#filter-status,#filter-catagory,#filter-location").on("change", function() {
 				loadTable();

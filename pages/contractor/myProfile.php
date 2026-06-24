@@ -3,7 +3,7 @@
 ob_start();
 
 require_once __DIR__ . "../../../inc/init.php";
-auth("CTR");
+auth("CTR", $_SESSION["type"] ?? null);
 
 if (!isset($_SESSION["userID"])) {
 	header("Location: ../../index.php");

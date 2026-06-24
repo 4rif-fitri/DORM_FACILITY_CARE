@@ -1,21 +1,40 @@
 <?php
 require_once __DIR__ . "../../../inc/init.php";
-auth("CTR");
+auth("CTR", $_SESSION["type"] ?? null);
 
 //php code hrre
-if (isset($_GET["rejectID"])) {
+if (isset($_GET["idDoit"])) {
+	$reportID = $_GET["idDoit"];
+	$sql = "	UPDATE report
+			SET  status = 'In_Progress',
+				dateInProgress = NOW()
+			WHERE reportID = '$reportID' 
+			";
+	mysqli_query($conn, $sql);
+	header("Location: updateTasks.php?id=$reportID");
+	exit;
+}
 
-	$reportId = $_GET["rejectID"];
 
-	$sql = "UPDATE report
-            SET status='Canceled'
-            WHERE reportId='$reportId'";
+if (isset($_GET['tid'])) {
+	$reportID = $_GET['tid'];
+	$sqlTask = "UPDATE report
+				SET
+				contractorID = null,
+				dateAssigned = null,
+				status = 'Pending'
+				WHERE reportID = '$reportID'";
 
-	if (mysqli_query($conn, $sql)) {
-		header("Location: reportUpdate.php?id=$reportId");
-		exit;
-	} else echo mysqli_error($conn);
-} else if (isset($_GET["id"])) {
+	if (mysqli_query($conn, $sqlTask)) {
+		echo "
+		<script>
+			alert('Task declined succsesfully');
+			window.location.href='assignedTasks.php';
+		</script>";
+	}
+}
+
+if (isset($_GET["id"])) {
 	$reportId = $_GET["id"];
 
 	$sql = "	SELECT
@@ -24,17 +43,7 @@ if (isset($_GET["rejectID"])) {
 			user.numTel, 
 			user.email,
 
-			report.reportID,
-			report.reportCategory,
-			report.reportDesc,
-			report.reportRoom,
-			report.status,
-			report.dateReported,
-			report.college,
-			report.reportImgUrl,
-			report.completedImgUrl,
-			report.dateAssigned,
-			report.remarks
+			report.*
 
         	FROM report 
 		INNER JOIN user ON report.userID = user.userID
@@ -42,9 +51,57 @@ if (isset($_GET["rejectID"])) {
 
 	$result = mysqli_query($conn, $sql);
 	$row = mysqli_fetch_assoc($result);
+
+	// fetch comments
+	$sql = "	SELECT *
+	    		FROM comments
+    			INNER JOIN user u ON comments.userID  = u.userID
+    			WHERE comments.reportID = '$reportId'";
+	$comments = mysqli_query($conn, $sql);
 } else {
-	header("Location: reportManage.php");
+	header("Location: assignedTasks.php");
 }
+// comment posting
+if (isset($_POST['submit'])) {
+	try {
+		$desc = $_POST["description"];
+		$userID = $_SESSION["userID"];
+		$sql = "INSERT INTO comments
+					(theComment, reportID, userID)
+					VALUES
+					('$desc', $reportId, '$userID')
+		";
+		mysqli_query($conn, $sql);
+
+		header("Location: updateTasks.php?id=$reportId");
+	} catch (mysqli_sql_exception $e) {
+		$msg = $e->getMessage();
+
+		echo "<script>alert('Failed: $msg');
+			window.location.href='updateTasks.php?id=$reportId';
+		</script>";
+	}
+}
+// comment deleting
+if (isset($_GET['cid'])) {
+	try {
+		$commentID = $_GET['cid'];
+
+		$sql = "DELETE FROM comments
+        	    WHERE commentsID = $commentID
+				";
+		mysqli_query($conn, $sql);
+
+		header("Location: updateTasks.php?id=$reportId");
+	} catch (mysqli_sql_exception $e) {
+		$msg = $e->getMessage();
+
+		echo "<script>alert('Failed: $msg');
+			window.location.href='updateTasks.php?id=$reportId';
+		</script>";
+	}
+}
+
 //php code hrre
 
 ?>
@@ -97,11 +154,12 @@ if (isset($_GET["rejectID"])) {
 						</div>
 
 						<article>
-							<span></span>
-							<?php if ($row["status"] == "Completed") : ?>
-								<button disabled data-bs-target="#model-mark" data-bs-toggle="modal" class="btn btn-success">Completed</button>
-							<?php else : ?>
+							<?php if (in_array($row["status"], ["Completed", "In_Progress"])) : ?>
+								<span></span>
 								<button data-bs-target="#model-mark" data-bs-toggle="modal" class="btn btn-success">Completed</button>
+							<?php else : ?>
+								<a href="updateTasks.php?tid=<?= $row['reportID'] ?>" class="btn btn-danger">Decline</a>
+								<a href="updateTasks.php?idDoit=<?= $row['reportID'] ?>" class="btn btn-success">Accept</a>
 							<?php endif ?>
 						</article>
 					</section>
@@ -166,26 +224,48 @@ if (isset($_GET["rejectID"])) {
 							Comment
 						</h4>
 						<div class="chat">
-							<div class="other">
-								<p>USer</p>
-								Mana Wifi
-							</div>
-							<div class="me">
-								<p>Me</p>
-								Sabo
-							</div>
+							<?php
+							while ($comment = mysqli_fetch_assoc($comments)) {
+								if ($comment["userID"] == $_SESSION["userID"]) {
+									echo '<div class="me">
+										<p>Me</p>';
+								} else {
+									echo '<div class="other">';
+									switch ($comment["type"]) {
+										case "SAD":
+											echo '<p>Admin</p>';
+											break;
+										case "STD":
+											echo '<p>Student</p>';
+											break;
+										case "STF":
+											echo '<p>Staff</p>';
+											break;
+										case "CTR":
+											echo '<p>Contractor</p>';
+											break;
+									}
+								}
+								echo "<p>$comment[theComment]</p>";
+								if ($comment["userID"] == $_SESSION["userID"]) // deletable if user's own comment
+									echo "<a href='updateTasks.php?id=$reportId&cid=$comment[commentsID]' class='deleteBtn'>Delete</a>";
+								echo '</div>';
+							}
+							?>
 						</div>
 
-						<div class="comment">
-							<div class="input-control">
-								<label for="description">Comment</label>
-								<textarea type="text" name="description" id="description"></textarea>
+						<form action="" method="POST">
+							<div class="comment">
+								<div class="input-control">
+									<label for="description">Comment</label>
+									<textarea type="text" name="description" id="description" required></textarea>
+								</div>
 							</div>
-						</div>
 
-						<article>
-							<button class="btn btn-success">Submit</button>
-						</article>
+							<article>
+								<button name="submit" class="btn btn-success">Submit</button>
+							</article>
+						</form>
 					</section>
 				</div>
 
@@ -209,7 +289,7 @@ if (isset($_GET["rejectID"])) {
 					<section>
 						<h4>
 							<img src="../../images/report.svg" alt="">
-							Report Image
+							Image from Contractor
 						</h4>
 						<?php if ($row["completedImgUrl"] != "") : ?>
 							<div class="image imgReportgroup">
@@ -259,9 +339,9 @@ if (isset($_GET["rejectID"])) {
 											<td>Report Assigned to <?= $_SESSION["name"] ?></td>
 										</tr>
 									<?php endif ?>
-									<?php if (in_array($row["status"], ["Assigned", "Completed", "In_Progress"])) : ?>
+									<?php if (in_array($row["status"], ["Completed", "In_Progress"])) : ?>
 										<tr>
-											<td><?= $row["dateAssigned"] ?></td>
+											<td><?= $row["dateInProgress"] ?></td>
 											<td><span class="inProgress">In Progress</span></td>
 											<td><?= $_SESSION["name"] ?>(You)</td>
 											<td>Working In Progress</td>
@@ -269,20 +349,13 @@ if (isset($_GET["rejectID"])) {
 									<?php endif ?>
 									<?php if (in_array($row["status"], ["Completed"])) : ?>
 										<tr>
-											<td><?= $row["dateAssigned"] ?></td>
+											<td><?= $row["dateCompleted"] ?></td>
 											<td><span class="completed">Completed</span></td>
 											<td><?= $_SESSION["name"] ?>(You)</td>
 											<td><?= $row["remarks"] ?></td>
 										</tr>
 									<?php endif ?>
-									<?php if ($row["status"] == "Rejected") : ?>
-										<tr>
-											<td><?= $row["dateAssigned"] ?></td>
-											<td><span class="completed">Rejected</span></td>
-											<td>System Admin</td>
-											<td>Report has been rejected</td>
-										</tr>
-									<?php endif ?>
+
 								</tbody>
 							</table>
 

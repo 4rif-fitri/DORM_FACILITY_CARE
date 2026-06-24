@@ -1,9 +1,109 @@
 <?php
 require_once __DIR__ . "../../../inc/init.php";
-auth("SAD");
+auth("SAD", $_SESSION["type"] ?? null);
 
 //php code hrre
+if (isset($_POST['submit'])) {
 
+	try {
+
+		$userID = $_POST['contractorID'];
+		$name = $_POST['name'];
+		$password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+		$numTel = $_POST['numTel'];
+		$email = $_POST['email'];
+		$expertise = $_POST['expertise'];
+
+		$sqlUser = "
+			INSERT INTO user
+			(userID, name, password, numTel, email,type)
+			VALUES
+			('$userID', '$name', '$password', '$numTel', '$email','CTR')
+		";
+
+		mysqli_query($conn, $sqlUser);
+
+		$sqlContractor = "
+			INSERT INTO contractor
+			(contractorID, expertise,statuss)
+			VALUES
+			('$userID', '$expertise','Available')
+		";
+
+		mysqli_query($conn, $sqlContractor);
+
+		echo "<script>
+			alert('Contractor Added Successfully');
+			window.location.href='contractor.php';
+		</script>";
+	} catch (mysqli_sql_exception $e) {
+
+		$msg = ($e->getCode() == 1062) ? "Contractor ID already exists" : $e->getMessage();
+
+		echo "<script>
+			alert('Failed: $msg');
+			window.location.href='contractor.php';
+		</script>";
+	}
+}
+
+if (isset($_GET['cid'])) {
+	$userID = $_GET['cid'];
+
+
+	if (
+		mysqli_query($conn, "DELETE FROM contractor WHERE contractorID = '$userID'") &&
+		mysqli_query($conn, "DELETE FROM user WHERE userID = '$userID'")
+	) {
+		echo "<script>
+            alert('Contractor Deleted Successfully');
+            window.location.href='contractor.php';
+        </script>";
+	}
+}
+
+$sql = "	SELECT user.userID,user.name,
+			contractor.expertise,user.numTel,
+			contractor.statuss
+		FROM user
+		JOIN contractor ON user.userID = contractor.contractorID";
+
+if (isset($_POST["search"])) {
+	$text = trim($_POST["filter-orang"]);
+
+	$sql = " SELECT user.userID, user.name, contractor.expertise, user.numTel,  contractor.statuss
+        FROM user
+        JOIN contractor ON user.userID = contractor.contractorID
+        WHERE user.name LIKE '%$text%'
+        OR user.userID LIKE '%$text%'
+        ORDER BY user.name ASC
+    ";
+}
+
+$result = mysqli_query($conn, $sql);
+$result2 = mysqli_query($conn, $sql);
+
+$newContractorID = "C0001";
+
+$sqlLastID = "
+	SELECT userID
+	FROM user
+	WHERE userID LIKE 'C%'
+	ORDER BY CAST(SUBSTRING(userID, 2) AS UNSIGNED) DESC
+	LIMIT 1
+";
+
+$resultLastID = mysqli_query($conn, $sqlLastID);
+
+if ($resultLastID && mysqli_num_rows($resultLastID) > 0) {
+	$rowLastID = mysqli_fetch_assoc($resultLastID);
+	$lastID = $rowLastID['userID'];
+
+	$num = (int) substr($lastID, 1);
+	$num++;
+
+	$newContractorID = "C" . str_pad($num, 4, "0", STR_PAD_LEFT);
+}
 //php code hrre
 
 ?>
@@ -18,13 +118,24 @@ auth("SAD");
 <body>
 
 	<section class="_workspace">
-		<?php $title = "Contractor" ?>
+		<?php $title = "Manage Contractor" ?>
 		<?php include(__DIR__ . "../../../components/system-admin/header.php") ?>
 
 		<!-- CONTENT HERE -->
 		<main class="_content-area">
+			<nav class="filter-box">
+				<form action="" method="post">
+					<div class="filter-cantainer">
+						<div class="input-control">
+							<label for="filter-orang">Search By Name or Id</label>
+							<input type="text" name="filter-orang" id="filter-orang">
+						</div>
+					</div>
+					<button type="submit" name="search" class="updateBtn" id="btn-search-filter" style="width: 10rem !important;">Search</button>
+				</form>
+			</nav>
 			<nav class="add-box">
-				<button type="button" class="addBtn" data-bs-toggle="modal" data-bs-target="#Modal">
+				<button type="button" class="updateBtn" data-bs-toggle="modal" data-bs-target="#Modal">
 					Add Contractor
 				</button>
 			</nav>
@@ -35,37 +146,83 @@ auth("SAD");
 						<tr>
 							<th>Id</th>
 							<th>Name</th>
-							<th>College</th>
 							<th>Phone No</th>
+							<th>Expertise</th>
+							<th>Status</th>
 							<th>Action</th>
 						</tr>
 					</thead>
 
-					<tbody>
-						<tr>
-							<td>D032410321</td>
-							<td>Arif Fitri bin Mohd Jamil</td>
-							<td>Al-Jazari</td>
-							<td>011 167 6767</td>
-							<td>
-								<button class="updateBtn" data-bs-target="#modalStudent" data-bs-toggle="modal">Update</button>
-								<!-- <a href="./studentUpdate.php" class="updateBtn">Update</a> -->
-							</td>
-						</tr>
+					<tbody id="contractorTable">
 
-						<tr>
-							<td>D032410396</td>
-							<td>Muhammad Imran Danial</td>
-							<td>Satria</td>
-							<td>013 145 7816</td>
-							<td>
-								<button class="updateBtn" data-bs-target="#modalStudent" data-bs-toggle="modal">Update</button>
-								<!-- <a href="./studentUpdate.php" class="updateBtn">Update</a> -->
-							</td>
-						</tr>
+						<?php if (mysqli_num_rows($result) > 0): ?>
+
+							<?php while ($row = mysqli_fetch_assoc($result)) : ?>
+								<tr>
+									<td><?= $row['userID'] ?></td>
+									<td><?= $row['name'] ?></td>
+									<td><?= $row['numTel'] ?></td>
+									<td><?= $row['expertise'] ?></td>
+									<td><?= $row['statuss'] ?></td>
+									<td>
+										<button onclick="getDetail('<?= $row['userID'] ?>')" class="updateBtn">
+											Update
+										</button>
+
+										<a href="contractor.php?cid=<?= $row['userID'] ?>"
+											class="deleteBtn"
+											onclick="return confirm('Delete contractor <?= $row['userID'] ?>? This action cannot be undone.')">
+											Delete
+										</a>
+									</td>
+								</tr>
+							<?php endwhile; ?>
+
+						<?php else: ?>
+							<tr>
+								<td colspan="5" style="text-align:center; padding:20px;">
+									No data found
+								</td>
+							</tr>
+						<?php endif; ?>
+
 					</tbody>
-
 				</table>
+
+				<?php if (mysqli_num_rows($result2) > 0): ?>
+
+					<?php while ($row2 = mysqli_fetch_assoc($result2)) : ?>
+						<div class="reportCard">
+							<div id="reportCard-info">
+								<div id="reportCard-left">
+									<p><strong>Id</strong></p>
+									<p><strong>Name</strong></p>
+									<p><strong>Phone No</strong></p>
+									<p><strong>Expertise</strong></p>
+									<p><strong>Status</strong></p>
+								</div>
+
+								<div id="reportCard-right">
+									<p><?= $row2['userID'] ?></p>
+									<p><?= $row2['name'] ?></p>
+									<p><?= $row2['numTel'] ?></p>
+									<p><?= $row2['expertise'] ?></p>
+									<p><?= $row2['statuss'] ?></p>
+								</div>
+							</div>
+
+							<div id="reportCard-bottom">
+								<button onclick="getDetail('<?= $row2['userID'] ?>')" class="updateBtn">Update</button>
+								<a href="contractor.php?cid=<?= $row2['userID'] ?>" class="btn btn-danger">Delete</a>
+							</div>
+						</div>
+					<?php endwhile ?>
+
+				<?php else: ?>
+					<div class="reportCard" style="text-align:center; padding:20px;">
+						No data found
+					</div>
+				<?php endif; ?>
 			</section>
 
 
@@ -73,6 +230,7 @@ auth("SAD");
 		<!-- CONTENT HERE -->
 
 	</section>
+
 	<div class="modal fade" id="Modal">
 		<div class="modal-dialog modal-dialog-centered">
 			<div class="modal-content">
@@ -83,38 +241,41 @@ auth("SAD");
 					</div>
 					<div class="modal-body">
 						<div class="input-control">
+							<label for="contractorID">Contractor Id</label>
+							<input required readonly type="text" name="contractorID" id="contractorID" value="<?= $newContractorID ?>">
+						</div>
+						<div class="input-control">
 							<label for="name">Name</label>
-							<input type="text" name="name" id="name">
+							<input required type="text" name="name" id="name">
 						</div>
 						<div class="input-control">
 							<label for="password">Password</label>
-							<input type="password" name="password" id="password">
+							<input required readonly type="text" value="abc123" name="password" id="password">
 						</div>
 						<div class="input-control">
 							<label for="numTel">numTel</label>
-							<input type="text" name="numTel" id="numTel">
+							<input required type="text" name="numTel" id="numTel">
 						</div>
 						<div class="input-control">
 							<label for="email">email</label>
-							<input type="text" name="email" id="email">
+							<input required type="text" name="email" id="email">
 						</div>
 						<div class="input-control">
-							<label for="collage">Collage</label>
-							<select name="collage" id="collage">
-								<option disabled selected value="">Select Collage</option>
-								<option value="Satria">Satria</option>
-								<option value="Al_Jazari">Al_Jazari</option>
-								<option value="Lestari">Lestari</option>
+							<label for="expertise" class="required">Expertise</label>
+							<select name="expertise" id="expertise">
+								<option disabled selected value="">Select Expertise</option>
+								<option value="Plumbing">Plumbing</option>
+								<option value="Electrical">Electrical</option>
+								<option value="Cleaning">Cleaning</option>
+								<option value="Facilities">Facilities</option>
+								<option value="Security">Security</option>
+								<option value="Others">Others</option>
 							</select>
-						</div>
-						<div class="input-control">
-							<label for="studentRoom">Student Room</label>
-							<input type="text" name="studentRoom" id="studentRoom">
 						</div>
 					</div>
 					<div class="modal-footer">
-						<button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
-						<button type="submit" class="btn btn-primary">Save changes</button>
+						<button type="reset" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+						<button type="submit" name="submit" class="btn btn-primary">Save changes</button>
 					</div>
 				</form>
 			</div>
@@ -122,7 +283,7 @@ auth("SAD");
 	</div>
 
 	<div class="modal fade" id="modalStudent">
-		<form method="POST" action="">
+		<form method="POST" action="" id="updateForm">
 			<div class="modal-dialog modal-dialog-centered">
 				<div class="modal-content">
 					<div class="modal-header">
@@ -135,46 +296,33 @@ auth("SAD");
 
 						<section>
 							<article>
-								<h3>ID: 001</h3>
+								<h3 id="ctrID">ID: 001</h3>
 								<p class="required">All fields must be filled.</p>
 							</article>
-							<form action="" method="post">
+							<section class="form-detail">
+								<input required type="hidden" name="userID" id="userID">
 
-								<section class="form-detail">
+								<div class="input-control">
+									<label for="uptname" class="required">Name</label>
+									<input required type="text" name="uptname" id="uptname">
+								</div>
 
-									<div class="input-control">
-										<label for="name" class="required">Name</label>
-										<input type="text" name="name" id="name">
-									</div>
+								<div class="input-control">
+									<label for="uptphoneNumber" class="required">Phone Number</label>
+									<input required type="number" name="uptphoneNumber" id="uptphoneNumber">
+								</div>
 
-									<div class="input-control">
-										<label for="name" class="required">Password</label>
-										<input type="password" name="password" id="password">
-									</div>
+								<div class="input-control">
+									<label for="uptemail" class="required">Email</label>
+									<input required type="email" name="uptemail" id="uptemail">
+								</div>
 
-									<div class="input-control">
-										<label for="cPassword" class="required">Confirm Password</label>
-										<input type="password" name="cPassword" id="cPassword">
-									</div>
-
-									<div class="input-control">
-										<label for="phoneNumber" class="required">Phone Number</label>
-										<input type="number" name="phoneNumber" id="phoneNumber">
-									</div>
-
-									<div class="input-control">
-										<label for="email" class="required">Email</label>
-										<input type="email" name="email" id="email">
-									</div>
-
-									<div class="input-control">
-										<label for="cType" class="required">cType</label>
-										<input type="text" name="cType" id="cType">
-									</div>
-								</section>
-
-							</form>
-
+								<div class="input-control">
+									<label for="uptexpertise" class="required">Expertise</label>
+									<select name="uptexpertise" id="uptexpertise">
+									</select>
+								</div>
+							</section>
 						</section>
 
 					</div>
@@ -187,11 +335,115 @@ auth("SAD");
 		</form>
 	</div>
 
+	<div class="popUpFail hidden">
+		<div class="card p-3">
+			<h1 class="text-center">🚫</h1>
+			<h2>Fail to Add Report</h2>
+			<a href="" class="btn btn-success">Ok</a>
+		</div>
+	</div>
+	<div class="popUpDone hidden">
+		<div class="card p-3">
+			<h1 class="text-center">✅</h1>
+			<h2>Done Add Report</h2>
+			<a href="./myReport.php" class="btn btn-success">Ok</a>
+		</div>
+	</div>
+	<div class="popUpLoading hidden">
+		<div class="loading-container">
+			<div class="loading-circle"></div>
+			<div class="loading-circle"></div>
+			<div class="loading-circle"></div>
+			<div class="loading-circle"></div>
+		</div>
+		<div class="bulat">
+			<article>
+				<h1 class="text-center">✅</h1>
+				<h2>Done Add Report</h2>
+				<a href="./myReport.php" class="btn btn-success w-100">Ok</a>
+			</article>
+		</div>
+	</div>
+
 	<!-- your script -->
 	<script>
+		let uptname = document.getElementById("uptname")
+		let uptphoneNumber = document.getElementById("uptphoneNumber")
+		let uptemail = document.getElementById("uptemail")
+		let uptexpertise = document.getElementById("uptexpertise")
+		let ctrID = document.getElementById("ctrID")
+		let userID = document.getElementById("userID")
 
+		let updateForm = document.getElementById("updateForm")
+
+		function getModal() {
+			return bootstrap.Modal.getOrCreateInstance(document.getElementById('modalStudent'));
+		}
+
+		function getDetail(id) {
+			console.log(id);
+			document.getElementById("uptexpertise").innerHTML = ""
+			$.ajax({
+				url: "../../api/getDataContractor.php",
+				method: "POST",
+				dataType: "json",
+				data: {
+					userID: id
+				},
+				success: response => {
+					console.log(response);
+					getModal().show();
+					userID.value = response.datas.userID
+					ctrID.textContent = response.datas.userID
+					uptname.value = response.datas.name
+					uptphoneNumber.value = response.datas.numTel
+					uptemail.value = response.datas.email
+					uptexpertise.innerHTML = `
+						<option value="Plumbing" ${response.datas.expertise == "Plumbing" ? "selected" : ""}>Plumbing</option>
+						<option value="Electrical" ${response.datas.expertise == "Electrical" ? "selected" : ""}>Electrical</option>
+						<option value="Cleaning" ${response.datas.expertise == "Cleaning" ? "selected" : ""}>Cleaning</option>
+						<option value="Facilities" ${response.datas.expertise == "Facilities" ? "selected" : ""}>Facilities</option>
+						<option value="Security" ${response.datas.expertise == "Security" ? "selected" : ""}>Security</option>
+						<option value="Others" ${response.datas.expertise == "Others" ? "selected" : ""}>Others</option>
+					`;
+				},
+				error: response => {
+					console.log(response.responseText);
+				},
+			})
+		}
+
+		updateForm.addEventListener("submit", e => {
+			e.preventDefault()
+
+			$.ajax({
+				url: "../../api/updateDataContractor.php",
+				method: "POST",
+				data: {
+					userID: userID.value,
+					uptname: uptname.value,
+					uptphoneNumber: uptphoneNumber.value,
+					uptemail: uptemail.value,
+					uptexpertise: uptexpertise.value
+				},
+				success: response => {
+					console.log(response)
+
+					if (response.status === "success") {
+						getModal().hide();
+						alert("Contractor Updated Successfully")
+						location.reload()
+
+					} else {
+						alert(response.message)
+					}
+				},
+				error: response => {
+					console.log(response.responseText)
+				}
+			})
+		})
 	</script>
-
 
 	<input type="checkbox" hidden style="position: absolute; z-index: 10;" name="_dekstop-sideBar" id="_dekstop-sideBar">
 	<input type="checkbox" hidden style="position: absolute;" name="_mobile-sideBar" id="_mobile-sideBar">

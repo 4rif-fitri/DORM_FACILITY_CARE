@@ -1,6 +1,6 @@
 <?php
 require_once __DIR__ . "../../../inc/init.php";
-auth("SAD");
+auth("SAD", $_SESSION["type"] ?? null);
 
 //php code hrre
 if (isset($_GET["rejectID"])) {
@@ -8,14 +8,14 @@ if (isset($_GET["rejectID"])) {
 	$reportId = $_GET["rejectID"];
 
 	$sql = "UPDATE report
-            SET status='Rejected'
+            SET status='Rejected',
+		  dateRejected = NOW()
             WHERE reportId='$reportId'";
 
 	if (mysqli_query($conn, $sql)) {
 		header("Location: reportUpdate.php?id=$reportId");
 		exit;
 	} else echo mysqli_error($conn);
-
 } else if (isset($_GET["id"])) {
 	$reportId = $_GET["id"];
 
@@ -25,16 +25,7 @@ if (isset($_GET["rejectID"])) {
 			user.numTel, 
 			user.email,
 
-			report.reportID,
-			report.reportCategory,
-			report.reportDesc,
-			report.reportRoom,
-			report.status,
-			report.dateReported,
-			report.college,
-			report.reportImgUrl,
-			report.completedImgUrl,
-			report.dateAssigned
+			report.*
 
         	FROM report 
 		INNER JOIN user ON report.userID   = user.userID
@@ -43,7 +34,7 @@ if (isset($_GET["rejectID"])) {
 	$result = mysqli_query($conn, $sql);
 	$row = mysqli_fetch_assoc($result);
 
-	if ($row["status"] == "Assigned") {
+	if (in_array($row["status"], ["Assigned", "In_Progress", "Completed"])) {
 		$sql = "	SELECT
 			reporter.userID,
 			reporter.name,
@@ -53,30 +44,28 @@ if (isset($_GET["rejectID"])) {
 			contractor.name AS contractorName,
 			contractor.email AS contractorEmail,
 
-			report.reportID,
-			report.reportCategory,
-			report.reportDesc,
-			report.reportRoom,
-			report.status,
-			report.dateReported,
-			report.college,
-			report.reportImgUrl,
-			report.completedImgUrl,
-			report.dateAssigned
+			report.*
 
         	FROM report 
 		INNER JOIN user reporter ON report.userID = reporter.userID
 		INNER JOIN user contractor ON report.contractorID = contractor.userID
 		WHERE reportId = '$reportId'";
-	$result = mysqli_query($conn, $sql);
-	$row = mysqli_fetch_assoc($result);
+		$result = mysqli_query($conn, $sql);
+		$row = mysqli_fetch_assoc($result);
 	}
+
+	// fetch comments
+	$sql = "	SELECT *
+	    		FROM comments
+    			INNER JOIN user u ON comments.userID  = u.userID
+    			WHERE comments.reportID = '$reportId'";
+	$comments = mysqli_query($conn, $sql);
 } else {
 	header("Location: reportManage.php");
 }
 
 $sql = " SELECT u.userID, u.name, u.email,
-    			 u.numTel, c.cType
+    			 u.numTel, c.expertise
 		FROM user u
 		JOIN contractor c
 		ON u.userID = c.contractorID
@@ -90,9 +79,52 @@ while ($datas = mysqli_fetch_assoc($resultContractor)) {
 		"name" => $datas["name"],
 		"email" => $datas["email"],
 		"no" => $datas["numTel"],
-		"cType" => $datas["cType"]
+		"expertise" => $datas["expertise"]
 	];
 }
+
+// comment posting
+if (isset($_POST['submit'])) {
+	try {
+		$desc = $_POST["description"];
+		$userID = $_SESSION["userID"];
+		$sqlComment = "INSERT INTO comments
+					(theComment, reportID, userID)
+					VALUES
+					('$desc', $reportId, '$userID')
+		";
+		mysqli_query($conn, $sqlComment);
+
+		header("Location: reportUpdate.php?id=$reportId");
+	} catch (mysqli_sql_exception $e) {
+		$msg = $e->getMessage();
+
+		echo "<script>alert('Failed: $msg');
+			window.location.href='reportUpdate.php?id=$reportId';
+		</script>";
+	}
+}
+
+// comment deleting
+if (isset($_GET['cid'])) {
+	try {
+		$commentID = $_GET['cid'];
+
+		$sql = "DELETE FROM comments
+        	    WHERE commentsID = $commentID
+				";
+		mysqli_query($conn, $sql);
+
+		header("Location: reportUpdate.php?id=$reportId");
+	} catch (mysqli_sql_exception $e) {
+		$msg = $e->getMessage();
+
+		echo "<script>alert('Failed: $msg');
+			window.location.href='reportUpdate.php?id=$reportId';
+		</script>";
+	}
+}
+
 //php code hrre
 
 ?>
@@ -233,26 +265,48 @@ while ($datas = mysqli_fetch_assoc($resultContractor)) {
 							Comment
 						</h4>
 						<div class="chat">
-							<div class="other">
-								<p>USer</p>
-								Mana Wifi
-							</div>
-							<div class="me">
-								<p>Me</p>
-								Sabo
-							</div>
+							<?php
+							while ($comment = mysqli_fetch_assoc($comments)) {
+								if ($comment["userID"] == $_SESSION["userID"]) {
+									echo '<div class="me">
+										<p>Me</p>';
+								} else {
+									echo '<div class="other">';
+									switch ($comment["type"]) {
+										case "SAD":
+											echo '<p>Admin</p>';
+											break;
+										case "STD":
+											echo '<p>Student</p>';
+											break;
+										case "STF":
+											echo '<p>Staff</p>';
+											break;
+										case "CTR":
+											echo '<p>Contractor</p>';
+											break;
+									}
+								}
+								echo "<p>$comment[theComment]</p>";
+								if ($comment["userID"] == $_SESSION["userID"]) // deletable if user's own comment
+									echo "<a href='reportUpdate.php?id=$reportId&cid=$comment[commentsID]' class='deleteBtn'>Delete</a>";
+								echo '</div>';
+							}
+							?>
 						</div>
 
-						<div class="comment">
-							<div class="input-control">
-								<label for="description">Comment</label>
-								<textarea type="text" name="description" id="description"></textarea>
+						<form action="" method="POST">
+							<div class="comment">
+								<div class="input-control">
+									<label for="description">Comment</label>
+									<textarea type="text" name="description" id="description" required></textarea>
+								</div>
 							</div>
-						</div>
 
-						<article>
-							<button class="btn btn-success">Submit</button>
-						</article>
+							<article>
+								<button name="submit" class="btn btn-success">Submit</button>
+							</article>
+						</form>
 					</section>
 				</div>
 
@@ -276,7 +330,7 @@ while ($datas = mysqli_fetch_assoc($resultContractor)) {
 					<section>
 						<h4>
 							<img src="../../images/report.svg" alt="">
-							Report Image
+							Image from Contractor
 						</h4>
 						<?php if ($row["completedImgUrl"] != "") : ?>
 							<div class="image imgReportgroup">
@@ -294,7 +348,6 @@ while ($datas = mysqli_fetch_assoc($resultContractor)) {
 				</div>
 
 				<div class="comment-container">
-
 					<section>
 						<h4>
 							<img src="../../images/report.svg" alt="">
@@ -318,7 +371,7 @@ while ($datas = mysqli_fetch_assoc($resultContractor)) {
 										<td><?= $row["name"] ?></td>
 										<td>Report has been Submitted</td>
 									</tr>
-									<?php if (in_array($row["status"], ["Assigned", "Completed"])) : ?>
+									<?php if (in_array($row["status"], ["Assigned", "Completed", "In_Progress"])) : ?>
 										<tr>
 											<td><?= $row["dateAssigned"] ?></td>
 											<td><span class="assigned">Assigned</span></td>
@@ -326,9 +379,17 @@ while ($datas = mysqli_fetch_assoc($resultContractor)) {
 											<td>Report Assigned to <?= $row["contractorName"] ?></td>
 										</tr>
 									<?php endif ?>
+									<?php if (in_array($row["status"], ["Completed", "In_Progress"])) : ?>
+										<tr>
+											<td><?= $row["dateInProgress"] ?></td>
+											<td><span class="completed">In Progress</span></td>
+											<td><?= $row["name"] ?></td>
+											<td>Working In Progress</td>
+										</tr>
+									<?php endif ?>
 									<?php if ($row["status"] == "Completed") : ?>
 										<tr>
-											<td><?= $row["dateAssigned"] ?></td>
+											<td><?= $row["dateCompleted"] ?></td>
 											<td><span class="completed">Completed</span></td>
 											<td><?= $row["name"] ?></td>
 											<td>Report has been Close</td>
@@ -336,8 +397,8 @@ while ($datas = mysqli_fetch_assoc($resultContractor)) {
 									<?php endif ?>
 									<?php if ($row["status"] == "Rejected") : ?>
 										<tr>
-											<td><?= $row["dateAssigned"] ?></td>
-											<td><span class="completed">Completed</span></td>
+											<td><?= $row["dateRejected"] ?></td>
+											<td><span class="completed">Rejected</span></td>
 											<td>System Admin</td>
 											<td>Report has been rejected</td>
 										</tr>
@@ -367,23 +428,21 @@ while ($datas = mysqli_fetch_assoc($resultContractor)) {
 						</h1>
 					</div>
 					<div class="modal-body">
-
 						<section>
-
 							<div class="comment">
 								<div class="input-control">
+									<p class="hidden my-2" id="emailContractor">lorem@gamail.com</p>
+									<p class="hidden mb-2" id="phoneContractor">0197231577</p>
+									<p class="hidden mb-2" id="expertiseContractor">IT technician</p>
 									<label for="selectContractor">Select contractor</label>
 									<select name="selectContractor" id="selectContractor">
 										<option disabled selected value="">Select contractor</option>
 										<?php foreach ($dataContractor as $contractor): ?>
 											<option value="<?= $contractor['id'] ?>">
-												<?= $contractor['name'] ?>
+												<?= $contractor['name'] ?> (<?= $contractor['expertise'] ?>)
 											</option>
 										<?php endforeach; ?>
 									</select>
-									<p class="hidden my-2" id="emailContractor">lorem@gamail.com</p>
-									<p class="hidden mb-2" id="phoneContractor">0197231577</p>
-									<p class="hidden mb-2" id="cTypeContractor">IT technician</p>
 								</div>
 							</div>
 
@@ -436,7 +495,7 @@ while ($datas = mysqli_fetch_assoc($resultContractor)) {
 		let selectContractor = document.querySelector("#selectContractor")
 		let textEmailContractor = document.getElementById("emailContractor")
 		let textphoneContractor = document.getElementById("phoneContractor")
-		let textcTypeContractor = document.getElementById("cTypeContractor")
+		let textExpertiseContractor = document.getElementById("expertiseContractor")
 
 		let model = document.getElementById("model")
 		let myModal = new bootstrap.Modal(model)
@@ -470,11 +529,11 @@ while ($datas = mysqli_fetch_assoc($resultContractor)) {
 
 			textEmailContractor.classList.remove("hidden")
 			textphoneContractor.classList.remove("hidden")
-			textcTypeContractor.classList.remove("hidden")
+			textExpertiseContractor.classList.remove("hidden")
 
-			textEmailContractor.textContent = orang.email
-			textphoneContractor.textContent = orang.no
-			textcTypeContractor.textContent = orang.cType
+			textEmailContractor.innerHTML = `<b>Email: </b> ${orang.email}`
+			textphoneContractor.innerHTML = `<b>Phone Number: </b> ${orang.no}`
+			textExpertiseContractor.innerHTML = `<b>Expertise: </b> ${orang.expertise}`
 		})
 
 		async function handleSubmit(e) {

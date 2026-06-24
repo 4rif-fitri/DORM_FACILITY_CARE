@@ -1,24 +1,13 @@
 <?php
 require_once __DIR__ . "../../../inc/init.php";
-auth("CTR");
+auth("CTR", $_SESSION["type"] ?? null);
 
 //php code hrre
-
-if (isset($_GET["idDoit"])) {
-	$reportID = $_GET["idDoit"];
-	$sql = "	UPDATE report
-			SET  status = 'In_Progress',
-				dateAssigned = NOW()
-			WHERE reportID = '$reportID' 
-			";
-	mysqli_query($conn, $sql);
-	header("Location: updateTasks.php?id=$reportID");
-}
 
 $idContractor = $_SESSION["userID"];
 $sql = "	SELECT 	reportID, 
 				reportCategory, 	
-				reportDesc, 
+				college, 
 				dateReported, 
 				status
         	FROM report
@@ -26,6 +15,7 @@ $sql = "	SELECT 	reportID,
 		ORDER BY dateReported DESC
 		";
 $result = mysqli_query($conn, $sql);
+
 
 //php code hrre
 
@@ -45,14 +35,6 @@ $result = mysqli_query($conn, $sql);
 		<?php include(__DIR__ . "../../../components/contractor/header.php") ?>
 		<!-- CONTENT HERE -->
 		<main class="_content-area">
-			<!-- <nav class="filter-box">
-				<a href="" class="filterBtn">all</a>
-				<a href="" class="filterBtn">canceled</a>
-				<a href="" class="filterBtn">pending</a>
-				<a href="" class="filterBtn">assigned</a>
-				<a href="" class="filterBtn">in progress</a>
-				<a href="" class="filterBtn">completed</a>
-			</nav> -->
 
 			<section class="table-container">
 				<table class="myReportTbl">
@@ -63,7 +45,7 @@ $result = mysqli_query($conn, $sql);
 							<th>Location</th>
 							<th>Date</th>
 							<th>Status</th>
-							<th>Edit</th>
+							<th>Action</th>
 						</tr>
 					</thead>
 
@@ -72,21 +54,59 @@ $result = mysqli_query($conn, $sql);
 							<tr>
 								<td><?= $row["reportID"] ?></td>
 								<td><?= $row["reportCategory"] ?></td>
-								<td><?= $row["reportDesc"] ?></td>
+								<td><?= $row["college"] ?></td>
 								<td><?= $row["dateReported"] ?></td>
 								<td><?= $row["status"] ?></td>
-								<td><a href="./assignedTasks.php?idDoit=<?= $row["reportID"] ?>" class="updateBtn">Take</a></td>
+								<td>
+									<a href="./updateTasks.php?id=<?= $row["reportID"] ?>" class="updateBtn">View</a>
+									<!-- <a href="assignedTasks.php?tid=<?= $row['reportID'] ?>" 
+										class="deleteBtn" 
+										onclick="return confirm('Decline task <?= $row['reportID'] ?>? This action cannot be undone.')">
+										Decline
+									</a> -->
+								</td>
 							</tr>
 						<?php endwhile ?>
 					</tbody>
 
 				</table>
+				<?php mysqli_data_seek($result, 0); ?>
+
+				<?php while ($row = mysqli_fetch_assoc($result)) : ?>
+					<div class="reportCard">
+						<div id="reportCard-info">
+							<div id="reportCard-left">
+								<p><strong>Id</strong></p>
+								<p><strong>Category</strong></p>
+								<p><strong>Location</strong></p>
+								<p><strong>Date</strong></p>
+								<p><strong>Status</strong></p>
+							</div>
+
+							<div id="reportCard-right">
+								<p><?= $row['reportID'] ?></p>
+								<p><?= $row['reportCategory'] ?></p>
+								<p><?= $row['college'] ?></p>
+								<p><?= $row['dateReported'] ?></p>
+								<p><?= $row['status'] ?></p>
+							</div>
+						</div>
+
+						<div id="reportCard-bottom">
+							<a href="./trackReport.php?id=<?= $row2['reportID'] ?>" class="updateBtn">View</a>
+							<!-- <a href="assignedTasks.php?tid=<?= $row2['reportID'] ?>" 
+								class="deleteBtn" 
+								onclick="return confirm('Decline task <?= $row2['reportID'] ?>? This action cannot be undone.')">
+								Decline
+							</a> -->
+						</div>
+					</div>
+				<?php endwhile ?>
 			</section>
 
 
 		</main>
 		<!-- CONTENT HERE -->
-
 	</section>
 
 	<!-- your script -->

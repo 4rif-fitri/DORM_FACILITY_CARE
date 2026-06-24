@@ -1,12 +1,34 @@
 <?php
 require_once __DIR__ . "../../../inc/init.php";
-auth("CTR");
+auth("CTR", $_SESSION["type"] ?? null);
 
 //php code hrre
+$contractorID = $_SESSION["userID"];
 
+$sql = "SELECT
+
+COUNT(*) AS totalReport,
+
+COALESCE(SUM(CASE WHEN status='Assigned' THEN 1 ELSE 0 END),0) AS assignedReport,
+COALESCE(SUM(CASE WHEN status='In_Progress' THEN 1 ELSE 0 END),0) AS progressReport,
+COALESCE(SUM(CASE WHEN status='Completed' THEN 1 ELSE 0 END),0) AS completedReport
+
+FROM report
+
+WHERE contractorID = '$contractorID'";
+
+$result = mysqli_query($conn, $sql);
+
+$data = mysqli_fetch_assoc($result);
+
+$totalReport = $data['totalReport'];
+$assignedReport = $data['assignedReport'];
+$progressReport = $data['progressReport'];
+$completedReport = $data['completedReport'];
 //php code hrre
 
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -29,10 +51,10 @@ auth("CTR");
 					<div class="dashboard-total-card">
 						<div class="dashboard-header">
 							<img class="dashboard-icon" src="../../images/total.svg" alt="">
-							<h2>Total Reports</h2>
+							<h2>Total Tasks</h2>
 						</div>
 
-						<p id="totalReport">2</p>
+						<p id="totalReport"><?= $totalReport ?></p>
 					</div>
 				</a>
 
@@ -41,20 +63,11 @@ auth("CTR");
 
 					<div class="dashboard-box">
 						<div class="dashboard-header">
-							<img class="dashboard-icon" src="../../images/pending.svg" alt="">
-							<h2>Pending</h2>
-						</div>
-
-						<p id="pendingReport">0</p>
-					</div>
-
-					<div class="dashboard-box">
-						<div class="dashboard-header">
 							<img class="dashboard-icon" src="../../images/assigned.svg" alt="">
 							<h2>Assigned</h2>
 						</div>
 
-						<p id="assignedReport">1</p>
+						<p id="assignedReport"><?= $assignedReport ?></p>
 					</div>
 
 					<div class="dashboard-box">
@@ -63,7 +76,7 @@ auth("CTR");
 							<h2>In Progress</h2>
 						</div>
 
-						<p id="progressReport">0</p>
+						<p id="progressReport"><?= $progressReport ?></p>
 					</div>
 
 					<div class="dashboard-box">
@@ -72,7 +85,7 @@ auth("CTR");
 							<h2>Completed</h2>
 						</div>
 
-						<p id="completedReport">1</p>
+						<p id="completedReport"><?= $completedReport ?></p>
 					</div>
 
 				</div>
