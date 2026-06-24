@@ -45,17 +45,17 @@ if (isset($_POST['submit'])) {
 }
 
 if (isset($_GET['sid'])) {
-	$userID = $_GET['sid'];
+	$userID = mysqli_real_escape_string($conn, $_GET['sid']);
 
-	$sqlUser = "DELETE FROM user WHERE userID = '$userID'";
+	mysqli_query($conn, "DELETE FROM student WHERE userID = '$userID'");
+	mysqli_query($conn, "DELETE FROM user WHERE userID = '$userID'");
 
-	if (mysqli_query($conn, $sqlUser)) {
-		echo "
-		<script>
-			alert('Student deleted succesfully');
-			window.location.href='addStudent.php';
-		</script>";
-	}
+	echo "
+    <script>
+        alert('Student deleted successfully');
+        window.location.href='addStudent.php';
+    </script>";
+	exit;
 }
 
 $sql = "	SELECT * FROM user
