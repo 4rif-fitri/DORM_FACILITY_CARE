@@ -97,7 +97,7 @@ if(isset($_GET['tid'])){
 								<td><?= $row["dateReported"] ?></td>
 								<td><?= $row["status"] ?></td>
 								<td>
-									<a href="./assignedTasks.php?idDoit=<?= $row["reportID"] ?>" class="updateBtn">Take</a>
+									<a href="./assignedTasks.php?idDoit=<?= $row["reportID"] ?>" class="updateBtn">Update</a>
 									<a href="assignedTasks.php?tid=<?= $row['reportID'] ?>" 
 										class="deleteBtn" 
 										onclick="return confirm('Decline task <?= $row['reportID'] ?>? This action cannot be undone.')">

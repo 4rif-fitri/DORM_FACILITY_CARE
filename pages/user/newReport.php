@@ -53,8 +53,8 @@ if (!$row) {
 								<option disabled selected value="">Select Category</option>
 								<option value="Plumbing">Plumbing</option>
 								<option value="Electrical">Electrical</option>
-								<option value="Furniture">Cleaning</option>
-								<option value="Internet">Facilities</option>
+								<option value="Cleaning">Cleaning</option>
+								<option value="Facilities">Facilities</option>
 								<option value="Security">Security</option>
 								<option value="Others">Others</option>
 							</select>

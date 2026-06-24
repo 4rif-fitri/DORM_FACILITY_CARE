@@ -1,7 +1,8 @@
 <?php
 	session_start();
 	require_once "../inc/conn.php";
-	
+	date_default_timezone_set('Asia/Kuala_Lumpur');
+
 	header("Content-Type: application/json");
 	ob_clean();
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
@@ -22,14 +23,26 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 	);
 
 
-	$sql = 	"INSERT INTO report 
-			(reportCategory, reportDesc, reportRoom,college,status,userID,reportImgUrl)
-			VALUES (?,?,?,?,?,?,?)";
+$timestamp = date("Y-m-d H:i:s");
 
+$sql = "INSERT INTO report
+        (reportCategory, reportDesc, reportRoom, college, status, userID, reportImgUrl, dateReported)
+        VALUES (?,?,?,?,?,?,?,?)";
 
-	$stmt = mysqli_prepare($conn,$sql);
+$stmt = mysqli_prepare($conn, $sql);
 
-	mysqli_stmt_bind_param($stmt, "sssssss", $category, $description, $room, $location, $status, $id, $url);
+mysqli_stmt_bind_param(
+    $stmt,
+    "ssssssss",
+    $category,
+    $description,
+    $room,
+    $location,
+    $status,
+    $id,
+    $url,
+    $timestamp
+);
 
 	if (mysqli_stmt_execute($stmt)) {
 		echo json_encode([

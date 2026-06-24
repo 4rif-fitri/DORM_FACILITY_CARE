@@ -261,7 +261,7 @@ if (isset($_GET['cid'])) {
 					<section>
 						<h4>
 							<img src="../../images/report.svg" alt="">
-							Image from CONTRACTOR
+							Image from Contractor 
 						</h4>
 						<?php if ($row["completedImgUrl"] != "") : ?>
 							<div class="image imgReportgroup">

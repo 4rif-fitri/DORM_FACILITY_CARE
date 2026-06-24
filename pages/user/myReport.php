@@ -64,6 +64,7 @@ if (isset($_GET['rid'])) {
 						<select name="filter-status" id="filter-status">
 							<option value="">All Status</option>
 							<option value="Pending" selected>Pending</option>
+                            <option value="Assigned">Assigned</option>
 							<option value="In_Progress">In Progress</option>
 							<option value="Completed">Completed</option>
 							<option value="Rejected">Rejected</option>

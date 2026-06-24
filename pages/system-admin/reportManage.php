@@ -1,6 +1,7 @@
 <?php
 require_once __DIR__ . "../../../inc/init.php";
 auth("SAD", $_SESSION["type"] ?? null);
+date_default_timezone_set('Asia/Kuala_Lumpur');
 
 //php code hrre
 $userID = $_SESSION["userID"];
@@ -48,8 +49,8 @@ $result2 = mysqli_query($conn, $sql);
 						<select name="filter-status" id="filter-status">
 							<option value="">All Status</option>
 							<option value="Pending" selected>Pending</option>
+                            <option value="Assigned">Assigned</option>
 							<option value="In_Progress">In Progress</option>
-							<option value="Assigned">Assigned</option>
 							<option value="Completed">Completed</option>
 							<option value="Rejected">Rejected</option>
 							<option value="Cancelled">cancelled</option>
