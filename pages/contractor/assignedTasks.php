@@ -43,7 +43,7 @@ $result = mysqli_query($conn, $sql);
 							<th>Id</th>
 							<th>Category</th>
 							<th>Location</th>
-							<th>Date</th>
+							<th>Date Reported</th>
 							<th>Status</th>
 							<th>Action</th>
 						</tr>
@@ -79,7 +79,7 @@ $result = mysqli_query($conn, $sql);
 								<p><strong>Id</strong></p>
 								<p><strong>Category</strong></p>
 								<p><strong>Location</strong></p>
-								<p><strong>Date</strong></p>
+								<p><strong>Date Reported</strong></p>
 								<p><strong>Status</strong></p>
 							</div>
 

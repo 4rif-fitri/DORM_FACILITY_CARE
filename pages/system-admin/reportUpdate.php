@@ -35,22 +35,25 @@ if (isset($_GET["rejectID"])) {
 	$row = mysqli_fetch_assoc($result);
 
 	if (in_array($row["status"], ["Assigned", "In_Progress", "Completed"])) {
-		$sql = "	SELECT
-			reporter.userID,
-			reporter.name,
-			reporter.numTel,
-			reporter.email,
+		$sql = "SELECT
+				reporter.userID,
+				reporter.name,
+				reporter.numTel,
+				reporter.email,
 
-			contractor.name AS contractorName,
-			contractor.email AS contractorEmail,
-			contractor.statuss AS contractorStatus,
+				uctr.name AS contractorName,
+				uctr.email AS contractorEmail,
+				ctr.statuss AS contractorStatus,
 
-			report.*
+				report.*
+			FROM report INNER JOIN user reporter 
+				ON report.userID = reporter.userID
+			INNER JOIN user uctr 
+				ON report.contractorID = uctr.userID
+			INNER JOIN contractor ctr
+				ON report.contractorID = ctr.contractorID
+			WHERE report.reportID = '$reportId'";
 
-        	FROM report 
-		INNER JOIN user reporter ON report.userID = reporter.userID
-		INNER JOIN user contractor ON report.contractorID = contractor.userID
-		WHERE reportId = '$reportId'";
 		$result = mysqli_query($conn, $sql);
 		$row = mysqli_fetch_assoc($result);
 	}
@@ -65,16 +68,24 @@ if (isset($_GET["rejectID"])) {
 	header("Location: reportManage.php");
 }
 
-$sql = "SELECT u.userID, u.name, u.email,
-               u.numTel, c.expertise, c.statuss
-        FROM user u
-        JOIN contractor c
-            ON u.userID = c.contractorID
-        ORDER BY 
-	   		CASE WHEN c.statuss = 'Available' THEN 1
-               ELSE 2
-          	END,
-            u.name ASC";
+$sql = "SELECT 
+			u.userID,
+			u.name,
+			u.email,
+			u.numTel,
+			u.userStatus,
+			c.expertise,
+			c.statuss
+		FROM user u
+		JOIN contractor c ON u.userID = c.contractorID
+		WHERE u.userStatus = 'Active'
+		ORDER BY
+			CASE 
+				WHEN c.statuss = 'Available' THEN 1
+				ELSE 2
+			END,
+			u.name ASC";
+
 $resultContractor = mysqli_query($conn, $sql);
 $dataContractor = [];
 
@@ -86,6 +97,7 @@ while ($datas = mysqli_fetch_assoc($resultContractor)) {
 		"no" => $datas["numTel"],
 		"expertise" => $datas["expertise"],
 		"status" => $datas["statuss"],
+		"userStatus" => $datas["userStatus"],
 	];
 }
 
@@ -464,9 +476,11 @@ if (isset($_GET['cid'])) {
 										<?php if (!empty($recommendedContractor)): ?>
 											<optgroup label="Recommended (Matching Expertise)">
 												<?php foreach ($recommendedContractor as $contractor): ?>
-													<option <?= $contractor['status'] != "Available" ? "disabled" : "" ?> value="<?= $contractor['id'] ?>">
-														<?= $contractor['name'] ?> (<?= $contractor['expertise'] ?>)
-													</option>
+													<?php if ($contractor['userStatus'] == "Active") : ?>
+														<option <?= $contractor['status'] != "Available" ? "disabled" : "" ?> value="<?= $contractor['id'] ?>">
+															<?= $contractor['name'] ?> (<?= $contractor['expertise'] ?>)
+														</option>
+													<?php endif ?>
 												<?php endforeach; ?>
 											</optgroup>
 										<?php endif; ?>
@@ -474,9 +488,11 @@ if (isset($_GET['cid'])) {
 										<?php if (!empty($otherContractor)): ?>
 											<optgroup label="<?= !empty($recommendedContractor) ? 'Other Contractors' : 'All Available Contractors' ?>">
 												<?php foreach ($otherContractor as $contractor): ?>
-													<option <?= $contractor['status'] != "Available" ? "disabled" : "" ?> value="<?= $contractor['id'] ?>">
-														<?= $contractor['name'] ?> (<?= $contractor['expertise'] ?>) <?= $contractor['status'] != "Available" ? " - Not Available" : "" ?>
-													</option>
+													<?php if ($contractor['userStatus'] == "Active") : ?>
+														<option <?= $contractor['status'] != "Available" ? "disabled" : "" ?> value="<?= $contractor['id'] ?>">
+															<?= $contractor['name'] ?> (<?= $contractor['expertise'] ?>) <?= $contractor['status'] != "Available" ? " - Not Available" : "" ?>
+														</option>
+													<?php endif ?>
 												<?php endforeach; ?>
 											</optgroup>
 										<?php endif; ?>

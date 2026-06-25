@@ -47,8 +47,7 @@ if (isset($_POST['submit'])) {
 if (isset($_GET['sid'])) {
 	$userID = mysqli_real_escape_string($conn, $_GET['sid']);
 
-	mysqli_query($conn, "DELETE FROM student WHERE userID = '$userID'");
-	mysqli_query($conn, "DELETE FROM user WHERE userID = '$userID'");
+	mysqli_query($conn, "UPDATE user SET userStatus = 'Deleted' WHERE userID = '$userID'");
 
 	echo "
     <script>
@@ -57,6 +56,21 @@ if (isset($_GET['sid'])) {
     </script>";
 	exit;
 }
+
+
+if (isset($_GET['sidAtc'])) {
+	$userID = mysqli_real_escape_string($conn, $_GET['sidAtc']);
+
+	mysqli_query($conn, "UPDATE user SET userStatus = 'Active' WHERE userID = '$userID'");
+
+	echo "
+    <script>
+        alert('Student Activated successfully');
+        window.location.href='addStudent.php';
+    </script>";
+	exit;
+}
+
 
 $sql = "	SELECT * FROM user
 		JOIN student ON user.userID = student.userID
@@ -128,6 +142,7 @@ $result2 = mysqli_query($conn, $sql);
 							<th>Name</th>
 							<th>College</th>
 							<th>Phone No</th>
+							<th>User Status</th>
 							<th>Action</th>
 						</tr>
 					</thead>
@@ -141,13 +156,24 @@ $result2 = mysqli_query($conn, $sql);
 									<td><?= $row['name'] ?></td>
 									<td><?= $row['studentCollege'] ?></td>
 									<td><?= $row['numTel'] ?></td>
+									<td><?= $row['userStatus'] ?></td>
 									<td>
-										<button onclick="getdataStudent('<?= $row['userID'] ?>')" class="updateBtn" data-bs-target="#modalStudent" data-bs-toggle="modal">Update</button>
-										<a href="addStudent.php?sid=<?= $row['userID'] ?>"
-											class="deleteBtn"
-											onclick="return confirm('Delete student <?= $row['userID'] ?>? This action cannot be undone.')">
-											Delete
-										</a>
+										<?php if ($row['userStatus'] == "Active") : ?>
+											<button onclick="getdataStudent('<?= $row['userID'] ?>')" class="updateBtn" data-bs-target="#modalStudent" data-bs-toggle="modal">Update</button>
+											<a href="addStudent.php?sid=<?= $row['userID'] ?>"
+												class="deleteBtn"
+												onclick="return confirm('Delete student <?= $row['userID'] ?>?')">
+												Delete
+											</a>
+										<?php else : ?>
+											<span></span>
+											<a href="addStudent.php?sidAtc=<?= $row['userID'] ?>"
+												class="activedBtn"
+												onclick="return confirm('Activated student <?= $row['userID'] ?>?')">
+												Activted
+											</a>
+										<?php endif ?>
+
 									</td>
 								</tr>
 							<?php endwhile ?>
@@ -171,21 +197,32 @@ $result2 = mysqli_query($conn, $sql);
 									<p><strong>Name</strong></p>
 									<p><strong>College</strong></p>
 									<p><strong>Phone No</strong></p>
+									<p><strong>User Status</strong></p>
 								</div>
 								<div id="reportCard-right">
 									<p><?= $row2['userID'] ?></p>
 									<p><?= $row2['name'] ?></p>
 									<p><?= $row2['studentCollege'] ?></p>
 									<p><?= $row2['numTel'] ?></p>
+									<p><?= $row2['userStatus'] ?></p>
 								</div>
 							</div>
 							<div id="reportCard-bottom">
-								<button onclick="getdataStudent('<?= $row2['userID'] ?>')" class="updateBtn" data-bs-target="#modalStudent" data-bs-toggle="modal">Update</button>
-								<a href="addStudent.php?sid=<?= $row2['userID'] ?>"
-									class="deleteBtn"
-									onclick="return confirm('Delete student <?= $row2['userID'] ?>? This action cannot be undone.')">
-									Delete
-								</a>
+								<?php if ($row2['userStatus'] == "Active") : ?>
+									<button onclick="getdataStudent('<?= $row2['userID'] ?>')" class="updateBtn" data-bs-target="#modalStudent" data-bs-toggle="modal">Update</button>
+									<a href="addStudent.php?sid=<?= $row2['userID'] ?>"
+										class="deleteBtn"
+										onclick="return confirm('Delete student <?= $row2['userID'] ?>?')">
+										Delete
+									</a>
+								<?php else : ?>
+									<span></span>
+									<a href="addStudent.php?sidAtc=<?= $row2['userID'] ?>"
+										class="activedBtn"
+										onclick="return confirm('Activated student <?= $row2['userID'] ?>?')">
+										Activted
+									</a>
+								<?php endif ?>
 							</div>
 						</div>
 					<?php endwhile ?>

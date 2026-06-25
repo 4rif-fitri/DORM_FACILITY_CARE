@@ -470,11 +470,16 @@ if (isset($_GET['cid'])) {
 		let images = document.querySelectorAll(".image img")
 		let imgURL = ""
 
-		let prew = url => {
-			// console.log(url);
-			document.querySelector(".modal-image").src = url
-			myModal.show()
+		const prew = url => {
+			document.querySelector(".modal-image").src = url;
+			myModal.show();
 		}
+
+		document.querySelectorAll(".imgReport").forEach(img => {
+			img.addEventListener("click", () => {
+				prew(img.dataset.src);
+			});
+		});
 
 		const modelMark = bootstrap.Modal.getOrCreateInstance(
 			document.getElementById("model-mark")

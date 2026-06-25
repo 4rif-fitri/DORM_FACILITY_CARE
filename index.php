@@ -26,9 +26,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" || isset($_POST["submit"])) {
 			</script>";
 		exit;
 	}
-
-	$stmt = mysqli_prepare($conn, "SELECT * FROM user WHERE email = ?");
-	mysqli_stmt_bind_param($stmt, "s", $email);
+	$status = "Active";
+	$stmt = mysqli_prepare($conn, "SELECT * FROM user WHERE email = ? AND userStatus = ?");
+	mysqli_stmt_bind_param($stmt, "ss", $email, $status);
 	mysqli_stmt_execute($stmt);
 	$result = mysqli_stmt_get_result($stmt);
 

@@ -17,11 +17,12 @@ if (isset($_GET["id"])) {
 	$row = mysqli_fetch_assoc($result);
 
 	if (in_array($row["status"], ["Assigned", "In_Progress", "Completed"])) {
-		$sql = "	SELECT *
-        		FROM report
-        		INNER JOIN user u ON report.userID = u.userID 
-        		INNER JOIN contractor c ON report.contractorID = c.contractorID
-        		WHERE report.reportID = '$reportId'";
+		$sql = "	SELECT report.*, u.name AS reporterName,u.email AS reporterEmail ,c.contractorID, u2.name AS ctrName
+        			FROM report
+        			INNER JOIN user u ON report.userID = u.userID
+				LEFT JOIN contractor c ON report.contractorID = c.contractorID
+				LEFT JOIN user u2 ON c.contractorID = u2.userID
+				WHERE report.reportID = '$reportId'";
 
 		$result = mysqli_query($conn, $sql);
 		$row = mysqli_fetch_assoc($result);
@@ -157,7 +158,7 @@ if (isset($_GET['cid'])) {
 								</div>
 
 								<div class="input-control">
-									<label for=""><b>Reporter Name: </b><?= $row["name"] ?></label>
+									<label for=""><b>Reporter Name: </b><?= $_SESSION["name"] ?></label>
 								</div>
 
 								<div class="input-control">
@@ -171,7 +172,7 @@ if (isset($_GET['cid'])) {
 							<div class="report-detail">
 
 								<div class="input-control">
-									<label for=""><b>Email: </b> <?= $row["email"] ?></label>
+									<label for=""><b>Email: </b> <?= $_SESSION["email"] ?></label>
 								</div>
 
 								<div class="input-control">
@@ -314,14 +315,14 @@ if (isset($_GET['cid'])) {
 											<td><?= $row["dateAssigned"] ?></td>
 											<td><span class="assigned">Assigned</span></td>
 											<td>System Admin</td>
-											<td>Report Assigned to <?= $row["name"] ?></td>
+											<td>Report Assigned to <?= $row["ctrName"] ?></td>
 										</tr>
 									<?php endif ?>
 									<?php if (in_array($row["status"], ["In_Progress", "Completed"])) : ?>
 										<tr>
 											<td><?= $row["dateInProgress"] ?></td>
 											<td><span class="inProgress">In Progress</span></td>
-											<td><?= $row["name"] ?></td>
+											<td><?= $row["ctrName"] ?></td>
 											<td>Working In Progress</td>
 										</tr>
 									<?php endif ?>
@@ -329,7 +330,7 @@ if (isset($_GET['cid'])) {
 										<tr>
 											<td><?= $row["dateCompleted"] ?></td>
 											<td><span class="completed">Completed</span></td>
-											<td><?= $row["name"] ?></td>
+											<td><?= $row["ctrName"] ?></td>
 											<td><?= $row["remarks"] ?></td>
 										</tr>
 									<?php endif ?>

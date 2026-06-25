@@ -47,13 +47,21 @@ if (isset($_POST['submit'])) {
 	}
 }
 
+//delete
 if (isset($_GET['cid'])) {
+
 	$userID = $_GET['cid'];
 
-
 	if (
-		mysqli_query($conn, "DELETE FROM contractor WHERE contractorID = '$userID'") &&
-		mysqli_query($conn, "DELETE FROM user WHERE userID = '$userID'")
+		mysqli_query($conn, "UPDATE user SET userStatus = 'Deleted' WHERE userID = '$userID'") &&
+		mysqli_query($conn, "
+            UPDATE report 
+            SET dateAssigned = NULL,
+                dateInProgress = NULL,
+                status = 'Pending'
+            WHERE contractorID = '$userID'
+              AND status != 'Completed'
+        ")
 	) {
 		echo "<script>
             alert('Contractor Deleted Successfully');
@@ -61,23 +69,37 @@ if (isset($_GET['cid'])) {
         </script>";
 	}
 }
+//actived
+if (isset($_GET['cidAtc'])) {
+	$userID = $_GET['cidAtc'];
 
-$sql = "	SELECT user.userID,user.name,
-			contractor.expertise,user.numTel,
-			contractor.statuss
-		FROM user
-		JOIN contractor ON user.userID = contractor.contractorID";
+	if (
+		mysqli_query($conn, "UPDATE user SET userStatus = 'Active' WHERE userID = '$userID'")){
+		echo "<script>
+            alert('Contractor Activated Successfully');
+            window.location.href='contractor.php';
+        </script>";
+	}
+}
+
+$sql = " SELECT 	user.userID,user.name,user.userStatus,user.numTel,
+        			contractor.expertise,
+        			contractor.statuss
+    		FROM user
+    		JOIN contractor ON user.userID = contractor.contractorID
+";
 
 if (isset($_POST["search"])) {
 	$text = trim($_POST["filter-orang"]);
 
-	$sql = " SELECT user.userID, user.name, contractor.expertise, user.numTel,  contractor.statuss
-        FROM user
-        JOIN contractor ON user.userID = contractor.contractorID
-        WHERE user.name LIKE '%$text%'
-        OR user.userID LIKE '%$text%'
-        ORDER BY user.name ASC
-    ";
+	$sql = " SELECT 	user.userID,user.name,user.userStatus,user.numTel,
+        				contractor.expertise,
+        				contractor.statuss
+    			FROM user JOIN contractor 
+        			ON user.userID = contractor.contractorID
+    				WHERE user.name LIKE '%$text%' OR user.userID LIKE '%$text%'
+    			ORDER BY user.name ASC
+";
 }
 
 $result = mysqli_query($conn, $sql);
@@ -148,7 +170,8 @@ if ($resultLastID && mysqli_num_rows($resultLastID) > 0) {
 							<th>Name</th>
 							<th>Phone No</th>
 							<th>Expertise</th>
-							<th>Status</th>
+							<th>Contractor Status</th>
+							<th>User Status</th>
 							<th>Action</th>
 						</tr>
 					</thead>
@@ -164,16 +187,23 @@ if ($resultLastID && mysqli_num_rows($resultLastID) > 0) {
 									<td><?= $row['numTel'] ?></td>
 									<td><?= $row['expertise'] ?></td>
 									<td><?= $row['statuss'] ?></td>
+									<td><?= $row['userStatus'] ?></td>
 									<td>
-										<button onclick="getDetail('<?= $row['userID'] ?>')" class="updateBtn">
-											Update
-										</button>
-
-										<a href="contractor.php?cid=<?= $row['userID'] ?>"
-											class="deleteBtn"
-											onclick="return confirm('Delete contractor <?= $row['userID'] ?>? This action cannot be undone.')">
-											Delete
-										</a>
+										<?php if ($row['userStatus'] == "Active") : ?>
+											<button onclick="getDetail('<?= $row['userID'] ?>')" class="updateBtn">Update</button>
+											<a href="contractor.php?cid=<?= $row['userID'] ?>"
+												class="deleteBtn"
+												onclick="return confirm('Delete contractor <?= $row['userID'] ?>?.')">
+												Delete
+											</a>
+										<?php else : ?>
+											<span></span>
+											<a href="contractor.php?cidAtc=<?= $row['userID'] ?>"
+												class="activedBtn"
+												onclick="return confirm('Activated contractor <?= $row['userID'] ?>?')">
+												Activted
+											</a>
+										<?php endif ?>
 									</td>
 								</tr>
 							<?php endwhile; ?>
@@ -199,7 +229,8 @@ if ($resultLastID && mysqli_num_rows($resultLastID) > 0) {
 									<p><strong>Name</strong></p>
 									<p><strong>Phone No</strong></p>
 									<p><strong>Expertise</strong></p>
-									<p><strong>Status</strong></p>
+									<p><strong>Contractor Status</strong></p>
+									<p><strong>User Status</strong></p>
 								</div>
 
 								<div id="reportCard-right">
@@ -208,12 +239,27 @@ if ($resultLastID && mysqli_num_rows($resultLastID) > 0) {
 									<p><?= $row2['numTel'] ?></p>
 									<p><?= $row2['expertise'] ?></p>
 									<p><?= $row2['statuss'] ?></p>
+									<p><?= $row2['userStatus'] ?></p>
 								</div>
 							</div>
 
 							<div id="reportCard-bottom">
-								<button onclick="getDetail('<?= $row2['userID'] ?>')" class="updateBtn">Update</button>
-								<a href="contractor.php?cid=<?= $row2['userID'] ?>" class="btn btn-danger">Delete</a>
+								<?php if ($row2['userStatus'] == "Active") : ?>
+									<button onclick="getDetail('<?= $row2['userID'] ?>')" class="updateBtn">Update</button>
+
+									<a href="contractor.php?cid=<?= $row2['userID'] ?>"
+										class="deleteBtn"
+										onclick="return confirm('Delete contractor <?= $row2['userID'] ?>?.')">
+										Delete
+									</a>
+								<?php else : ?>
+									<span></span>
+									<a href="contractor.php?cidAtc=<?= $row2['userID'] ?>"
+										class="activedBtn"
+										onclick="return confirm('Activated contractor <?= $row2['userID'] ?>?')">
+										Activted
+									</a>
+								<?php endif ?>
 							</div>
 						</div>
 					<?php endwhile ?>
