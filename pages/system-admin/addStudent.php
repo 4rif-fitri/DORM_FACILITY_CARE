@@ -388,7 +388,7 @@ $result2 = mysqli_query($conn, $sql);
 										<select id="uptKatil"></select>
 									</article>
 								</div>
-								<div class="input-control">
+								<div class="input-control hidden">
 									<label for="uptStudentRoom">Student Room</label>
 									<input type="text" required readonly name="uptStudentRoom" id="uptStudentRoom">
 								</div>
