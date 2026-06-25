@@ -73,7 +73,7 @@ $result2 = mysqli_query($conn, $sql);
 						</select>
 					</div>
 					<div class="input-control">
-						<label for="filter-location">location</label>
+						<label for="filter-location">Location</label>
 						<select name="filter-location" id="filter-location">
 							<option selected value="">All College</option>
 							<option value="Satria_Jebat">Satria Jebat</option>

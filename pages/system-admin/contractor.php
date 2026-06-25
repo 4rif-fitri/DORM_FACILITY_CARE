@@ -71,13 +71,15 @@ $sql = "	SELECT user.userID,user.name,
 if (isset($_POST["search"])) {
 	$text = trim($_POST["filter-orang"]);
 
-	$sql = " SELECT user.userID, user.name, contractor.expertise, user.numTel,  contractor.statuss
-        FROM user
-        JOIN contractor ON user.userID = contractor.contractorID
-        WHERE user.name LIKE '%$text%'
-        OR user.userID LIKE '%$text%'
-        ORDER BY user.name ASC
-    ";
+	$sql = "	SELECT user.userID, user.name, contractor.expertise, user.numTel, contractor.statuss
+			FROM user
+			JOIN contractor ON user.userID = contractor.contractorID
+			WHERE user.name LIKE '%$text%'
+			OR user.userID LIKE '%$text%'
+			OR user.numTel LIKE '%$text%'
+			OR contractor.expertise LIKE '%$text%'
+			OR contractor.statuss LIKE '%$text%'
+			ORDER BY user.name ASC";
 }
 
 $result = mysqli_query($conn, $sql);
@@ -127,7 +129,7 @@ if ($resultLastID && mysqli_num_rows($resultLastID) > 0) {
 				<form action="" method="post">
 					<div class="filter-cantainer">
 						<div class="input-control">
-							<label for="filter-orang">Search By Name or Id</label>
+							<label for="filter-orang">Search By Name / Id / Phone No / Expertise / Status</label>
 							<input type="text" name="filter-orang" id="filter-orang">
 						</div>
 					</div>

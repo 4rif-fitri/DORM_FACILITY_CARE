@@ -35,22 +35,23 @@ if (isset($_GET["rejectID"])) {
 	$row = mysqli_fetch_assoc($result);
 
 	if (in_array($row["status"], ["Assigned", "In_Progress", "Completed"])) {
-		$sql = "	SELECT
-			reporter.userID,
-			reporter.name,
-			reporter.numTel,
-			reporter.email,
+		$sql = "SELECT
+    reporter.userID,
+    reporter.name,
+    reporter.numTel,
+    reporter.email,
 
-			contractor.name AS contractorName,
-			contractor.email AS contractorEmail,
-			contractor.statuss AS contractorStatus,
+    contractor.name AS contractorName,
+    contractor.email AS contractorEmail,
+    c.statuss AS contractorStatus,
 
-			report.*
+    report.*
 
-        	FROM report 
-		INNER JOIN user reporter ON report.userID = reporter.userID
-		INNER JOIN user contractor ON report.contractorID = contractor.userID
-		WHERE reportId = '$reportId'";
+FROM report
+INNER JOIN user reporter ON report.userID = reporter.userID
+INNER JOIN user contractor ON report.contractorID = contractor.userID
+INNER JOIN contractor c ON contractor.userID = c.contractorID
+WHERE reportId = '$reportId'";
 		$result = mysqli_query($conn, $sql);
 		$row = mysqli_fetch_assoc($result);
 	}
@@ -388,8 +389,8 @@ if (isset($_GET['cid'])) {
 									<?php if (in_array($row["status"], ["Completed", "In_Progress"])) : ?>
 										<tr>
 											<td><?= $row["dateInProgress"] ?></td>
-											<td><span class="completed">In Progress</span></td>
-											<td><?= $row["name"] ?></td>
+											<td><span class="inProgress">In Progress</span></td>
+											<td><?= $row["contractorName"] ?></td>
 											<td>Working In Progress</td>
 										</tr>
 									<?php endif ?>
@@ -397,8 +398,8 @@ if (isset($_GET['cid'])) {
 										<tr>
 											<td><?= $row["dateCompleted"] ?></td>
 											<td><span class="completed">Completed</span></td>
-											<td><?= $row["name"] ?></td>
-											<td>Report has been Close</td>
+											<td><?= $row["contractorName"] ?></td>
+											<td><?= $row["remarks"] ?></td>
 										</tr>
 									<?php endif ?>
 									<?php if ($row["status"] == "Rejected") : ?>

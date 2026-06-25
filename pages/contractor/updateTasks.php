@@ -154,9 +154,12 @@ if (isset($_GET['cid'])) {
 						</div>
 
 						<article>
-							<?php if (in_array($row["status"], ["Completed", "In_Progress"])) : ?>
+							<?php if (in_array($row["status"], ["In_Progress"])) : ?>
 								<span></span>
 								<button data-bs-target="#model-mark" data-bs-toggle="modal" class="btn btn-success">Completed</button>
+							<?php elseif (in_array($row["status"], ["Completed"])) : ?>
+								<span></span>
+								<span class="btn btn-success disabled" disabled>Completed</span>
 							<?php else : ?>
 								<a href="updateTasks.php?tid=<?= $row['reportID'] ?>" class="btn btn-danger">Decline</a>
 								<a href="updateTasks.php?idDoit=<?= $row['reportID'] ?>" class="btn btn-success">Accept</a>
@@ -470,6 +473,11 @@ if (isset($_GET['cid'])) {
 		let images = document.querySelectorAll(".image img")
 		let imgURL = ""
 
+		document.querySelectorAll(".imgReport").forEach(img => {
+			img.addEventListener("click", () => {
+				prew(img.dataset.src);
+			});
+		});
 		let prew = url => {
 			// console.log(url);
 			document.querySelector(".modal-image").src = url
