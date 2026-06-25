@@ -116,7 +116,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 		);
 	
 		$sql = "	UPDATE report
-				SET status = 'Completed', completedImgUrl = '$completedImgUrl', remarks = '$message'
+				SET 	status = 'Completed', 
+					completedImgUrl = '$completedImgUrl', 
+					remarks = '$message',
+					dateCompleted = NOW()
 				WHERE reportID  = '$reportID'";
 	
 		$result = mysqli_query($conn, $sql);

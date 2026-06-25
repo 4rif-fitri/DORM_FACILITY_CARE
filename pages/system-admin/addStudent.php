@@ -65,12 +65,13 @@ $sql = "	SELECT * FROM user
 if (isset($_POST["search"])) {
 	$text = trim($_POST["filter-orang"]);
 
-	$sql = " SELECT * FROM user
-        JOIN student ON user.userID = student.userID
-        WHERE user.name LIKE '%$text%'
-        OR user.userID LIKE '%$text%'
-        ORDER BY name ASC
-    ";
+	$sql = "	SELECT * FROM user
+			JOIN student ON user.userID = student.userID
+			WHERE user.name LIKE '%$text%'
+			OR user.userID LIKE '%$text%'
+			OR student.studentCollege LIKE '%$text%'
+			OR user.numTel LIKE '%$text%'
+			ORDER BY name ASC";
 }
 
 
@@ -107,7 +108,7 @@ $result2 = mysqli_query($conn, $sql);
 				<form action="" method="post">
 					<div class="filter-cantainer">
 						<div class="input-control">
-							<label for="filter-orang">Search Name/Matric Number</label>
+							<label for="filter-orang">Search by Name / Matric Number / College / Phone No</label>
 							<input type="text" name="filter-orang" id="filter-orang">
 						</div>
 					</div>
@@ -351,7 +352,7 @@ $result2 = mysqli_query($conn, $sql);
 										<select id="uptKatil"></select>
 									</article>
 								</div>
-								<div class="input-control">
+								<div class="input-control hidden">
 									<label for="uptStudentRoom">Student Room</label>
 									<input type="text" required readonly name="uptStudentRoom" id="uptStudentRoom">
 								</div>

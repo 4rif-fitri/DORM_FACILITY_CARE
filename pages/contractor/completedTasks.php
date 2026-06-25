@@ -52,7 +52,7 @@ $result2 = mysqli_query($conn, $sql)
 								<td><?= $row["college"] ?></td>
 								<td><?= $row["dateReported"] ?></td>
 								<td><?= $row["status"] ?></td>
-								<td><a class="updateBtn" href="./updateTasks.php?id=<?= $row["reportID"] ?>">Track Report</a></td>
+								<td><a class="updateBtn" href="./updateTasks.php?id=<?= $row["reportID"] ?>">View</a></td>
 							</tr>
 						<?php endwhile ?>
 						</tr>
@@ -81,7 +81,7 @@ $result2 = mysqli_query($conn, $sql)
 						</div>
 
 						<div id="reportCard-bottom">
-							<a href="./trackReport.php?id=<?= $row2['reportID'] ?>" class="updateBtn">Track Report</a>
+							<a href="./trackReport.php?id=<?= $row2['reportID'] ?>" class="updateBtn">View</a>
 						</div>
 					</div>
 				<?php endwhile ?>

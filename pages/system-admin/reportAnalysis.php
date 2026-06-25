@@ -123,18 +123,23 @@ function getDatatable($conn)
 					</canvas>
 
 					<div class="filter-control">
-						<input type="month" name="month" id="filter-month-category">
-
-						<select name="college" id="filter-college-category">
-							<option selected value="">All College</option>
-							<option value="Satria_Jebat">Satria Jebat</option>
-							<option value="Satria_Tuah">Satria Tuah</option>
-							<option value="Satria_Kasturi">Satria Kasturi</option>
-							<option value="Satria_Lekir">Satria Lekir</option>
-							<option value="Satria_Lekiu">Satria Lekiu</option>
-							<option value="Lestari">Lestari</option>
-							<option value="Al_Jazari">Al Jazari</option>
-						</select>
+						<article style="display:grid;  grid-template-rows: repeat(1fr 2fr);">
+							<label for="filter-month-category">Month</label>
+							<input type="month" name="month" id="filter-month-category">
+						</article>
+						<article style="display:grid;  grid-template-rows: repeat(1fr 2fr);">
+							<label for="filter-college-category">College</label>
+							<select name="college" id="filter-college-category">
+								<option selected value="">All College</option>
+								<option value="Satria_Jebat">Satria Jebat</option>
+								<option value="Satria_Tuah">Satria Tuah</option>
+								<option value="Satria_Kasturi">Satria Kasturi</option>
+								<option value="Satria_Lekir">Satria Lekir</option>
+								<option value="Satria_Lekiu">Satria Lekiu</option>
+								<option value="Lestari">Lestari</option>
+								<option value="Al_Jazari">Al Jazari</option>
+							</select>
+						</article>
 
 						<button class="rejected" id="filter-college-reset">Reset</button>
 						<button class="assigned" id="filter-college-cvs">Export cvs</button>
@@ -208,17 +213,24 @@ function getDatatable($conn)
 					</canvas>
 
 					<div class="filter-control">
-						<input type="month" name="month" id="filter-status-month">
-						<select name="college" id="filter-status-college">
-							<option value="">All Collage</option>
-							<option value="Satria_Jebat">Satria Jebat</option>
-							<option value="Satria_Tuah">Satria Tuah</option>
-							<option value="Satria_Kasturi">Satria Kasturi</option>
-							<option value="Satria_Lekir">Satria Lekir</option>
-							<option value="Satria_Lekiu">Satria Lekiu</option>
-							<option value="Lestari">Lestari</option>
-							<option value="Al_Jazari">Al Jazari</option>
-						</select>
+						<article style="display:grid;  grid-template-rows: repeat(1fr 2fr);">
+							<label for="filter-status-month">Month</label>
+							<input type="month" name="month" id="filter-status-month">
+						</article>
+
+						<article style="display:grid;  grid-template-rows: repeat(1fr 2fr);">
+							<label for="filter-status-college">Collage</label>
+							<select name="college" id="filter-status-college">
+								<option value="">All Collage</option>
+								<option value="Satria_Jebat">Satria Jebat</option>
+								<option value="Satria_Tuah">Satria Tuah</option>
+								<option value="Satria_Kasturi">Satria Kasturi</option>
+								<option value="Satria_Lekir">Satria Lekir</option>
+								<option value="Satria_Lekiu">Satria Lekiu</option>
+								<option value="Lestari">Lestari</option>
+								<option value="Al_Jazari">Al Jazari</option>
+							</select>
+						</article>
 						<button class="rejected" id="filter-status-reset">Reset</button>
 						<button class="completed" id="filter-status-cvs">Export cvs</button>
 						<button class="assigned" id="filter-status-png">Export PNG</button>
@@ -228,6 +240,7 @@ function getDatatable($conn)
 					<h2>Top Problem Locations</h2>
 
 					<div class="table-responsive">
+
 						<table>
 							<thead>
 								<tr>
@@ -245,17 +258,36 @@ function getDatatable($conn)
 						</table>
 					</div>
 					<div class="filter-control">
-						<input type="month" name="month" id="filter-month-table">
-						<select name="category" id="filter-category-table">
-							<option value="">All category</option>
-							<option value="Electrical">Electrical</option>
-							<option value="Plumbing">Plumbing</option>
-							<option value="Furniture">Furniture</option>
-							<option value="Internet">Internet</option>
-							<option value="Others">Others</option>
-						</select>
-						<button class="rejected" id="filter-table-reset">Reset</button>
-						<button class="completed" id="filter-table-cvs">Export cvs</button>
+						<article style="display:grid;  grid-template-rows: repeat(1fr 2fr);">
+							<label for="filter-month-table">Month</label>
+							<input type="month" name="month" id="filter-month-table">
+						</article>
+						<article style="display:grid;  grid-template-rows: repeat(1fr 2fr);">
+							<label for="filter-category-table">Category</label>
+							<select name="category" id="filter-category-table">
+								<option value="">All category</option>
+								<option value="Electrical">Electrical</option>
+								<option value="Plumbing">Plumbing</option>
+								<option value="Furniture">Furniture</option>
+								<option value="Internet">Internet</option>
+								<option value="Others">Others</option>
+							</select>
+						</article>
+						<!-- <article style="display:grid;  grid-template-rows: repeat(1fr 2fr);">
+							<label for=""></label>
+							<select name="filter" id="filter-table">
+								<option selected value="Electrical">Status</option>
+								<option value="Others"></option>
+							</select>
+						</article> -->
+						<article style="display:grid;  grid-template-rows: repeat(1fr 2fr);">
+							<div></div>
+							<button class="rejected" id="filter-table-reset">Reset</button>
+						</article>
+						<article style="display:grid;  grid-template-rows: repeat(1fr 2fr);">
+							<div></div>
+							<button class="completed" id="filter-table-cvs">Export cvs</button>
+						</article>
 					</div>
 				</section>
 			</section>

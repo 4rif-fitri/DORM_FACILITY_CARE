@@ -57,18 +57,22 @@ if (isset($_GET['rid'])) {
 				<div class="filter-cantainer">
 					<div class="input-control hidden">
 						<label for="filter-date">Date</label>
-						<input type="date" name="filter-date" value="" max="<?= date('Y-m-d') ?>" id="filter-date">
+						<input type="number" name="filter-date" value="" max="<?= date('Y-m-d') ?>" id="filter-date">
+					</div>
+					<div class="input-control">
+						<label for="filter-id">Report ID</label>
+						<input type="text" name="filter-id" id="filter-id">
 					</div>
 					<div class="input-control ">
 						<label for="filter-status">Status</label>
 						<select name="filter-status" id="filter-status">
-							<option value="" selected>All Status</option>
-							<option value="Pending">Pending</option>
-                            		<option value="Assigned">Assigned</option>
-							<option value="In_Progress">In Progress</option>
-							<option value="Completed">Completed</option>
-							<option value="Rejected">Rejected</option>
-							<option value="Cancelled">Cancelled</option>
+							<option value="">All Status</option>
+							<option <?= (isset($_GET["status"]) && $_GET["status"] == "Pending") ? "selected" : "" ?> value="Pending">Pending</option>
+							<option <?= (isset($_GET["status"]) && $_GET["status"] == "Assigned") ? "selected" : "" ?> value="Assigned">Assigned</option>
+							<option <?= (isset($_GET["status"]) && $_GET["status"] == "In_Progress") ? "selected" : "" ?> value="In_Progress">In Progress</option>
+							<option <?= (isset($_GET["status"]) && $_GET["status"] == "Completed") ? "selected" : "" ?> value="Completed">Completed</option>
+							<option <?= (isset($_GET["status"]) && $_GET["status"] == "Rejected") ? "selected" : "" ?> value="Rejected">Rejected</option>
+							<option <?= (isset($_GET["status"]) && $_GET["status"] == "Cancelled") ? "selected" : "" ?> value="Cancelled">Cancelled</option>
 						</select>
 					</div>
 					<div class="input-control">
@@ -107,7 +111,7 @@ if (isset($_GET['rid'])) {
 							<th>Id</th>
 							<th>Category</th>
 							<th>Location</th>
-							<th>Date</th>
+							<th>Date Reported</th>
 							<th>Status</th>
 							<th>Action</th>
 						</tr>
@@ -141,6 +145,7 @@ if (isset($_GET['rid'])) {
 					type: "POST",
 					data: {
 						userID: "<?= $_SESSION["userID"] ?>",
+						reportID: $("#filter-id").val(),
 						date: $("#filter-date").val(),
 						status: $("#filter-status").val(),
 						category: $("#filter-catagory").val(),
@@ -224,18 +229,20 @@ if (isset($_GET['rid'])) {
 
 			loadTable();
 
-			$("#filter-date,#filter-status,#filter-catagory,#filter-location").on("change", function() {
+			$("#filter-date,#filter-status,#filter-catagory,#filter-location,#filter-id").on("change", function() {
+				loadTable();
+			});
+			$("#filter-id").on("input", function() {
 				loadTable();
 			});
 
 			$("#btn-reset-filter").on("click", function(e) {
 				e.preventDefault();
-
 				$("#filter-date").val("<?= date('Y-m-d') ?>");
-				$("#filter-status").val("Pending");
+				$("#filter-status").val("");
 				$("#filter-catagory").val("");
 				$("#filter-location").val("");
-
+				$("#filter-id").val("");
 				loadTable();
 			});
 		});

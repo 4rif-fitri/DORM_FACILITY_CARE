@@ -60,60 +60,71 @@ $cancelledReport = $data["cancelledReport"] ?? 0;
 				<div class="dashboard-stats">
 
 
-					<div class="dashboard-box">
-						<div class="dashboard-header">
-							<img class="dashboard-icon" src="../../images/pending.svg" alt="">
-							<h2>Pending</h2>
+					<a href="reportManage.php?status=Pending">
+						<div class="dashboard-box">
+							<div class="dashboard-header">
+								<img class="dashboard-icon" src="../../images/pending.svg" alt="">
+								<h2>Pending</h2>
+							</div>
+
+							<p id="pendingReport"><?= $pendingReport ?></p>
 						</div>
+					</a>
 
-						<p id="pendingReport"><?= $pendingReport ?></p>
-					</div>
+					<a href="reportManage.php?status=Assigned">
+						<div class="dashboard-box">
+							<div class="dashboard-header">
+								<img class="dashboard-icon" src="../../images/assigned.svg" alt="">
+								<h2>Assigned</h2>
+							</div>
 
-					<div class="dashboard-box">
-						<div class="dashboard-header">
-							<img class="dashboard-icon" src="../../images/assigned.svg" alt="">
-							<h2>Assigned</h2>
+							<p id="assignedReport"><?= $assignedReport ?></p>
 						</div>
+					</a>
 
-						<p id="assignedReport"><?= $assignedReport ?></p>
-					</div>
+					<a href="reportManage.php?status=In_Progress">
+						<div class="dashboard-box">
+							<div class="dashboard-header">
+								<img class="dashboard-icon" src="../../images/inprogress.svg" alt="">
+								<h2>In Progress</h2>
+							</div>
 
-					<div class="dashboard-box">
-						<div class="dashboard-header">
-							<img class="dashboard-icon" src="../../images/inprogress.svg" alt="">
-							<h2>In Progress</h2>
+							<p id="progressReport"><?= $progressReport ?></p>
 						</div>
+					</a>
 
-						<p id="progressReport"><?= $progressReport ?></p>
-					</div>
+					<a href="reportManage.php?status=Completed">
+						<div class="dashboard-box">
+							<div class="dashboard-header">
+								<img class="dashboard-icon" src="../../images/completed.svg" alt="">
+								<h2>Completed</h2>
+							</div>
 
-					<div class="dashboard-box">
-						<div class="dashboard-header">
-							<img class="dashboard-icon" src="../../images/completed.svg" alt="">
-							<h2>Completed</h2>
+							<p id="completedReport"><?= $completedReport ?></p>
 						</div>
+					</a>
 
-						<p id="completedReport"><?= $completedReport ?></p>
-					</div>
+					<a href="reportManage.php?status=Rejected">
+						<div class="dashboard-box">
+							<div class="dashboard-header">
+								<img class="dashboard-icon" src="../../images/rejected.svg" alt="">
+								<h2>Rejected</h2>
+							</div>
 
-					<div class="dashboard-box">
-						<div class="dashboard-header">
-							<img class="dashboard-icon" src="../../images/rejected.svg" alt="">
-							<h2>Rejected</h2>
+							<p id="rejectedReport"><?= $rejectedReport ?></p>
 						</div>
+					</a>
 
-						<p id="rejectedReport"><?= $rejectedReport ?></p>
-					</div>
+					<a href="reportManage.php?status=Cancelled">
+						<div class="dashboard-box">
+							<div class="dashboard-header">
+								<img class="dashboard-icon" src="../../images/cancelled.svg" alt="">
+								<h2>Cancelled</h2>
+							</div>
 
-					<div class="dashboard-box">
-						<div class="dashboard-header">
-							<img class="dashboard-icon" src="../../images/cancelled.svg" alt="">
-							<h2>Cancelled</h2>
+							<p id="cancelledReport"><?= $cancelledReport ?></p>
 						</div>
-
-						<p id="cancelledReport"><?= $cancelledReport ?></p>
-					</div>
-
+					</a>
 				</div>
 
 			</div>

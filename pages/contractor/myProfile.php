@@ -13,7 +13,12 @@ if (!isset($_SESSION["userID"])) {
 $userID = $_SESSION["userID"];
 
 
-$stmt = mysqli_prepare($conn, "SELECT * FROM user WHERE userID = ?");
+$stmt = mysqli_prepare($conn, "
+	SELECT u.*, c.statuss
+	FROM user u
+	LEFT JOIN contractor c ON u.userID = c.contractorID
+	WHERE u.userID = ?
+");
 mysqli_stmt_bind_param($stmt, "s", $userID);
 mysqli_stmt_execute($stmt);
 $result = mysqli_stmt_get_result($stmt);
@@ -53,6 +58,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 		$email  = trim($_POST["email"] ?? "");
 		$phone  = trim($_POST["phone"] ?? "");
 		$avatar = $_POST["avatar"] ?? "";
+		$status = trim($_POST["status"] ?? "");
+
+		$allowedStatuses = ["Available", "Not Available"];
+		if ($user["type"] !== "CTR" || !in_array($status, $allowedStatuses, true)) {
+			$status = "";
+		}
 
 		$fields = [];
 		$types  = "";
@@ -74,21 +85,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 			$params[] = $avatar;
 		}
 
-		if (empty($fields)) {
-			sendJson(["success" => false, "message" => "Nothing to update."]);
+		if (!empty($fields)) {
+			$types   .= "s";
+			$params[] = $userID;
+
+			$sql = "UPDATE user SET " . implode(", ", $fields) . " WHERE userID = ?";
+			$update = mysqli_prepare($conn, $sql);
+			bindParams($update, $types, $params);
+			mysqli_stmt_execute($update);
 		}
 
-		$types   .= "s";
-		$params[] = $userID;
+		if ($status !== "") {
+			$updateStatus = mysqli_prepare($conn, "UPDATE contractor SET statuss = ? WHERE contractorID = ?");
+			mysqli_stmt_bind_param($updateStatus, "ss", $status, $userID);
+			mysqli_stmt_execute($updateStatus);
+		}
 
-		$sql    = "UPDATE user SET " . implode(", ", $fields) . " WHERE userID = ?";
-		$update = mysqli_prepare($conn, $sql);
-		bindParams($update, $types, $params);
-		mysqli_stmt_execute($update);
-
-		// Keep the session copy in sync with what's now in the DB.
 		if ($email !== "")  $_SESSION["email"] = $email;
 		if ($avatar !== "") $_SESSION["url"]   = $avatar;
+		if ($status !== "") $_SESSION["status"] = $status;
 
 		sendJson(["success" => true, "message" => "Profile updated."]);
 	}
@@ -138,7 +153,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 	<section class="_workspace">
 		<?php $title = "My Profile" ?>
-		<?php include(__DIR__ . "../../../components/user/header.php") ?>
+		<?php include(__DIR__ . "../../../components/contractor/header.php") ?>
 
 		<!-- CONTENT HERE -->
 		<main class="_content-area">
@@ -165,6 +180,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 					<p class="info-line" id="email-info"><?= htmlspecialchars($user["email"]) ?></p>
 					<p class="info-line" id="phone-info"><?= htmlspecialchars($user["numTel"] ?? "") ?></p>
 					<p class="info-line" id="role-info"><?= htmlspecialchars(mapType($user["type"])) ?></p>
+					<?php if ($user["type"] === "CTR"): ?>
+						<p class="info-line" id="status-info"><?= htmlspecialchars($user["statuss"] ?? "Not Available") ?></p>
+					<?php endif; ?>
 				</div>
 			</div>
 
@@ -185,6 +203,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 						<label for="phone" class="form-label">Phone Number</label>
 						<input type="text" class="form-control" id="phone" placeholder="Enter your phone number">
 					</div>
+					<?php if ($user["type"] === "CTR"): ?>
+						<div class="mb-3">
+							<label for="status" class="form-label">Availability Status</label>
+							<select class="form-control" id="status">
+								<option value="Available">Available</option>
+								<option value="Not Available">Not Available</option>
+							</select>
+						</div>
+					<?php endif; ?>
 					<p id="profile-error" class="text-danger"></p>
 					<button type="button" onclick="hidChangePass()" class="btn btn-warning">Change
 						Password</button>
@@ -247,6 +274,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 		function hidContent() {
 			$("#email").val($("#email-info").text());
 			$("#phone").val($("#phone-info").text());
+			if ($("#status").length) {
+				$("#status").val($("#status-info").text().trim());
+			}
 			$("#profile-error").text("");
 
 			$("._content-area").hide();
@@ -357,6 +387,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 			const file = $("#photo")[0].files[0];
 			const email = $("#email").val();
 			const phone = $("#phone").val();
+			const status = $("#status").length ? $("#status").val() : "";
 
 			$("#profile-error").text("");
 
@@ -369,12 +400,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 						action: "update_profile",
 						email: email,
 						phone: phone,
-						avatar: avatarData || ""
+						avatar: avatarData || "",
+						status: status
 					},
 					success: function(res) {
 						if (res.success) {
 							$("#email-info").text(email);
 							$("#phone-info").text(phone);
+							if (status) {
+								$("#status-info").text(status);
+							}
 
 							if (avatarData) {
 								$("#profile-avatar").html(`

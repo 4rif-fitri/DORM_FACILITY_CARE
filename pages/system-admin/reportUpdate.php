@@ -35,21 +35,23 @@ if (isset($_GET["rejectID"])) {
 	$row = mysqli_fetch_assoc($result);
 
 	if (in_array($row["status"], ["Assigned", "In_Progress", "Completed"])) {
-		$sql = "	SELECT
-			reporter.userID,
-			reporter.name,
-			reporter.numTel,
-			reporter.email,
+		$sql = "SELECT
+    reporter.userID,
+    reporter.name,
+    reporter.numTel,
+    reporter.email,
 
-			contractor.name AS contractorName,
-			contractor.email AS contractorEmail,
+    contractor.name AS contractorName,
+    contractor.email AS contractorEmail,
+    c.statuss AS contractorStatus,
 
-			report.*
+    report.*
 
-        	FROM report 
-		INNER JOIN user reporter ON report.userID = reporter.userID
-		INNER JOIN user contractor ON report.contractorID = contractor.userID
-		WHERE reportId = '$reportId'";
+FROM report
+INNER JOIN user reporter ON report.userID = reporter.userID
+INNER JOIN user contractor ON report.contractorID = contractor.userID
+INNER JOIN contractor c ON contractor.userID = c.contractorID
+WHERE reportId = '$reportId'";
 		$result = mysqli_query($conn, $sql);
 		$row = mysqli_fetch_assoc($result);
 	}
@@ -64,12 +66,16 @@ if (isset($_GET["rejectID"])) {
 	header("Location: reportManage.php");
 }
 
-$sql = " SELECT u.userID, u.name, u.email,
-    			 u.numTel, c.expertise
-		FROM user u
-		JOIN contractor c
-		ON u.userID = c.contractorID
-";
+$sql = "SELECT u.userID, u.name, u.email,
+               u.numTel, c.expertise, c.statuss
+        FROM user u
+        JOIN contractor c
+            ON u.userID = c.contractorID
+        ORDER BY 
+	   		CASE WHEN c.statuss = 'Available' THEN 1
+               ELSE 2
+          	END,
+            u.name ASC";
 $resultContractor = mysqli_query($conn, $sql);
 $dataContractor = [];
 
@@ -79,7 +85,8 @@ while ($datas = mysqli_fetch_assoc($resultContractor)) {
 		"name" => $datas["name"],
 		"email" => $datas["email"],
 		"no" => $datas["numTel"],
-		"expertise" => $datas["expertise"]
+		"expertise" => $datas["expertise"],
+		"status" => $datas["statuss"],
 	];
 }
 
@@ -382,8 +389,8 @@ if (isset($_GET['cid'])) {
 									<?php if (in_array($row["status"], ["Completed", "In_Progress"])) : ?>
 										<tr>
 											<td><?= $row["dateInProgress"] ?></td>
-											<td><span class="completed">In Progress</span></td>
-											<td><?= $row["name"] ?></td>
+											<td><span class="inProgress">In Progress</span></td>
+											<td><?= $row["contractorName"] ?></td>
 											<td>Working In Progress</td>
 										</tr>
 									<?php endif ?>
@@ -391,8 +398,8 @@ if (isset($_GET['cid'])) {
 										<tr>
 											<td><?= $row["dateCompleted"] ?></td>
 											<td><span class="completed">Completed</span></td>
-											<td><?= $row["name"] ?></td>
-											<td>Report has been Close</td>
+											<td><?= $row["contractorName"] ?></td>
+											<td><?= $row["remarks"] ?></td>
 										</tr>
 									<?php endif ?>
 									<?php if ($row["status"] == "Rejected") : ?>
@@ -435,13 +442,49 @@ if (isset($_GET['cid'])) {
 									<p class="hidden mb-2" id="phoneContractor">0197231577</p>
 									<p class="hidden mb-2" id="expertiseContractor">IT technician</p>
 									<label for="selectContractor">Select contractor</label>
+									<?php
+									$reportCategory = trim(strtolower($row["reportCategory"]));
+									$recommendedContractor = [];
+									$otherContractor = [];
+
+									foreach ($dataContractor as $contractor) {
+
+										$expertise = trim(strtolower($contractor["expertise"]));
+
+										if ($expertise === $reportCategory) {
+											$recommendedContractor[] = $contractor;
+										} else {
+											$otherContractor[] = $contractor;
+										}
+									}
+									?>
+
 									<select name="selectContractor" id="selectContractor">
 										<option disabled selected value="">Select contractor</option>
-										<?php foreach ($dataContractor as $contractor): ?>
-											<option value="<?= $contractor['id'] ?>">
-												<?= $contractor['name'] ?> (<?= $contractor['expertise'] ?>)
-											</option>
-										<?php endforeach; ?>
+
+										<?php if (!empty($recommendedContractor)): ?>
+											<optgroup label="Recommended (Matching Expertise)">
+												<?php foreach ($recommendedContractor as $contractor): ?>
+													<option <?= $contractor['status'] != "Available" ? "disabled" : "" ?> value="<?= $contractor['id'] ?>">
+														<?= $contractor['name'] ?> (<?= $contractor['expertise'] ?>)
+													</option>
+												<?php endforeach; ?>
+											</optgroup>
+										<?php endif; ?>
+
+										<?php if (!empty($otherContractor)): ?>
+											<optgroup label="<?= !empty($recommendedContractor) ? 'Other Contractors' : 'All Available Contractors' ?>">
+												<?php foreach ($otherContractor as $contractor): ?>
+													<option <?= $contractor['status'] != "Available" ? "disabled" : "" ?> value="<?= $contractor['id'] ?>">
+														<?= $contractor['name'] ?> (<?= $contractor['expertise'] ?>) <?= $contractor['status'] != "Available" ? " - Not Available" : "" ?>
+													</option>
+												<?php endforeach; ?>
+											</optgroup>
+										<?php endif; ?>
+
+										<?php if (empty($recommendedContractor) && empty($otherContractor)): ?>
+											<option disabled>No available contractor</option>
+										<?php endif; ?>
 									</select>
 								</div>
 							</div>

@@ -13,6 +13,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 	// wajib tapis ikut user login
 	$where[] = "userID='$userID'";
 
+	if (!empty($_POST["reportID"])) {
+		$reportID = $_POST["reportID"];
+		$where[] = "reportID LIKE '%$reportID%'";
+	}
 	if (!empty($_POST["date"])) {
 		$date = $_POST["date"];
 		$where[] = "DATE(dateReported)='$date'";
