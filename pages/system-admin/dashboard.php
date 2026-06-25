@@ -60,7 +60,7 @@ $cancelledReport = $data["cancelledReport"] ?? 0;
 				<div class="dashboard-stats">
 
 
-					<a href="reportManage.php?status='Pending'">
+					<a href="reportManage.php?status=Pending">
 						<div class="dashboard-box">
 							<div class="dashboard-header">
 								<img class="dashboard-icon" src="../../images/pending.svg" alt="">
@@ -71,7 +71,7 @@ $cancelledReport = $data["cancelledReport"] ?? 0;
 						</div>
 					</a>
 
-					<a href="reportManage.php?status='Assigned'">
+					<a href="reportManage.php?status=Assigned">
 						<div class="dashboard-box">
 							<div class="dashboard-header">
 								<img class="dashboard-icon" src="../../images/assigned.svg" alt="">
@@ -82,7 +82,7 @@ $cancelledReport = $data["cancelledReport"] ?? 0;
 						</div>
 					</a>
 
-					<a href="reportManage.php?status='In_Progress'">
+					<a href="reportManage.php?status=In_Progress">
 						<div class="dashboard-box">
 							<div class="dashboard-header">
 								<img class="dashboard-icon" src="../../images/inprogress.svg" alt="">
@@ -93,7 +93,7 @@ $cancelledReport = $data["cancelledReport"] ?? 0;
 						</div>
 					</a>
 
-					<a href="reportManage.php?status='Completed'">
+					<a href="reportManage.php?status=Completed">
 						<div class="dashboard-box">
 							<div class="dashboard-header">
 								<img class="dashboard-icon" src="../../images/completed.svg" alt="">
@@ -104,7 +104,7 @@ $cancelledReport = $data["cancelledReport"] ?? 0;
 						</div>
 					</a>
 
-					<a href="reportManage.php?status='Rejected'">
+					<a href="reportManage.php?status=Rejected">
 						<div class="dashboard-box">
 							<div class="dashboard-header">
 								<img class="dashboard-icon" src="../../images/rejected.svg" alt="">
@@ -115,7 +115,7 @@ $cancelledReport = $data["cancelledReport"] ?? 0;
 						</div>
 					</a>
 
-					<a href="reportManage.php?status='Cancelled'">
+					<a href="reportManage.php?status=Cancelled">
 						<div class="dashboard-box">
 							<div class="dashboard-header">
 								<img class="dashboard-icon" src="../../images/cancelled.svg" alt="">

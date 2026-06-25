@@ -41,7 +41,7 @@ $result2 = mysqli_query($conn, $sql);
 			<nav class="filter-box">
 				<div class="filter-cantainer">
 					<div class="input-control">
-						<label for="ReportID">Search  ReportID</label>
+						<label for="ReportID">Search ReportID</label>
 						<input type="text" name="ReportID" id="ReportID">
 					</div>
 					<div class="input-control">
@@ -52,12 +52,12 @@ $result2 = mysqli_query($conn, $sql);
 						<label for="filter-status">Status</label>
 						<select name="filter-status" id="filter-status">
 							<option value="">All Status</option>
-							<option value="Pending">Pending</option>
-							<option value="Assigned">Assigned</option>
-							<option value="In_Progress">In Progress</option>
-							<option value="Completed">Completed</option>
-							<option value="Rejected">Rejected</option>
-							<option value="Cancelled">cancelled</option>
+							<option <?= (isset($_GET["status"]) && $_GET["status"] == "Pending") ? "selected" : "" ?> value="Pending">Pending</option>
+							<option <?= (isset($_GET["status"]) && $_GET["status"] == "Assigned") ? "selected" : "" ?> value="Assigned">Assigned</option>
+							<option <?= (isset($_GET["status"]) && $_GET["status"] == "In_Progress") ? "selected" : "" ?> value="In_Progress">In Progress</option>
+							<option <?= (isset($_GET["status"]) && $_GET["status"] == "Completed") ? "selected" : "" ?> value="Completed">Completed</option>
+							<option <?= (isset($_GET["status"]) && $_GET["status"] == "Rejected") ? "selected" : "" ?> value="Rejected">Rejected</option>
+							<option <?= (isset($_GET["status"]) && $_GET["status"] == "Cancelled") ? "selected" : "" ?> value="Cancelled">Cancelled</option>
 						</select>
 					</div>
 					<div class="input-control">
