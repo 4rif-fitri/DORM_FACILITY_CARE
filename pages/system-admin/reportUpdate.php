@@ -43,6 +43,7 @@ if (isset($_GET["rejectID"])) {
 
 			contractor.name AS contractorName,
 			contractor.email AS contractorEmail,
+			contractor.statuss AS contractorStatus,
 
 			report.*
 
@@ -64,12 +65,16 @@ if (isset($_GET["rejectID"])) {
 	header("Location: reportManage.php");
 }
 
-$sql = " SELECT u.userID, u.name, u.email,
-    			 u.numTel, c.expertise
-		FROM user u
-		JOIN contractor c
-		ON u.userID = c.contractorID
-";
+$sql = "SELECT u.userID, u.name, u.email,
+               u.numTel, c.expertise, c.statuss
+        FROM user u
+        JOIN contractor c
+            ON u.userID = c.contractorID
+        ORDER BY 
+	   		CASE WHEN c.statuss = 'Available' THEN 1
+               ELSE 2
+          	END,
+            u.name ASC";
 $resultContractor = mysqli_query($conn, $sql);
 $dataContractor = [];
 
@@ -79,7 +84,8 @@ while ($datas = mysqli_fetch_assoc($resultContractor)) {
 		"name" => $datas["name"],
 		"email" => $datas["email"],
 		"no" => $datas["numTel"],
-		"expertise" => $datas["expertise"]
+		"expertise" => $datas["expertise"],
+		"status" => $datas["statuss"],
 	];
 }
 
@@ -435,13 +441,49 @@ if (isset($_GET['cid'])) {
 									<p class="hidden mb-2" id="phoneContractor">0197231577</p>
 									<p class="hidden mb-2" id="expertiseContractor">IT technician</p>
 									<label for="selectContractor">Select contractor</label>
+									<?php
+									$reportCategory = trim(strtolower($row["reportCategory"]));
+									$recommendedContractor = [];
+									$otherContractor = [];
+
+									foreach ($dataContractor as $contractor) {
+
+										$expertise = trim(strtolower($contractor["expertise"]));
+
+										if ($expertise === $reportCategory) {
+											$recommendedContractor[] = $contractor;
+										} else {
+											$otherContractor[] = $contractor;
+										}
+									}
+									?>
+
 									<select name="selectContractor" id="selectContractor">
 										<option disabled selected value="">Select contractor</option>
-										<?php foreach ($dataContractor as $contractor): ?>
-											<option value="<?= $contractor['id'] ?>">
-												<?= $contractor['name'] ?> (<?= $contractor['expertise'] ?>)
-											</option>
-										<?php endforeach; ?>
+
+										<?php if (!empty($recommendedContractor)): ?>
+											<optgroup label="Recommended (Matching Expertise)">
+												<?php foreach ($recommendedContractor as $contractor): ?>
+													<option <?= $contractor['status'] != "Available" ? "disabled" : "" ?> value="<?= $contractor['id'] ?>">
+														<?= $contractor['name'] ?> (<?= $contractor['expertise'] ?>)
+													</option>
+												<?php endforeach; ?>
+											</optgroup>
+										<?php endif; ?>
+
+										<?php if (!empty($otherContractor)): ?>
+											<optgroup label="<?= !empty($recommendedContractor) ? 'Other Contractors' : 'All Available Contractors' ?>">
+												<?php foreach ($otherContractor as $contractor): ?>
+													<option <?= $contractor['status'] != "Available" ? "disabled" : "" ?> value="<?= $contractor['id'] ?>">
+														<?= $contractor['name'] ?> (<?= $contractor['expertise'] ?>) <?= $contractor['status'] != "Available" ? " - Not Available" : "" ?>
+													</option>
+												<?php endforeach; ?>
+											</optgroup>
+										<?php endif; ?>
+
+										<?php if (empty($recommendedContractor) && empty($otherContractor)): ?>
+											<option disabled>No available contractor</option>
+										<?php endif; ?>
 									</select>
 								</div>
 							</div>

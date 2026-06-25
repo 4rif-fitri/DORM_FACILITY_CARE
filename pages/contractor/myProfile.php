@@ -13,7 +13,12 @@ if (!isset($_SESSION["userID"])) {
 $userID = $_SESSION["userID"];
 
 
-$stmt = mysqli_prepare($conn, "SELECT * FROM user WHERE userID = ?");
+$stmt = mysqli_prepare($conn, "
+	SELECT u.*, c.statuss
+	FROM user u
+	LEFT JOIN contractor c ON u.userID = c.contractorID
+	WHERE u.userID = ?
+");
 mysqli_stmt_bind_param($stmt, "s", $userID);
 mysqli_stmt_execute($stmt);
 $result = mysqli_stmt_get_result($stmt);
@@ -55,7 +60,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 		$avatar = $_POST["avatar"] ?? "";
 		$status = trim($_POST["status"] ?? "");
 
-		// Availability status is a contractor-only field.
 		$allowedStatuses = ["Available", "Not Available"];
 		if ($user["type"] !== "CTR" || !in_array($status, $allowedStatuses, true)) {
 			$status = "";
@@ -80,25 +84,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 			$types   .= "s";
 			$params[] = $avatar;
 		}
-		if ($status !== "") {
-			$fields[] = "statuss = ?";
+
+		if (!empty($fields)) {
 			$types   .= "s";
-			$params[] = $status;
+			$params[] = $userID;
+
+			$sql = "UPDATE user SET " . implode(", ", $fields) . " WHERE userID = ?";
+			$update = mysqli_prepare($conn, $sql);
+			bindParams($update, $types, $params);
+			mysqli_stmt_execute($update);
 		}
 
-		if (empty($fields)) {
-			sendJson(["success" => false, "message" => "Nothing to update."]);
+		if ($status !== "") {
+			$updateStatus = mysqli_prepare($conn, "UPDATE contractor SET statuss = ? WHERE contractorID = ?");
+			mysqli_stmt_bind_param($updateStatus, "ss", $status, $userID);
+			mysqli_stmt_execute($updateStatus);
 		}
 
-		$types   .= "s";
-		$params[] = $userID;
-
-		$sql    = "UPDATE user SET " . implode(", ", $fields) . " WHERE userID = ?";
-		$update = mysqli_prepare($conn, $sql);
-		bindParams($update, $types, $params);
-		mysqli_stmt_execute($update);
-
-		// Keep the session copy in sync with what's now in the DB.
 		if ($email !== "")  $_SESSION["email"] = $email;
 		if ($avatar !== "") $_SESSION["url"]   = $avatar;
 		if ($status !== "") $_SESSION["status"] = $status;
