@@ -319,7 +319,7 @@ $result2 = mysqli_query($conn, $sql);
 								</div>
 
 								<div class="input-control col-2">
-									<div class="input-control hidden">
+									<div class="input-control">
 										<label for="uptCollage">Collage</label>
 										<select require name="collage" id="uptCollage">
 											<option disabled selected value="">Select Collage</option>
@@ -328,35 +328,37 @@ $result2 = mysqli_query($conn, $sql);
 											<option value="Lestari">Lestari</option>
 										</select>
 									</div>
-									<article class="hidden">
+									<article class="">
 										<label for="uptBlock" class="required">Block</label>
 										<select required id="uptBlock"></select>
 									</article>
 
-									<article class="hidden">
+									<article class="">
 										<label for="uptLevel" class="required">Level</label>
 										<select id="uptLevel"></select>
 									</article>
-									<article class="hidden">
+									<article class="">
 										<label for="uptRumah" class="required">No Rumah</label>
 										<select id="uptRumah"></select>
 									</article>
 
-									<article class="hidden">
+									<article class="">
 										<label for="uptBilik" class="required">Bilik</label>
 										<select id="uptBilik"></select>
 									</article>
 
-									<article class="hidden">
+									<article class="">
 										<label for="uptKatil" class="required">Katil</label>
 										<select id="uptKatil"></select>
 									</article>
 								</div>
-								<div class="input-control hidden">
+								<div class="input-control">
 									<label for="uptStudentRoom">Student Room</label>
 									<input type="text" required readonly name="uptStudentRoom" id="uptStudentRoom">
 								</div>
-
+								<div class="input-control mt-2">
+									<button type="button" class="btn btn-secondary" id="btnResetAlamat">Reset Alamat</button>
+								</div>
 							</section>
 						</section>
 					</div>
@@ -423,7 +425,7 @@ $result2 = mysqli_query($conn, $sql);
 		let uptstudentRoom = document.getElementById("uptStudentRoom");
 		let uptID = document.getElementById("uptID")
 		let textID = document.getElementById("textID")
-
+		let originalStudentData = null;
 		let delay = time => new Promise(resolve => setTimeout(resolve, time))
 
 		let showLoading = () => {
@@ -441,6 +443,310 @@ $result2 = mysqli_query($conn, $sql);
 		function getModal() {
 			return bootstrap.Modal.getOrCreateInstance(document.getElementById('modalStudent'));
 		}
+
+		let getFullAddreddToUpdate = () => {
+			let block = uptselectBlock.value || "";
+			let level = uptselectLevel.value || "";
+			let rumah = uptselectRumah.value || "";
+			let bilik = uptselectBilik.value || "";
+			let katil = uptselectKatil.value || "";
+			uptstudentRoom.value = `${block}-${level}-${rumah}-${bilik}(${katil})`;
+		}
+
+		function loadUpdateAddressOptions(asrama) {
+			let optBlock = "";
+			let optLevel = "";
+			let optNoRumah = "";
+			let optBilik = "";
+			let optKatil = "";
+
+			// SATRIA
+			if (asrama === "Satria") {
+				optBlock = `
+			<option value="SJ-J">Satria Jebat</option>
+			<option value="ST-T">Satria Tuah</option>
+			<option value="SL-L">Satria Lekir</option>
+			<option value="SE-E">Satria Lekiu</option>
+			<option value="SK-K">Satria Kasturi</option>
+		`;
+
+				optLevel = `
+			<option value="1">1</option>
+			<option value="2">2</option>
+			<option value="3">3</option>
+			<option value="4">4</option>
+			<option value="5">5</option>
+			<option value="6">6</option>
+			<option value="7">7</option>
+			<option value="8">8</option>
+			<option value="9">9</option>
+		`;
+
+				optNoRumah = `
+			<option value="1">1</option>
+			<option value="2">2</option>
+			<option value="3">3</option>
+			<option value="4">4</option>
+			<option value="5">5</option>
+			<option value="6">6</option>
+			<option value="7">7</option>
+			<option value="8">8</option>
+			<option value="9">9</option>
+			<option value="10">10</option>
+			<option value="11">11</option>
+			<option value="12">12</option>
+		`;
+
+				optBilik = `
+			<option value="A">A</option>
+			<option value="B">B</option>
+			<option value="C">C</option>
+			<option value="D">D</option>
+			<option value="E">E</option>
+		`;
+
+				optKatil = `
+			<option value="1">1</option>
+			<option value="2">2</option>
+		`;
+			}
+
+			// AL JAZARI
+			else if (asrama === "Al_Jazari") {
+				optBlock = `
+			<option value="A">Blok A</option>
+			<option value="B">Blok B</option>
+			<option value="C">Blok C</option>
+		`;
+
+				optLevel = `
+			<option value="1">1</option>
+			<option value="2">2</option>
+			<option value="3">3</option>
+			<option value="4">4</option>
+			<option value="5">5</option>
+		`;
+
+				optNoRumah = `
+			<option value="1">1</option>
+			<option value="2">2</option>
+			<option value="3">3</option>
+			<option value="4">4</option>
+			<option value="5">5</option>
+			<option value="6">6</option>
+		`;
+
+				optBilik = `
+			<option value="A">A</option>
+			<option value="B">B</option>
+			<option value="C">C</option>
+			<option value="D">D</option>
+			<option value="E">E</option>
+		`;
+
+				optKatil = `
+			<option value="1">1</option>
+			<option value="2">2</option>
+			<option value="3">3</option>
+		`;
+			}
+
+			// LESTARI
+			else if (asrama === "Lestari") {
+				optBlock = `
+			<option value="B1">B1</option>
+			<option value="B2">B2</option>
+		`;
+
+				optLevel = `
+			<option value="G">G</option>
+			<option value="1">1</option>
+			<option value="2">2</option>
+			<option value="3">3</option>
+		`;
+
+				optNoRumah = `
+			<option value="A">A</option>
+			<option value="B">B</option>
+			<option value="C">C</option>
+			<option value="D">D</option>
+			<option value="E">E</option>
+		`;
+
+				optBilik = `
+			<option value="01">01</option>
+			<option value="02">02</option>
+			<option value="03">03</option>
+			<option value="04">04</option>
+			<option value="05">05</option>
+			<option value="06">06</option>
+			<option value="07">07</option>
+		`;
+
+				optKatil = `
+			<option value="1">1</option>
+			<option value="2">2</option>
+		`;
+			}
+
+			uptselectBlock.innerHTML = optBlock;
+			uptselectLevel.innerHTML = optLevel;
+			uptselectRumah.innerHTML = optNoRumah;
+			uptselectBilik.innerHTML = optBilik;
+			uptselectKatil.innerHTML = optKatil;
+
+			getFullAddreddToUpdate();
+		}
+
+		function resetAlamatAsal() {
+			if (!originalStudentData) return;
+
+			let {
+				kolej,
+				blok,
+				floor,
+				rumah,
+				bilik,
+				katil
+			} = originalStudentData;
+
+			// set balik college asal
+			uptselectCollege.value = kolej;
+
+			let optBlock = "";
+			let optLevel = "";
+			let optNo_Rumah = "";
+			let optBilik = "";
+			let optKatil = "";
+
+			if (kolej == "Al_Jazari") {
+				optBlock = `
+			<option ${blok == "A" ? "selected" : ""} value="A">Blok A</option>
+			<option ${blok == "B" ? "selected" : ""} value="B">Blok B</option>
+			<option ${blok == "C" ? "selected" : ""} value="C">Blok C</option>
+		`;
+				optLevel = `
+			<option ${floor == "1" ? "selected" : ""} value="1">1</option>
+			<option ${floor == "2" ? "selected" : ""} value="2">2</option>
+			<option ${floor == "3" ? "selected" : ""} value="3">3</option>
+			<option ${floor == "4" ? "selected" : ""} value="4">4</option>
+			<option ${floor == "5" ? "selected" : ""} value="5">5</option>
+		`;
+				optNo_Rumah = `
+			<option ${rumah == "1" ? "selected" : ""} value="1">1</option>
+			<option ${rumah == "2" ? "selected" : ""} value="2">2</option>
+			<option ${rumah == "3" ? "selected" : ""} value="3">3</option>
+			<option ${rumah == "4" ? "selected" : ""} value="4">4</option>
+			<option ${rumah == "5" ? "selected" : ""} value="5">5</option>
+			<option ${rumah == "6" ? "selected" : ""} value="6">6</option>
+		`;
+				optBilik = `
+			<option ${bilik == "A" ? "selected" : ""} value="A">A</option>
+			<option ${bilik == "B" ? "selected" : ""} value="B">B</option>
+			<option ${bilik == "C" ? "selected" : ""} value="C">C</option>
+			<option ${bilik == "D" ? "selected" : ""} value="D">D</option>
+			<option ${bilik == "E" ? "selected" : ""} value="E">E</option>
+		`;
+				optKatil = `
+			<option ${katil == "1" ? "selected" : ""} value="1">1</option>
+			<option ${katil == "2" ? "selected" : ""} value="2">2</option>
+			<option ${katil == "3" ? "selected" : ""} value="3">3</option>
+		`;
+			} else if (kolej == "Satria") {
+				optBlock = `
+			<option ${blok == "J" ? "selected" : ""} value="SJ-J">Satria Jebat</option>
+			<option ${blok == "T" ? "selected" : ""} value="ST-T">Satria Tuah</option>
+			<option ${blok == "L" ? "selected" : ""} value="SL-L">Satria Lekir</option>
+			<option ${blok == "E" ? "selected" : ""} value="SE-E">Satria Lekiu</option>
+			<option ${blok == "K" ? "selected" : ""} value="SK-K">Satria Kasturi</option>
+		`;
+				optLevel = `
+			<option ${floor == "1" ? "selected" : ""} value="1">1</option>
+			<option ${floor == "2" ? "selected" : ""} value="2">2</option>
+			<option ${floor == "3" ? "selected" : ""} value="3">3</option>
+			<option ${floor == "4" ? "selected" : ""} value="4">4</option>
+			<option ${floor == "5" ? "selected" : ""} value="5">5</option>
+			<option ${floor == "6" ? "selected" : ""} value="6">6</option>
+			<option ${floor == "7" ? "selected" : ""} value="7">7</option>
+			<option ${floor == "8" ? "selected" : ""} value="8">8</option>
+			<option ${floor == "9" ? "selected" : ""} value="9">9</option>
+		`;
+				optNo_Rumah = `
+			<option ${rumah == "1" ? "selected" : ""} value="1">1</option>
+			<option ${rumah == "2" ? "selected" : ""} value="2">2</option>
+			<option ${rumah == "3" ? "selected" : ""} value="3">3</option>
+			<option ${rumah == "4" ? "selected" : ""} value="4">4</option>
+			<option ${rumah == "5" ? "selected" : ""} value="5">5</option>
+			<option ${rumah == "6" ? "selected" : ""} value="6">6</option>
+			<option ${rumah == "7" ? "selected" : ""} value="7">7</option>
+			<option ${rumah == "8" ? "selected" : ""} value="8">8</option>
+			<option ${rumah == "9" ? "selected" : ""} value="9">9</option>
+			<option ${rumah == "10" ? "selected" : ""} value="10">10</option>
+			<option ${rumah == "11" ? "selected" : ""} value="11">11</option>
+			<option ${rumah == "12" ? "selected" : ""} value="12">12</option>
+		`;
+				optBilik = `
+			<option ${bilik == "A" ? "selected" : ""} value="A">A</option>
+			<option ${bilik == "B" ? "selected" : ""} value="B">B</option>
+			<option ${bilik == "C" ? "selected" : ""} value="C">C</option>
+			<option ${bilik == "D" ? "selected" : ""} value="D">D</option>
+			<option ${bilik == "E" ? "selected" : ""} value="E">E</option>
+		`;
+				optKatil = `
+			<option ${katil == "1" ? "selected" : ""} value="1">1</option>
+			<option ${katil == "2" ? "selected" : ""} value="2">2</option>
+		`;
+			} else if (kolej == "Lestari") {
+				optBlock = `
+			<option ${blok == "B1" ? "selected" : ""} value="B1">B1</option>
+			<option ${blok == "B2" ? "selected" : ""} value="B2">B2</option>
+		`;
+				optNo_Rumah = `
+			<option ${rumah == "A" ? "selected" : ""} value="A">A</option>
+			<option ${rumah == "B" ? "selected" : ""} value="B">B</option>
+			<option ${rumah == "C" ? "selected" : ""} value="C">C</option>
+			<option ${rumah == "D" ? "selected" : ""} value="D">D</option>
+			<option ${rumah == "E" ? "selected" : ""} value="E">E</option>
+		`;
+				optLevel = `
+			<option ${floor == "G" ? "selected" : ""} value="G">G</option>
+			<option ${floor == "1" ? "selected" : ""} value="1">1</option>
+			<option ${floor == "2" ? "selected" : ""} value="2">2</option>
+			<option ${floor == "3" ? "selected" : ""} value="3">3</option>
+		`;
+				optBilik = `
+			<option ${bilik == "01" ? "selected" : ""} value="01">01</option>
+			<option ${bilik == "02" ? "selected" : ""} value="02">02</option>
+			<option ${bilik == "03" ? "selected" : ""} value="03">03</option>
+			<option ${bilik == "04" ? "selected" : ""} value="04">04</option>
+			<option ${bilik == "05" ? "selected" : ""} value="05">05</option>
+			<option ${bilik == "06" ? "selected" : ""} value="06">06</option>
+			<option ${bilik == "07" ? "selected" : ""} value="07">07</option>
+		`;
+				optKatil = `
+			<option ${katil == "1" ? "selected" : ""} value="1">1</option>
+			<option ${katil == "2" ? "selected" : ""} value="2">2</option>
+		`;
+			}
+
+			uptselectBlock.innerHTML = optBlock;
+			uptselectLevel.innerHTML = optLevel;
+			uptselectRumah.innerHTML = optNo_Rumah;
+			uptselectBilik.innerHTML = optBilik;
+			uptselectKatil.innerHTML = optKatil;
+
+			getFullAddreddToUpdate();
+		}
+		uptselectCollege.addEventListener("change", e => {
+			loadUpdateAddressOptions(e.target.value);
+		});
+		[uptselectBlock, uptselectLevel, uptselectRumah, uptselectBilik, uptselectKatil].forEach(select => {
+			select.addEventListener("change", getFullAddreddToUpdate);
+		});
+
+		document.getElementById("btnResetAlamat").addEventListener("click", () => {
+			resetAlamatAsal();
+		});
 
 		selectCollege.addEventListener("change", e => {
 
@@ -610,14 +916,6 @@ $result2 = mysqli_query($conn, $sql);
 
 		// ========
 
-		let getFullAddreddToUpdate = () => {
-			let block = uptselectBlock.value || "";
-			let level = uptselectLevel.value || "";
-			let rumah = uptselectRumah.value || "";
-			let bilik = uptselectBilik.value || "";
-			let katil = uptselectKatil.value || "";
-			uptstudentRoom.value = `${block}-${level}-${rumah}-${bilik}(${katil})`;
-		}
 
 		function getdataStudent(id) {
 			console.log("Request");
@@ -671,6 +969,15 @@ $result2 = mysqli_query($conn, $sql);
 						bilik,
 						katil
 					});
+
+					originalStudentData = {
+						kolej,
+						blok,
+						floor,
+						rumah,
+						bilik,
+						katil
+					};
 
 					let optBlock, optLevel, optNo_Rumah, optBilik, optKatil
 
@@ -843,7 +1150,7 @@ $result2 = mysqli_query($conn, $sql);
 	</script>
 
 
-	<input type="checkbox" hidden style="position: absolute; z-index: 10;" name="_dekstop-sideBar"
+	<input  type="checkbox" hidden style="position: absolute; z-index: 10;" name="_dekstop-sideBar"
 		id="_dekstop-sideBar">
 	<input type="checkbox" hidden style="position: absolute;" name="_mobile-sideBar" id="_mobile-sideBar">
 	<input type="text" name="role" id="role" hidden value="SAD">
